@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - feat/engineering-principles-policy
+  pull_request:
+    branches:
+      - main
 jobs:
   export:
     runs-on: ubuntu-latest
