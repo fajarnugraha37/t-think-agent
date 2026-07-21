@@ -5,10 +5,28 @@
   "indexed_resources": 570,
   "opencode_adapters": 11,
   "documentation_links": 5,
+  "windows_codex_toml_files": 11,
   "platform_path_semantics": {
-    "linux": "/home/test user/.agents/skills/t-reconciliation/templates/output.template.yaml",
-    "macos": "/Users/test user/.agents/skills/t-reconciliation/templates/output.template.yaml",
-    "windows": "C:\\Users\\test user\\.agents\\skills\\t-reconciliation\\templates\\output.template.yaml"
+    "opencode": {
+      "linux": "/home/user/.config/opencode/skills/t-reconciliation/templates/output.template.yaml",
+      "macos": "/Users/user/.config/opencode/skills/t-reconciliation/templates/output.template.yaml",
+      "windows": "C:\\Users\\user\\.config\\opencode\\skills\\t-reconciliation\\templates\\output.template.yaml"
+    },
+    "codex": {
+      "linux": "/home/user/.codex/t-think/skills/t-reconciliation/templates/output.template.yaml",
+      "macos": "/Users/user/.codex/t-think/skills/t-reconciliation/templates/output.template.yaml",
+      "windows": "C:\\Users\\user\\.codex\\t-think\\skills\\t-reconciliation\\templates\\output.template.yaml"
+    },
+    "claude": {
+      "linux": "/home/user/.claude/t-think/skills/t-reconciliation/templates/output.template.yaml",
+      "macos": "/Users/user/.claude/t-think/skills/t-reconciliation/templates/output.template.yaml",
+      "windows": "C:\\Users\\user\\.claude\\t-think\\skills\\t-reconciliation\\templates\\output.template.yaml"
+    },
+    "cursor": {
+      "linux": "/home/user/.cursor/t-think/skills/t-reconciliation/templates/output.template.yaml",
+      "macos": "/Users/user/.cursor/t-think/skills/t-reconciliation/templates/output.template.yaml",
+      "windows": "C:\\Users\\user\\.cursor\\t-think\\skills\\t-reconciliation\\templates\\output.template.yaml"
+    }
   },
   "issues": []
 }

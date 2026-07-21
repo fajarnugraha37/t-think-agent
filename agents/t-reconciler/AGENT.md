@@ -36,8 +36,8 @@ Use template-first output, exact enums and IDs, bounded reads, machine validator
 <!-- BEGIN T-THINK PORTABLE PATH CONTRACT -->
 ## Portable skill-resource paths
 
-- Load the active skill through the platform-native skill mechanism before reading supporting files.
-- Resolve templates, schemas, validators, examples, and documentation from links relative to that skill's `SKILL.md`.
+- Load the active skill only from the platform-specific resource root declared by the installed adapter. OpenCode may use its own native skill directory; other platforms must read the exact private `SKILL.md` path embedded in their adapter.
+- Never search shared discovery directories or another platform's t-think resources. Resolve templates, schemas, validators, examples, and documentation from links relative to the selected `SKILL.md`.
 - Use `/`-separated relative resource identifiers. Never invent `~`, `$HOME`, `%USERPROFILE%`, drive-letter, or backslash paths.
 - When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
 - If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.

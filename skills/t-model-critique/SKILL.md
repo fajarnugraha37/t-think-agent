@@ -1,7 +1,7 @@
 ---
 name: t-model-critique
 description: Assess human critique of the system model, defend or route revisions with evidence, and obtain model acceptance.
-version: 2.4.0
+version: 2.5.0
 lifecycle_state: MODEL_CRITIQUE
 previous_state: SYSTEM_MODEL
 next_state: SOLUTION_DESIGN
@@ -118,7 +118,7 @@ This phase is designed to remain reliable on economical coding models. Follow th
 - Resolve every bundled resource relative to the directory containing this `SKILL.md`.
 - Read the generated [resource index](RESOURCE_INDEX.md) before opening templates, schemas, validators, examples, or supporting documentation.
 - Treat linked `/`-separated paths as portable relative resource identifiers. Never construct a global path with `~`, `$HOME`, `%USERPROFILE%`, a drive letter, or backslashes.
-- Prefer the host's native skill/resource loader. When an absolute filesystem path is unavoidable, join the platform-reported skill root and the relative identifier with the host path API; never concatenate path strings manually.
+- Use only the platform-specific resource root declared by the installed adapter: OpenCode may use its own native skill root, while Codex, Claude Code, and Cursor use the exact private path embedded during installation. Never search a shared discovery root or another platform's t-think resources. When an absolute path is unavoidable, join the declared root and relative identifier with the host path API; never concatenate path strings manually.
 - If a required resource cannot be opened, return `BLOCKED` with reason `SKILL_RESOURCE_UNAVAILABLE`. Do not recreate a template from memory, infer its shape, or continue with an invented format.
 
 Frequently required resources:

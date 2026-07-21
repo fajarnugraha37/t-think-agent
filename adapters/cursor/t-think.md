@@ -147,8 +147,8 @@ A phase is never complete because a worker says so. Completion requires schema v
 <!-- BEGIN T-THINK PORTABLE PATH CONTRACT -->
 ## Portable skill-resource paths
 
-- Load the active skill through the platform-native skill mechanism before reading supporting files.
-- Resolve templates, schemas, validators, examples, and documentation from links relative to that skill's `SKILL.md`.
+- Load the active skill only from the platform-specific resource root declared by the installed adapter. OpenCode may use its own native skill directory; other platforms must read the exact private `SKILL.md` path embedded in their adapter.
+- Never search shared discovery directories or another platform's t-think resources. Resolve templates, schemas, validators, examples, and documentation from links relative to the selected `SKILL.md`.
 - Use `/`-separated relative resource identifiers. Never invent `~`, `$HOME`, `%USERPROFILE%`, drive-letter, or backslash paths.
 - When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
 - If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.
@@ -167,3 +167,7 @@ Version-control boundary:
 - use only the explicit read-only Git allowlist in `orchestrator/tool-permission-policy.yaml`;
 - never use aliases, wrappers, nested shells, executable renaming, or direct `.git` writes to bypass the boundary;
 - if a commit, branch, checkout, fetch, pull, push, merge, rebase, reset, restore, stash mutation, worktree mutation, remote mutation, config mutation, or other VCS write is required, return `BLOCKED` with reason `VCS_MUTATION_FORBIDDEN`.
+
+## Platform-isolated resources
+
+The only canonical Cursor t-think resource root is `__T_THINK_PLATFORM_SKILL_ROOT__`. Read each active skill from `<root>/<skill-name>/SKILL.md`, resolve resources relative to it, and never search shared or another platform's t-think directories. Delegate only through the root orchestration flow. Never run gh or mutating Git commands.

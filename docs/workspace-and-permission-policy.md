@@ -59,7 +59,7 @@ Direct writes below `.git/**` remain denied. Version-control inspection must use
 
 - normal tools inside the project worktree run without approval prompts;
 - file read, search, edit, write, shell, build, test, lint, formatting, and diagnostic operations are available;
-- access outside the project remains denied except for read-only installed t-think skill/runtime resources;
+- access outside the project remains denied except for the current platform's read-only private t-think skill resources and shared runtime; shared discovery roots are not used;
 - native tool availability does not grant lifecycle source-write authority;
 - every actual source change still has to match the delegation packet and pass boundary auditing.
 

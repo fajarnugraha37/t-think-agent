@@ -1,109 +1,106 @@
-# Portable Skill-Resource Path Contract
+# Portable and Platform-Isolated Skill-Resource Contract
 
 ## Problem addressed
 
-A platform may load `SKILL.md` through its native skill mechanism while treating sibling templates and schemas as external filesystem paths. On Windows, a model may also incorrectly combine a POSIX home shorthand with Windows separators, producing a path such as a tilde followed by backslashes. A non-recursive permission pattern can then allow the skill directory but reject nested `templates/`, `schemas/`, or `validators/` files.
+A skill package contains `SKILL.md` plus nested templates, schemas, validators, examples, and documentation. Two independent problems must be prevented:
 
-## Canonical rule
+1. models constructing hybrid paths such as `~\\.agents\\skills\\...` on Windows;
+2. one client discovering a t-think copy installed for another client through shared directories such as `~/.agents/skills` or `~/.claude/skills`.
 
-All bundled skill resources use an identifier relative to the directory containing `SKILL.md`:
+## Canonical resource identifier
+
+Every bundled resource is referenced relative to its own `SKILL.md` and always uses `/` separators:
 
 ```text
 templates/output.template.yaml
 ```
 
-This identifier is not an absolute operating-system path. It always uses `/` separators because it is stored in Markdown, YAML, JSON, delegation metadata, and generated indexes.
+Portable metadata never contains a home token, username, drive letter, absolute path, backslash separator, `.` segment, or `..` segment.
+
+## Platform-isolated installation roots
+
+```text
+OpenCode    ~/.config/opencode/skills/t-*
+Codex       ~/.codex/t-think/skills/t-*
+Claude Code ~/.claude/t-think/skills/t-*
+Cursor      ~/.cursor/t-think/skills/t-*
+```
+
+`t-think` is never installed into:
+
+```text
+~/.agents/skills
+~/.claude/skills
+```
+
+OpenCode uses only its own native skill root. Codex, Claude Code, and Cursor adapters are materialized during installation with the exact absolute path to their own private root. Claude adapters omit the global `Skill` tool.
 
 ## Resolution order
 
-1. Load the skill through the platform-native skill tool.
-2. Read `RESOURCE_INDEX.md` relative to the loaded `SKILL.md`.
-3. Open a linked resource using the platform's native resource loader.
-4. Only when an absolute path is required, obtain the skill root from the platform or t-think installation manifest and join path components with the host path API.
-5. If resolution fails, return `BLOCKED / SKILL_RESOURCE_UNAVAILABLE`.
-
-Never guess a template's content from prior experience.
+1. Read the active platform root from the installed adapter or installation manifest.
+2. Select `<platform-root>/<skill-name>/SKILL.md`.
+3. Read `RESOURCE_INDEX.md` relative to that file.
+4. Join portable resource parts with the host path API.
+5. Confirm the resolved file remains within that skill root and exists.
+6. On failure return `BLOCKED / SKILL_RESOURCE_UNAVAILABLE`; never recreate a template from memory.
 
 ## Deterministic resolver
 
+When multiple targets are installed, `--platform` is mandatory:
+
 ```bash
 python3 bin/t-thinkctl.py paths \
+  --platform opencode \
   --skill t-reconciliation \
   --resource templates/output.template.yaml
 ```
 
-The JSON result contains the discovered skill root, resource index, native resolved path, and illustrative path semantics for Linux, macOS, and Windows.
-
-To print only the native path:
+Print only the native path:
 
 ```bash
 python3 bin/t-thinkctl.py paths \
+  --platform codex \
   --skill t-reconciliation \
   --resource templates/output.template.yaml \
   --native-only
 ```
 
-The resolver rejects:
+The resolver rejects absolute identifiers, drive-qualified identifiers, backslashes, home tokens, non-normalized segments, root escapes, and missing files.
 
-- absolute resource identifiers;
-- drive-qualified identifiers;
-- backslashes in portable identifiers;
-- `.` or `..` path segments;
-- home-directory tokens;
-- targets that escape the discovered skill root;
-- missing files.
+## OpenCode external permission model
 
-## OpenCode permission model
-
-Generated OpenCode adapters use a deny-first `external_directory` rule map and recursive trusted allows for:
+OpenCode adapters deny arbitrary external access and allow only:
 
 ```text
-~/.agents/skills/t-*/**
-~/.claude/skills/t-*/**
 ~/.config/opencode/skills/t-*/**
 ~/.local/share/t-think/runtime/**
 ```
 
-The same trusted roots are edit-denied. This permits nested template/schema reads without granting general external filesystem access.
+Both are edit-denied. No permission rule allows `~/.agents/skills` or `~/.claude/skills`.
 
-## Platform behavior
+## Native path examples
 
-### Linux
-
-A native resolved path may look like:
+For `t-reconciliation/templates/output.template.yaml`:
 
 ```text
-/home/user/.agents/skills/t-reconciliation/templates/output.template.yaml
+Linux OpenCode: /home/user/.config/opencode/skills/t-reconciliation/templates/output.template.yaml
+macOS Codex:    /Users/user/.codex/t-think/skills/t-reconciliation/templates/output.template.yaml
+Windows Claude: C:\Users\user\.claude\t-think\skills\t-reconciliation\templates\output.template.yaml
+Windows Cursor: C:\Users\user\.cursor\t-think\skills\t-reconciliation\templates\output.template.yaml
 ```
 
-### macOS
+These native display forms are produced by path APIs and must not be copied into portable skill metadata.
 
-```text
-/Users/user/.agents/skills/t-reconciliation/templates/output.template.yaml
-```
+## Legacy migration
 
-### Windows
-
-```text
-C:\Users\user\.agents\skills\t-reconciliation\templates\output.template.yaml
-```
-
-The Windows representation is produced by the native path API. Do not write that representation into `SKILL.md`, `RESOURCE_INDEX.md`, or portable metadata.
+A v2.5+ install without `--keep-legacy-shared-skills` transactionally removes only canonical t-think live directories and their installer-created `*.bak-*` siblings from the two legacy shared roots. Unrelated user skills are preserved. Temporary rollback data lives only below `~/.local/share/t-think/.transactions/` and is removed on commit.
 
 ## Automated verification
 
 ```bash
 python3 scripts/path_template_contract_test.py
+python3 scripts/permission_contract_test.py
+python3 scripts/smoke_test.py
 ```
 
-The audit verifies:
-
-- every skill has a portable resource contract and index;
-- every indexed local link is contained and exists;
-- every bundled template, schema, validator, transition contract, supporting document, and example is indexed;
-- YAML, JSON, JSONL, CSV, and Python resources parse or compile;
-- generated adapters contain no hard-coded user paths or backslash resource identifiers;
-- OpenCode trusted external paths are recursive and read-only;
-- deterministic path joining matches Linux, macOS, and Windows semantics.
-
-Installation smoke testing additionally resolves a real copied resource from a temporary home directory containing spaces and Unicode.
+The audits verify resource containment, structured file validity, all four platform path semantics, absence of cross-platform discovery permissions, exact migration behavior, preservation of unrelated user skills, and path resolution from an isolated installation.

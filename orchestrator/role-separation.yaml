@@ -1,4 +1,4 @@
-version: 2.4.1
+version: 2.5.0
 topology: star
 max_delegation_depth: 1
 human_owner:

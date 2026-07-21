@@ -6,6 +6,8 @@ import csv
 import json
 import re
 import sys
+import tomllib
+import importlib.util
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
 import yaml
@@ -22,10 +24,12 @@ FORBIDDEN_PATH_PATTERNS = (
     (re.compile(r"(?:templates|schemas|validators|examples|docs)\\[A-Za-z0-9_.-]"), "skill resource uses backslashes"),
 )
 TRUSTED_EXTERNAL = [
-    "~/.agents/skills/t-*/**",
-    "~/.claude/skills/t-*/**",
     "~/.config/opencode/skills/t-*/**",
     "~/.local/share/t-think/runtime/**",
+]
+FORBIDDEN_SHARED_EXTERNAL = [
+    "~/.agents/skills/t-*/**",
+    "~/.claude/skills/t-*/**",
 ]
 
 
@@ -165,6 +169,9 @@ def audit_opencode(issues: list[str]) -> int:
         for pattern in TRUSTED_EXTERNAL:
             if external.get(pattern) != "allow":
                 issues.append(f"{adapter.relative_to(ROOT)}: missing recursive allow {pattern}")
+        for pattern in FORBIDDEN_SHARED_EXTERNAL:
+            if pattern in external:
+                issues.append(f"{adapter.relative_to(ROOT)}: cross-platform shared allow present {pattern}")
         for pattern in keys:
             if pattern != "*" and not pattern.endswith("/**"):
                 issues.append(f"{adapter.relative_to(ROOT)}: non-recursive external path pattern {pattern}")
@@ -188,21 +195,74 @@ def audit_generated_path_literals(issues: list[str]) -> None:
                 issues.append(f"{path.relative_to(ROOT)}: {label}")
 
 
-def audit_cross_platform_semantics(issues: list[str]) -> dict[str, str]:
-    resource = PurePosixPath("templates/output.template.yaml")
-    linux = PurePosixPath("/home/test user/.agents/skills/t-reconciliation") / resource
-    macos = PurePosixPath("/Users/test user/.agents/skills/t-reconciliation") / resource
-    windows = PureWindowsPath(r"C:\Users\test user\.agents\skills\t-reconciliation").joinpath(*resource.parts)
+def audit_cross_platform_semantics(issues: list[str]) -> dict[str, dict[str, str]]:
+    sys.path.insert(0, str(ROOT / "bin"))
+    from tthink_paths import platform_examples
+
+    resource = "templates/output.template.yaml"
     expected = {
-        "linux": "/home/test user/.agents/skills/t-reconciliation/templates/output.template.yaml",
-        "macos": "/Users/test user/.agents/skills/t-reconciliation/templates/output.template.yaml",
-        "windows": r"C:\Users\test user\.agents\skills\t-reconciliation\templates\output.template.yaml",
+        "opencode": {
+            "linux": "/home/user/.config/opencode/skills/t-reconciliation/templates/output.template.yaml",
+            "macos": "/Users/user/.config/opencode/skills/t-reconciliation/templates/output.template.yaml",
+            "windows": r"C:\Users\user\.config\opencode\skills\t-reconciliation\templates\output.template.yaml",
+        },
+        "codex": {
+            "linux": "/home/user/.codex/t-think/skills/t-reconciliation/templates/output.template.yaml",
+            "macos": "/Users/user/.codex/t-think/skills/t-reconciliation/templates/output.template.yaml",
+            "windows": r"C:\Users\user\.codex\t-think\skills\t-reconciliation\templates\output.template.yaml",
+        },
+        "claude": {
+            "linux": "/home/user/.claude/t-think/skills/t-reconciliation/templates/output.template.yaml",
+            "macos": "/Users/user/.claude/t-think/skills/t-reconciliation/templates/output.template.yaml",
+            "windows": r"C:\Users\user\.claude\t-think\skills\t-reconciliation\templates\output.template.yaml",
+        },
+        "cursor": {
+            "linux": "/home/user/.cursor/t-think/skills/t-reconciliation/templates/output.template.yaml",
+            "macos": "/Users/user/.cursor/t-think/skills/t-reconciliation/templates/output.template.yaml",
+            "windows": r"C:\Users\user\.cursor\t-think\skills\t-reconciliation\templates\output.template.yaml",
+        },
     }
-    actual = {"linux": str(linux), "macos": str(macos), "windows": str(windows)}
+    actual = {
+        platform: platform_examples("t-reconciliation", resource, platform)
+        for platform in expected
+    }
     if actual != expected:
-        issues.append(f"cross-platform path joining mismatch: expected={expected}, actual={actual}")
+        issues.append(f"platform-isolated path joining mismatch: expected={expected}, actual={actual}")
+    for platform, paths in actual.items():
+        for os_kind, value in paths.items():
+            normalized = value.replace("\\", "/")
+            if "/.agents/skills/" in normalized:
+                issues.append(f"{platform}/{os_kind}: shared .agents discovery leaked into path")
+            if "/.claude/skills/" in normalized:
+                issues.append(f"{platform}/{os_kind}: shared Claude skill discovery leaked into path")
     return actual
 
+
+
+def audit_windows_codex_toml_materialization(issues: list[str]) -> int:
+    spec = importlib.util.spec_from_file_location("tthink_installer", ROOT / "bin/install.py")
+    if spec is None or spec.loader is None:
+        issues.append("could not load installer for Windows TOML audit")
+        return 0
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    windows_root = Path(str(PureWindowsPath(r"C:\Users\User Name\.codex\t-think\skills")))
+    files = [ROOT / "adapters/codex/t-think.config.toml", *sorted((ROOT / "adapters/codex/agents").glob("t-*.toml"))]
+    for source in files:
+        rendered = source.read_text(encoding="utf-8").replace(
+            module.SKILL_ROOT_TOKEN,
+            module.adapter_skill_root_text(source, windows_root),
+        )
+        try:
+            data = tomllib.loads(rendered)
+        except Exception as error:
+            issues.append(f"{source.relative_to(ROOT)}: Windows path breaks TOML: {error}")
+            continue
+        instructions = data.get("developer_instructions", "")
+        expected_root = str(PureWindowsPath(r"C:\Users\User Name\.codex\t-think\skills"))
+        if expected_root not in instructions:
+            issues.append(f"{source.relative_to(ROOT)}: materialized Windows root missing after TOML parse")
+    return len(files)
 
 
 def audit_resolver_rejections(issues: list[str]) -> None:
@@ -246,6 +306,7 @@ def main() -> int:
     adapters = audit_opencode(issues)
     audit_generated_path_literals(issues)
     audit_resolver_rejections(issues)
+    windows_codex_toml_files = audit_windows_codex_toml_materialization(issues)
     examples = audit_cross_platform_semantics(issues)
     report = {
         "status": "FAIL" if issues else "PASS",
@@ -254,6 +315,7 @@ def main() -> int:
         "indexed_resources": indexed,
         "opencode_adapters": adapters,
         "documentation_links": documentation_links,
+        "windows_codex_toml_files": windows_codex_toml_files,
         "platform_path_semantics": examples,
         "issues": issues,
     }

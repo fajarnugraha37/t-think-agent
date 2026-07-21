@@ -1,6 +1,6 @@
 # t-think Governed Multi-Agent SDLC
 
-`t-think` is a globally installable, evidence-gated software-engineering orchestrator for OpenCode, Codex, Claude Code, and Cursor. Version 2.4.1 coordinates one root orchestrator, ten terminal workers, twenty progressively loaded `t-*` skills, three adaptive governance lanes, and twelve canonical lifecycle phases.
+`t-think` is a globally installable, evidence-gated software-engineering orchestrator for OpenCode, Codex, Claude Code, and Cursor. Version 2.5.0 coordinates one root orchestrator, ten terminal workers, twenty progressively loaded `t-*` skills, three adaptive governance lanes, and twelve canonical lifecycle phases.
 
 Repository maintainers and coding agents must read [`AGENTS.md`](AGENTS.md) before changing the bundle.
 
@@ -145,7 +145,7 @@ Defaults:
 
 ## Prompt-free workspace tools
 
-The generated agents use a `workspace-autonomous` tool profile. All normal operations anywhere inside the active project worktree run without approval prompts: read, search, edit, write, delete, shell commands, builds, tests, package managers, linters, formatters, diagnostics, and project-local scripts. No filename-based native denylist is applied inside the worktree except `.git/**`. External filesystem access remains deny-by-default except for installed t-think skills/runtime, which are read-only.
+The generated agents use a `workspace-autonomous` tool profile. All normal operations anywhere inside the active project worktree run without approval prompts: read, search, edit, write, delete, shell commands, builds, tests, package managers, linters, formatters, diagnostics, and project-local scripts. No filename-based native denylist is applied inside the worktree except `.git/**`. External filesystem access remains deny-by-default except for the current platform's private t-think resources and shared runtime, which are read-only. Shared discovery directories such as `~/.agents/skills` and `~/.claude/skills` are never used by this bundle.
 
 Tool availability is deliberately broad, while lifecycle authority remains narrow. A worker can have an edit-capable native tool but any source change outside its delegation packet still fails boundary validation.
 
@@ -169,7 +169,7 @@ Canonical resource identifier:
 templates/output.template.yaml
 ```
 
-Never construct paths such as a user-specific absolute directory, `~` followed by backslashes, `%USERPROFILE%` concatenation, or a drive-letter path inside a skill instruction. Use the platform-native skill/resource loader. If an absolute filesystem path is unavoidable, join the discovered skill root and portable relative identifier with the host path API.
+Never construct paths such as a user-specific absolute directory, `~` followed by backslashes, `%USERPROFILE%` concatenation, or a drive-letter path inside a skill instruction. Use the platform-specific resource root declared by the installed adapter. OpenCode uses only its native OpenCode skill directory; Codex, Claude Code, and Cursor read an exact private `SKILL.md` path embedded during installation. If an absolute filesystem path is unavoidable, join that root and the portable relative identifier with the host path API.
 
 OpenCode adapters allow prompt-free worktree tools, deny all `gh` and mutating Git operations, deny arbitrary external access, but recursively allow read access to trusted t-think skill/runtime roots using `/**`; those roots are explicitly edit-denied. If a required resource cannot be opened, the agent must return:
 
@@ -183,6 +183,7 @@ Resolve a resource deterministically:
 
 ```bash
 python3 bin/t-thinkctl.py paths \
+  --platform opencode \
   --skill t-reconciliation \
   --resource templates/output.template.yaml
 ```
@@ -191,6 +192,7 @@ Print only the native path:
 
 ```bash
 python3 bin/t-thinkctl.py paths \
+  --platform opencode \
   --skill t-reconciliation \
   --resource templates/output.template.yaml \
   --native-only
@@ -245,20 +247,42 @@ Windows copy mode is the portable default. The installed files may be displayed 
 
 ### Installed locations
 
-| Platform | Root orchestrator | Terminal workers | Skills |
+| Platform | Root orchestrator | Terminal workers | Platform-private skill resources |
 |---|---|---|---|
-| OpenCode | `~/.config/opencode/agents/t-think.md` | same directory | `~/.agents/skills/t-*` |
-| Codex | `~/.codex/t-think.config.toml` | `~/.codex/agents/t-*.toml` | `~/.agents/skills/t-*` |
-| Claude Code | `~/.claude/agents/t-think.md` | same directory | `~/.claude/skills/t-*` |
-| Cursor | `~/.cursor/agents/t-think.md` | same directory | `~/.agents/skills/t-*` |
+| OpenCode | `~/.config/opencode/agents/t-think.md` | same directory | `~/.config/opencode/skills/t-*` |
+| Codex | `~/.codex/t-think.config.toml` | `~/.codex/agents/t-*.toml` | `~/.codex/t-think/skills/t-*` |
+| Claude Code | `~/.claude/agents/t-think.md` | same directory | `~/.claude/t-think/skills/t-*` |
+| Cursor | `~/.cursor/agents/t-think.md` | same directory | `~/.cursor/t-think/skills/t-*` |
 
-These are conceptual user-home locations. The installer resolves them through the host path API; agents must not manually derive Windows variants from this table.
+The bundle does **not** install t-think into `~/.agents/skills` or `~/.claude/skills`. Those shared discovery roots can be scanned by more than one client and would allow a platform to load another platform's copy. The installer materializes the exact private root into each Codex, Claude, and Cursor adapter. OpenCode alone uses its own native skill directory.
+
+
+### Upgrade from v2.4.x or older
+
+Use `--force`. The installer transactionally removes only the canonical t-think skill directories and installer-created `*.bak-*` siblings from legacy shared roots:
+
+```text
+~/.agents/skills
+~/.claude/skills
+```
+
+Unrelated user skills are preserved. Replacements are staged below `~/.local/share/t-think/.transactions/` and deleted on commit; no persistent sibling backup is created.
+
+```bash
+./bin/install.sh --target all --mode copy --force
+./bin/doctor.sh --target all
+```
+
+```powershell
+.\bin\install.ps1 -Target all -Mode copy -Force
+.\bin\doctor.ps1 -Target all
+```
 
 ## Invocation
 
 ### OpenCode
 
-Select `t-think` as the primary agent. The root adapter allowlists the ten terminal workers, runs normal worktree tools without prompting, blocks `gh` and mutating Git, and recursively read-allows only trusted global skill/runtime paths outside the worktree.
+Select `t-think` as the primary agent. The root adapter allowlists the ten terminal workers, runs normal worktree tools without prompting, blocks `gh` and mutating Git, and recursively read-allows only the OpenCode-private skill root and shared t-think runtime outside the worktree.
 
 ### Codex
 
@@ -266,7 +290,7 @@ Select `t-think` as the primary agent. The root adapter allowlists the ten termi
 codex --profile t-think
 ```
 
-The root session owns orchestration. `approval_policy = "never"` removes approval prompts, the sandbox remains confined to the workspace, and `agents.max_depth = 1` prevents recursive delegation. The t-think command contract still forbids `gh` and mutating Git.
+The root session owns orchestration. Its profile and workers contain the exact Codex-private resource root; they do not use Codex's shared `~/.agents/skills` discovery for t-think. `approval_policy = "never"` removes approval prompts, the sandbox remains confined to the workspace, and `agents.max_depth = 1` prevents recursive delegation. The t-think command contract still forbids `gh` and mutating Git.
 
 ### Claude Code
 
@@ -274,11 +298,11 @@ The root session owns orchestration. `approval_policy = "never"` removes approva
 claude --agent t-think
 ```
 
-Generated agents use `permissionMode: bypassPermissions`; the t-think command contract still forbids `gh` and mutating Git.
+Generated agents use `permissionMode: bypassPermissions`, omit the global `Skill` tool, and read only the exact Claude-private t-think resource root embedded by the installer. The t-think command contract still forbids `gh` and mutating Git.
 
 ### Cursor
 
-Select the global `t-think` agent in Agent mode and enable Cursor Auto-run/YOLO when you want client-side tool approvals suppressed. The generated agents are writable, while t-think boundary validation still governs source changes.
+Select the `t-think` agent in Agent mode and enable Cursor Auto-run/YOLO when you want client-side tool approvals suppressed. Each adapter reads only the Cursor-private t-think resource root embedded by the installer. The generated agents are writable, while t-think boundary validation still governs source changes.
 
 ## Start with `/t-problem-alignment`
 

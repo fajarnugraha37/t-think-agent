@@ -6,16 +6,12 @@ permission:
   '*': allow
   external_directory:
     '*': deny
-    ~/.agents/skills/t-*/**: allow
-    ~/.claude/skills/t-*/**: allow
     ~/.config/opencode/skills/t-*/**: allow
     ~/.local/share/t-think/runtime/**: allow
   edit:
     '*': allow
     .git: deny
     .git/**: deny
-    ~/.agents/skills/t-*/**: deny
-    ~/.claude/skills/t-*/**: deny
     ~/.config/opencode/skills/t-*/**: deny
     ~/.local/share/t-think/runtime/**: deny
   bash:
@@ -338,8 +334,8 @@ A phase is never complete because a worker says so. Completion requires schema v
 <!-- BEGIN T-THINK PORTABLE PATH CONTRACT -->
 ## Portable skill-resource paths
 
-- Load the active skill through the platform-native skill mechanism before reading supporting files.
-- Resolve templates, schemas, validators, examples, and documentation from links relative to that skill's `SKILL.md`.
+- Load the active skill only from the platform-specific resource root declared by the installed adapter. OpenCode may use its own native skill directory; other platforms must read the exact private `SKILL.md` path embedded in their adapter.
+- Never search shared discovery directories or another platform's t-think resources. Resolve templates, schemas, validators, examples, and documentation from links relative to the selected `SKILL.md`.
 - Use `/`-separated relative resource identifiers. Never invent `~`, `$HOME`, `%USERPROFILE%`, drive-letter, or backslash paths.
 - When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
 - If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.
@@ -358,6 +354,10 @@ Version-control boundary:
 - use only the explicit read-only Git allowlist in `orchestrator/tool-permission-policy.yaml`;
 - never use aliases, wrappers, nested shells, executable renaming, or direct `.git` writes to bypass the boundary;
 - if a commit, branch, checkout, fetch, pull, push, merge, rebase, reset, restore, stash mutation, worktree mutation, remote mutation, config mutation, or other VCS write is required, return `BLOCKED` with reason `VCS_MUTATION_FORBIDDEN`.
+
+## Platform-isolated resources
+
+Use only OpenCode's native t-think skills from `~/.config/opencode/skills/t-*`. Never search or read `~/.agents/skills`, `~/.claude/skills`, `.codex`, or `.cursor` for t-think resources. Delegate only to registered terminal workers and keep depth one. Normal worktree tools are prompt-free. Never run gh. Use Git only for the explicit read-only commands in orchestrator/tool-permission-policy.yaml.
 
 ## OpenCode adapter
 

@@ -103,7 +103,7 @@ All skill resources must be portable across Windows, macOS, and Linux.
 3. Instructions must never invent user-home paths, use `~` with backslashes, concatenate `%USERPROFILE%`, embed a drive letter, or hard-code a username.
 4. Absolute paths, when unavoidable, are produced by `pathlib`/the host path API or `bin/t-thinkctl.py paths`.
 5. Missing resources produce `BLOCKED / SKILL_RESOURCE_UNAVAILABLE`; models may not recreate templates from memory.
-6. OpenCode `external_directory` rules deny by default, recursively allow trusted t-think skill/runtime roots with `/**`, and edit-deny those roots.
+6. OpenCode `external_directory` rules deny by default, recursively allow only the OpenCode-private skill root plus shared runtime with `/**`, and edit-deny those roots.
 7. Run `scripts/update_skill_resource_indexes.py` after adding, moving, or deleting any skill resource.
 8. Run `scripts/path_template_contract_test.py` after every path, template, adapter, installer, or skill change.
 
@@ -117,7 +117,7 @@ A native Windows tool may display the resolved path with backslashes. That displ
 
 ## Native tool permission profile
 
-Generated adapters must use the `workspace-autonomous` profile from `orchestrator/tool-permission-policy.yaml`. Normal worktree tools are prompt-free. External filesystem access is deny-by-default except for read-only installed t-think resources.
+Generated adapters must use the `workspace-autonomous` profile from `orchestrator/tool-permission-policy.yaml`. Normal worktree tools are prompt-free. External filesystem access is deny-by-default except for the current platform's read-only private t-think resources and shared runtime. `~/.agents/skills` and `~/.claude/skills` are forbidden shared discovery roots for this bundle.
 
 Do not confuse native tool availability with lifecycle authorization. All workers may receive worktree-capable tools to avoid approval blockers, while delegation packets and boundary reports continue to enforce role-specific source writes.
 
@@ -166,7 +166,7 @@ Fix all lower layers when a higher source changes.
 - Product writes require exact human-approved targets.
 - Protected files remain denied.
 - Outside-workspace product access remains denied.
-- Trusted global skill/runtime paths are a separate read-only resource exception for platform operation.
+- The current platform's private skill root and shared runtime are a separate read-only resource exception. Cross-platform or shared skill discovery is forbidden.
 - Self-review and all independent review tracks are read-only.
 - Verifier output is limited to declared generated paths.
 - Every worker result requires a boundary report.

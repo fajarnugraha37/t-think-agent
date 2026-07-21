@@ -1,9 +1,9 @@
 {
   "status": "PASS",
   "smoke_tests": [
-    "idempotent copy install/doctor/path-resolution/uninstall with 10 terminal workers and 20 skills in a home path containing spaces and Unicode",
-    "symlink install/doctor/uninstall",
-    "mandatory intake, canonical work directory, cleanup audit, composite route, and breaking-review delegation"
+    "platform-isolated copy install, exact legacy migration, private path resolution, atomic force upgrade, doctor, and uninstall with 10 terminal workers and 20 skills",
+    "platform-isolated symlink install/doctor/uninstall",
+    "runtime lifecycle behavior is covered by intake_workspace_contract_test.py"
   ],
-  "scope": "isolated temporary HOME; no real user configuration modified"
+  "scope": "isolated temporary HOME; exact legacy t-think paths only; unrelated user skills preserved"
 }

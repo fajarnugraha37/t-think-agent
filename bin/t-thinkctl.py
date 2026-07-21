@@ -428,17 +428,20 @@ def cleanup_workdir_command(args: argparse.Namespace) -> int:
 
 def paths_command(args: argparse.Namespace) -> int:
     home = args.home.expanduser().resolve() if args.home else None
-    root = find_skill_root(args.skill, home)
+    platform, root = find_skill_root(args.skill, home, args.platform)
     result: dict[str, object] = {
         "skill": args.skill,
+        "platform": platform,
         "skill_root": str(root),
         "resource_index": str((root / "RESOURCE_INDEX.md").resolve()),
     }
     if args.resource:
-        target = resolve_skill_resource(args.skill, args.resource, home)
+        resolved_platform, target = resolve_skill_resource(args.skill, args.resource, home, args.platform)
+        if resolved_platform != platform:
+            raise ValueError("resolver platform mismatch")
         result["resource"] = args.resource
         result["resolved_path"] = str(target)
-        result["platform_examples"] = platform_examples(args.skill, args.resource)
+        result["platform_examples"] = platform_examples(args.skill, args.resource, platform)
         if args.native_only:
             print(target)
             return 0
@@ -502,6 +505,7 @@ def main() -> int:
 
     command = subparsers.add_parser("paths", help="Resolve an installed skill resource with native path semantics")
     command.add_argument("--skill", required=True)
+    command.add_argument("--platform", choices=["opencode", "codex", "claude", "cursor"], help="Installed platform whose isolated skill root should be used")
     command.add_argument("--resource", help="Portable '/'-separated path relative to SKILL.md")
     command.add_argument("--home", type=Path, help="Override user home for installation discovery")
     command.add_argument("--native-only", action="store_true", help="Print only the native resolved resource path")

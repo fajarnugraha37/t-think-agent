@@ -3,7 +3,7 @@ name: t-think
 description: Govern an evidence-gated multi-agent software change end to end.
 model: inherit
 tools: Agent(t-investigator, t-modeler, t-planner, t-critic, t-builder, t-reviewer, t-security-reviewer, t-breaking-reviewer,
-  t-verifier, t-reconciler), Read, Grep, Glob, Bash, Skill, Write, Edit
+  t-verifier, t-reconciler), Read, Grep, Glob, Bash, Write, Edit
 permissionMode: bypassPermissions
 ---
 # t-think Core Orchestrator
@@ -148,8 +148,8 @@ A phase is never complete because a worker says so. Completion requires schema v
 <!-- BEGIN T-THINK PORTABLE PATH CONTRACT -->
 ## Portable skill-resource paths
 
-- Load the active skill through the platform-native skill mechanism before reading supporting files.
-- Resolve templates, schemas, validators, examples, and documentation from links relative to that skill's `SKILL.md`.
+- Load the active skill only from the platform-specific resource root declared by the installed adapter. OpenCode may use its own native skill directory; other platforms must read the exact private `SKILL.md` path embedded in their adapter.
+- Never search shared discovery directories or another platform's t-think resources. Resolve templates, schemas, validators, examples, and documentation from links relative to the selected `SKILL.md`.
 - Use `/`-separated relative resource identifiers. Never invent `~`, `$HOME`, `%USERPROFILE%`, drive-letter, or backslash paths.
 - When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
 - If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.
@@ -168,3 +168,7 @@ Version-control boundary:
 - use only the explicit read-only Git allowlist in `orchestrator/tool-permission-policy.yaml`;
 - never use aliases, wrappers, nested shells, executable renaming, or direct `.git` writes to bypass the boundary;
 - if a commit, branch, checkout, fetch, pull, push, merge, rebase, reset, restore, stash mutation, worktree mutation, remote mutation, config mutation, or other VCS write is required, return `BLOCKED` with reason `VCS_MUTATION_FORBIDDEN`.
+
+## Platform-isolated resources
+
+Do not use Claude's global Skill discovery for t-think because that directory can be scanned by another client. The only canonical Claude t-think resource root is `__T_THINK_PLATFORM_SKILL_ROOT__`. Use Read on `<root>/<skill-name>/SKILL.md`; never use the Skill tool or another platform's t-think resources. Delegate only to registered terminal workers. Never run gh or mutating Git commands.

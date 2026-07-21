@@ -7,16 +7,22 @@ ROOT=Path(__file__).resolve().parents[1]
 REG=yaml.safe_load((ROOT/'orchestrator/agent-registry.yaml').read_text())
 CORE=(ROOT/'orchestrator/t-think-core.md').read_text().rstrip()+"\n"
 AGENTS={a['name']:a for a in REG['agents']}; NAMES=list(AGENTS)
-PLATFORM_NOTES={
-'opencode':'Load exactly the delegated skill. Return one bounded result to t-think; never delegate recursively. Normal worktree tools are prompt-free. Never run gh. Use Git only for the explicit read-only commands in orchestrator/tool-permission-policy.yaml and never bypass that restriction through aliases, wrappers, or indirect shell invocation.',
-'codex':'Use global Agent Skills. The parent session owns orchestration. Do not spawn child agents. Normal worktree tools run without approval prompts. Never run gh or mutating Git commands; Git is read-only as defined by orchestrator/tool-permission-policy.yaml.',
-'claude-code':'Load the active skill through Skill. Agent is omitted from workers, so nested delegation is unavailable. The adapter bypasses permission prompts inside the project. Never run gh or mutating Git commands; Git is read-only as defined by orchestrator/tool-permission-policy.yaml.',
-'cursor':'Use globally installed Agent Skills and return one bounded result to t-think. Do not delegate recursively. Keep work inside the project. Never run gh or mutating Git commands; Git is read-only as defined by orchestrator/tool-permission-policy.yaml.'}
+PLATFORM_SKILL_ROOT_TOKEN='__T_THINK_PLATFORM_SKILL_ROOT__'
+PLATFORM_ROOT_NOTES={
+'opencode':'''Use only OpenCode's native t-think skills from `~/.config/opencode/skills/t-*`. Never search or read `~/.agents/skills`, `~/.claude/skills`, `.codex`, or `.cursor` for t-think resources. Delegate only to registered terminal workers and keep depth one. Normal worktree tools are prompt-free. Never run gh. Use Git only for the explicit read-only commands in orchestrator/tool-permission-policy.yaml.''',
+'codex':f'''Do not use global `~/.agents/skills` discovery for t-think. The only canonical Codex t-think resource root is `{PLATFORM_SKILL_ROOT_TOKEN}`. Read each active skill from `<root>/<skill-name>/SKILL.md` and resolve sibling resources relative to it. Never read another platform's t-think resources. Spawn only registered terminal workers and keep depth one. Never run gh or mutating Git commands.''',
+'claude-code':f'''Do not use Claude's global Skill discovery for t-think because that directory can be scanned by another client. The only canonical Claude t-think resource root is `{PLATFORM_SKILL_ROOT_TOKEN}`. Use Read on `<root>/<skill-name>/SKILL.md`; never use the Skill tool or another platform's t-think resources. Delegate only to registered terminal workers. Never run gh or mutating Git commands.''',
+'cursor':f'''The only canonical Cursor t-think resource root is `{PLATFORM_SKILL_ROOT_TOKEN}`. Read each active skill from `<root>/<skill-name>/SKILL.md`, resolve resources relative to it, and never search shared or another platform's t-think directories. Delegate only through the root orchestration flow. Never run gh or mutating Git commands.'''
+}
+PLATFORM_WORKER_NOTES={
+'opencode':'''Load exactly the delegated skill through OpenCode's native mechanism from `~/.config/opencode/skills/t-*`. Never search or read `~/.agents/skills`, `~/.claude/skills`, `.codex`, or `.cursor` for t-think resources. Return one bounded result to t-think and never delegate recursively. Normal worktree tools are prompt-free. Never run gh or mutating Git commands.''',
+'codex':f'''Do not use global `~/.agents/skills` discovery for t-think. Read the delegated skill only from `{PLATFORM_SKILL_ROOT_TOKEN}/<skill-name>/SKILL.md` and resolve resources relative to it. Never read another platform's t-think resources. The parent session owns orchestration; do not spawn child agents. Never run gh or mutating Git commands.''',
+'claude-code':f'''Do not use Claude's global Skill discovery for t-think. Read the delegated skill only from `{PLATFORM_SKILL_ROOT_TOKEN}/<skill-name>/SKILL.md` and resolve resources relative to it. Never read shared or another platform's t-think resources. Agent and Skill are omitted from workers. Never run gh or mutating Git commands.''',
+'cursor':f'''Read the delegated skill only from `{PLATFORM_SKILL_ROOT_TOKEN}/<skill-name>/SKILL.md` and resolve resources relative to it. Never search shared or another platform's t-think directories. Return one bounded result and do not delegate recursively. Never run gh or mutating Git commands.'''
+}
 current_platform=''
 
 TRUSTED_EXTERNAL_PATHS = (
-    '~/.agents/skills/t-*/**',
-    '~/.claude/skills/t-*/**',
     '~/.config/opencode/skills/t-*/**',
     '~/.local/share/t-think/runtime/**',
 )
@@ -119,8 +125,9 @@ def opencode_base_permissions(task):
     }
 def dump_frontmatter(data): return '---\n'+yaml.safe_dump(data,sort_keys=False,width=120).strip()+'\n---\n'
 def body(name):
-    if name=='t-think': return CORE
-    return (ROOT/'agents'/name/'AGENT.md').read_text().rstrip()+f"\n\n## Platform note\n\n{PLATFORM_NOTES[current_platform]}\n"
+    base = CORE if name == 't-think' else (ROOT/'agents'/name/'AGENT.md').read_text().rstrip()+'\n'
+    note = PLATFORM_ROOT_NOTES[current_platform] if name == 't-think' else PLATFORM_WORKER_NOTES[current_platform]
+    return base.rstrip()+f"\n\n## Platform-isolated resources\n\n{note}\n"
 def write_opencode():
     global current_platform; current_platform='opencode'; out=ROOT/'adapters/opencode'; out.mkdir(parents=True,exist_ok=True)
     task={'*':'deny',**{n:'allow' for n in NAMES}}
@@ -134,14 +141,16 @@ def tq(s): return '"""'+s.replace('"""','\\"\\"\\"')+'"""'
 def write_codex():
     global current_platform; current_platform='codex'; out=ROOT/'adapters/codex'; workers=out/'agents'; workers.mkdir(parents=True,exist_ok=True)
     note=f"\n## Codex adapter\n\nRun t-think as the root session. Spawn only the {len(NAMES)} registered terminal workers. Keep delegation depth one.\n"
-    profile='# launch with: codex --profile t-think\nsandbox_mode = "workspace-write"\napproval_policy = "never"\ndeveloper_instructions = '+tq(CORE+note)+'\n\n[agents]\nmax_depth = 1\nmax_threads = 4\ninterrupt_message = true\n'
+    profile='# launch with: codex --profile t-think\nsandbox_mode = "workspace-write"\napproval_policy = "never"\ndeveloper_instructions = '+tq(body('t-think')+note)+'\n\n[agents]\nmax_depth = 1\nmax_threads = 4\ninterrupt_message = true\n'
     (out/'t-think.config.toml').write_text(profile)
     for name,a in AGENTS.items():
         sandbox='workspace-write'
         (workers/f'{name}.toml').write_text(f'name = "{name}"\ndescription = {tq(a["description"])}\nsandbox_mode = "{sandbox}"\ndeveloper_instructions = {tq(body(name))}\n')
 def claude_tools(name):
-    if name=='t-think': return f"Agent({', '.join(NAMES)}), Read, Grep, Glob, Bash, Skill, Write, Edit"
-    return 'Read, Grep, Glob, Bash, Skill, Write, Edit'
+    # t-think skills are loaded from the platform-private resource root by Read;
+    # omit Skill so Claude cannot fall back to a cross-platform global copy.
+    if name=='t-think': return f"Agent({', '.join(NAMES)}), Read, Grep, Glob, Bash, Write, Edit"
+    return 'Read, Grep, Glob, Bash, Write, Edit'
 def write_claude():
     global current_platform; current_platform='claude-code'; out=ROOT/'adapters/claude-code'; out.mkdir(parents=True,exist_ok=True)
     defs=[('t-think',{'description':'Govern an evidence-gated multi-agent software change end to end.'}),*AGENTS.items()]

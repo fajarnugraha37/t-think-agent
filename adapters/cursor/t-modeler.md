@@ -44,13 +44,13 @@ Use template-first output, exact enums and IDs, bounded reads, machine validator
 <!-- BEGIN T-THINK PORTABLE PATH CONTRACT -->
 ## Portable skill-resource paths
 
-- Load the active skill through the platform-native skill mechanism before reading supporting files.
-- Resolve templates, schemas, validators, examples, and documentation from links relative to that skill's `SKILL.md`.
+- Load the active skill only from the platform-specific resource root declared by the installed adapter. OpenCode may use its own native skill directory; other platforms must read the exact private `SKILL.md` path embedded in their adapter.
+- Never search shared discovery directories or another platform's t-think resources. Resolve templates, schemas, validators, examples, and documentation from links relative to the selected `SKILL.md`.
 - Use `/`-separated relative resource identifiers. Never invent `~`, `$HOME`, `%USERPROFILE%`, drive-letter, or backslash paths.
 - When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
 - If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.
 <!-- END T-THINK PORTABLE PATH CONTRACT -->
 
-## Platform note
+## Platform-isolated resources
 
-Use globally installed Agent Skills and return one bounded result to t-think. Do not delegate recursively. Keep work inside the project. Never run gh or mutating Git commands; Git is read-only as defined by orchestrator/tool-permission-policy.yaml.
+Read the delegated skill only from `__T_THINK_PLATFORM_SKILL_ROOT__/<skill-name>/SKILL.md` and resolve resources relative to it. Never search shared or another platform's t-think directories. Return one bounded result and do not delegate recursively. Never run gh or mutating Git commands.

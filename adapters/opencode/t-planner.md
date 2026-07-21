@@ -6,16 +6,12 @@ permission:
   '*': allow
   external_directory:
     '*': deny
-    ~/.agents/skills/t-*/**: allow
-    ~/.claude/skills/t-*/**: allow
     ~/.config/opencode/skills/t-*/**: allow
     ~/.local/share/t-think/runtime/**: allow
   edit:
     '*': allow
     .git: deny
     .git/**: deny
-    ~/.agents/skills/t-*/**: deny
-    ~/.claude/skills/t-*/**: deny
     ~/.config/opencode/skills/t-*/**: deny
     ~/.local/share/t-think/runtime/**: deny
   bash:
@@ -224,13 +220,13 @@ Use template-first output, exact enums and IDs, bounded reads, machine validator
 <!-- BEGIN T-THINK PORTABLE PATH CONTRACT -->
 ## Portable skill-resource paths
 
-- Load the active skill through the platform-native skill mechanism before reading supporting files.
-- Resolve templates, schemas, validators, examples, and documentation from links relative to that skill's `SKILL.md`.
+- Load the active skill only from the platform-specific resource root declared by the installed adapter. OpenCode may use its own native skill directory; other platforms must read the exact private `SKILL.md` path embedded in their adapter.
+- Never search shared discovery directories or another platform's t-think resources. Resolve templates, schemas, validators, examples, and documentation from links relative to the selected `SKILL.md`.
 - Use `/`-separated relative resource identifiers. Never invent `~`, `$HOME`, `%USERPROFILE%`, drive-letter, or backslash paths.
 - When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
 - If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.
 <!-- END T-THINK PORTABLE PATH CONTRACT -->
 
-## Platform note
+## Platform-isolated resources
 
-Load exactly the delegated skill. Return one bounded result to t-think; never delegate recursively. Normal worktree tools are prompt-free. Never run gh. Use Git only for the explicit read-only commands in orchestrator/tool-permission-policy.yaml and never bypass that restriction through aliases, wrappers, or indirect shell invocation.
+Load exactly the delegated skill through OpenCode's native mechanism from `~/.config/opencode/skills/t-*`. Never search or read `~/.agents/skills`, `~/.claude/skills`, `.codex`, or `.cursor` for t-think resources. Return one bounded result to t-think and never delegate recursively. Normal worktree tools are prompt-free. Never run gh or mutating Git commands.

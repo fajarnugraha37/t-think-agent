@@ -9,11 +9,23 @@ workspace:
   outside_workspace: deny
   trusted_external_resources:
     access: read_only
-    patterns:
-      - ~/.agents/skills/t-*/**
-      - ~/.claude/skills/t-*/**
-      - ~/.config/opencode/skills/t-*/**
-      - ~/.local/share/t-think/runtime/**
+    isolation: platform_specific
+    patterns_by_platform:
+      opencode:
+        - ~/.config/opencode/skills/t-*/**
+        - ~/.local/share/t-think/runtime/**
+      codex:
+        - ~/.codex/t-think/skills/t-*/**
+        - ~/.local/share/t-think/runtime/**
+      claude_code:
+        - ~/.claude/t-think/skills/t-*/**
+        - ~/.local/share/t-think/runtime/**
+      cursor:
+        - ~/.cursor/t-think/skills/t-*/**
+        - ~/.local/share/t-think/runtime/**
+    forbidden_shared_discovery_roots:
+      - ~/.agents/skills
+      - ~/.claude/skills
   note: Native tool availability does not replace delegation source-write authorization or boundary auditing.
 native_tool_protected_paths:
   - .git
