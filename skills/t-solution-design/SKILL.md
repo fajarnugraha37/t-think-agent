@@ -1,7 +1,7 @@
 ---
 name: t-solution-design
 description: Create materially distinct evidence-backed solution options or a justified single-option dominance proof.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: SOLUTION_DESIGN
 previous_state: MODEL_CRITIQUE
 next_state: SOLUTION_CRITIQUE

@@ -1,0 +1,107 @@
+schema_version: 1.0.0
+profile: workspace-autonomous
+intent: Allow prompt-free tool use inside the active project worktree while keeping external filesystem, Git mutation, and GitHub CLI operations blocked.
+workspace:
+  normal_tool_calls: allow_without_prompt
+  file_read: allow
+  file_write_tool_availability: allow
+  shell: allow
+  outside_workspace: deny
+  trusted_external_resources:
+    access: read_only
+    patterns:
+      - ~/.agents/skills/t-*/**
+      - ~/.claude/skills/t-*/**
+      - ~/.config/opencode/skills/t-*/**
+      - ~/.local/share/t-think/runtime/**
+  note: Native tool availability does not replace delegation source-write authorization or boundary auditing.
+native_tool_protected_paths:
+  - .git
+  - .git/**
+vcs:
+  github_cli:
+    executable: gh
+    policy: deny_all
+  git:
+    default: deny
+    readonly_allowlist:
+      - status
+      - diff
+      - log
+      - show
+      - rev-parse
+      - ls-files
+      - ls-tree
+      - grep
+      - cat-file
+      - blame
+      - shortlog
+      - describe
+      - check-ignore
+      - merge-base
+      - name-rev
+      - for-each-ref
+      - rev-list
+      - diff-tree
+      - diff-index
+      - diff-files
+      - show-ref
+      - branch --show-current
+      - branch --list
+      - tag --list
+      - remote -v
+      - remote get-url
+      - config --get
+      - config --get-all
+      - config --get-regexp
+      - config --list
+      - symbolic-ref HEAD
+      - symbolic-ref --short HEAD
+      - submodule status
+      - worktree list
+      - stash list
+      - reflog show
+    mutation_examples_denied:
+      - add
+      - commit
+      - push
+      - pull
+      - fetch
+      - merge
+      - rebase
+      - reset
+      - restore
+      - checkout
+      - switch
+      - branch create/delete/rename
+      - tag create/delete
+      - stash push/pop/apply/drop/clear
+      - clean
+      - rm
+      - mv
+      - cherry-pick
+      - revert
+      - worktree add/remove/move/prune
+      - submodule update/add/deinit
+      - config write/unset
+      - remote add/remove/set-url/rename
+      - maintenance
+      - gc
+      - update-ref
+  bypass:
+    aliases_wrappers_or_indirect_invocation: forbidden
+    on_required_mutation: return_blocked
+    blocked_reason: VCS_MUTATION_FORBIDDEN
+platforms:
+  opencode:
+    enforcement: native_permission_rules
+    no_prompt: true
+  codex:
+    enforcement: workspace_sandbox_plus_contract
+    no_prompt: true
+  claude_code:
+    enforcement: bypass_permissions_plus_contract
+    no_prompt: true
+  cursor:
+    enforcement: writable_agent_definition_plus_user_auto_run_setting
+    no_prompt: depends_on_cursor_auto_run

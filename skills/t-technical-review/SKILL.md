@@ -1,7 +1,7 @@
 ---
 name: t-technical-review
 description: Independent technical review of correctness, edge cases, regressions, architecture, and maintainability.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: IMPLEMENTATION_REVIEW
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:

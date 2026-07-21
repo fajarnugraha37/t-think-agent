@@ -122,6 +122,7 @@
       "additionalProperties": false,
       "required": [
         "root",
+        "active_work_directory",
         "discovery"
       ],
       "properties": {
@@ -139,15 +140,19 @@
           ],
           "properties": {
             "respect_vcs_ignore": {
-              "const": true
+              "const": false
             },
             "include_untracked": {
               "type": "boolean"
             },
             "include_ignored": {
-              "const": false
+              "const": true
             }
           }
+        },
+        "active_work_directory": {
+          "type": "string",
+          "pattern": "^\\.t-think/[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
         }
       }
     },
@@ -180,7 +185,8 @@
           ]
         },
         "governance_artifact_write": {
-          "const": ".t-think/**"
+          "type": "string",
+          "pattern": "^\\.t-think/[A-Za-z0-9][A-Za-z0-9._-]{0,127}/\\*\\*$"
         },
         "approved_write_targets": {
           "type": "array",
@@ -216,7 +222,8 @@
             "mode": {
               "enum": [
                 "deny",
-                "human_approved"
+                "human_approved",
+                "allow"
               ]
             },
             "human_approval_ref": {

@@ -9,11 +9,17 @@ def frontmatter(path):
  m=re.match(r'---\n(.*?)\n---\n',path.read_text(),re.S)
  if not m:raise ValueError('missing YAML frontmatter')
  return yaml.safe_load(m.group(1))
+def _walk_permission_values(value):
+ if isinstance(value,dict):
+  for item in value.values():yield from _walk_permission_values(item)
+ elif isinstance(value,list):
+  for item in value:yield from _walk_permission_values(item)
+ else:yield value
 def main():
  p=argparse.ArgumentParser();p.add_argument('--home',type=Path,default=Path.home());p.add_argument('--target',choices=['all',*PLATFORMS],default='all');a=p.parse_args();h=a.home.expanduser().resolve();errors=[]
  manifest=h/'.local/share/t-think/installation-manifest.json';runtime=h/'.local/share/t-think/runtime'
  if not manifest.exists():errors.append('missing installation manifest')
- for req in ['VERSION','bin/t-thinkctl.py','bin/tthink_paths.py','bin/validate_delegation.py','bin/audit_boundaries.py','bin/validate_result.py','orchestrator/agent-registry.yaml','orchestrator/phase-registry.yaml','orchestrator/composite-phase-policy.yaml','schemas/delegation-packet.schema.json']:
+ for req in ['VERSION','bin/t-thinkctl.py','bin/tthink_paths.py','bin/validate_delegation.py','bin/audit_boundaries.py','bin/validate_result.py','orchestrator/agent-registry.yaml','orchestrator/phase-registry.yaml','orchestrator/composite-phase-policy.yaml','orchestrator/intake-policy.yaml','orchestrator/workspace-hygiene-policy.yaml','orchestrator/tool-permission-policy.yaml','schemas/delegation-packet.schema.json','schemas/workspace-hygiene-report.schema.json']:
   if not (runtime/req).exists():errors.append(f'missing runtime component: {req}')
  worker_names=[]
  if (runtime/'orchestrator/agent-registry.yaml').exists():worker_names=[x['name'] for x in yaml.safe_load((runtime/'orchestrator/agent-registry.yaml').read_text())['agents']]
@@ -42,11 +48,16 @@ def main():
     try:
      d=tomllib.loads(profile.read_text());
      if d.get('agents',{}).get('max_depth')!=1:errors.append('Codex max_depth must be 1')
+     if d.get('approval_policy')!='never' or d.get('sandbox_mode')!='workspace-write':errors.append('Codex prompt-free workspace profile invalid')
      if 'model' in d or 'model_reasoning_effort' in d:errors.append('Codex root pins model')
     except Exception as e:errors.append(f'invalid Codex profile: {e}')
    for name in worker_names:
     f=workers/f'{name}.toml'
     if not f.exists():errors.append(f'missing codex worker: {name}')
+    else:
+     try:
+      if tomllib.loads(f.read_text()).get('sandbox_mode')!='workspace-write':errors.append(f'codex/{name} worker is not workspace-write')
+     except Exception as e:errors.append(f'invalid codex/{name}: {e}')
    continue
   found=list(dirs[platform].glob('t-*.md'))
   if len(found)!=expected_agents:errors.append(f'expected {expected_agents} {platform} agents, found {len(found)}')
@@ -58,12 +69,22 @@ def main():
     if platform in ('claude','cursor') and d.get('name')!=name:errors.append(f'{platform}/{name} name mismatch')
     if platform=='opencode':
      if d.get('mode')!=('primary' if name=='t-think' else 'subagent'):errors.append(f'opencode/{name} mode mismatch')
-     ext=d.get('permission',{}).get('external_directory')
+     perm=d.get('permission',{})
+     ext=perm.get('external_directory')
      if not isinstance(ext,dict) or ext.get('*')!='deny':errors.append(f'opencode/{name} external_directory must deny by default')
      else:
       for pattern in TRUSTED_EXTERNAL:
        if ext.get(pattern)!='allow':errors.append(f'opencode/{name} missing recursive external allow: {pattern}')
+     if perm.get('*')!='allow':errors.append(f'opencode/{name} global tool default must allow')
+     if any(v=='ask' for v in _walk_permission_values(perm)):errors.append(f'opencode/{name} contains ask permission')
+     bash=perm.get('bash',{})
+     if not isinstance(bash,dict) or bash.get('*')!='allow':errors.append(f'opencode/{name} bash must allow normal worktree commands')
+     elif bash.get('git')!='deny' or bash.get('git *')!='deny' or bash.get('gh')!='deny' or bash.get('gh *')!='deny':errors.append(f'opencode/{name} Git/GH boundary invalid')
+     edit=perm.get('edit',{})
+     if not isinstance(edit,dict) or edit.get('*')!='allow' or edit.get('.git/**')!='deny':errors.append(f'opencode/{name} edit profile invalid')
+    if platform=='claude' and d.get('permissionMode')!='bypassPermissions':errors.append(f'claude/{name} permission mode is not bypassPermissions')
     if platform=='claude' and name!='t-think' and 'Agent' in str(d.get('tools','')):errors.append(f'claude/{name} can nest')
+    if platform=='cursor' and d.get('readonly') is not False:errors.append(f'cursor/{name} remains readonly')
    except Exception as e:errors.append(f'invalid {platform}/{name}: {e}')
  if 'claude' in targets:
   linked=list((h/'.claude/skills').glob('t-*/SKILL.md'))

@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "passed_contracts": [
+    "mandatory two-question intake and deterministic suggestion",
+    "canonical work-directory initialization and packet scope",
+    "pollution detection, safe cleanup, and clean audit",
+    "reconciliation hygiene gate"
+  ],
+  "issues": []
+}

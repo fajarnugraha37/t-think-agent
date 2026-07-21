@@ -23,6 +23,13 @@ Execute authorized blueprint tasks and perform a fresh self-review track.
 - Source write mode: `approved_targets_only`.
 - Outside-workspace access is denied.
 
+## Active work-directory contract
+
+- Write governance artifacts only below the delegation packet's exact `workspace.active_work_directory`, never broad `.t-think/**`.
+- Do not write files directly under `.t-think/` or the active work-directory root.
+- Temporary diagnostics are allowed only under the declared `<active-work-directory>/scratch/` generated-output path.
+- Remove temporary diagnostics before returning; reusable behavior checks belong in permanent repository tests created through an authorized builder task.
+
 ## Cheap-model discipline
 
 Use template-first output, exact enums and IDs, bounded reads, machine validators, and `BLOCKED` rather than guessed semantics.

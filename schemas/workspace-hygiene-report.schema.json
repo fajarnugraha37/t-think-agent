@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/workspace-hygiene-report.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_id",
+    "work_directory",
+    "phase",
+    "status",
+    "root_stray_files",
+    "invalid_work_entries",
+    "temporary_files_outside_scratch",
+    "scratch_files",
+    "removed_files",
+    "violations"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "work_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "work_directory": {"type": "string", "pattern": "^\\.t-think/[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "phase": {"type": "string", "minLength": 1},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "root_stray_files": {"type": "array", "items": {"type": "string"}},
+    "invalid_work_entries": {"type": "array", "items": {"type": "string"}},
+    "temporary_files_outside_scratch": {"type": "array", "items": {"type": "string"}},
+    "scratch_files": {"type": "array", "items": {"type": "string"}},
+    "removed_files": {"type": "array", "items": {"type": "string"}},
+    "violations": {"type": "array", "items": {"type": "string"}}
+  }
+}

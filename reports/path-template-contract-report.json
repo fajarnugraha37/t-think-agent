@@ -4,7 +4,7 @@
   "portable_resources": 570,
   "indexed_resources": 570,
   "opencode_adapters": 11,
-  "documentation_links": 2,
+  "documentation_links": 5,
   "platform_path_semantics": {
     "linux": "/home/test user/.agents/skills/t-reconciliation/templates/output.template.yaml",
     "macos": "/Users/test user/.agents/skills/t-reconciliation/templates/output.template.yaml",

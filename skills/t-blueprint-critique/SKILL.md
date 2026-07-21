@@ -1,7 +1,7 @@
 ---
 name: t-blueprint-critique
 description: Aggregate independent strategy and execution-checklist critiques before source-write authorization.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: BLUEPRINT_CRITIQUE
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:

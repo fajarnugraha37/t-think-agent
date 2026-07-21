@@ -1,7 +1,7 @@
 ---
 name: t-self-review
 description: Checklist-driven self-review against the approved blueprint and actual diff.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: IMPLEMENTATION_REVIEW
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:

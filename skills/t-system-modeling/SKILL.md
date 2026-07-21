@@ -1,7 +1,7 @@
 ---
 name: t-system-modeling
 description: Build an evidence-backed structural, behavioral, boundary, invariant, actual/intended, and gap model.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: SYSTEM_MODEL
 previous_state: INVESTIGATION
 next_state: MODEL_CRITIQUE

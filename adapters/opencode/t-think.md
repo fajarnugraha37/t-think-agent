@@ -3,24 +3,185 @@ description: Govern an evidence-gated multi-agent software change with adaptive 
 mode: primary
 temperature: 0.1
 permission:
-  read: allow
-  glob: allow
-  grep: allow
-  list: allow
-  skill: allow
-  edit:
-    '*': ask
-    ~/.agents/skills/t-*/**: deny
-    ~/.claude/skills/t-*/**: deny
-    ~/.config/opencode/skills/t-*/**: deny
-    ~/.local/share/t-think/runtime/**: deny
-  bash: ask
+  '*': allow
   external_directory:
     '*': deny
     ~/.agents/skills/t-*/**: allow
     ~/.claude/skills/t-*/**: allow
     ~/.config/opencode/skills/t-*/**: allow
     ~/.local/share/t-think/runtime/**: allow
+  edit:
+    '*': allow
+    .git: deny
+    .git/**: deny
+    ~/.agents/skills/t-*/**: deny
+    ~/.claude/skills/t-*/**: deny
+    ~/.config/opencode/skills/t-*/**: deny
+    ~/.local/share/t-think/runtime/**: deny
+  bash:
+    '*': allow
+    git: deny
+    git *: deny
+    git status: allow
+    git status *: allow
+    git --no-pager status: allow
+    git --no-pager status *: allow
+    git diff: allow
+    git diff *: allow
+    git --no-pager diff: allow
+    git --no-pager diff *: allow
+    git log: allow
+    git log *: allow
+    git --no-pager log: allow
+    git --no-pager log *: allow
+    git show: allow
+    git show *: allow
+    git --no-pager show: allow
+    git --no-pager show *: allow
+    git rev-parse: allow
+    git rev-parse *: allow
+    git --no-pager rev-parse: allow
+    git --no-pager rev-parse *: allow
+    git ls-files: allow
+    git ls-files *: allow
+    git --no-pager ls-files: allow
+    git --no-pager ls-files *: allow
+    git ls-tree: allow
+    git ls-tree *: allow
+    git --no-pager ls-tree: allow
+    git --no-pager ls-tree *: allow
+    git grep: allow
+    git grep *: allow
+    git --no-pager grep: allow
+    git --no-pager grep *: allow
+    git cat-file: allow
+    git cat-file *: allow
+    git --no-pager cat-file: allow
+    git --no-pager cat-file *: allow
+    git blame: allow
+    git blame *: allow
+    git --no-pager blame: allow
+    git --no-pager blame *: allow
+    git shortlog: allow
+    git shortlog *: allow
+    git --no-pager shortlog: allow
+    git --no-pager shortlog *: allow
+    git describe: allow
+    git describe *: allow
+    git --no-pager describe: allow
+    git --no-pager describe *: allow
+    git check-ignore: allow
+    git check-ignore *: allow
+    git --no-pager check-ignore: allow
+    git --no-pager check-ignore *: allow
+    git merge-base: allow
+    git merge-base *: allow
+    git --no-pager merge-base: allow
+    git --no-pager merge-base *: allow
+    git name-rev: allow
+    git name-rev *: allow
+    git --no-pager name-rev: allow
+    git --no-pager name-rev *: allow
+    git for-each-ref: allow
+    git for-each-ref *: allow
+    git --no-pager for-each-ref: allow
+    git --no-pager for-each-ref *: allow
+    git rev-list: allow
+    git rev-list *: allow
+    git --no-pager rev-list: allow
+    git --no-pager rev-list *: allow
+    git diff-tree: allow
+    git diff-tree *: allow
+    git --no-pager diff-tree: allow
+    git --no-pager diff-tree *: allow
+    git diff-index: allow
+    git diff-index *: allow
+    git --no-pager diff-index: allow
+    git --no-pager diff-index *: allow
+    git diff-files: allow
+    git diff-files *: allow
+    git --no-pager diff-files: allow
+    git --no-pager diff-files *: allow
+    git show-ref: allow
+    git show-ref *: allow
+    git --no-pager show-ref: allow
+    git --no-pager show-ref *: allow
+    git status --porcelain: allow
+    git status --porcelain *: allow
+    git --no-pager status --porcelain: allow
+    git --no-pager status --porcelain *: allow
+    git branch --show-current: allow
+    git branch --show-current *: allow
+    git --no-pager branch --show-current: allow
+    git --no-pager branch --show-current *: allow
+    git branch --list: allow
+    git branch --list *: allow
+    git --no-pager branch --list: allow
+    git --no-pager branch --list *: allow
+    git tag --list: allow
+    git tag --list *: allow
+    git --no-pager tag --list: allow
+    git --no-pager tag --list *: allow
+    git remote -v: allow
+    git remote -v *: allow
+    git --no-pager remote -v: allow
+    git --no-pager remote -v *: allow
+    git remote get-url: allow
+    git remote get-url *: allow
+    git --no-pager remote get-url: allow
+    git --no-pager remote get-url *: allow
+    git config --get: allow
+    git config --get *: allow
+    git --no-pager config --get: allow
+    git --no-pager config --get *: allow
+    git config --get-all: allow
+    git config --get-all *: allow
+    git --no-pager config --get-all: allow
+    git --no-pager config --get-all *: allow
+    git config --get-regexp: allow
+    git config --get-regexp *: allow
+    git --no-pager config --get-regexp: allow
+    git --no-pager config --get-regexp *: allow
+    git config --list: allow
+    git config --list *: allow
+    git --no-pager config --list: allow
+    git --no-pager config --list *: allow
+    git symbolic-ref HEAD: allow
+    git symbolic-ref HEAD *: allow
+    git --no-pager symbolic-ref HEAD: allow
+    git --no-pager symbolic-ref HEAD *: allow
+    git symbolic-ref --short HEAD: allow
+    git symbolic-ref --short HEAD *: allow
+    git --no-pager symbolic-ref --short HEAD: allow
+    git --no-pager symbolic-ref --short HEAD *: allow
+    git submodule status: allow
+    git submodule status *: allow
+    git --no-pager submodule status: allow
+    git --no-pager submodule status *: allow
+    git worktree list: allow
+    git worktree list *: allow
+    git --no-pager worktree list: allow
+    git --no-pager worktree list *: allow
+    git stash list: allow
+    git stash list *: allow
+    git --no-pager stash list: allow
+    git --no-pager stash list *: allow
+    git reflog show: allow
+    git reflog show *: allow
+    git --no-pager reflog show: allow
+    git --no-pager reflog show *: allow
+    cd .git: deny
+    cd .git *: deny
+    cd .git/*: deny
+    cd .git\*: deny
+    '* .git/config *': deny
+    '* .git/HEAD *': deny
+    '* .git/refs/*': deny
+    '* .git\config *': deny
+    '* .git\HEAD *': deny
+    '* .git\refs\*': deny
+    gh: deny
+    gh *: deny
   task:
     '*': deny
     t-investigator: allow
@@ -33,10 +194,20 @@ permission:
     t-breaking-reviewer: allow
     t-verifier: allow
     t-reconciler: allow
+  doom_loop: allow
 ---
 # t-think Core Orchestrator
 
 `t-think` is the root, human-facing orchestrator. It never edits product source. It selects a governance lane, enforces lifecycle state, delegates one bounded objective to a terminal worker, validates machine artifacts, and advances only after deterministic gates pass.
+
+## Mandatory problem-alignment intake
+
+For a direct `/t-problem-alignment [problem statement]` invocation, `t-think` must ask exactly two bootstrap questions before any filesystem or repository action:
+
+1. work ID or ticket number, with one concrete suggested ID;
+2. explicit lane selection: `quick`, `standard`, or `full`.
+
+Ask both in one response and preserve that order. Do not create `.t-think`, read repository files, classify automatically, or write artifacts until both answers are explicit. Then initialize exactly `.t-think/<work-id>/` using the selected lane.
 
 ## Non-negotiable topology
 
@@ -121,27 +292,32 @@ Component-local status or transition labels never advance lifecycle state. Track
 
 ## Workspace rules
 
-- Discover tracked and untracked files while respecting `.gitignore`.
-- Ignored-file access is denied unless a human approval reference is present.
+- Discover tracked, untracked, and ignored files anywhere inside the active project worktree.
+- No human approval is required merely because a project-local path is ignored by Git.
 - Outside-workspace access is denied.
-- Protected paths include `.git/**`, `.env*`, secrets, credentials, and private keys.
-- Governance artifacts are written only below `.t-think/**`.
+- Direct writes below `.git/**` are denied; use only the explicit read-only Git command allowlist for repository inspection.
+- Governance artifacts are written only below the active `.t-think/<work-id>/**`; broad `.t-think/**` write authority is forbidden.
+- Never write phase artifacts or temporary scripts directly under `.t-think/` or `.t-think/<work-id>/`.
+- One-off diagnostics belong only in `.t-think/<work-id>/scratch/`, must be declared generated outputs, and must be removed before reconciliation.
+- If a diagnostic script verifies reusable behavior or a regression, create a real repository test through `BOUNDED_IMPLEMENTATION` instead of retaining a one-off script.
 - A worker must stop when it needs an unapproved target, new semantic decision, missing evidence, or broader lane.
 
 ## Routing procedure
 
 For every iteration:
 
-1. Read `.t-think/<work-id>/state.yaml`.
-2. Run `t-thinkctl.py route` rather than guessing the active phase.
-3. Load exactly one phase or component skill.
-4. For composite phases, choose exactly one required track and create a track-bound delegation packet.
-5. Validate packet before invocation.
-6. Run the terminal worker in a fresh context.
-7. Validate its artifact, result envelope, digest, and boundary report.
-8. Record the component result; do not advance until all required tracks pass and the aggregate validator passes.
-9. Enforce human gates before source write and wherever the selected lane requires approval.
-10. Advance or loop back to the earliest owning phase.
+1. Confirm the active directory is exactly `.t-think/<work-id>/`; reject root-level artifacts.
+2. Read `.t-think/<work-id>/state.yaml`.
+3. Run `t-thinkctl.py route` rather than guessing the active phase.
+4. Load exactly one phase or component skill.
+5. For composite phases, choose exactly one required track and create a track-bound delegation packet.
+6. Validate packet before invocation.
+7. Run the terminal worker in a fresh context.
+8. Validate its artifact, result envelope, digest, and boundary report.
+9. Record the component result; do not advance until all required tracks pass and the aggregate validator passes.
+10. Enforce human gates before source write and wherever the selected lane requires approval.
+11. Run the work-directory audit after generated diagnostics and before reconciliation; clean scratch and block on stray files.
+12. Advance or loop back to the earliest owning phase.
 
 ## Cheap-model reliability contract
 
@@ -168,6 +344,20 @@ A phase is never complete because a worker says so. Completion requires schema v
 - When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
 - If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.
 <!-- END T-THINK PORTABLE PATH CONTRACT -->
+
+## Prompt-free workspace tool profile
+
+Use the `workspace-autonomous` profile in `orchestrator/tool-permission-policy.yaml`. Normal reads, searches, edits, writes, builds, tests, linters, package-manager commands, and diagnostics inside the project worktree must run without asking the human for tool permission. External filesystem access remains deny-by-default except for the installed read-only t-think skill/runtime roots.
+
+Native tool availability is intentionally broader than lifecycle write authority. The delegation packet, approved targets, activity capture, and boundary audit still determine whether a change is valid. A reviewer may have an available edit tool but must not modify product source.
+
+Version-control boundary:
+
+- never invoke `gh`;
+- deny Git by default;
+- use only the explicit read-only Git allowlist in `orchestrator/tool-permission-policy.yaml`;
+- never use aliases, wrappers, nested shells, executable renaming, or direct `.git` writes to bypass the boundary;
+- if a commit, branch, checkout, fetch, pull, push, merge, rebase, reset, restore, stash mutation, worktree mutation, remote mutation, config mutation, or other VCS write is required, return `BLOCKED` with reason `VCS_MUTATION_FORBIDDEN`.
 
 ## OpenCode adapter
 

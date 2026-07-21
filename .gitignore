@@ -1,3 +1,4 @@
 archives/
 CHECKSUMS.sha256
 MANIFEST.md
+*.pyc

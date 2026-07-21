@@ -1,0 +1,32 @@
+schema_version: 1.0.0
+policy: problem-alignment-bootstrap
+trigger: /t-problem-alignment
+rules:
+  ask_exactly_two_bootstrap_questions: true
+  ask_in_single_response: true
+  preserve_question_order: true
+  create_no_files_before_both_answers: true
+  read_no_repository_files_before_both_answers: true
+  require_explicit_lane: true
+  allowed_lanes:
+  - quick
+  - standard
+  - full
+questions:
+- order: 1
+  id: work_id
+  prompt: Apa work ID atau nomor tiketnya?
+  suggestion_required: true
+  suggestion_command: python3 bin/t-thinkctl.py intake --task "<problem statement>" --format json
+  answer_pattern: ^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$
+- order: 2
+  id: lane
+  prompt: "Pilih lane yang akan digunakan: quick, standard, atau full?"
+  options:
+  - quick
+  - standard
+  - full
+after_answers:
+  initialize_command: python3 bin/t-thinkctl.py init <work-id> --lane <lane> --task "<problem statement>"
+  canonical_work_directory: .t-think/<work-id>
+  first_artifact_directory: .t-think/<work-id>/artifacts

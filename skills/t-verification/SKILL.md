@@ -1,7 +1,7 @@
 ---
 name: t-verification
 description: Execute independent command-driven verification after every required implementation review passes.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: VERIFICATION
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
@@ -28,6 +28,15 @@ Execute independent command-driven verification after every required implementat
 - Every obligation has one result.
 - Ready status requires every result PASS and exit code zero.
 - Review never replaces verification.
+
+## Verification script and cleanup policy
+
+- Prefer existing repository test commands and durable test-suite additions.
+- When a behavior check would prevent a future regression, do not create a one-off script; route back to `BOUNDED_IMPLEMENTATION` so `t-builder` adds or updates a real test in an approved test target.
+- A one-off diagnostic script is allowed only when it is not a reusable product test. It must be a declared generated output under `.t-think/<work-id>/scratch/`.
+- Delete every one-off diagnostic before completing verification.
+- Run `t-thinkctl.py audit-workdir --file .t-think/<work-id>/state.yaml`; verification may not recommend reconciliation while scratch is non-empty or stray files exist.
+- Never place scripts directly in `.t-think/`, `.t-think/<work-id>/`, `artifacts/`, `evidence/`, or `results/`.
 
 ## Small-model execution contract
 

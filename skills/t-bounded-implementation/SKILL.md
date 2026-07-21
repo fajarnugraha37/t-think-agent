@@ -1,7 +1,7 @@
 ---
 name: t-bounded-implementation
 description: Execute only human-authorized blueprint tasks within approved write targets.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: BOUNDED_IMPLEMENTATION
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
@@ -37,6 +37,10 @@ Execute only human-authorized blueprint tasks within approved write targets.
 3. Never guess missing semantics; return `BLOCKED` or route upstream.
 4. Run the validator before claiming completion.
 5. Save raw logs as evidence and keep the handoff compact.
+
+## Test and temporary-file rule
+
+Implement approved reusable behavior checks as real repository tests. Do not leave diagnostic scripts in `.t-think/`. If an authorized one-off diagnostic is unavoidable, place it only in the active work item's `scratch/` directory, record it as generated output, and remove it before completion.
 
 <!-- BEGIN T-THINK PORTABLE RESOURCE CONTRACT -->
 ## Portable resource contract

@@ -16,20 +16,15 @@ context: fresh_invocation
 human_interaction: false
 permissions:
   discovery:
-    respect_vcs_ignore: true
+    respect_vcs_ignore: false
     include_untracked: true
-    include_ignored: false
+    include_ignored: true
   workspace_read: allow
   outside_workspace: deny
-  governance_artifact_write: .t-think/**
+  governance_artifact_write: active_work_directory_only
   source_write:
     mode: approved_targets_only
   protected_paths:
   - .git/**
-  - .env
-  - .env.*
-  - '**/secrets/**'
-  - '**/*credential*'
-  - '**/*private-key*'
   command_policy: approved-blueprint-only
   spawn_subagent: deny

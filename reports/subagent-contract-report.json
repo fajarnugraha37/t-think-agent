@@ -3,6 +3,7 @@
   "passed_contracts": [
     "agent manifests and star topology",
     "read and write boundaries",
+    "active work-directory isolation",
     "lane-specific independent review tracks",
     "result envelope track binding",
     "platform adapter structure"

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
 import uuid
 from datetime import datetime, timezone
@@ -15,17 +16,22 @@ from tthink_paths import find_skill_root, platform_examples, resolve_skill_resou
 from tthink_runtime import (
     ROOT,
     artifact_name_for,
+    audit_work_directory,
+    canonical_work_directory,
     build_phase_waivers,
     classify_lane,
     dump_data,
     lane_config,
     lane_rank,
     load_data,
+    intake_questions,
     promotion_state,
     resolve_route,
     resolve_track,
     validate_delegation,
     validate_schema,
+    validate_work_id,
+    workspace_hygiene_policy,
 )
 
 WORK_STATE_SCHEMA = json.loads((ROOT / "schemas/work-state.schema.json").read_text())
@@ -97,13 +103,19 @@ def add_common_risk_arguments(parser: argparse.ArgumentParser) -> None:
 
 
 def init_work_item(args: argparse.Namespace) -> int:
-    work_dir = args.base / args.work_id
+    work_id = validate_work_id(args.work_id)
+    if args.lane == "auto":
+        raise ValueError("init requires an explicit lane: quick, standard, or full")
+    if args.base.as_posix().rstrip("/") != ".t-think":
+        raise ValueError("the work root is fixed at .t-think; custom --base paths are not allowed")
+    repository_root = args.repository_root.resolve()
+    work_dir = repository_root / canonical_work_directory(work_id)
     work_dir.mkdir(parents=True, exist_ok=False)
-    for directory in ("artifacts", "delegations", "results", "boundary-reports", "evidence"):
+    for directory in ("artifacts", "delegations", "results", "boundary-reports", "evidence", "scratch"):
         (work_dir / directory).mkdir()
 
     assessment = classify_lane(
-        work_id=args.work_id,
+        work_id=work_id,
         requested_lane=args.lane,
         declared_signals=args.signal,
         task=args.task,
@@ -112,11 +124,9 @@ def init_work_item(args: argparse.Namespace) -> int:
     assessment_path, waiver_path = write_lane_artifacts(work_dir, assessment)
     selected = assessment["selected_lane"]
     lane = lane_config(selected)
-    repository_root = args.repository_root.resolve()
-
     data = {
         "schema_version": "2.3.0",
-        "work_id": args.work_id,
+        "work_id": work_id,
         "current_state": "PROBLEM_ALIGNMENT",
         "current_run_id": "RUN-" + uuid.uuid4().hex[:12].upper(),
         "model_profile": args.profile,
@@ -248,6 +258,12 @@ def prepare_delegation(args: argparse.Namespace) -> int:
     data = load_data(args.file)
     validate_state(data)
     route = resolve_route(data)
+    if data["current_state"] == "RECONCILIATION":
+        hygiene = audit_work_directory(data, require_clean=True)
+        if hygiene["status"] != "PASS":
+            raise ValueError(
+                "workspace hygiene blocks reconciliation: " + "; ".join(hygiene["violations"])
+            )
 
     track = None
     if route.get("composite"):
@@ -278,7 +294,7 @@ def prepare_delegation(args: argparse.Namespace) -> int:
         artifact_inputs.append({"ref": reference, "sha256": digest})
 
     ignored = {
-        "mode": "human_approved" if args.ignored_file_approval_ref else "deny",
+        "mode": "human_approved" if args.ignored_file_approval_ref else "allow",
         "human_approval_ref": args.ignored_file_approval_ref,
     }
     work_prefix = Path(data["work_directory"]).as_posix()
@@ -311,12 +327,16 @@ def prepare_delegation(args: argparse.Namespace) -> int:
         },
         "lifecycle": lifecycle,
         "objective": {"statement": args.objective, "completion_criteria": args.criterion},
-        "workspace": {"root": data["repository_root"], "discovery": WORKSPACE_POLICY["discovery_defaults"]},
+        "workspace": {
+            "root": data["repository_root"],
+            "active_work_directory": work_prefix,
+            "discovery": WORKSPACE_POLICY["discovery_defaults"],
+        },
         "permissions": {
             "workspace_read": "allow",
             "outside_workspace": "deny",
             "source_write": source_write_mode,
-            "governance_artifact_write": ".t-think/**",
+            "governance_artifact_write": f"{work_prefix}/**",
             "approved_write_targets": args.approved_write_target,
             "generated_output_paths": args.generated_output,
             "protected_paths": WORKSPACE_POLICY["protected_paths"],
@@ -348,6 +368,62 @@ def prepare_delegation(args: argparse.Namespace) -> int:
     print(output)
     return 0
 
+
+
+def intake_command(args: argparse.Namespace) -> int:
+    payload = intake_questions(args.task)
+    if args.format == "json":
+        print(json.dumps(payload, indent=2))
+    else:
+        first, second = payload["questions"]
+        print(f"1. {first['question']} Saran: {first['suggestion']}")
+        print(f"2. {second['question']}")
+    return 0
+
+
+def audit_workdir_command(args: argparse.Namespace) -> int:
+    data = load_data(args.file)
+    validate_state(data)
+    report = audit_work_directory(data, require_clean=args.require_clean)
+    if args.out:
+        dump_data(args.out, report)
+    print(json.dumps(report, indent=2))
+    return 1 if report["status"] == "FAIL" else 0
+
+
+def cleanup_workdir_command(args: argparse.Namespace) -> int:
+    data = load_data(args.file)
+    validate_state(data)
+    repository_root = Path(data["repository_root"]).resolve()
+    work_dir = repository_root / canonical_work_directory(data["work_id"])
+    scratch = work_dir / "scratch"
+    removed: list[str] = []
+    if scratch.is_dir():
+        for child in sorted(scratch.iterdir(), key=lambda item: item.as_posix(), reverse=True):
+            for file in ([child] if child.is_file() or child.is_symlink() else [p for p in child.rglob("*") if p.is_file() or p.is_symlink()]):
+                removed.append(file.relative_to(repository_root).as_posix())
+            if child.is_dir() and not child.is_symlink():
+                shutil.rmtree(child)
+            else:
+                child.unlink(missing_ok=True)
+    if args.prune_forbidden_temporary:
+        policy = workspace_hygiene_policy()
+        temp_exts = {value.lower() for value in policy["forbidden_temporary_extensions_outside_scratch"]}
+        candidates = []
+        governance_root = repository_root / ".t-think"
+        if governance_root.is_dir():
+            candidates.extend(child for child in governance_root.iterdir() if child.is_file())
+        if work_dir.is_dir():
+            candidates.extend(child for child in work_dir.iterdir() if child.is_file() and child.name != "state.yaml")
+        for file in candidates:
+            if file.suffix.lower() in temp_exts:
+                removed.append(file.relative_to(repository_root).as_posix())
+                file.unlink(missing_ok=True)
+    report = audit_work_directory(data, require_clean=True, removed_files=removed)
+    out = args.out or work_dir / "artifacts" / "workspace-hygiene.yaml"
+    dump_data(out, report)
+    print(json.dumps({"report": out.relative_to(repository_root).as_posix(), **report}, indent=2))
+    return 1 if report["status"] == "FAIL" else 0
 
 
 def paths_command(args: argparse.Namespace) -> int:
@@ -383,7 +459,7 @@ def main() -> int:
         default="economy",
     )
     command.add_argument(
-        "--lane", choices=["auto", "quick", "standard", "full"], default="auto"
+        "--lane", choices=["quick", "standard", "full"], required=True
     )
     command.add_argument("--approval-ref")
     add_common_risk_arguments(command)
@@ -409,6 +485,20 @@ def main() -> int:
     command.add_argument("--reason", required=True)
     command.add_argument("--approval-ref")
     add_common_risk_arguments(command)
+
+    command = subparsers.add_parser("intake", help="Generate the mandatory two-question problem-alignment bootstrap")
+    command.add_argument("--task", required=True)
+    command.add_argument("--format", choices=["text", "json"], default="text")
+
+    command = subparsers.add_parser("audit-workdir", help="Validate active .t-think/<work-id> isolation and scratch hygiene")
+    command.add_argument("--file", type=Path, required=True)
+    command.add_argument("--require-clean", action="store_true")
+    command.add_argument("--out", type=Path)
+
+    command = subparsers.add_parser("cleanup-workdir", help="Remove active scratch files and audit workspace hygiene")
+    command.add_argument("--file", type=Path, required=True)
+    command.add_argument("--prune-forbidden-temporary", action="store_true")
+    command.add_argument("--out", type=Path)
 
     command = subparsers.add_parser("paths", help="Resolve an installed skill resource with native path semantics")
     command.add_argument("--skill", required=True)
@@ -447,6 +537,12 @@ def main() -> int:
         return 0
     if args.cmd == "promote":
         return promote_command(args)
+    if args.cmd == "intake":
+        return intake_command(args)
+    if args.cmd == "audit-workdir":
+        return audit_workdir_command(args)
+    if args.cmd == "cleanup-workdir":
+        return cleanup_workdir_command(args)
     if args.cmd == "paths":
         return paths_command(args)
     if args.cmd == "prepare-delegation":

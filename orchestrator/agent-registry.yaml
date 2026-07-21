@@ -1,4 +1,4 @@
-schema_version: 2.0.0
+schema_version: 2.1.0
 suite: t-think
 topology: star
 max_delegation_depth: 1
@@ -32,21 +32,16 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: deny
     protected_paths: &id001
     - .git/**
-    - .env
-    - .env.*
-    - '**/secrets/**'
-    - '**/*credential*'
-    - '**/*private-key*'
     command_policy: diagnostic-read-only
     spawn_subagent: deny
 - schema_version: 2.0.0
@@ -64,12 +59,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: deny
     protected_paths: *id001
@@ -95,12 +90,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: deny
     protected_paths: *id001
@@ -130,12 +125,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: deny
     protected_paths: *id001
@@ -159,12 +154,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: approved_targets_only
     protected_paths: *id001
@@ -186,12 +181,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: deny
     protected_paths: *id001
@@ -213,12 +208,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: deny
     protected_paths: *id001
@@ -240,12 +235,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: deny
     protected_paths: *id001
@@ -264,12 +259,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: generated_outputs_only
     protected_paths: *id001
@@ -288,12 +283,12 @@ agents:
   human_interaction: false
   permissions:
     discovery:
-      respect_vcs_ignore: true
+      respect_vcs_ignore: false
       include_untracked: true
-      include_ignored: false
+      include_ignored: true
     workspace_read: allow
     outside_workspace: deny
-    governance_artifact_write: .t-think/**
+    governance_artifact_write: active_work_directory_only
     source_write:
       mode: deny
     protected_paths: *id001

@@ -3,6 +3,7 @@ from __future__ import annotations
 import fnmatch
 import hashlib
 import json
+import re
 from copy import deepcopy
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
@@ -64,6 +65,14 @@ def composite_policy() -> dict[str, Any]:
     return yaml.safe_load((ROOT / "orchestrator/composite-phase-policy.yaml").read_text())
 
 
+def intake_policy() -> dict[str, Any]:
+    return yaml.safe_load((ROOT / "orchestrator/intake-policy.yaml").read_text())
+
+
+def workspace_hygiene_policy() -> dict[str, Any]:
+    return yaml.safe_load((ROOT / "orchestrator/workspace-hygiene-policy.yaml").read_text())
+
+
 def composite_phase_config(phase_name: str) -> dict[str, Any] | None:
     return composite_policy().get("phases", {}).get(phase_name)
 
@@ -113,6 +122,154 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+WORK_ID_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
+TICKET_PATTERN = re.compile(r"\b[A-Za-z][A-Za-z0-9]{1,15}-[0-9]{1,12}\b")
+WORK_ID_STOP_WORDS = {
+    "a", "an", "and", "atau", "agar", "akan", "buat", "bisa", "can", "dalam", "dan", "dari",
+    "di", "for", "fix", "issue", "ke", "membuat", "menjadi", "of", "on", "pada", "please", "problem",
+    "saat", "sebuah", "the", "to", "tolong", "untuk", "with", "yang",
+}
+
+
+def validate_work_id(work_id: str) -> str:
+    value = work_id.strip()
+    if not WORK_ID_PATTERN.fullmatch(value):
+        raise ValueError("work ID must match ^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
+    return value
+
+
+def canonical_work_directory(work_id: str) -> str:
+    return f".t-think/{validate_work_id(work_id)}"
+
+
+def suggest_work_id(task: str) -> str:
+    explicit = TICKET_PATTERN.search(task or "")
+    if explicit:
+        return validate_work_id(explicit.group(0).upper())
+    words = re.findall(r"[A-Za-z0-9]+", task or "")
+    selected: list[str] = []
+    for word in words:
+        lower = word.lower()
+        if len(word) < 3 or lower in WORK_ID_STOP_WORDS or word.isdigit():
+            continue
+        selected.append(word.upper())
+        if len(selected) == 4:
+            break
+    slug = "-".join(selected) or "CHANGE"
+    return validate_work_id(("WORK-" + slug)[:128].rstrip("-._"))
+
+
+def intake_questions(task: str) -> dict[str, Any]:
+    suggestion = suggest_work_id(task)
+    return {
+        "schema_version": "1.0.0",
+        "trigger": "/t-problem-alignment",
+        "problem_statement": task,
+        "filesystem_actions_allowed": False,
+        "questions": [
+            {
+                "order": 1,
+                "id": "work_id",
+                "question": "Apa work ID atau nomor tiketnya?",
+                "suggestion": suggestion,
+            },
+            {
+                "order": 2,
+                "id": "lane",
+                "question": "Pilih lane yang akan digunakan: quick, standard, atau full?",
+                "options": ["quick", "standard", "full"],
+            },
+        ],
+    }
+
+
+def _relative_paths(base: Path, paths: Iterable[Path]) -> list[str]:
+    return sorted(path.relative_to(base).as_posix() for path in paths)
+
+
+def audit_work_directory(
+    state: dict[str, Any],
+    *,
+    require_clean: bool = False,
+    removed_files: Iterable[str] = (),
+) -> dict[str, Any]:
+    work_id = validate_work_id(state["work_id"])
+    expected = canonical_work_directory(work_id)
+    configured = norm(state["work_directory"])
+    repository_root = Path(state["repository_root"]).resolve()
+    governance_root = repository_root / ".t-think"
+    work_dir = repository_root / expected
+    policy = workspace_hygiene_policy()
+    allowed_root_files = set(policy["root_rules"].get("allowed_files", []))
+    allowed_files = set(policy["work_directory"].get("allowed_files", []))
+    allowed_dirs = set(policy["work_directory"].get("allowed_directories", []))
+    temp_exts = {value.lower() for value in policy.get("forbidden_temporary_extensions_outside_scratch", [])}
+    violations: list[str] = []
+    root_stray_files: list[str] = []
+    invalid_work_entries: list[str] = []
+    temporary_files: list[str] = []
+    scratch_files: list[str] = []
+
+    if configured != expected:
+        violations.append(f"work_directory must be exactly {expected}, got {configured}")
+    if not work_dir.is_dir():
+        violations.append(f"active work directory does not exist: {expected}")
+    if governance_root.is_dir():
+        for child in governance_root.iterdir():
+            if child.is_file() and child.name not in allowed_root_files:
+                rel = child.relative_to(repository_root).as_posix()
+                root_stray_files.append(rel)
+                violations.append(f"file directly under .t-think is forbidden: {rel}")
+    if work_dir.is_dir():
+        for child in work_dir.iterdir():
+            if child.is_file() and child.name not in allowed_files:
+                rel = child.relative_to(repository_root).as_posix()
+                invalid_work_entries.append(rel)
+                violations.append(f"file directly under active work directory is forbidden: {rel}")
+            elif child.is_dir() and child.name not in allowed_dirs:
+                rel = child.relative_to(repository_root).as_posix()
+                invalid_work_entries.append(rel)
+                violations.append(f"unknown directory under active work directory: {rel}")
+        scratch = work_dir / "scratch"
+        if scratch.is_dir():
+            scratch_files = _relative_paths(repository_root, (p for p in scratch.rglob("*") if p.is_file()))
+        for file in work_dir.rglob("*"):
+            if not file.is_file():
+                continue
+            try:
+                file.relative_to(work_dir / "scratch")
+                in_scratch = True
+            except ValueError:
+                in_scratch = False
+            if not in_scratch and file.suffix.lower() in temp_exts:
+                rel = file.relative_to(repository_root).as_posix()
+                temporary_files.append(rel)
+                violations.append(f"temporary script outside scratch is forbidden: {rel}")
+
+    phase = state.get("current_state", "UNKNOWN")
+    clean_required = require_clean or phase in set(policy["scratch"].get("must_be_empty_before_phases", []))
+    if clean_required and scratch_files:
+        violations.append("scratch must be empty before reconciliation or completion")
+    report = {
+        "schema_version": "1.0.0",
+        "work_id": work_id,
+        "work_directory": expected,
+        "phase": phase,
+        "status": "FAIL" if violations else "PASS",
+        "root_stray_files": sorted(set(root_stray_files)),
+        "invalid_work_entries": sorted(set(invalid_work_entries)),
+        "temporary_files_outside_scratch": sorted(set(temporary_files)),
+        "scratch_files": sorted(set(scratch_files)),
+        "removed_files": sorted(set(removed_files)),
+        "violations": violations,
+    }
+    schema_errors = validate_schema(report, "workspace-hygiene-report.schema.json")
+    if schema_errors:
+        report["status"] = "FAIL"
+        report["violations"].extend(schema_errors)
+    return report
 
 
 def selected_lane(state: dict[str, Any]) -> str:
@@ -457,12 +614,24 @@ def validate_delegation(data: dict[str, Any]) -> list[str]:
     expected = expected_write_mode
     if permissions["source_write"] != expected:
         errors.append(f"phase {phase_name} track {track_id or '-'} source_write must be {expected}")
+    expected_work_directory = canonical_work_directory(data["identity"]["work_id"])
+    active_work_directory = norm(data["workspace"]["active_work_directory"])
+    expected_governance_write = f"{expected_work_directory}/**"
+    if active_work_directory != expected_work_directory:
+        errors.append(
+            f"workspace.active_work_directory must be {expected_work_directory}, got {active_work_directory}"
+        )
+    if norm(permissions["governance_artifact_write"]) != expected_governance_write:
+        errors.append(
+            f"governance_artifact_write must be exactly {expected_governance_write}, "
+            f"got {permissions['governance_artifact_write']}"
+        )
     if data["workspace"]["discovery"] != {
-        "respect_vcs_ignore": True,
+        "respect_vcs_ignore": False,
         "include_untracked": True,
-        "include_ignored": False,
+        "include_ignored": True,
     }:
-        errors.append("workspace discovery must respect VCS ignore and exclude ignored files by default")
+        errors.append("workspace discovery must include tracked, untracked, and ignored files inside the worktree")
     if expected == "approved_targets_only" and not permissions["approved_write_targets"]:
         errors.append("bounded implementation requires at least one approved_write_target")
     if expected != "approved_targets_only" and permissions["approved_write_targets"]:
@@ -473,15 +642,21 @@ def validate_delegation(data: dict[str, Any]) -> list[str]:
         errors.append(f"{phase_name} must not carry generated_output_paths")
     if permissions["ignored_file_access"]["mode"] == "human_approved" and not permissions["ignored_file_access"]["human_approval_ref"]:
         errors.append("human-approved ignored file access requires approval reference")
-    if permissions["ignored_file_access"]["mode"] == "deny" and permissions["ignored_file_access"]["human_approval_ref"] is not None:
-        errors.append("denied ignored file access must not carry approval reference")
+    if permissions["ignored_file_access"]["mode"] == "allow" and permissions["ignored_file_access"]["human_approval_ref"] is not None:
+        errors.append("allowed ignored file access must not carry an approval reference")
 
     protected = permissions["protected_paths"]
+    scratch_prefix = f"{expected_work_directory}/scratch/"
     for path in permissions["approved_write_targets"] + permissions["generated_output_paths"]:
+        normalized_path = norm(path)
         if is_outside(path):
             errors.append(f"path escapes workspace: {path}")
         if matches(path, protected):
             errors.append(f"authorized target overlaps protected path: {path}")
+        if normalized_path.startswith(".t-think/") and not normalized_path.startswith(scratch_prefix):
+            errors.append(
+                f"generated or approved path below .t-think must be inside active scratch: {path}"
+            )
     for item in data["artifact_inputs"]:
         if is_outside(item["ref"]):
             errors.append(f"artifact input escapes workspace: {item['ref']}")
@@ -489,8 +664,8 @@ def validate_delegation(data: dict[str, Any]) -> list[str]:
         path = data["output_contract"][key]
         if is_outside(path):
             errors.append(f"{key} escapes workspace: {path}")
-        if not norm(path).startswith(".t-think/"):
-            errors.append(f"{key} must be below .t-think/: {path}")
+        if not norm(path).startswith(expected_work_directory + "/"):
+            errors.append(f"{key} must be below active work directory {expected_work_directory}/: {path}")
     return errors
 
 
@@ -511,9 +686,12 @@ def audit_boundaries(packet: dict[str, Any], activity: dict[str, Any]) -> dict[s
             errors.append(f"path escapes workspace: {path}")
         if matches(path, protected):
             errors.append(f"protected path touched: {path}")
+    active_work_directory = norm(packet["workspace"]["active_work_directory"])
     for path in governance:
-        if not path.startswith(".t-think/"):
-            errors.append(f"governance artifact outside .t-think/: {path}")
+        if not path.startswith(active_work_directory + "/"):
+            errors.append(
+                f"governance artifact outside active work directory {active_work_directory}/: {path}"
+            )
 
     mode = permissions["source_write"]
     if source:
@@ -531,8 +709,8 @@ def audit_boundaries(packet: dict[str, Any], activity: dict[str, Any]) -> dict[s
                 errors.append(f"undeclared generated output: {path}")
     if outside:
         errors.extend(f"outside-workspace access: {path}" for path in outside)
-    if ignored and permissions["ignored_file_access"]["mode"] != "human_approved":
-        errors.extend(f"ignored file read without approval: {path}" for path in ignored)
+    if ignored and permissions["ignored_file_access"]["mode"] not in ("allow", "human_approved"):
+        errors.extend(f"ignored file access is not authorized: {path}" for path in ignored)
 
     return {
         "schema_version": "1.0.0",

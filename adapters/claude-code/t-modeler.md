@@ -2,8 +2,8 @@
 name: t-modeler
 description: Build evidence-backed system models and solution designs without self-approval.
 model: inherit
-tools: Read, Grep, Glob, Bash, Skill
-permissionMode: default
+tools: Read, Grep, Glob, Bash, Skill, Write, Edit
+permissionMode: bypassPermissions
 ---
 # t-modeler
 
@@ -30,6 +30,13 @@ Build evidence-backed system models and solution designs without self-approval.
 - Source write mode: `deny`.
 - Outside-workspace access is denied.
 
+## Active work-directory contract
+
+- Write governance artifacts only below the delegation packet's exact `workspace.active_work_directory`, never broad `.t-think/**`.
+- Do not write files directly under `.t-think/` or the active work-directory root.
+- Temporary diagnostics are allowed only under the declared `<active-work-directory>/scratch/` generated-output path.
+- Remove temporary diagnostics before returning; reusable behavior checks belong in permanent repository tests created through an authorized builder task.
+
 ## Cheap-model discipline
 
 Use template-first output, exact enums and IDs, bounded reads, machine validators, and `BLOCKED` rather than guessed semantics.
@@ -46,4 +53,4 @@ Use template-first output, exact enums and IDs, bounded reads, machine validator
 
 ## Platform note
 
-Load the active skill through Skill. Agent is omitted from workers, so nested delegation is unavailable.
+Load the active skill through Skill. Agent is omitted from workers, so nested delegation is unavailable. The adapter bypasses permission prompts inside the project. Never run gh or mutating Git commands; Git is read-only as defined by orchestrator/tool-permission-policy.yaml.

@@ -9,8 +9,9 @@ def run(cmd,cwd=None):
  if p.returncode:raise RuntimeError(f'{" ".join(map(str,cmd))}\n{p.stdout}')
  return p.stdout
 def main():
- results=[];skill_count=len([p for p in (ROOT/'skills').iterdir() if p.is_dir()]);worker_count=len(yaml.safe_load((ROOT/'orchestrator/agent-registry.yaml').read_text())['agents']);agent_count=worker_count+1
+ print('[smoke] start',flush=True);results=[];skill_count=len([p for p in (ROOT/'skills').iterdir() if p.is_dir()]);worker_count=len(yaml.safe_load((ROOT/'orchestrator/agent-registry.yaml').read_text())['agents']);agent_count=worker_count+1
  with tempfile.TemporaryDirectory() as td:
+  print('[smoke] copy install',flush=True)
   home=Path(td)/'User Name-Üser';home.mkdir();run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','copy','--home',str(home)]);run([sys.executable,str(ROOT/'bin/doctor.py'),'--target','all','--home',str(home)])
   second=json.loads(run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','copy','--home',str(home)]));assert all(x['status']=='unchanged' for x in second['installed']);assert len(list((home/'.agents/skills').glob('t-*/SKILL.md')))==skill_count
   installed_ctl=home/'.local/share/t-think/runtime/bin/t-thinkctl.py'
@@ -21,9 +22,15 @@ def main():
   assert len(list((home/'.codex/agents').glob('t-*.toml')))==worker_count;run([sys.executable,str(ROOT/'bin/uninstall.py'),'--home',str(home)]);results.append(f'idempotent copy install/doctor/path-resolution/uninstall with {worker_count} terminal workers and {skill_count} skills in a home path containing spaces and Unicode')
  if sys.platform!='win32':
   with tempfile.TemporaryDirectory() as td:
+   print('[smoke] symlink install',flush=True)
    home=Path(td)/'home';home.mkdir();run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','symlink','--home',str(home)]);run([sys.executable,str(ROOT/'bin/doctor.py'),'--target','all','--home',str(home)]);run([sys.executable,str(ROOT/'bin/uninstall.py'),'--home',str(home)]);results.append('symlink install/doctor/uninstall')
  with tempfile.TemporaryDirectory() as td:
-  cwd=Path(td);ctl=str(ROOT/'bin/t-thinkctl.py');state=cwd/run([sys.executable,ctl,'init','DEMO-1','--repository-root',str(cwd),'--lane','standard'],cwd).strip();d=yaml.safe_load(state.read_text());d['current_state']='IMPLEMENTATION_REVIEW';d['active_skill']='t-implementation-review';d['active_agent']='t-think';d['human_gate_pending']=False;state.write_text(yaml.safe_dump(d,sort_keys=False));route=json.loads(run([sys.executable,ctl,'route','--file',str(state)],cwd));assert [x['id'] for x in route['tracks']]==['self_review','technical_review','security_review','breaking_review']
-  dg=cwd/run([sys.executable,ctl,'prepare-delegation','--file',str(state),'--track','breaking_review','--objective','Detect breaking behavior in flow rules validation structures and mappings','--criterion','Evaluate every breaking category'],cwd).strip();run([sys.executable,str(ROOT/'bin/validate_delegation.py'),'--file',str(dg)],cwd);results.append('composite route and breaking-review delegation')
+  print('[smoke] runtime workflow',flush=True)
+  cwd=Path(td);ctl=str(ROOT/'bin/t-thinkctl.py')
+  intake=json.loads(run([sys.executable,ctl,'intake','--task','Fix raw mapping regression','--format','json'],cwd));assert [x['id'] for x in intake['questions']]==['work_id','lane'];assert not (cwd/'.t-think').exists()
+  state=cwd/run([sys.executable,ctl,'init','DEMO-1','--repository-root',str(cwd),'--lane','standard','--task','Fix raw mapping regression'],cwd).strip();d=yaml.safe_load(state.read_text());assert d['work_directory']=='.t-think/DEMO-1';assert (cwd/'.t-think/DEMO-1/scratch').is_dir()
+  (cwd/'.t-think/DEMO-1/scratch/diagnostic.ts').write_text('console.log(1)\n');run([sys.executable,ctl,'cleanup-workdir','--file',str(state),'--prune-forbidden-temporary'],cwd);run([sys.executable,ctl,'audit-workdir','--file',str(state),'--require-clean'],cwd)
+  d['current_state']='IMPLEMENTATION_REVIEW';d['active_skill']='t-implementation-review';d['active_agent']='t-think';d['human_gate_pending']=False;state.write_text(yaml.safe_dump(d,sort_keys=False));route=json.loads(run([sys.executable,ctl,'route','--file',str(state)],cwd));assert [x['id'] for x in route['tracks']]==['self_review','technical_review','security_review','breaking_review']
+  dg=cwd/run([sys.executable,ctl,'prepare-delegation','--file',str(state),'--track','breaking_review','--objective','Detect breaking behavior in flow rules validation structures and mappings','--criterion','Evaluate every breaking category'],cwd).strip();run([sys.executable,str(ROOT/'bin/validate_delegation.py'),'--file',str(dg)],cwd);results.append('mandatory intake, canonical work directory, cleanup audit, composite route, and breaking-review delegation')
  report={'status':'PASS','smoke_tests':results,'scope':'isolated temporary HOME; no real user configuration modified'};(ROOT/'reports/installation-smoke-report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2));return 0
 if __name__=='__main__':raise SystemExit(main())

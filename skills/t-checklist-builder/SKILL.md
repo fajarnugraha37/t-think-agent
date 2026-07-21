@@ -1,7 +1,7 @@
 ---
 name: t-checklist-builder
 description: Convert every approved plan operation into one atomic, dependency-aware, test- and rollback-bound checklist item.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: IMPLEMENTATION_BLUEPRINT
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
@@ -63,6 +63,10 @@ This phase is designed to remain reliable on economical coding models. Follow th
 6. Do not make a decision owned by another phase. Route to the earliest responsible phase.
 7. If tool output is large, save it as evidence and summarize it with exact references rather than retaining raw logs in conversational context.
 8. Repository mutation is forbidden unless this is `t-bounded-implementation`.
+
+## Durable-test checklist rule
+
+Create an atomic builder task for each required permanent test. If a proposed `verify-*.ts`, `check-*.py`, shell script, or similar file asserts reusable product behavior, convert it into the repository's actual unit, integration, contract, or regression test target. Do not authorize such scripts under `.t-think/`.
 
 <!-- BEGIN T-THINK PORTABLE RESOURCE CONTRACT -->
 ## Portable resource contract

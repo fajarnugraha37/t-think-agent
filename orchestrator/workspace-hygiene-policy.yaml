@@ -1,0 +1,56 @@
+schema_version: 1.0.0
+policy: work-directory-isolation-and-cleanup
+workspace_root: .t-think
+canonical_work_directory: .t-think/<work-id>
+root_rules:
+  allowed_files:
+  - .gitignore
+  allow_work_directories_only: true
+  prohibit_governance_artifacts_at_root: true
+work_directory:
+  allowed_files:
+  - state.yaml
+  allowed_directories:
+  - artifacts
+  - delegations
+  - results
+  - boundary-reports
+  - evidence
+  - scratch
+scratch:
+  directory: .t-think/<work-id>/scratch
+  purpose: Ephemeral diagnostics that cannot reasonably become durable repository tests.
+  allowed_only_when_declared_as_generated_output: true
+  must_be_empty_before_phases:
+  - RECONCILIATION
+  - COMPLETED
+  cleanup_command: python3 bin/t-thinkctl.py cleanup-workdir --file .t-think/<work-id>/state.yaml --prune-forbidden-temporary
+permanent_test_policy:
+  prefer_repository_test: true
+  rule: If a script verifies reusable product behavior or guards a regression, add or update a real repository test through BOUNDED_IMPLEMENTATION instead of leaving a one-off script.
+  one_off_script_allowed_only_for:
+  - environment diagnosis
+  - data inspection without reusable assertions
+  - toolchain probing
+  - migration rehearsal output that is not a product test
+forbidden_temporary_extensions_outside_scratch:
+- .py
+- .pyw
+- .js
+- .mjs
+- .cjs
+- .ts
+- .mts
+- .cts
+- .sh
+- .bash
+- .zsh
+- .fish
+- .ps1
+- .bat
+- .cmd
+- .rb
+- .pl
+- .php
+- .groovy
+- .kts

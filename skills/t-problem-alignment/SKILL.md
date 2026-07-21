@@ -1,7 +1,7 @@
 ---
 name: t-problem-alignment
 description: Clarify and obtain human approval for problem meaning before repository investigation.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: PROBLEM_ALIGNMENT
 next_state: INVESTIGATION
 input_schema: schemas/input.schema.json
@@ -15,6 +15,45 @@ metadata:
   cost-profile: economy-compatible
 ---
 # Problem Alignment Skill
+
+## 0. Mandatory `/t-problem-alignment` bootstrap
+
+When the human invokes:
+
+```text
+/t-problem-alignment [problem statement]
+```
+
+the first response must ask exactly these two bootstrap questions, in this order, in one response:
+
+1. **Work ID or ticket number** — ask `Apa work ID atau nomor tiketnya?` and include one concrete suggested ID derived from the problem statement. Prefer an explicit ticket-like token already present; otherwise use the deterministic suggestion returned by `t-thinkctl.py intake --task "<problem statement>"`.
+2. **Lane** — ask `Pilih lane yang akan digunakan: quick, standard, atau full?` and present exactly those three choices.
+
+These questions are mandatory even when an ID or lane seems inferable. Treat an inline value as a suggestion to confirm, not as permission to skip the question.
+
+Before both answers are explicitly provided, the agent must not:
+
+- create `.t-think`, a work directory, or any artifact;
+- read repository files;
+- run investigation, classification, planning, or implementation;
+- silently select `auto` or any lane;
+- use a guessed work ID.
+
+After both answers are provided:
+
+1. validate the work ID against `^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$`;
+2. initialize exactly `.t-think/<work-id>/`;
+3. initialize with the human-selected lane, never `auto`;
+4. write every governance artifact only below `.t-think/<work-id>/`;
+5. continue normal problem-alignment clarification.
+
+The canonical bootstrap command is:
+
+```bash
+python3 bin/t-thinkctl.py init <work-id> --lane <quick|standard|full> --task "<problem statement>"
+```
+
+If either answer is missing, remain conversational and ask only the missing bootstrap question. Do not create files.
 
 ## 1. Mission
 

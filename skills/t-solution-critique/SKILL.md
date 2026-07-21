@@ -1,7 +1,7 @@
 ---
 name: t-solution-critique
 description: Assess solution critiques, record human selection and risk acceptance, and freeze the approved solution contract.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: SOLUTION_CRITIQUE
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:

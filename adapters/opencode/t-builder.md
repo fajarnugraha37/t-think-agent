@@ -3,25 +3,187 @@ description: Execute authorized blueprint tasks and perform a fresh self-review 
 mode: subagent
 temperature: 0.1
 permission:
-  read: allow
-  glob: allow
-  grep: allow
-  list: allow
-  skill: allow
+  '*': allow
   external_directory:
     '*': deny
     ~/.agents/skills/t-*/**: allow
     ~/.claude/skills/t-*/**: allow
     ~/.config/opencode/skills/t-*/**: allow
     ~/.local/share/t-think/runtime/**: allow
-  task: deny
-  bash: ask
   edit:
-    '*': ask
+    '*': allow
+    .git: deny
+    .git/**: deny
     ~/.agents/skills/t-*/**: deny
     ~/.claude/skills/t-*/**: deny
     ~/.config/opencode/skills/t-*/**: deny
     ~/.local/share/t-think/runtime/**: deny
+  bash:
+    '*': allow
+    git: deny
+    git *: deny
+    git status: allow
+    git status *: allow
+    git --no-pager status: allow
+    git --no-pager status *: allow
+    git diff: allow
+    git diff *: allow
+    git --no-pager diff: allow
+    git --no-pager diff *: allow
+    git log: allow
+    git log *: allow
+    git --no-pager log: allow
+    git --no-pager log *: allow
+    git show: allow
+    git show *: allow
+    git --no-pager show: allow
+    git --no-pager show *: allow
+    git rev-parse: allow
+    git rev-parse *: allow
+    git --no-pager rev-parse: allow
+    git --no-pager rev-parse *: allow
+    git ls-files: allow
+    git ls-files *: allow
+    git --no-pager ls-files: allow
+    git --no-pager ls-files *: allow
+    git ls-tree: allow
+    git ls-tree *: allow
+    git --no-pager ls-tree: allow
+    git --no-pager ls-tree *: allow
+    git grep: allow
+    git grep *: allow
+    git --no-pager grep: allow
+    git --no-pager grep *: allow
+    git cat-file: allow
+    git cat-file *: allow
+    git --no-pager cat-file: allow
+    git --no-pager cat-file *: allow
+    git blame: allow
+    git blame *: allow
+    git --no-pager blame: allow
+    git --no-pager blame *: allow
+    git shortlog: allow
+    git shortlog *: allow
+    git --no-pager shortlog: allow
+    git --no-pager shortlog *: allow
+    git describe: allow
+    git describe *: allow
+    git --no-pager describe: allow
+    git --no-pager describe *: allow
+    git check-ignore: allow
+    git check-ignore *: allow
+    git --no-pager check-ignore: allow
+    git --no-pager check-ignore *: allow
+    git merge-base: allow
+    git merge-base *: allow
+    git --no-pager merge-base: allow
+    git --no-pager merge-base *: allow
+    git name-rev: allow
+    git name-rev *: allow
+    git --no-pager name-rev: allow
+    git --no-pager name-rev *: allow
+    git for-each-ref: allow
+    git for-each-ref *: allow
+    git --no-pager for-each-ref: allow
+    git --no-pager for-each-ref *: allow
+    git rev-list: allow
+    git rev-list *: allow
+    git --no-pager rev-list: allow
+    git --no-pager rev-list *: allow
+    git diff-tree: allow
+    git diff-tree *: allow
+    git --no-pager diff-tree: allow
+    git --no-pager diff-tree *: allow
+    git diff-index: allow
+    git diff-index *: allow
+    git --no-pager diff-index: allow
+    git --no-pager diff-index *: allow
+    git diff-files: allow
+    git diff-files *: allow
+    git --no-pager diff-files: allow
+    git --no-pager diff-files *: allow
+    git show-ref: allow
+    git show-ref *: allow
+    git --no-pager show-ref: allow
+    git --no-pager show-ref *: allow
+    git status --porcelain: allow
+    git status --porcelain *: allow
+    git --no-pager status --porcelain: allow
+    git --no-pager status --porcelain *: allow
+    git branch --show-current: allow
+    git branch --show-current *: allow
+    git --no-pager branch --show-current: allow
+    git --no-pager branch --show-current *: allow
+    git branch --list: allow
+    git branch --list *: allow
+    git --no-pager branch --list: allow
+    git --no-pager branch --list *: allow
+    git tag --list: allow
+    git tag --list *: allow
+    git --no-pager tag --list: allow
+    git --no-pager tag --list *: allow
+    git remote -v: allow
+    git remote -v *: allow
+    git --no-pager remote -v: allow
+    git --no-pager remote -v *: allow
+    git remote get-url: allow
+    git remote get-url *: allow
+    git --no-pager remote get-url: allow
+    git --no-pager remote get-url *: allow
+    git config --get: allow
+    git config --get *: allow
+    git --no-pager config --get: allow
+    git --no-pager config --get *: allow
+    git config --get-all: allow
+    git config --get-all *: allow
+    git --no-pager config --get-all: allow
+    git --no-pager config --get-all *: allow
+    git config --get-regexp: allow
+    git config --get-regexp *: allow
+    git --no-pager config --get-regexp: allow
+    git --no-pager config --get-regexp *: allow
+    git config --list: allow
+    git config --list *: allow
+    git --no-pager config --list: allow
+    git --no-pager config --list *: allow
+    git symbolic-ref HEAD: allow
+    git symbolic-ref HEAD *: allow
+    git --no-pager symbolic-ref HEAD: allow
+    git --no-pager symbolic-ref HEAD *: allow
+    git symbolic-ref --short HEAD: allow
+    git symbolic-ref --short HEAD *: allow
+    git --no-pager symbolic-ref --short HEAD: allow
+    git --no-pager symbolic-ref --short HEAD *: allow
+    git submodule status: allow
+    git submodule status *: allow
+    git --no-pager submodule status: allow
+    git --no-pager submodule status *: allow
+    git worktree list: allow
+    git worktree list *: allow
+    git --no-pager worktree list: allow
+    git --no-pager worktree list *: allow
+    git stash list: allow
+    git stash list *: allow
+    git --no-pager stash list: allow
+    git --no-pager stash list *: allow
+    git reflog show: allow
+    git reflog show *: allow
+    git --no-pager reflog show: allow
+    git --no-pager reflog show *: allow
+    cd .git: deny
+    cd .git *: deny
+    cd .git/*: deny
+    cd .git\*: deny
+    '* .git/config *': deny
+    '* .git/HEAD *': deny
+    '* .git/refs/*': deny
+    '* .git\config *': deny
+    '* .git\HEAD *': deny
+    '* .git\refs\*': deny
+    gh: deny
+    gh *: deny
+  task: deny
+  doom_loop: allow
 ---
 # t-builder
 
@@ -48,6 +210,13 @@ Execute authorized blueprint tasks and perform a fresh self-review track.
 - Source write mode: `approved_targets_only`.
 - Outside-workspace access is denied.
 
+## Active work-directory contract
+
+- Write governance artifacts only below the delegation packet's exact `workspace.active_work_directory`, never broad `.t-think/**`.
+- Do not write files directly under `.t-think/` or the active work-directory root.
+- Temporary diagnostics are allowed only under the declared `<active-work-directory>/scratch/` generated-output path.
+- Remove temporary diagnostics before returning; reusable behavior checks belong in permanent repository tests created through an authorized builder task.
+
 ## Cheap-model discipline
 
 Use template-first output, exact enums and IDs, bounded reads, machine validators, and `BLOCKED` rather than guessed semantics.
@@ -64,4 +233,4 @@ Use template-first output, exact enums and IDs, bounded reads, machine validator
 
 ## Platform note
 
-Load exactly the delegated skill. Return one bounded result to t-think; never delegate recursively.
+Load exactly the delegated skill. Return one bounded result to t-think; never delegate recursively. Normal worktree tools are prompt-free. Never run gh. Use Git only for the explicit read-only commands in orchestrator/tool-permission-policy.yaml and never bypass that restriction through aliases, wrappers, or indirect shell invocation.

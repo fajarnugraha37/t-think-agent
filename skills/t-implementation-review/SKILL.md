@@ -1,7 +1,7 @@
 ---
 name: t-implementation-review
 description: Aggregate mandatory fresh review tracks according to the selected governance lane.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: IMPLEMENTATION_REVIEW
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:

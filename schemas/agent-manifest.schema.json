@@ -75,13 +75,13 @@
           ],
           "properties": {
             "respect_vcs_ignore": {
-              "const": true
+              "const": false
             },
             "include_untracked": {
               "type": "boolean"
             },
             "include_ignored": {
-              "const": false
+              "const": true
             }
           }
         },
@@ -92,7 +92,7 @@
           "const": "deny"
         },
         "governance_artifact_write": {
-          "const": ".t-think/**"
+          "const": "active_work_directory_only"
         },
         "source_write": {
           "type": "object",

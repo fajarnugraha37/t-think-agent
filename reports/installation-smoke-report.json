@@ -3,7 +3,7 @@
   "smoke_tests": [
     "idempotent copy install/doctor/path-resolution/uninstall with 10 terminal workers and 20 skills in a home path containing spaces and Unicode",
     "symlink install/doctor/uninstall",
-    "composite route and breaking-review delegation"
+    "mandatory intake, canonical work directory, cleanup audit, composite route, and breaking-review delegation"
   ],
   "scope": "isolated temporary HOME; no real user configuration modified"
 }

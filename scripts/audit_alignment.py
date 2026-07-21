@@ -57,6 +57,16 @@ def main():
   es=list(Draft202012Validator(schema).iter_errors(a))
   if es: issues.append(f'{a.get("name")}: invalid agent manifest: {[e.message for e in es]}')
   if a.get('permissions',{}).get('spawn_subagent')!='deny': issues.append(f'{a.get("name")}: nested delegation allowed')
+  if a.get('permissions',{}).get('governance_artifact_write')!='active_work_directory_only': issues.append(f'{a.get("name")}: broad governance artifact scope')
+ intake=yaml.safe_load((ROOT/'orchestrator/intake-policy.yaml').read_text())
+ if intake.get('trigger')!='/t-problem-alignment' or [q.get('id') for q in intake.get('questions',[])]!=['work_id','lane']: issues.append('mandatory intake policy mismatch')
+ if intake.get('rules',{}).get('create_no_files_before_both_answers') is not True: issues.append('intake may create files before answers')
+ hygiene=yaml.safe_load((ROOT/'orchestrator/workspace-hygiene-policy.yaml').read_text())
+ if hygiene.get('canonical_work_directory')!='.t-think/<work-id>': issues.append('canonical work directory policy mismatch')
+ if 'RECONCILIATION' not in hygiene.get('scratch',{}).get('must_be_empty_before_phases',[]): issues.append('scratch cleanup gate missing')
+ delegation=json.loads((ROOT/'schemas/delegation-packet.schema.json').read_text())
+ if 'active_work_directory' not in delegation['properties']['workspace']['required']: issues.append('delegation packet does not bind active work directory')
+ if 'Mandatory problem-alignment intake' not in (ROOT/'orchestrator/t-think-core.md').read_text(): issues.append('core intake contract missing')
  count=len(agents)+1
  for platform in ('opencode','claude-code','cursor'):
   got=len(list((ROOT/'adapters'/platform).glob('t-*.md')))

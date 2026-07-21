@@ -1,7 +1,7 @@
 ---
 name: t-implementation-blueprint
 description: Aggregate strategy planning and atomic execution-checklist tracks into one implementation blueprint.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: IMPLEMENTATION_BLUEPRINT
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:

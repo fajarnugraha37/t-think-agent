@@ -1,24 +1,24 @@
-schema_version: 1.0.0
+schema_version: 1.1.0
 policy: workspace-and-permission-boundaries
 principles:
   vcs_ignore: Controls default discovery only; it is not a confidentiality, authorization, or write boundary.
   workspace_read: Normal tracked and untracked repository content may be read when relevant.
-  ignored_file_access: Denied by default and requires recorded human approval when essential.
+  ignored_file_access: Allowed without approval for paths inside the active project worktree.
   source_write: Only t-builder, only during BOUNDED_IMPLEMENTATION, only to approved checklist targets.
-  governance_artifacts: All roles may write their own artifacts below the active .t-think work directory.
+  governance_artifacts: All roles may write governance artifacts only below the exact active .t-think/<work-id>
+    directory declared by the delegation packet.
   generated_outputs: t-verifier may create only declared build/test/report outputs; never source changes.
   outside_workspace: Denied for every subagent.
+  temporary_files: Temporary diagnostic files are allowed only below the active work scratch directory and must
+    be deleted before reconciliation.
+  durable_tests: Reusable behavior and regression checks must be implemented as permanent repository tests through
+    bounded implementation.
 discovery_defaults:
-  respect_vcs_ignore: true
+  respect_vcs_ignore: false
   include_untracked: true
-  include_ignored: false
+  include_ignored: true
 protected_paths:
 - .git/**
-- .env
-- .env.*
-- '**/secrets/**'
-- '**/*credential*'
-- '**/*private-key*'
 approved_write_target_source:
   authoritative_artifact: human-approved implementation checklist contract
   require_exact_or_declared_glob_match: true
@@ -27,4 +27,22 @@ generated_output_examples:
 - target/**
 - build/**
 - reports/**
-- .t-think/**
+- .t-think/<work-id>/scratch/**
+active_work_directory:
+  pattern: .t-think/<work-id>
+  delegation_field: workspace.active_work_directory
+  governance_write_pattern: .t-think/<work-id>/**
+  broad_root_write_forbidden: true
+work_directory_layout:
+  allowed_files:
+  - state.yaml
+  allowed_directories:
+  - artifacts
+  - delegations
+  - results
+  - boundary-reports
+  - evidence
+  - scratch
+  scratch_must_be_empty_before:
+  - RECONCILIATION
+  - COMPLETED

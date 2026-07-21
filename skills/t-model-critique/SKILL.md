@@ -1,7 +1,7 @@
 ---
 name: t-model-critique
 description: Assess human critique of the system model, defend or route revisions with evidence, and obtain model acceptance.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: MODEL_CRITIQUE
 previous_state: SYSTEM_MODEL
 next_state: SOLUTION_DESIGN

@@ -1,7 +1,7 @@
 ---
 name: t-implementation-planning
 description: Convert an approved solution into an ordered implementation, verification, rollout, migration, and rollback plan.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: IMPLEMENTATION_BLUEPRINT
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
@@ -69,6 +69,10 @@ This phase is designed to remain reliable on economical coding models. Follow th
 6. Do not make a decision owned by another phase. Route to the earliest responsible phase.
 7. If tool output is large, save it as evidence and summarize it with exact references rather than retaining raw logs in conversational context.
 8. Repository mutation is forbidden unless this is `t-bounded-implementation`.
+
+## Durable-test planning rule
+
+Every reusable behavior, bug reproduction, compatibility expectation, or regression guard must be planned as a real repository test. One-off verification scripts are not substitutes for test-suite coverage. Temporary diagnostics may be planned only under `.t-think/<work-id>/scratch/` with explicit deletion before reconciliation.
 
 <!-- BEGIN T-THINK PORTABLE RESOURCE CONTRACT -->
 ## Portable resource contract

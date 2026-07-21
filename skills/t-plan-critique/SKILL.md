@@ -1,7 +1,7 @@
 ---
 name: t-plan-critique
 description: Assess plan critiques and freeze a human-approved implementation plan without silently mutating it.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: BLUEPRINT_CRITIQUE
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:

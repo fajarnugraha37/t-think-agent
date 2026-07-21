@@ -1,7 +1,7 @@
 ---
 name: t-investigation
 description: Collect direct repository, configuration, test, runtime, and documentation evidence without proposing a solution.
-version: 2.3.1
+version: 2.4.0
 lifecycle_state: INVESTIGATION
 previous_state: PROBLEM_ALIGNMENT
 next_state: SYSTEM_MODEL

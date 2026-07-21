@@ -115,6 +115,14 @@ templates/output.template.yaml
 
 A native Windows tool may display the resolved path with backslashes. That display form must never be copied back into portable skill metadata or Markdown links.
 
+## Native tool permission profile
+
+Generated adapters must use the `workspace-autonomous` profile from `orchestrator/tool-permission-policy.yaml`. Normal worktree tools are prompt-free. External filesystem access is deny-by-default except for read-only installed t-think resources.
+
+Do not confuse native tool availability with lifecycle authorization. All workers may receive worktree-capable tools to avoid approval blockers, while delegation packets and boundary reports continue to enforce role-specific source writes.
+
+`gh` is always forbidden. Git is default-deny with an explicit read-only allowlist. Never add a mutating Git command, direct `.git` write, wrapper, alias, nested-shell bypass, or executable-renaming bypass. Run `scripts/permission_contract_test.py` after any adapter, permission, command, or platform-profile change.
+
 ## Repository layout
 
 ```text
@@ -192,6 +200,20 @@ Each `SKILL.md` must:
 - link to its resource index and frequent input/output resources;
 - direct missing evidence or resources to `BLOCKED`, never invention.
 
+## Intake and workspace hygiene
+
+Preserve these invariants:
+
+- direct `/t-problem-alignment` asks exactly two bootstrap questions before repository/filesystem action: work ID with suggestion, then explicit lane;
+- initialization creates only `.t-think/<work-id>/`;
+- delegation governance write scope is exactly `.t-think/<work-id>/**`;
+- files directly under `.t-think/` are forbidden except an optional `.gitignore`;
+- only `state.yaml` may exist directly under the active work root;
+- temporary diagnostics live only in `scratch/` and are removed before reconciliation;
+- reusable checks become permanent repository tests.
+
+Any change to these rules must update the intake/workspace contract test, schemas, runtime, adapters, README, and manifest.
+
 ## Cheap-model reliability
 
 Preserve:
@@ -251,6 +273,7 @@ Focused:
 python3 scripts/update_skill_resource_indexes.py
 python3 scripts/generate_adapters.py
 python3 scripts/path_template_contract_test.py
+python3 scripts/intake_workspace_contract_test.py
 python3 scripts/audit_alignment.py
 python3 scripts/subagent_contract_test.py
 python3 scripts/lane_contract_test.py

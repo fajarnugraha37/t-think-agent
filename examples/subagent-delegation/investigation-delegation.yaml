@@ -21,11 +21,12 @@ workspace:
     respect_vcs_ignore: true
     include_untracked: true
     include_ignored: false
+  active_work_directory: .t-think/ORDER-2471
 permissions:
   workspace_read: allow
   outside_workspace: deny
   source_write: deny
-  governance_artifact_write: .t-think/**
+  governance_artifact_write: .t-think/ORDER-2471/**
   approved_write_targets: []
   generated_output_paths: []
   protected_paths:
