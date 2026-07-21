@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/session-lease.schema.json",
+  "title": "t-think work item session lease",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "work_id", "session_id", "platform", "acquired_at",
+    "last_heartbeat_at", "stale_after_seconds", "status", "replaced_session_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "work_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "session_id": {"type": "string", "minLength": 1},
+    "platform": {"enum": ["opencode", "codex", "claude", "cursor", "cli", "unknown"]},
+    "acquired_at": {"type": "string", "format": "date-time"},
+    "last_heartbeat_at": {"type": "string", "format": "date-time"},
+    "stale_after_seconds": {"type": "integer", "minimum": 60, "maximum": 86400},
+    "status": {"enum": ["active", "released"]},
+    "replaced_session_id": {"type": ["string", "null"]},
+    "released_at": {"type": "string", "format": "date-time"}
+  }
+}

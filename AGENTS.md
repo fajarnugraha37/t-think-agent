@@ -200,6 +200,21 @@ Each `SKILL.md` must:
 - link to its resource index and frequent input/output resources;
 - direct missing evidence or resources to `BLOCKED`, never invention.
 
+## Session continuity and resumability
+
+The root agent must be resumable across chats, processes, and supported clients without depending on conversation memory.
+
+- First root invocation without an explicit new/resume/inspect command shows `Start a new task`, at most three most-recent unfinished `Continue <work-id>` entries, conditional `Show all unfinished work items`, and `Inspect existing work items`.
+- The menu is derived from `.t-think/*/state.yaml` and is read-only.
+- Each work item persists `session/resume.yaml`, `session/activity.jsonl`, and `session/lease.yaml`.
+- `state.yaml` is the lifecycle source of truth; `resume.yaml` is the compact next-action checkpoint; `activity.jsonl` is append-only; `lease.yaml` prevents concurrent mutating root sessions.
+- A delegation packet without its declared valid completed result is interrupted, never complete. Recovery creates a new invocation ID.
+- Read-only inspection must not migrate, checkpoint, update timestamps, append activity, or acquire a lease.
+- Checkpoint after transitions, before/after delegations, after source batches and findings, before human questions, after errors/timeouts, and before ending the root response.
+- Pre-session schema `2.3.0` work items are migrated only on mutating resume; new work items use schema `2.4.0`.
+
+Any change to session behavior must update `orchestrator/session-continuity-policy.yaml`, the three session schemas, runtime CLI, root core, generated adapters, docs, `scripts/session_continuity_contract_test.py`, smoke coverage, and manifest.
+
 ## Intake and workspace hygiene
 
 Preserve these invariants:

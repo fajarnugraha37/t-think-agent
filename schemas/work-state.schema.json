@@ -19,7 +19,10 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "2.3.0"
+      "enum": [
+        "2.3.0",
+        "2.4.0"
+      ]
     },
     "work_id": {
       "type": "string",
@@ -154,6 +157,68 @@
           "minimum": 0
         }
       }
+    },
+    "work_status": {
+      "enum": [
+        "active",
+        "waiting_human",
+        "blocked",
+        "interrupted",
+        "completed",
+        "abandoned",
+        "archived"
+      ]
+    },
+    "last_activity_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "current_session_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "checkpoint_path": {
+      "type": "string",
+      "pattern": "^\\.t-think/[A-Za-z0-9][A-Za-z0-9._-]{0,127}/session/resume\\.yaml$"
+    },
+    "activity_path": {
+      "type": "string",
+      "pattern": "^\\.t-think/[A-Za-z0-9][A-Za-z0-9._-]{0,127}/session/activity\\.jsonl$"
+    },
+    "lease_path": {
+      "type": "string",
+      "pattern": "^\\.t-think/[A-Za-z0-9][A-Za-z0-9._-]{0,127}/session/lease\\.yaml$"
+    },
+    "session_generation": {
+      "type": "integer",
+      "minimum": 0
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "2.4.0"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "work_status",
+          "last_activity_at",
+          "current_session_id",
+          "checkpoint_path",
+          "activity_path",
+          "lease_path",
+          "session_generation"
+        ]
+      }
+    }
+  ]
 }

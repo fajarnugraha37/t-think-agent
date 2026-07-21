@@ -17,6 +17,7 @@ work_directory:
   - boundary-reports
   - evidence
   - scratch
+  - session
 scratch:
   directory: .t-think/<work-id>/scratch
   purpose: Ephemeral diagnostics that cannot reasonably become durable repository tests.
@@ -27,7 +28,8 @@ scratch:
   cleanup_command: python3 bin/t-thinkctl.py cleanup-workdir --file .t-think/<work-id>/state.yaml --prune-forbidden-temporary
 permanent_test_policy:
   prefer_repository_test: true
-  rule: If a script verifies reusable product behavior or guards a regression, add or update a real repository test through BOUNDED_IMPLEMENTATION instead of leaving a one-off script.
+  rule: If a script verifies reusable product behavior or guards a regression, add or update a real repository test
+    through BOUNDED_IMPLEMENTATION instead of leaving a one-off script.
   one_off_script_allowed_only_for:
   - environment diagnosis
   - data inspection without reusable assertions
@@ -54,3 +56,11 @@ forbidden_temporary_extensions_outside_scratch:
 - .php
 - .groovy
 - .kts
+session:
+  directory: .t-think/<work-id>/session
+  allowed_files:
+  - resume.yaml
+  - activity.jsonl
+  - lease.yaml
+  persistent: true
+  source_of_truth_for_cross_session_resume: true

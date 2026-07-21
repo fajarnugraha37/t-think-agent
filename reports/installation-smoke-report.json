@@ -1,9 +1,9 @@
 {
   "status": "PASS",
   "smoke_tests": [
-    "platform-isolated copy install, exact legacy migration, private path resolution, atomic force upgrade, doctor, and uninstall with 10 terminal workers and 20 skills",
+    "platform-isolated copy install, session-entry runtime smoke, exact legacy migration, private path resolution, atomic force upgrade, doctor, and uninstall with 10 terminal workers and 20 skills",
     "platform-isolated symlink install/doctor/uninstall",
-    "runtime lifecycle behavior is covered by intake_workspace_contract_test.py"
+    "runtime lifecycle behavior is covered by intake_workspace_contract_test.py and session_continuity_contract_test.py"
   ],
   "scope": "isolated temporary HOME; exact legacy t-think paths only; unrelated user skills preserved"
 }

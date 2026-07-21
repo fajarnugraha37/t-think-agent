@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/session-activity-event.schema.json",
+  "title": "t-think session activity event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "at", "work_id", "session_id", "event", "phase"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "at": {"type": "string", "format": "date-time"},
+    "work_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "session_id": {"type": ["string", "null"]},
+    "event": {"type": "string", "minLength": 1},
+    "phase": {"type": "string", "minLength": 1},
+    "details": {"type": "object", "additionalProperties": true}
+  }
+}

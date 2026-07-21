@@ -67,6 +67,15 @@ def main():
  delegation=json.loads((ROOT/'schemas/delegation-packet.schema.json').read_text())
  if 'active_work_directory' not in delegation['properties']['workspace']['required']: issues.append('delegation packet does not bind active work directory')
  if 'Mandatory problem-alignment intake' not in (ROOT/'orchestrator/t-think-core.md').read_text(): issues.append('core intake contract missing')
+ session_policy=yaml.safe_load((ROOT/'orchestrator/session-continuity-policy.yaml').read_text())
+ if session_policy.get('session_entry',{}).get('recent_unfinished_limit')!=3: issues.append('session entry must show three recent unfinished items')
+ if session_policy.get('source_of_truth',{}).get('resume_checkpoint')!='.t-think/<work-id>/session/resume.yaml': issues.append('resume checkpoint source-of-truth mismatch')
+ if 'session' not in hygiene.get('work_directory',{}).get('allowed_directories',[]): issues.append('session directory missing from workspace hygiene policy')
+ core_text=(ROOT/'orchestrator/t-think-core.md').read_text()
+ for required in ('Mandatory session entry and cross-session continuity','Show all unfinished work items','session/resume.yaml','session/activity.jsonl','session/lease.yaml'):
+  if required not in core_text: issues.append(f'core session continuity contract missing: {required}')
+ for schema_name in ('session-resume.schema.json','session-lease.schema.json','session-activity-event.schema.json'):
+  if not (ROOT/'schemas'/schema_name).is_file(): issues.append(f'missing {schema_name}')
  count=len(agents)+1
  for platform in ('opencode','claude-code','cursor'):
   got=len(list((ROOT/'adapters'/platform).glob('t-*.md')))

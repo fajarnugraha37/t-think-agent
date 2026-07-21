@@ -2,6 +2,55 @@
 
 `t-think` is the root, human-facing orchestrator. It never edits product source. It selects a governance lane, enforces lifecycle state, delegates one bounded objective to a terminal worker, validates machine artifacts, and advances only after deterministic gates pass.
 
+## Mandatory session entry and cross-session continuity
+
+On the first root `t-think` invocation in a session, when the user did not explicitly request `/t-problem-alignment`, `/t-resume <work-id>`, or `/t-work-items`, run the read-only entry command before any lifecycle work:
+
+```bash
+python3 <install-root>/bin/t-thinkctl.py entry --repository-root <repository-root> --limit 3
+```
+
+Present exactly this interaction model:
+
+```text
+What do you want to do?
+
+● Start a new task
+○ Continue <most-recent-unfinished-work-id>
+○ Continue <second-most-recent-unfinished-work-id>
+○ Continue <third-most-recent-unfinished-work-id>
+○ Show all unfinished work items          # only when more than three exist
+○ Inspect existing work items
+```
+
+Rules:
+
+- The menu is root-only and read-only. Workers never show it.
+- Rank unfinished work items by persisted `last_activity_at`, newest first.
+- Show at most three unfinished items, then `Show all unfinished work items` when more exist.
+- Derive the list from `.t-think/*/state.yaml`; never hardcode it or rely on chat history.
+- `Start a new task` routes to the mandatory work-ID/lane intake.
+- `Continue <work-id>` runs `t-thinkctl.py resume <work-id>` and follows its next legal action.
+- `Inspect existing work items` runs `t-thinkctl.py work-items` read-only.
+- An explicit `/t-problem-alignment ...` bypasses this menu and asks the two bootstrap questions immediately.
+
+Cross-session source of truth:
+
+```text
+.t-think/<work-id>/state.yaml
+.t-think/<work-id>/session/resume.yaml
+.t-think/<work-id>/session/activity.jsonl
+.t-think/<work-id>/session/lease.yaml
+```
+
+Conversation history is optional navigation context only. Never ask the user to repeat information already persisted in validated work-item artifacts.
+
+Before continuing an existing item, run the deterministic resume protocol: validate state, migrate legacy session metadata if needed, audit the work directory, validate the checkpoint, inspect delegation packets/results, mark an in-flight delegation interrupted when no valid completed result exists, acquire a work-item lease, and continue from the reported next action. A recovered delegation must use a new invocation ID.
+
+Only one mutating session may hold a work item. If another active lease exists, offer read-only inspection or cancellation. A stale lease may be taken over only explicitly. Refresh the lease during long-running work and release it when the root session ends.
+
+Checkpoint after every phase transition, before and after every delegation, after a source-modification batch, after a review finding, before a human question, after a tool error/timeout, and before the root response ends. Use `checkpoint`, `record-result`, `heartbeat`, and `release`; do not reconstruct progress from prose.
+
 ## Mandatory problem-alignment intake
 
 For a direct `/t-problem-alignment [problem statement]` invocation, `t-think` must ask exactly two bootstrap questions before any filesystem or repository action:
@@ -99,6 +148,7 @@ Component-local status or transition labels never advance lifecycle state. Track
 - Outside-workspace access is denied.
 - Direct writes below `.git/**` are denied; use only the explicit read-only Git command allowlist for repository inspection.
 - Governance artifacts are written only below the active `.t-think/<work-id>/**`; broad `.t-think/**` write authority is forbidden.
+- Cross-session metadata is persistent only in `.t-think/<work-id>/session/` with the exact files `resume.yaml`, `activity.jsonl`, and `lease.yaml`.
 - Never write phase artifacts or temporary scripts directly under `.t-think/` or `.t-think/<work-id>/`.
 - One-off diagnostics belong only in `.t-think/<work-id>/scratch/`, must be declared generated outputs, and must be removed before reconciliation.
 - If a diagnostic script verifies reusable behavior or a regression, create a real repository test through `BOUNDED_IMPLEMENTATION` instead of retaining a one-off script.
@@ -106,20 +156,21 @@ Component-local status or transition labels never advance lifecycle state. Track
 
 ## Routing procedure
 
-For every iteration:
+For every iteration after session entry/resume:
 
 1. Confirm the active directory is exactly `.t-think/<work-id>/`; reject root-level artifacts.
-2. Read `.t-think/<work-id>/state.yaml`.
-3. Run `t-thinkctl.py route` rather than guessing the active phase.
-4. Load exactly one phase or component skill.
-5. For composite phases, choose exactly one required track and create a track-bound delegation packet.
-6. Validate packet before invocation.
-7. Run the terminal worker in a fresh context.
-8. Validate its artifact, result envelope, digest, and boundary report.
-9. Record the component result; do not advance until all required tracks pass and the aggregate validator passes.
-10. Enforce human gates before source write and wherever the selected lane requires approval.
-11. Run the work-directory audit after generated diagnostics and before reconciliation; clean scratch and block on stray files.
-12. Advance or loop back to the earliest owning phase.
+2. Read `.t-think/<work-id>/state.yaml` and `session/resume.yaml`.
+3. Validate or refresh the active session lease before mutating work-item state.
+4. Run `t-thinkctl.py route` rather than guessing the active phase.
+5. Load exactly one phase or component skill.
+6. For composite phases, choose exactly one required track and create a track-bound delegation packet.
+7. Checkpoint, then validate the packet before invocation.
+8. Run the terminal worker in a fresh context.
+9. Validate its artifact, result envelope, digest, and boundary report.
+10. Record the component result with `record-result`; do not advance until all required tracks pass and the aggregate validator passes.
+11. Enforce human gates before source write and wherever the selected lane requires approval.
+12. Run the work-directory audit after generated diagnostics and before reconciliation; clean scratch and block on stray files.
+13. Checkpoint and advance or loop back to the earliest owning phase.
 
 ## Cheap-model reliability contract
 

@@ -59,6 +59,14 @@ def main():
   second=json.loads(run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','copy','--home',str(home)]))
   assert all(x['status']=='unchanged' for x in second['installed'])
   installed_ctl=home/'.local/share/t-think/runtime/bin/t-thinkctl.py'
+  project=Path(td)/'session-project';project.mkdir()
+  entry_before=run([sys.executable,str(installed_ctl),'entry','--repository-root',str(project)])
+  assert 'Start a new task' in entry_before and not (project/'.t-think').exists()
+  run([sys.executable,str(installed_ctl),'init','SMOKE-SESSION-1','--repository-root',str(project),'--lane','quick','--task','Smoke resumable session'])
+  assert (project/'.t-think/SMOKE-SESSION-1/session/resume.yaml').is_file()
+  assert (project/'.t-think/SMOKE-SESSION-1/session/activity.jsonl').is_file()
+  entry_after=run([sys.executable,str(installed_ctl),'entry','--repository-root',str(project)])
+  assert 'Continue SMOKE-SESSION-1' in entry_after
   for platform,relative in PLATFORM_ROOTS.items():
    resolved=Path(run([sys.executable,str(installed_ctl),'paths','--home',str(home),'--platform',platform,'--skill','t-reconciliation','--resource','templates/output.template.yaml','--native-only']).strip())
    assert resolved==home/relative/'t-reconciliation/templates/output.template.yaml',(platform,resolved)
@@ -75,12 +83,12 @@ def main():
    assert not list((home/relative).glob('t-*/SKILL.md'))
   assert (home/'.agents/skills/t-user-owned-skill/SKILL.md').is_file()
   assert (home/'.claude/skills/t-user-owned-skill/SKILL.md').is_file()
-  results.append(f'platform-isolated copy install, exact legacy migration, private path resolution, atomic force upgrade, doctor, and uninstall with {worker_count} terminal workers and {skill_count} skills')
+  results.append(f'platform-isolated copy install, session-entry runtime smoke, exact legacy migration, private path resolution, atomic force upgrade, doctor, and uninstall with {worker_count} terminal workers and {skill_count} skills')
  if sys.platform!='win32':
   with tempfile.TemporaryDirectory() as td:
    print('[smoke] symlink install',flush=True)
    home=Path(td)/'home';home.mkdir();run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','symlink','--home',str(home)]);assert_isolated_install_without_legacy(home,skill_names,worker_count,agent_count);run([sys.executable,str(ROOT/'bin/doctor.py'),'--target','all','--home',str(home)]);run([sys.executable,str(ROOT/'bin/uninstall.py'),'--home',str(home)]);results.append('platform-isolated symlink install/doctor/uninstall')
- results.append('runtime lifecycle behavior is covered by intake_workspace_contract_test.py')
+ results.append('runtime lifecycle behavior is covered by intake_workspace_contract_test.py and session_continuity_contract_test.py')
  report={'status':'PASS','smoke_tests':results,'scope':'isolated temporary HOME; exact legacy t-think paths only; unrelated user skills preserved'};(ROOT/'reports/installation-smoke-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8');print(json.dumps(report,indent=2));return 0
 
 def assert_isolated_install_without_legacy(home:Path,skill_names:list[str],worker_count:int,agent_count:int):

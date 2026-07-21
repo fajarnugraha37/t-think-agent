@@ -5,7 +5,7 @@
 ```text
 .gitignore / VCS ignore       default search discovery
 approved_write_targets        exact source-change authorization
-protected_paths               direct `.git/**` write boundary
+protected_paths               sensitive and structural safety boundary
 outside_workspace             filesystem containment
 ```
 
@@ -13,9 +13,9 @@ These concerns must not be merged into one generic allow/deny path list.
 
 ## Discovery
 
-Search and enumeration may include tracked, untracked, and ignored files anywhere inside the active project worktree. Git ignore status is not an approval boundary and never requires a human prompt.
+Search and enumeration respect VCS ignore rules by default, include relevant untracked files, and exclude ignored files. An ignored file may be read only when the delegation packet contains a recorded human approval reference.
 
-`.gitignore` controls version-control discovery only. It does not restrict project-local tool access.
+`.gitignore` is not a security boundary: a tool may still open an ignored path explicitly if permissions permit it.
 
 ## Normal workspace reads
 
@@ -39,11 +39,17 @@ Only `t-builder` during `BOUNDED_IMPLEMENTATION` may modify source. The authorit
 
 `t-verifier` may create only declared build, test, coverage, and report outputs. A generated-output permission never authorizes source changes.
 
-## Native tool path boundary
+## Protected paths
 
-Inside the active project worktree, native file tools are prompt-free and have no path denylist except `.git/**`. Files such as `.env`, project-local secret fixtures, credentials, keys, generated files, and ignored files are not blocked by the native adapter merely because of their names. Their use remains governed by the active task, delegation packet, repository policy, and review evidence.
+Default protected patterns include:
 
-Direct writes below `.git/**` remain denied. Version-control inspection must use an explicitly allowed read-only Git command.
+- `.git/**`;
+- `.env` and `.env.*`;
+- secret directories;
+- credential-bearing files;
+- private keys.
+
+Protected paths remain denied even if tracked, visible, or accidentally included in a proposed checklist target.
 
 ## Enforcement layers
 
@@ -52,23 +58,3 @@ Direct writes below `.git/**` remain denied. Version-control inspection must use
 3. Activity capture records files, commands, ignored reads, and external access.
 4. Boundary auditing compares activity with the exact packet.
 5. Result validation refuses lifecycle transition when the boundary report is not `PASS`.
-
-## Prompt-free native tool profile
-
-`t-think` uses the `workspace-autonomous` native-tool profile:
-
-- normal tools inside the project worktree run without approval prompts;
-- file read, search, edit, write, shell, build, test, lint, formatting, and diagnostic operations are available;
-- access outside the project remains denied except for the current platform's read-only private t-think skill resources and shared runtime; shared discovery roots are not used;
-- native tool availability does not grant lifecycle source-write authority;
-- every actual source change still has to match the delegation packet and pass boundary auditing.
-
-The broad native profile avoids approval fatigue. It intentionally relies on the governed delegation and audit layers to keep read-only roles read-only at the lifecycle level.
-
-## Git and GitHub CLI boundary
-
-`gh` is always forbidden. Git is denied by default and reopened only for explicit read-only inspection commands such as `status`, `diff`, `log`, `show`, `rev-parse`, `ls-files`, `grep`, `blame`, read-only ref listing, and read-only configuration queries.
-
-Git mutations are forbidden, including commit, add, fetch, pull, push, merge, rebase, checkout, switch, reset, restore, clean, branch/tag mutation, stash mutation, worktree mutation, remote mutation, config mutation, and direct writes below `.git/`.
-
-Agents must not bypass this boundary through aliases, wrappers, nested shells, renamed executables, or direct filesystem access. A required VCS mutation produces `BLOCKED / VCS_MUTATION_FORBIDDEN` and remains a human action.

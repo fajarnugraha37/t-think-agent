@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/session-resume.schema.json",
+  "title": "t-think resumable session checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_id",
+    "checkpoint_version",
+    "checkpointed_at",
+    "current_phase",
+    "status",
+    "current_session_id",
+    "current_objective",
+    "last_completed_action",
+    "next_action",
+    "inflight_delegation",
+    "completed_tracks",
+    "remaining_tracks",
+    "open_findings",
+    "pending_human_questions",
+    "approved_write_targets",
+    "changed_files",
+    "verification_pending",
+    "workspace_hygiene"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "work_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "checkpoint_version": {"type": "integer", "minimum": 1},
+    "checkpointed_at": {"type": "string", "format": "date-time"},
+    "current_phase": {"type": "string", "minLength": 1},
+    "status": {
+      "enum": ["active", "waiting_human", "blocked", "interrupted", "completed", "abandoned", "archived"]
+    },
+    "current_session_id": {"type": ["string", "null"]},
+    "current_objective": {"type": ["string", "null"]},
+    "last_completed_action": {"type": ["object", "null"], "additionalProperties": true},
+    "next_action": {"type": ["object", "null"], "additionalProperties": true},
+    "inflight_delegation": {"type": ["object", "null"], "additionalProperties": true},
+    "completed_tracks": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "remaining_tracks": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "open_findings": {"type": "array", "items": {"type": "string"}},
+    "pending_human_questions": {"type": "array", "items": {"type": "string"}},
+    "approved_write_targets": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "changed_files": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "verification_pending": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "workspace_hygiene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "scratch_clean", "misplaced_artifacts"],
+      "properties": {
+        "status": {"enum": ["PASS", "FAIL", "UNKNOWN"]},
+        "scratch_clean": {"type": "boolean"},
+        "misplaced_artifacts": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

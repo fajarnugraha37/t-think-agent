@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "passed_contracts": [
+    "read-only root session entry",
+    "three newest unfinished items and Show all",
+    "filesystem-derived work-item catalogue",
+    "lease exclusion, heartbeat, read-only inspection, and release",
+    "write-free legacy inspection and mutating migration",
+    "orphaned delegation recovery without false completion",
+    "validated result recording and remaining-track reconstruction",
+    "explicit-only stale lease takeover",
+    "validated checkpoint, lease, and append-only journal"
+  ],
+  "issues": []
+}

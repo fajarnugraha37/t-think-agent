@@ -109,3 +109,7 @@ Cleanup automatically removes:
 - forbidden temporary script files directly under `.t-think/` or the active work root when `--prune-forbidden-temporary` is supplied.
 
 It does not silently delete misplaced YAML/JSON/Markdown governance artifacts. Those remain visible as audit failures so an agent must relocate or reconcile them explicitly.
+
+## Session metadata directory
+
+`session/` is the only additional persistent directory allowed directly under `.t-think/<work-id>/`. It contains only `resume.yaml`, `activity.jsonl`, and `lease.yaml`. These are control-plane records, not scratch files, and are preserved across cleanup. Unknown files or nested directories under `session/` fail workspace hygiene audit.

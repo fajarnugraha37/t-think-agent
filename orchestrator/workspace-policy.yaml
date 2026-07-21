@@ -43,6 +43,7 @@ work_directory_layout:
   - boundary-reports
   - evidence
   - scratch
+  - session
   scratch_must_be_empty_before:
   - RECONCILIATION
   - COMPLETED

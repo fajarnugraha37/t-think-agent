@@ -49,7 +49,7 @@ def main():
  with tempfile.TemporaryDirectory() as td:
   cwd=Path(td);ctl=str(ROOT/'bin/t-thinkctl.py')
   out=run([sys.executable,ctl,'init','W-CLI','--base','.t-think','--repository-root','.', '--lane','standard','--task','medium feature'],cwd).strip();sp=cwd/out
-  d=yaml.safe_load(sp.read_text());check(d['schema_version']=='2.3.0','CLI initialized old schema',issues)
+  d=yaml.safe_load(sp.read_text());check(d['schema_version']=='2.4.0','CLI did not initialize resumable schema',issues)
   d['current_state']='IMPLEMENTATION_REVIEW';d['active_skill']='t-implementation-review';d['active_agent']='t-think';d['human_gate_pending']=False;sp.write_text(yaml.safe_dump(d,sort_keys=False))
   route=json.loads(run([sys.executable,ctl,'route','--file',str(sp)],cwd));check([x['id'] for x in route['tracks']]==['self_review','technical_review','security_review','breaking_review'],'CLI route review tracks mismatch',issues)
   dg=run([sys.executable,ctl,'prepare-delegation','--file',str(sp),'--track','security_review','--objective','Perform dedicated security review of the actual diff','--criterion','Evaluate all security categories'],cwd).strip();packet=yaml.safe_load((cwd/dg).read_text())

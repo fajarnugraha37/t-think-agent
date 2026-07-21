@@ -1,4 +1,4 @@
-schema_version: 2.3.0
+schema_version: 2.4.0
 work_id: EXAMPLE-1
 current_state: PROBLEM_ALIGNMENT
 current_run_id: RUN-EXAMPLE
@@ -10,8 +10,15 @@ active_agent: t-think
 last_gate: null
 last_validator: null
 human_gate_pending: true
+work_status: waiting_human
+last_activity_at: 2026-01-01T00:00:00+00:00
+current_session_id: null
+checkpoint_path: .t-think/EXAMPLE-1/session/resume.yaml
+activity_path: .t-think/EXAMPLE-1/session/activity.jsonl
+lease_path: .t-think/EXAMPLE-1/session/lease.yaml
+session_generation: 0
 governance_lane:
-  requested: auto
+  requested: standard
   selected: standard
   artifact_mode: normal
   risk_score: 0

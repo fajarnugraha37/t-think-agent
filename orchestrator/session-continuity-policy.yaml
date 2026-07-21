@@ -1,0 +1,65 @@
+schema_version: 1.0.0
+policy: resumable-cross-session-work-items
+source_of_truth:
+  chat_history: navigation_hint_only
+  lifecycle: .t-think/<work-id>/state.yaml
+  resume_checkpoint: .t-think/<work-id>/session/resume.yaml
+  activity_journal: .t-think/<work-id>/session/activity.jsonl
+  concurrency_lease: .t-think/<work-id>/session/lease.yaml
+session_entry:
+  root_agent_only: true
+  trigger: first t-think invocation without an explicit new/resume/inspect command
+  read_only: true
+  recent_unfinished_limit: 3
+  menu_order:
+  - start_new_task
+  - continue_recent_work_items
+  - show_all_unfinished_when_more_than_limit
+  - inspect_existing_work_items
+  unfinished_statuses:
+  - active
+  - waiting_human
+  - blocked
+  - interrupted
+  completed_statuses:
+  - completed
+  - abandoned
+  - archived
+explicit_commands:
+  /t-problem-alignment: bypass session entry and run mandatory work-id/lane intake
+  /t-resume <work-id>: resume the selected work item deterministically
+  /t-work-items: inspect work items read-only
+checkpoint_requirements:
+  - after_phase_transition
+  - before_delegation
+  - after_delegation
+  - after_source_modification_batch
+  - after_review_finding
+  - before_human_question
+  - after_tool_error_or_timeout
+  - before_root_response_ends
+resume_protocol:
+  - load_and_validate_state
+  - migrate_legacy_session_metadata_if_needed
+  - audit_work_directory
+  - load_and_validate_resume_checkpoint
+  - scan_delegation_packets_and_results
+  - mark_orphaned_delegations_interrupted
+  - reconstruct_next_legal_action
+  - acquire_or_validate_lease
+  - continue_without_reasking_known_context
+lease:
+  default_stale_after_seconds: 900
+  concurrent_mutating_sessions_forbidden: true
+  active_other_session_options:
+  - open_read_only
+  - cancel
+  stale_other_session_options:
+  - take_over_explicitly
+  - open_read_only
+  - cancel
+recovery:
+  valid_completed_result_can_be_reused: true
+  partial_or_missing_result_must_be_rerun: true
+  replacement_delegation_requires_new_invocation_id: true
+  never_infer_completion_from_chat_or_prose: true

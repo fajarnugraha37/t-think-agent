@@ -34,6 +34,8 @@ def main():
         work=repo/'.t-think/REQ-001'
         check(state['work_directory']=='.t-think/REQ-001','state work directory not canonical',issues)
         check((work/'scratch').is_dir(),'scratch directory missing',issues)
+        check((work/'session/resume.yaml').is_file(),'resume checkpoint missing',issues)
+        check((work/'session/activity.jsonl').is_file(),'activity journal missing',issues)
         check(not [p for p in (repo/'.t-think').iterdir() if p.is_file() and p.name!='.gitignore'],'root file created by init',issues)
         # Generate a delegation and verify exact write scope.
         state['current_state']='IMPLEMENTATION_REVIEW';state['active_skill']='t-implementation-review';state['active_agent']='t-think';state['human_gate_pending']=False

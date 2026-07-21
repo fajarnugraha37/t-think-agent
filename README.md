@@ -1,6 +1,6 @@
 # t-think Governed Multi-Agent SDLC
 
-`t-think` is a globally installable, evidence-gated software-engineering orchestrator for OpenCode, Codex, Claude Code, and Cursor. Version 2.5.0 coordinates one root orchestrator, ten terminal workers, twenty progressively loaded `t-*` skills, three adaptive governance lanes, and twelve canonical lifecycle phases.
+`t-think` is a globally installable, evidence-gated software-engineering orchestrator for OpenCode, Codex, Claude Code, and Cursor. Version 2.6.0 coordinates one root orchestrator, ten terminal workers, twenty progressively loaded `t-*` skills, three adaptive governance lanes, and twelve canonical lifecycle phases.
 
 Repository maintainers and coding agents must read [`AGENTS.md`](AGENTS.md) before changing the bundle.
 
@@ -304,6 +304,73 @@ Generated agents use `permissionMode: bypassPermissions`, omit the global `Skill
 
 Select the `t-think` agent in Agent mode and enable Cursor Auto-run/YOLO when you want client-side tool approvals suppressed. Each adapter reads only the Cursor-private t-think resource root embedded by the installer. The generated agents are writable, while t-think boundary validation still governs source changes.
 
+## Session entry and cross-session resume
+
+On the first root `t-think` invocation, when no explicit `/t-problem-alignment`, `/t-resume`, or `/t-work-items` command was given, the agent shows a read-only menu derived from `.t-think/*/state.yaml`:
+
+```text
+What do you want to do?
+
+● Start a new task
+○ Continue TSREX-RAW-001
+○ Continue TSREX-CORE-001
+○ Continue TSREX-DOC-003
+○ Show all unfinished work items
+○ Inspect existing work items
+```
+
+Only the three most recently active unfinished work items are shown. `Show all unfinished work items` appears only when more than three exist.
+
+Generate the same menu directly:
+
+```bash
+python3 bin/t-thinkctl.py entry --repository-root . --limit 3
+```
+
+Inspect unfinished items or the complete catalogue:
+
+```bash
+python3 bin/t-thinkctl.py work-items --repository-root .
+python3 bin/t-thinkctl.py work-items --repository-root . --all
+```
+
+Resume deterministically:
+
+```bash
+python3 bin/t-thinkctl.py resume TSREX-RAW-001   --repository-root .   --platform opencode
+```
+
+Cross-session state is persisted under the work item:
+
+```text
+.t-think/<work-id>/
+├── state.yaml
+└── session/
+    ├── resume.yaml       compact next-action checkpoint
+    ├── activity.jsonl    append-only event journal
+    └── lease.yaml        single-mutating-session guard
+```
+
+The filesystem is authoritative. Chat history is only a navigation hint. Resume audits the work directory, validates the checkpoint, scans delegation packets and declared results, detects interrupted delegations, acquires a lease, and returns the next legal action. A delegation without a valid completed result is rerun with a new invocation ID rather than treated as complete.
+
+Use read-only resume when another session owns the work item:
+
+```bash
+python3 bin/t-thinkctl.py resume TSREX-RAW-001 --repository-root . --read-only
+```
+
+Checkpoint and lease commands:
+
+```bash
+python3 bin/t-thinkctl.py checkpoint --file .t-think/TSREX-RAW-001/state.yaml   --status active   --next-action "Run independent technical review"   --next-action-type delegation
+
+python3 bin/t-thinkctl.py heartbeat   --file .t-think/TSREX-RAW-001/state.yaml   --session-id SESSION-123
+
+python3 bin/t-thinkctl.py release   --file .t-think/TSREX-RAW-001/state.yaml   --session-id SESSION-123
+```
+
+See [`docs/session-continuity.md`](docs/session-continuity.md).
+
 ## Start with `/t-problem-alignment`
 
 ```text
@@ -412,6 +479,12 @@ Run the intake/workspace isolation audit:
 make intake-workspace
 ```
 
+Run the cross-session continuity contract:
+
+```bash
+make sessions
+```
+
 Run the full bundle verification:
 
 ```bash
@@ -431,6 +504,7 @@ Important checks include:
 - deterministic Linux, macOS, and Windows path semantics;
 - installation and resource resolution under a home path containing spaces and Unicode;
 - mandatory two-question intake, root-pollution detection, scratch cleanup, and reconciliation hygiene gating;
+- three-item session entry, Show all, persisted checkpoints/journal/lease, read-only inspection, and interrupted-delegation recovery;
 - platform adapter generation;
 - standalone skill archives and root checksums.
 

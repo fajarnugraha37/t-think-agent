@@ -73,6 +73,10 @@ def workspace_hygiene_policy() -> dict[str, Any]:
     return yaml.safe_load((ROOT / "orchestrator/workspace-hygiene-policy.yaml").read_text())
 
 
+def session_continuity_policy() -> dict[str, Any]:
+    return yaml.safe_load((ROOT / "orchestrator/session-continuity-policy.yaml").read_text())
+
+
 def composite_phase_config(phase_name: str) -> dict[str, Any] | None:
     return composite_policy().get("phases", {}).get(phase_name)
 
@@ -211,6 +215,7 @@ def audit_work_directory(
     invalid_work_entries: list[str] = []
     temporary_files: list[str] = []
     scratch_files: list[str] = []
+    invalid_session_entries: list[str] = []
 
     if configured != expected:
         violations.append(f"work_directory must be exactly {expected}, got {configured}")
@@ -235,6 +240,15 @@ def audit_work_directory(
         scratch = work_dir / "scratch"
         if scratch.is_dir():
             scratch_files = _relative_paths(repository_root, (p for p in scratch.rglob("*") if p.is_file()))
+        session_dir = work_dir / "session"
+        session_rules = policy.get("session", {})
+        allowed_session_files = set(session_rules.get("allowed_files", []))
+        if session_dir.is_dir():
+            for child in session_dir.iterdir():
+                if not child.is_file() or child.name not in allowed_session_files:
+                    rel = child.relative_to(repository_root).as_posix()
+                    invalid_session_entries.append(rel)
+                    violations.append(f"unknown entry under active session directory: {rel}")
         for file in work_dir.rglob("*"):
             if not file.is_file():
                 continue
@@ -260,6 +274,7 @@ def audit_work_directory(
         "status": "FAIL" if violations else "PASS",
         "root_stray_files": sorted(set(root_stray_files)),
         "invalid_work_entries": sorted(set(invalid_work_entries)),
+        "invalid_session_entries": sorted(set(invalid_session_entries)),
         "temporary_files_outside_scratch": sorted(set(temporary_files)),
         "scratch_files": sorted(set(scratch_files)),
         "removed_files": sorted(set(removed_files)),

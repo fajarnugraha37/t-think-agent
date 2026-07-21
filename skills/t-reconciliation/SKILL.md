@@ -1,7 +1,7 @@
 ---
 name: t-reconciliation
 description: Audit lane-required phase artifacts, review results, verification, and acceptance evidence before closure.
-version: 2.5.0
+version: 2.3.1
 lifecycle_state: RECONCILIATION
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
