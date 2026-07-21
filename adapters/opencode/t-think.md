@@ -8,9 +8,19 @@ permission:
   grep: allow
   list: allow
   skill: allow
-  edit: ask
+  edit:
+    '*': ask
+    ~/.agents/skills/t-*/**: deny
+    ~/.claude/skills/t-*/**: deny
+    ~/.config/opencode/skills/t-*/**: deny
+    ~/.local/share/t-think/runtime/**: deny
   bash: ask
-  external_directory: deny
+  external_directory:
+    '*': deny
+    ~/.agents/skills/t-*/**: allow
+    ~/.claude/skills/t-*/**: allow
+    ~/.config/opencode/skills/t-*/**: allow
+    ~/.local/share/t-think/runtime/**: allow
   task:
     '*': deny
     t-investigator: allow
@@ -148,6 +158,16 @@ For every iteration:
 ## Completion rule
 
 A phase is never complete because a worker says so. Completion requires schema validation, semantic validation, artifact-digest agreement, a passing boundary report, and every lane-required track or obligation. Final closure additionally requires reconciliation of acceptance criteria, findings, actual diff, verification evidence, residual risk, and human approval where configured.
+
+<!-- BEGIN T-THINK PORTABLE PATH CONTRACT -->
+## Portable skill-resource paths
+
+- Load the active skill through the platform-native skill mechanism before reading supporting files.
+- Resolve templates, schemas, validators, examples, and documentation from links relative to that skill's `SKILL.md`.
+- Use `/`-separated relative resource identifiers. Never invent `~`, `$HOME`, `%USERPROFILE%`, drive-letter, or backslash paths.
+- When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
+- If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.
+<!-- END T-THINK PORTABLE PATH CONTRACT -->
 
 ## OpenCode adapter
 

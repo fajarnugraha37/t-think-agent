@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "smoke_tests": [
-    "idempotent copy install/doctor/uninstall with 10 terminal workers and 20 skills",
+    "idempotent copy install/doctor/path-resolution/uninstall with 10 terminal workers and 20 skills in a home path containing spaces and Unicode",
     "symlink install/doctor/uninstall",
     "composite route and breaking-review delegation"
   ],

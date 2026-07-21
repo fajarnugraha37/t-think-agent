@@ -1,7 +1,7 @@
 ---
 name: t-implementation-blueprint
 description: Aggregate strategy planning and atomic execution-checklist tracks into one implementation blueprint.
-version: 2.3.0
+version: 2.3.1
 lifecycle_state: IMPLEMENTATION_BLUEPRINT
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
@@ -36,3 +36,21 @@ Aggregate strategy planning and atomic execution-checklist tracks into one imple
 2. Use exact track IDs and statuses.
 3. Run the validator before transition.
 4. Record `BLOCKED` rather than guessing missing results.
+
+<!-- BEGIN T-THINK PORTABLE RESOURCE CONTRACT -->
+## Portable resource contract
+
+- Resolve every bundled resource relative to the directory containing this `SKILL.md`.
+- Read the generated [resource index](RESOURCE_INDEX.md) before opening templates, schemas, validators, examples, or supporting documentation.
+- Treat linked `/`-separated paths as portable relative resource identifiers. Never construct a global path with `~`, `$HOME`, `%USERPROFILE%`, a drive letter, or backslashes.
+- Prefer the host's native skill/resource loader. When an absolute filesystem path is unavoidable, join the platform-reported skill root and the relative identifier with the host path API; never concatenate path strings manually.
+- If a required resource cannot be opened, return `BLOCKED` with reason `SKILL_RESOURCE_UNAVAILABLE`. Do not recreate a template from memory, infer its shape, or continue with an invented format.
+
+Frequently required resources:
+
+- [`templates/input.template.yaml`](templates/input.template.yaml)
+- [`templates/output.template.yaml`](templates/output.template.yaml)
+- [`schemas/input.schema.json`](schemas/input.schema.json)
+- [`schemas/output.schema.json`](schemas/output.schema.json)
+- [`validators/validate.py`](validators/validate.py)
+<!-- END T-THINK PORTABLE RESOURCE CONTRACT -->

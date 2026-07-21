@@ -1,7 +1,7 @@
 ---
 name: t-model-critique
 description: Assess human critique of the system model, defend or route revisions with evidence, and obtain model acceptance.
-version: 1.0.0
+version: 2.3.1
 lifecycle_state: MODEL_CRITIQUE
 previous_state: SYSTEM_MODEL
 next_state: SOLUTION_DESIGN
@@ -111,3 +111,21 @@ This phase is designed to remain reliable on economical coding models. Follow th
 6. Do not make a decision owned by another phase. Route to the earliest responsible phase.
 7. If tool output is large, save it as evidence and summarize it with exact references rather than retaining raw logs in conversational context.
 8. Repository mutation is forbidden unless this is `t-bounded-implementation`.
+
+<!-- BEGIN T-THINK PORTABLE RESOURCE CONTRACT -->
+## Portable resource contract
+
+- Resolve every bundled resource relative to the directory containing this `SKILL.md`.
+- Read the generated [resource index](RESOURCE_INDEX.md) before opening templates, schemas, validators, examples, or supporting documentation.
+- Treat linked `/`-separated paths as portable relative resource identifiers. Never construct a global path with `~`, `$HOME`, `%USERPROFILE%`, a drive letter, or backslashes.
+- Prefer the host's native skill/resource loader. When an absolute filesystem path is unavoidable, join the platform-reported skill root and the relative identifier with the host path API; never concatenate path strings manually.
+- If a required resource cannot be opened, return `BLOCKED` with reason `SKILL_RESOURCE_UNAVAILABLE`. Do not recreate a template from memory, infer its shape, or continue with an invented format.
+
+Frequently required resources:
+
+- [`templates/input.template.yaml`](templates/input.template.yaml)
+- [`templates/output.template.yaml`](templates/output.template.yaml)
+- [`schemas/input.schema.json`](schemas/input.schema.json)
+- [`schemas/output.schema.json`](schemas/output.schema.json)
+- [`validators/validate.py`](validators/validate.py)
+<!-- END T-THINK PORTABLE RESOURCE CONTRACT -->

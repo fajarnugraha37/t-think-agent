@@ -11,10 +11,14 @@ def run(cmd,cwd=None):
 def main():
  results=[];skill_count=len([p for p in (ROOT/'skills').iterdir() if p.is_dir()]);worker_count=len(yaml.safe_load((ROOT/'orchestrator/agent-registry.yaml').read_text())['agents']);agent_count=worker_count+1
  with tempfile.TemporaryDirectory() as td:
-  home=Path(td)/'home';home.mkdir();run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','copy','--home',str(home)]);run([sys.executable,str(ROOT/'bin/doctor.py'),'--target','all','--home',str(home)])
+  home=Path(td)/'User Name-Üser';home.mkdir();run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','copy','--home',str(home)]);run([sys.executable,str(ROOT/'bin/doctor.py'),'--target','all','--home',str(home)])
   second=json.loads(run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','copy','--home',str(home)]));assert all(x['status']=='unchanged' for x in second['installed']);assert len(list((home/'.agents/skills').glob('t-*/SKILL.md')))==skill_count
+  installed_ctl=home/'.local/share/t-think/runtime/bin/t-thinkctl.py'
+  resolved=Path(run([sys.executable,str(installed_ctl),'paths','--home',str(home),'--skill','t-reconciliation','--resource','templates/output.template.yaml','--native-only']).strip())
+  assert resolved==home/'.agents/skills/t-reconciliation/templates/output.template.yaml'
+  assert resolved.is_file()
   for d in [home/'.config/opencode/agents',home/'.claude/agents',home/'.cursor/agents']:assert len(list(d.glob('t-*.md')))==agent_count
-  assert len(list((home/'.codex/agents').glob('t-*.toml')))==worker_count;run([sys.executable,str(ROOT/'bin/uninstall.py'),'--home',str(home)]);results.append(f'idempotent copy install/doctor/uninstall with {worker_count} terminal workers and {skill_count} skills')
+  assert len(list((home/'.codex/agents').glob('t-*.toml')))==worker_count;run([sys.executable,str(ROOT/'bin/uninstall.py'),'--home',str(home)]);results.append(f'idempotent copy install/doctor/path-resolution/uninstall with {worker_count} terminal workers and {skill_count} skills in a home path containing spaces and Unicode')
  if sys.platform!='win32':
   with tempfile.TemporaryDirectory() as td:
    home=Path(td)/'home';home.mkdir();run([sys.executable,str(ROOT/'bin/install.py'),'--target','all','--mode','symlink','--home',str(home)]);run([sys.executable,str(ROOT/'bin/doctor.py'),'--target','all','--home',str(home)]);run([sys.executable,str(ROOT/'bin/uninstall.py'),'--home',str(home)]);results.append('symlink install/doctor/uninstall')

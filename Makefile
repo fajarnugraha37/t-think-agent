@@ -1,8 +1,14 @@
 PYTHON ?= python3
-.PHONY: adapters audit subagents lanes smoke economy validate test archives checksums verify clean
+.PHONY: resources adapters paths audit subagents lanes smoke economy validate test skill-checksums archives checksums verify clean
+
+resources:
+	$(PYTHON) scripts/update_skill_resource_indexes.py
 
 adapters:
 	$(PYTHON) scripts/generate_adapters.py
+
+paths:
+	$(PYTHON) scripts/path_template_contract_test.py
 
 subagents:
 	$(PYTHON) scripts/subagent_contract_test.py
@@ -25,14 +31,18 @@ validate:
 test:
 	$(PYTHON) scripts/run_all_tests.py --mode test
 
-archives:
+skill-checksums:
+	$(PYTHON) scripts/generate_skill_checksums.py
+
+archives: skill-checksums
 	$(PYTHON) scripts/rebuild_archives.py
 
-checksums:
+checksums: archives
 	$(PYTHON) scripts/generate_checksums.py
 	sha256sum -c CHECKSUMS.sha256
+	@for skill in skills/t-*; do (cd "$$skill" && sha256sum -c CHECKSUMS.sha256 >/dev/null) || exit 1; done
 
-verify: adapters audit subagents lanes smoke economy validate test checksums
+verify: resources adapters paths audit subagents lanes smoke economy validate test checksums
 	@echo "t-think multi-agent bundle verification completed"
 
 clean:

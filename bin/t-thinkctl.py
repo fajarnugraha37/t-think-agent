@@ -10,6 +10,8 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
+from tthink_paths import find_skill_root, platform_examples, resolve_skill_resource
+
 from tthink_runtime import (
     ROOT,
     artifact_name_for,
@@ -347,6 +349,26 @@ def prepare_delegation(args: argparse.Namespace) -> int:
     return 0
 
 
+
+def paths_command(args: argparse.Namespace) -> int:
+    home = args.home.expanduser().resolve() if args.home else None
+    root = find_skill_root(args.skill, home)
+    result: dict[str, object] = {
+        "skill": args.skill,
+        "skill_root": str(root),
+        "resource_index": str((root / "RESOURCE_INDEX.md").resolve()),
+    }
+    if args.resource:
+        target = resolve_skill_resource(args.skill, args.resource, home)
+        result["resource"] = args.resource
+        result["resolved_path"] = str(target)
+        result["platform_examples"] = platform_examples(args.skill, args.resource)
+        if args.native_only:
+            print(target)
+            return 0
+    print(json.dumps(result, indent=2))
+    return 0
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest="cmd", required=True)
@@ -388,6 +410,12 @@ def main() -> int:
     command.add_argument("--approval-ref")
     add_common_risk_arguments(command)
 
+    command = subparsers.add_parser("paths", help="Resolve an installed skill resource with native path semantics")
+    command.add_argument("--skill", required=True)
+    command.add_argument("--resource", help="Portable '/'-separated path relative to SKILL.md")
+    command.add_argument("--home", type=Path, help="Override user home for installation discovery")
+    command.add_argument("--native-only", action="store_true", help="Print only the native resolved resource path")
+
     command = subparsers.add_parser("prepare-delegation")
     command.add_argument("--file", type=Path, required=True)
     command.add_argument("--objective", required=True)
@@ -419,6 +447,8 @@ def main() -> int:
         return 0
     if args.cmd == "promote":
         return promote_command(args)
+    if args.cmd == "paths":
+        return paths_command(args)
     if args.cmd == "prepare-delegation":
         return prepare_delegation(args)
     raise ValueError(f"unsupported command: {args.cmd}")

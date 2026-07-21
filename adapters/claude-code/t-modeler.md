@@ -34,6 +34,16 @@ Build evidence-backed system models and solution designs without self-approval.
 
 Use template-first output, exact enums and IDs, bounded reads, machine validators, and `BLOCKED` rather than guessed semantics.
 
+<!-- BEGIN T-THINK PORTABLE PATH CONTRACT -->
+## Portable skill-resource paths
+
+- Load the active skill through the platform-native skill mechanism before reading supporting files.
+- Resolve templates, schemas, validators, examples, and documentation from links relative to that skill's `SKILL.md`.
+- Use `/`-separated relative resource identifiers. Never invent `~`, `$HOME`, `%USERPROFILE%`, drive-letter, or backslash paths.
+- When a native absolute path is required, use the platform-reported skill root or `t-thinkctl.py paths`; join path components with the host path API.
+- If a declared resource cannot be opened, stop with `SKILL_RESOURCE_UNAVAILABLE`. Never reconstruct a template from memory.
+<!-- END T-THINK PORTABLE PATH CONTRACT -->
+
 ## Platform note
 
 Load the active skill through Skill. Agent is omitted from workers, so nested delegation is unavailable.

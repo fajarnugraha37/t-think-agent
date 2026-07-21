@@ -1,186 +1,33 @@
-# AGENTS.md — t-think Governed Multi-Agent SDLC
+# AGENTS.md — t-think Bundle Continuity Contract
 
-## 1. Purpose
+This file governs changes to the `t-think-governed-sdlc` repository itself. It is not copied into repositories governed by t-think.
 
-This is the repository continuity contract for developing and maintaining **t-think itself**. A new human or coding agent must be able to continue from repository files on another machine or platform without prior chat history.
-
-This file is not a runtime project instruction and must not be copied automatically into repositories governed by t-think.
-
-## 2. Product identity
+## Product identity
 
 The bundle contains:
 
 - one root orchestrator: `t-think`;
-- eight terminal role workers;
-- fifteen canonical phase skills;
-- three adaptive governance lanes: `quick`, `standard`, and `full`;
-- deterministic routing and promotion;
-- schemas, validators, boundary audits, examples, tests, adapters, installers, archives, checksums, and reports.
+- ten terminal role workers;
+- twenty canonical/component skills;
+- twelve canonical lifecycle phases;
+- three adaptive governance lanes;
+- four platform adapter families;
+- deterministic schemas, validators, installers, audits, archives, and checksums.
 
-The full lifecycle remains canonical. Compressed lanes may omit phases only through `orchestrator/lane-registry.yaml` and a validated phase-waiver artifact.
+The topology is always a star with maximum delegation depth one. Workers never delegate recursively.
 
-## 3. Start every session here
-
-Before editing:
-
-1. Confirm the root contains `README.md`, `AGENTS.md`, `VERSION`, `Makefile`, `orchestrator/`, `agents/`, `skills/`, `schemas/`, `bin/`, and `scripts/`.
-2. Read:
-   - `README.md`;
-   - `orchestrator/t-think-core.md`;
-   - `orchestrator/lane-registry.yaml`;
-   - `orchestrator/risk-classification-policy.yaml`;
-   - `orchestrator/phase-registry.yaml`;
-   - `orchestrator/agent-registry.yaml`;
-   - `orchestrator/workspace-policy.yaml`;
-   - documents relevant to the requested change.
-3. Run:
-
-```bash
-make audit
-make subagents
-make lanes
-make economy
-```
-
-4. Inspect and preserve unrelated work:
-
-```bash
-git status --short
-git diff --stat
-git diff
-```
-
-5. Classify intended files as canonical, generated, packaged, or report output.
-6. State affected invariants and required tests before implementation.
-
-Never infer repository state, test status, or previous decisions from chat memory.
-
-## 4. Source-of-truth hierarchy
-
-When sources disagree:
-
-1. schemas and validators;
-2. canonical orchestrator policies and registries;
-3. canonical role manifests;
-4. canonical role instructions;
-5. phase skill contracts;
-6. generated adapters;
-7. examples and reports;
-8. prose documentation.
-
-Important canonical files:
-
-```text
-orchestrator/t-think-core.md
-orchestrator/lane-registry.yaml
-orchestrator/risk-classification-policy.yaml
-orchestrator/artifact-mode-policy.yaml
-orchestrator/context-budget-policy.yaml
-orchestrator/lifecycle.yaml
-orchestrator/phase-registry.yaml
-orchestrator/agent-registry.yaml
-orchestrator/delegation-policy.yaml
-orchestrator/escalation-policy.yaml
-orchestrator/model-profiles.yaml
-orchestrator/workspace-policy.yaml
-agents/*/agent.yaml
-agents/*/AGENT.md
-schemas/*.json
-skills/t-*/**
-```
-
-Fix contradictions at the lowest incorrect layer. Do not weaken a higher contract merely to make a fixture pass.
-
-## 5. Repository map
-
-```text
-AGENTS.md                  contributor and continuation contract
-README.md                  user-facing operation guide
-MANIFEST.md                release inventory and assurance summary
-VERSION                    canonical bundle version
-Makefile                   development and verification entry points
-orchestrator/              canonical lifecycle, lanes, routing, and policies
-agents/                    canonical role manifests and instructions
-skills/                    fifteen canonical phase packages
-schemas/                   portable machine contracts
-bin/                       runtime CLI, validators, installers, doctor, uninstallers
-scripts/                   generators, audits, tests, packaging, checksums
-adapters/                  generated platform adapters
-examples/                  validated handoffs and lifecycle examples
-templates/                 state templates
-tests/                     cross-cutting test data
-archives/                  generated standalone skill ZIPs
-reports/                   generated verification summaries
-docs/                      architecture and policy explanations
-CHECKSUMS.sha256           generated root integrity inventory
-```
-
-## 6. Locked architecture invariants
-
-### 6.1 Topology
-
-- `t-think` is the sole orchestrator and state-transition owner.
-- Workers are terminal: `t-investigator`, `t-modeler`, `t-planner`, `t-critic`, `t-builder`, `t-reviewer`, `t-verifier`, `t-reconciler`.
-- Delegation is a star with maximum depth one.
-- Workers never invoke workers or advance lifecycle state.
-
-### 6.2 Role separation
-
-- `t-builder` is the only source writer.
-- Builder writes are limited to approved targets during `BOUNDED_IMPLEMENTATION`.
-- `SELF_REVIEW` is a fresh write-denied builder invocation.
-- Critics and reviewers are source-read-only.
-- `t-verifier` writes only declared generated outputs.
-- Quick-lane reconciliation is the only root-handled phase override; it must remain deterministic and source-read-only.
-
-### 6.3 Human authority
-
-Agents must not synthesize human approval, accepted risk, semantic intent, expected behavior, execution authorization, ignored-file approval, or final closure. Missing authority produces `BLOCKED`, `UNKNOWN`, loopback, or lane promotion.
-
-### 6.4 Workspace boundary
-
-`.gitignore` controls discovery only.
-
-- deny outside-workspace access;
-- deny ignored-file reads without human approval;
-- protect `.git/**`, `.env*`, secrets, credentials, and private keys;
-- treat an empty approved-target list as no write authority;
-- validate every worker with a post-run boundary report.
-
-### 6.5 Model neutrality
-
-- No flagship model may be a hidden correctness dependency.
-- Model settings inherit from the host by default.
-- Economy execution remains sequential, bounded, schema-first, and validator-driven.
-- Promote governance before model escalation when scope or risk expands.
-
-### 6.6 Evidence and state
-
-- Conversation prose does not advance state.
-- Approved artifacts are digest-bound.
-- Drift invalidates dependent approvals.
-- Large logs remain evidence files.
-- Route defects to the earliest owning phase.
-- Pre-2.2 work states without lane metadata route as `full`.
-
-## 7. Adaptive lane invariants
+## Canonical lifecycle
 
 ### Quick
 
 ```text
 PROBLEM_ALIGNMENT
 → BOUNDED_IMPLEMENTATION
-→ SELF_REVIEW
+→ IMPLEMENTATION_REVIEW
 → VERIFICATION
 → RECONCILIATION
 → COMPLETED
 ```
-
-- worker role types: exactly `t-builder` and `t-verifier`;
-- artifact mode: `compact`;
-- one human write-authorization gate before implementation;
-- root deterministic reconciliation;
-- requires bounded/reversible classification evidence.
 
 ### Standard
 
@@ -188,250 +35,258 @@ PROBLEM_ALIGNMENT
 PROBLEM_ALIGNMENT
 → INVESTIGATION
 → SOLUTION_DESIGN
-→ IMPLEMENTATION_PLAN
+→ IMPLEMENTATION_BLUEPRINT
+→ BLUEPRINT_CRITIQUE
 → BOUNDED_IMPLEMENTATION
-→ TECHNICAL_REVIEW
+→ IMPLEMENTATION_REVIEW
 → VERIFICATION
 → RECONCILIATION
 → COMPLETED
 ```
 
-- artifact mode: `normal`;
-- suited to small-to-medium features, local refactors, and non-trivial bugs;
-- retains independent technical review and verification.
-
 ### Full
 
-Contains every canonical phase and uses `exhaustive` artifacts.
+```text
+PROBLEM_ALIGNMENT
+→ INVESTIGATION
+→ SYSTEM_MODEL
+→ MODEL_CRITIQUE
+→ SOLUTION_DESIGN
+→ SOLUTION_CRITIQUE
+→ IMPLEMENTATION_BLUEPRINT
+→ BLUEPRINT_CRITIQUE
+→ BOUNDED_IMPLEMENTATION
+→ IMPLEMENTATION_REVIEW
+→ VERIFICATION
+→ RECONCILIATION
+→ COMPLETED
+```
 
-Required lane rules:
+Lane promotion is monotonic: `quick → standard → full`. No automatic demotion is allowed.
 
-- no reliable signals defaults to standard;
-- hard-risk signals force full;
-- quick requires a bounded/reversible qualifier;
-- promotion is monotonic: quick to standard to full;
-- demotion is invalid;
-- promotion returns to the earliest newly required phase;
-- compressed lanes produce validated lane assessment and phase waiver files;
-- waived phases cannot be routed or delegated;
-- no empty artifact is created for a waived phase;
-- v2.2 delegation packets bind lane, artifact mode, and expected next state;
-- shorter paths never weaken permissions, boundary auditing, fresh review contexts, verification, or human authority.
+## Composite phases
 
-## 8. Canonical phase-to-role mapping
+Phase compression must never remove independent delegations or fresh contexts.
 
-| State | Role | Skill | Source write |
-|---|---|---|---|
-| `PROBLEM_ALIGNMENT` | `t-think` | `t-problem-alignment` | deny |
-| `INVESTIGATION` | `t-investigator` | `t-investigation` | deny |
-| `SYSTEM_MODEL` | `t-modeler` | `t-system-modeling` | deny |
-| `MODEL_CRITIQUE` | `t-critic` | `t-model-critique` | deny |
-| `SOLUTION_DESIGN` | `t-modeler` | `t-solution-design` | deny |
-| `SOLUTION_CRITIQUE` | `t-critic` | `t-solution-critique` | deny |
-| `IMPLEMENTATION_PLAN` | `t-planner` | `t-implementation-planning` | deny |
-| `PLAN_CRITIQUE` | `t-critic` | `t-plan-critique` | deny |
-| `IMPLEMENTATION_CHECKLIST` | `t-planner` | `t-checklist-builder` | deny |
-| `CHECKLIST_CRITIQUE` | `t-critic` | `t-checklist-critique` | deny |
-| `BOUNDED_IMPLEMENTATION` | `t-builder` | `t-bounded-implementation` | approved targets only |
-| `SELF_REVIEW` | fresh `t-builder` | `t-self-review` | deny |
-| `TECHNICAL_REVIEW` | `t-reviewer` | `t-technical-review` | deny |
-| `VERIFICATION` | `t-verifier` | `t-verification` | generated outputs only |
-| `RECONCILIATION` | `t-reconciler` | `t-reconciliation` | deny |
+| Composite phase | Required tracks |
+|---|---|
+| `IMPLEMENTATION_BLUEPRINT` | `strategy`, `execution_checklist` |
+| `BLUEPRINT_CRITIQUE` | `strategy_critique`, `execution_critique` |
+| `IMPLEMENTATION_REVIEW` quick | `self_review`, `technical_review` |
+| `IMPLEMENTATION_REVIEW` standard/full | `self_review`, `technical_review`, `security_review`, `breaking_review` |
 
-Lane overrides are applied after this mapping and must be explicit in `lane-registry.yaml`.
+Only the aggregate composite-phase validator may advance lifecycle. A component track may not emit or apply a canonical phase transition.
 
-## 9. Editing rules
+## Roles and authority
 
-- Make the smallest coherent change.
-- Preserve public identifiers and enums unless a versioned contract change is intentional.
-- Do not add aliases or migrations without demonstrated need.
-- Never weaken a validator, permission boundary, or role separation for convenience.
-- Do not combine unrelated cleanup.
-- Keep documentation aligned in the same change.
-- Update canonical inputs before generated outputs.
-- Never hand-edit generated adapters as the primary fix.
-- Preserve deterministic ordering and stable serialization.
+| Worker | Primary responsibility | Product-source write |
+|---|---|---:|
+| `t-investigator` | collect factual repository/runtime evidence | deny |
+| `t-modeler` | system model and solution design | deny |
+| `t-planner` | blueprint strategy and executable checklist | deny |
+| `t-critic` | independent model, solution, and blueprint critique | deny |
+| `t-builder` | approved implementation; fresh self-review | approved targets only during implementation; deny during review |
+| `t-reviewer` | independent technical review | deny |
+| `t-security-reviewer` | dedicated security review | deny |
+| `t-breaking-reviewer` | flow/rule/validation/data/mapping/contract compatibility review | deny |
+| `t-verifier` | executable verification | generated outputs only |
+| `t-reconciler` | final traceability and residual-gap audit | deny |
 
-Typical change order:
+`t-think` owns routing, aggregation, human gates, and lifecycle transitions. It never modifies product source.
+
+## Portable path contract
+
+All skill resources must be portable across Windows, macOS, and Linux.
+
+1. Every skill has `SKILL.md` and generated `RESOURCE_INDEX.md`.
+2. Resource references are relative to the skill root and use `/` separators.
+3. Instructions must never invent user-home paths, use `~` with backslashes, concatenate `%USERPROFILE%`, embed a drive letter, or hard-code a username.
+4. Absolute paths, when unavoidable, are produced by `pathlib`/the host path API or `bin/t-thinkctl.py paths`.
+5. Missing resources produce `BLOCKED / SKILL_RESOURCE_UNAVAILABLE`; models may not recreate templates from memory.
+6. OpenCode `external_directory` rules deny by default, recursively allow trusted t-think skill/runtime roots with `/**`, and edit-deny those roots.
+7. Run `scripts/update_skill_resource_indexes.py` after adding, moving, or deleting any skill resource.
+8. Run `scripts/path_template_contract_test.py` after every path, template, adapter, installer, or skill change.
+
+Canonical identifier:
 
 ```text
-canonical policy/schema
-→ runtime/router/validator
-→ canonical role/skill contract
-→ generated adapters
-→ examples and tests
-→ documentation
-→ reports
-→ archives
-→ checksums
-→ manifest/version/final ZIP
+templates/output.template.yaml
 ```
 
-## 10. Required validation
+A native Windows tool may display the resolved path with backslashes. That display form must never be copied back into portable skill metadata or Markdown links.
 
-### Lane, lifecycle, routing, authority, schema, or runtime change
+## Repository layout
+
+```text
+AGENTS.md                  this continuity contract
+README.md                  user-facing installation and operation guide
+VERSION                    bundle release version
+orchestrator/              phase/lane/risk/composite/role policies
+agents/                    source worker instructions
+skills/                    twenty skill packages
+adapters/                  generated platform-native agents/profiles
+bin/                       runtime, installer, doctor, validators, resolver
+schemas/                   shared JSON Schemas
+scripts/                   generators, audits, tests, archive/checksum tooling
+templates/                 root work-state templates
+docs/                      detailed operating contracts
+reports/                   generated test/audit reports
+archives/                  standalone skill archives
+```
+
+Generated adapters are outputs. Change their source instructions or generator, then run `python3 scripts/generate_adapters.py`; do not hand-edit generated adapters as the sole change.
+
+`RESOURCE_INDEX.md` files are generated outputs. Update resource files or the index generator, then regenerate all indexes.
+
+## Source-of-truth hierarchy
+
+When artifacts disagree, use this order:
+
+1. JSON Schemas and deterministic validators;
+2. orchestrator registries and policies;
+3. skill transition contracts;
+4. worker/source agent instructions;
+5. generated adapters;
+6. README, MANIFEST, and examples.
+
+Fix all lower layers when a higher source changes.
+
+## Workspace boundaries
+
+`.gitignore` controls discovery only. It does not grant or deny authority.
+
+- Product writes require exact human-approved targets.
+- Protected files remain denied.
+- Outside-workspace product access remains denied.
+- Trusted global skill/runtime paths are a separate read-only resource exception for platform operation.
+- Self-review and all independent review tracks are read-only.
+- Verifier output is limited to declared generated paths.
+- Every worker result requires a boundary report.
+
+Do not weaken these rules to simplify adapters or tests.
+
+## Skill package requirements
+
+Every `skills/t-*` package must contain at least:
+
+```text
+SKILL.md
+RESOURCE_INDEX.md
+README.md
+MANIFEST.md
+schemas/
+templates/
+validators/
+examples/
+tests/
+orchestrator/transition-contract.yaml
+```
+
+Each `SKILL.md` must:
+
+- have name matching its directory;
+- declare the correct canonical lifecycle state;
+- remain scoped to one phase or component track;
+- use bounded, cheap-model-friendly instructions;
+- contain the portable resource contract;
+- link to its resource index and frequent input/output resources;
+- direct missing evidence or resources to `BLOCKED`, never invention.
+
+## Cheap-model reliability
+
+Preserve:
+
+- one objective per invocation;
+- one active skill per invocation;
+- fresh contexts between producer and critic/reviewer;
+- enumerated statuses before prose;
+- template-first output;
+- exact file/evidence inputs rather than repository dumps;
+- checklist-based review;
+- command-driven verification with exit code and evidence path;
+- one constrained retry, then escalation.
+
+Do not merge independent reviewer contexts merely because phases share one lifecycle state.
+
+## Versioning
+
+Use semantic versioning for the bundle.
+
+- Patch: compatibility fix, validator/audit hardening, documentation correction, portable-path fix without lifecycle/schema break.
+- Minor: backward-compatible lifecycle/role/skill capability.
+- Major: incompatible state, manifest, installer, or lifecycle contract.
+
+A bundle version bump does not automatically require a work-state schema version bump. State schema versions change only when serialized state changes.
+
+When bumping the bundle:
+
+- update `VERSION`;
+- update skill frontmatter versions where the package changed;
+- update `README.md` and `MANIFEST.md`;
+- regenerate adapters, indexes, archives, reports, and checksums;
+- verify an extracted ZIP, not only the source tree.
+
+## Required change workflow
+
+For any architecture, path, template, or installer change:
+
+1. inspect registries, schemas, generators, and affected skills;
+2. edit source-of-truth files;
+3. regenerate portable resource indexes;
+4. regenerate platform adapters;
+5. run path/template contract audit;
+6. run alignment, lane, subagent, economy, and installation smoke tests;
+7. run every skill validator and unit test;
+8. rebuild standalone skill archives;
+9. update manifest/report totals;
+10. regenerate root and per-skill checksums;
+11. build the ZIP;
+12. extract to a clean directory and repeat critical checks plus install/doctor/path resolution.
+
+## Verification commands
+
+Focused:
 
 ```bash
-make adapters
-make audit
-make subagents
-make lanes
-make economy
-make validate
-make test
-make smoke
-make checksums
+python3 scripts/update_skill_resource_indexes.py
+python3 scripts/generate_adapters.py
+python3 scripts/path_template_contract_test.py
+python3 scripts/audit_alignment.py
+python3 scripts/subagent_contract_test.py
+python3 scripts/lane_contract_test.py
+python3 scripts/economy_contract_test.py
+python3 scripts/smoke_test.py
 ```
 
-Add negative tests for every new boundary or authority rule.
-
-### Skill change
-
-```bash
-make audit
-make validate
-make test
-make archives
-make checksums
-```
-
-### Adapter change
-
-```bash
-make adapters
-make audit
-make subagents
-make economy
-make smoke
-make checksums
-```
-
-### Installer change
-
-```bash
-make smoke
-make audit
-make checksums
-```
-
-### Documentation-only change
-
-```bash
-make audit
-make checksums
-```
-
-Run broader tests when docs contain commands, counts, mappings, or behavioral claims.
-
-### Release
+Full:
 
 ```bash
 make verify
-make archives
-make checksums
 ```
 
-Then build a clean ZIP, run `unzip -t`, extract to a temporary directory, and rerun applicable acceptance tests from the extracted copy.
-
-## 11. Critical negative cases
-
-Test at minimum:
-
-- hard-risk work classified below full;
-- quick selected without a bounded/reversible qualifier;
-- routing or delegation into a waived phase;
-- lane demotion;
-- promotion that discards prior history;
-- promotion that incorrectly continues after skipped required phases;
-- wrong role or skill for a phase;
-- nested worker delegation;
-- non-builder source write;
-- builder write outside approved targets;
-- protected-path write;
-- ignored-file read without approval;
-- outside-workspace access;
-- self-review source write;
-- verifier source write;
-- forged approval;
-- artifact digest mismatch;
-- invalid result transition;
-- model failure silently advancing state;
-- parallel source writers.
-
-## 12. Versioning and release
-
-- `VERSION` is canonical.
-- Patch: compatible correction or documentation/test/package fix.
-- Minor: backward-compatible capability or optional contract extension.
-- Major: incompatible lifecycle, schema, invocation, installation, or artifact contract.
-- Update `MANIFEST.md` whenever inventory or assurance claims change.
-- Regenerate adapters after canonical prompt changes.
-- Rebuild skill archives when skill content changes.
-- Regenerate root checksums after every distributed-file change.
-- Record final ZIP size and SHA-256 from the produced file.
-- Never claim a test count that is not supported by current reports.
-
-## 13. Installation and security
-
-Global installers are consequential. Preserve idempotence, conflict detection, safe backups, owned-path manifests, doctor checks, and uninstall limited to owned files.
-
-Never commit or inspect secrets without explicit authorization. Do not add telemetry, automatic upload, remote execution, background services, shell-profile mutation, or system-directory changes without explicit design and approval.
-
-## 14. Documentation map
-
-- `README.md`: installation, invocation, lanes, commands, assurance boundary;
-- `docs/adaptive-governance-lanes.md`: classification, compression, promotion, compatibility;
-- `docs/subagent-architecture.md`: topology and roles;
-- `docs/workspace-and-permission-policy.md`: discovery and authorization;
-- `docs/cheap-model-compatibility.md`: economy behavior and escalation;
-- `docs/critique-and-loopback-policy.md`: critique and earliest-owner routing;
-- `docs/epistemic-policy.md`: claim labels;
-- `docs/platform-compatibility.md`: native platform representation;
-- `docs/artifact-conventions.md`: artifact storage and naming;
-- `MANIFEST.md`: frozen release facts.
-
-## 15. Continuation protocol
-
-Before ending a session:
-
-1. leave a coherent tree;
-2. update canonical docs and tests;
-3. record the strongest completed validation;
-4. keep generated adapters aligned;
-5. do not leave stale checksums while claiming release readiness;
-6. preserve unresolved work in a durable file, issue, or commit message;
-7. record exact failing commands for blockers;
-8. preserve unrelated user work.
-
-At the next session:
+Packaging:
 
 ```bash
-git status --short
-git log -n 10 --oneline
-cat VERSION
-sed -n '1,260p' AGENTS.md
-sed -n '1,260p' README.md
-make audit
-make subagents
-make lanes
-make economy
+python3 scripts/generate_skill_checksums.py
+python3 scripts/rebuild_archives.py
+python3 scripts/generate_checksums.py
+sha256sum -c CHECKSUMS.sha256
 ```
 
-## 16. Definition of done
+Aggregate test processes may exceed a host command window. It is acceptable to execute deterministic validator/unit-test batches and combine their reports, but every command/test must run and every failure must remain visible.
+
+## Completion criteria for bundle changes
 
 A change is complete only when:
 
-- canonical sources represent the requested behavior;
-- lane assessment, waiver, paths, roles, skills, schemas, and validators agree;
-- permissions remain least-privilege;
-- relevant positive and negative tests pass;
-- generated adapters match canonical sources;
-- documentation and reports are truthful;
-- archives and checksums are current when applicable;
-- installation smoke tests pass when affected;
-- no unrelated work was overwritten;
-- live-platform limitations are stated honestly.
-
-## 17. Final guardrail
-
-Optimize for governed correctness, reproducibility, portability, and honest evidence. A shorter lane may reduce ceremony; it must never enable a gate bypass, unauthorized write, recursive delegation, silent completion on invalid evidence, or hidden dependence on an expensive model.
+- path, lane, phase, role, skill, adapter, schema, and validator contracts agree;
+- generated files are current;
+- all required resources are indexed and exist;
+- templates and structured resources parse;
+- portable path semantics pass for Linux, macOS, and Windows;
+- copy install, doctor, resolver, and uninstall pass in an isolated home path with spaces and Unicode;
+- symlink install passes where supported;
+- all skill validators and unit tests pass;
+- standalone archives and root checksums pass;
+- extracted-package checks pass;
+- README and MANIFEST describe the actual bundle.

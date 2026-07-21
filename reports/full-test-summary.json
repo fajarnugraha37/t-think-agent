@@ -1,10 +1,10 @@
 {
   "status": "PASS",
-  "bundle_version": "2.3.0",
-  "execution_mode": "deterministic per-skill and bounded batches",
+  "bundle_version": "2.3.1",
+  "execution_mode": "deterministic bounded batches and per-skill runs",
   "skill_count": 20,
   "unit_test_count": 165,
-  "note": "All listed suites completed with exit code 0. Aggregate single-process runs exceeded the host command window, so current evidence was collected in bounded batches and per-skill runs.",
+  "note": "All listed suites completed with exit code 0. Long-running legacy suites were executed in bounded runs so host command windows could not hide failures.",
   "skills": [
     {
       "skill": "t-blueprint-critique",
