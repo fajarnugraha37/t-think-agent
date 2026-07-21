@@ -1,9 +1,9 @@
 {
   "status": "PASS",
   "smoke_tests": [
-    "idempotent copy install/doctor/uninstall with root orchestrators and 8 role workers",
-    "symlink install/doctor/uninstall with runtime",
-    "state routing and delegation generation"
+    "idempotent copy install/doctor/uninstall with 10 terminal workers and 20 skills",
+    "symlink install/doctor/uninstall",
+    "composite route and breaking-review delegation"
   ],
   "scope": "isolated temporary HOME; no real user configuration modified"
 }

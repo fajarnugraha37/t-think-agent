@@ -16,7 +16,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "1.0.0"
+      "const": "2.0.0"
     },
     "identity": {
       "type": "object",
@@ -68,6 +68,30 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 3
+        },
+        "lane": {
+          "enum": [
+            "quick",
+            "standard",
+            "full"
+          ]
+        },
+        "artifact_mode": {
+          "enum": [
+            "compact",
+            "normal",
+            "exhaustive"
+          ]
+        },
+        "expected_next_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "track": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },

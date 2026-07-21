@@ -1,0 +1,33 @@
+schema_version: 2.0.0
+name: t-security-reviewer
+mode: subagent
+description: Perform a dedicated security review of the actual change without source edits.
+phases:
+- IMPLEMENTATION_REVIEW
+skills:
+- t-security-review
+phase_tracks:
+- phase: IMPLEMENTATION_REVIEW
+  track: security_review
+  skill: t-security-review
+context: fresh_invocation
+human_interaction: false
+permissions:
+  discovery:
+    respect_vcs_ignore: true
+    include_untracked: true
+    include_ignored: false
+  workspace_read: allow
+  outside_workspace: deny
+  governance_artifact_write: .t-think/**
+  source_write:
+    mode: deny
+  protected_paths:
+  - .git/**
+  - .env
+  - .env.*
+  - '**/secrets/**'
+  - '**/*credential*'
+  - '**/*private-key*'
+  command_policy: security-read-only-checks
+  spawn_subagent: deny

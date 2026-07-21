@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/composite-track-result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "track",
+    "agent",
+    "skill",
+    "invocation_id",
+    "status",
+    "artifact"
+  ],
+  "properties": {
+    "track": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent": {
+      "pattern": "^t-[a-z0-9-]+$"
+    },
+    "skill": {
+      "pattern": "^t-[a-z0-9-]+$"
+    },
+    "invocation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "NOT_APPLICABLE",
+        "CHANGES_REQUIRED",
+        "BLOCKED",
+        "COMPLETE"
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "sha256"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "applicability_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

@@ -1,13 +1,17 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 name: t-builder
 mode: subagent
-description: Execute only the human-authorized atomic checklist and perform a fresh-invocation self-review.
+description: Execute authorized blueprint tasks and perform a fresh self-review track.
 phases:
 - BOUNDED_IMPLEMENTATION
-- SELF_REVIEW
+- IMPLEMENTATION_REVIEW
 skills:
 - t-bounded-implementation
 - t-self-review
+phase_tracks:
+- phase: IMPLEMENTATION_REVIEW
+  track: self_review
+  skill: t-self-review
 context: fresh_invocation
 human_interaction: false
 permissions:
@@ -27,5 +31,5 @@ permissions:
   - '**/secrets/**'
   - '**/*credential*'
   - '**/*private-key*'
-  command_policy: approved-checklist-only
+  command_policy: approved-blueprint-only
   spawn_subagent: deny

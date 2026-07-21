@@ -1,142 +1,127 @@
-version: 1.0.0
+version: 2.0.0
 name: governed-agentic-software-delivery-lifecycle
 canonical_states:
+- PROBLEM_ALIGNMENT
+- INVESTIGATION
+- SYSTEM_MODEL
+- MODEL_CRITIQUE
+- SOLUTION_DESIGN
+- SOLUTION_CRITIQUE
+- IMPLEMENTATION_BLUEPRINT
+- BLUEPRINT_CRITIQUE
+- BOUNDED_IMPLEMENTATION
+- IMPLEMENTATION_REVIEW
+- VERIFICATION
+- RECONCILIATION
+- COMPLETED
+terminal_states:
+- COMPLETED
+- REJECTED
+external_holds:
+- HUMAN_DECISION
+- ACCESS_REQUIRED
+success_path:
+- skill: problem-alignment
+  directory: skills/t-problem-alignment
+  state: PROBLEM_ALIGNMENT
+  success_gate: READY_FOR_INVESTIGATION
+  next_state: INVESTIGATION
+  human_gate: true
+  composite: false
+- skill: investigation
+  directory: skills/t-investigation
+  state: INVESTIGATION
+  success_gate: READY_FOR_SYSTEM_MODEL
+  next_state: SYSTEM_MODEL
+  human_gate: false
+  composite: false
+- skill: system-modeling
+  directory: skills/t-system-modeling
+  state: SYSTEM_MODEL
+  success_gate: READY_FOR_MODEL_CRITIQUE
+  next_state: MODEL_CRITIQUE
+  human_gate: false
+  composite: false
+- skill: model-critique
+  directory: skills/t-model-critique
+  state: MODEL_CRITIQUE
+  success_gate: READY_FOR_SOLUTION_DESIGN
+  next_state: SOLUTION_DESIGN
+  human_gate: false
+  composite: false
+- skill: solution-design
+  directory: skills/t-solution-design
+  state: SOLUTION_DESIGN
+  success_gate: READY_FOR_SOLUTION_CRITIQUE
+  next_state: SOLUTION_CRITIQUE
+  human_gate: false
+  composite: false
+- skill: solution-critique
+  directory: skills/t-solution-critique
+  state: SOLUTION_CRITIQUE
+  success_gate: READY_FOR_IMPLEMENTATION_BLUEPRINT
+  next_state: IMPLEMENTATION_BLUEPRINT
+  human_gate: true
+  composite: false
+- skill: implementation-blueprint
+  directory: skills/t-implementation-blueprint
+  state: IMPLEMENTATION_BLUEPRINT
+  success_gate: READY_FOR_BLUEPRINT_CRITIQUE
+  next_state: BLUEPRINT_CRITIQUE
+  human_gate: false
+  composite: true
+- skill: blueprint-critique
+  directory: skills/t-blueprint-critique
+  state: BLUEPRINT_CRITIQUE
+  success_gate: READY_FOR_BOUNDED_IMPLEMENTATION
+  next_state: BOUNDED_IMPLEMENTATION
+  human_gate: true
+  composite: true
+- skill: bounded-implementation
+  directory: skills/t-bounded-implementation
+  state: BOUNDED_IMPLEMENTATION
+  success_gate: READY_FOR_IMPLEMENTATION_REVIEW
+  next_state: IMPLEMENTATION_REVIEW
+  human_gate: false
+  composite: false
+- skill: implementation-review
+  directory: skills/t-implementation-review
+  state: IMPLEMENTATION_REVIEW
+  success_gate: READY_FOR_VERIFICATION
+  next_state: VERIFICATION
+  human_gate: false
+  composite: true
+- skill: verification
+  directory: skills/t-verification
+  state: VERIFICATION
+  success_gate: READY_FOR_RECONCILIATION
+  next_state: RECONCILIATION
+  human_gate: false
+  composite: false
+- skill: reconciliation
+  directory: skills/t-reconciliation
+  state: RECONCILIATION
+  success_gate: RECONCILED_COMPLETE
+  next_state: COMPLETED
+  human_gate: true
+  composite: false
+loopback_rule:
+  policy: Route to the earliest canonical lifecycle phase that owns the invalidated decision or missing evidence.
+  no_silent_repair: true
+  preserve_superseded_artifacts: true
+  require_new_version_or_run_id: true
+mutation_boundaries:
+  read_only_states:
   - PROBLEM_ALIGNMENT
   - INVESTIGATION
   - SYSTEM_MODEL
   - MODEL_CRITIQUE
   - SOLUTION_DESIGN
   - SOLUTION_CRITIQUE
-  - IMPLEMENTATION_PLAN
-  - PLAN_CRITIQUE
-  - IMPLEMENTATION_CHECKLIST
-  - CHECKLIST_CRITIQUE
-  - BOUNDED_IMPLEMENTATION
-  - SELF_REVIEW
-  - TECHNICAL_REVIEW
+  - IMPLEMENTATION_BLUEPRINT
+  - BLUEPRINT_CRITIQUE
+  - IMPLEMENTATION_REVIEW
   - VERIFICATION
   - RECONCILIATION
-  - COMPLETED
-legacy_import_aliases:
-  CHANGE_OPTIONS: SOLUTION_DESIGN
-  note: Legacy artifacts may be imported with CHANGE_OPTIONS, but must be normalized before validation or transition.
-terminal_states:
-  - COMPLETED
-  - REJECTED
-external_holds:
-  - HUMAN_DECISION
-  - ACCESS_REQUIRED
-success_path:
-  - skill: problem-alignment
-    directory: skills/t-problem-alignment
-    state: PROBLEM_ALIGNMENT
-    success_gate: APPROVED_FOR_INVESTIGATION
-    next_state: INVESTIGATION
-    human_gate: true
-  - skill: investigation
-    directory: skills/t-investigation
-    state: INVESTIGATION
-    success_gate: READY_FOR_SYSTEM_MODEL
-    next_state: SYSTEM_MODEL
-    human_gate: false
-  - skill: system-modeling
-    directory: skills/t-system-modeling
-    state: SYSTEM_MODEL
-    success_gate: READY_FOR_MODEL_CRITIQUE
-    next_state: MODEL_CRITIQUE
-    human_gate: false
-  - skill: model-critique
-    directory: skills/t-model-critique
-    state: MODEL_CRITIQUE
-    success_gate: READY_FOR_CHANGE_OPTIONS
-    next_state: SOLUTION_DESIGN
-    human_gate: true
-  - skill: solution-design
-    directory: skills/t-solution-design
-    state: SOLUTION_DESIGN
-    success_gate: READY_FOR_SOLUTION_CRITIQUE
-    next_state: SOLUTION_CRITIQUE
-    human_gate: false
-  - skill: solution-critique
-    directory: skills/t-solution-critique
-    state: SOLUTION_CRITIQUE
-    success_gate: READY_FOR_IMPLEMENTATION_PLAN
-    next_state: IMPLEMENTATION_PLAN
-    human_gate: true
-  - skill: implementation-planning
-    directory: skills/t-implementation-planning
-    state: IMPLEMENTATION_PLAN
-    success_gate: READY_FOR_PLAN_CRITIQUE
-    next_state: PLAN_CRITIQUE
-    human_gate: false
-  - skill: plan-critique
-    directory: skills/t-plan-critique
-    state: PLAN_CRITIQUE
-    success_gate: READY_FOR_IMPLEMENTATION_CHECKLIST
-    next_state: IMPLEMENTATION_CHECKLIST
-    human_gate: true
-  - skill: checklist-builder
-    directory: skills/t-checklist-builder
-    state: IMPLEMENTATION_CHECKLIST
-    success_gate: READY_FOR_CHECKLIST_CRITIQUE
-    next_state: CHECKLIST_CRITIQUE
-    human_gate: false
-  - skill: checklist-critique
-    directory: skills/t-checklist-critique
-    state: CHECKLIST_CRITIQUE
-    success_gate: READY_FOR_BOUNDED_IMPLEMENTATION
-    next_state: BOUNDED_IMPLEMENTATION
-    human_gate: true
-  - skill: bounded-implementation
-    directory: skills/t-bounded-implementation
-    state: BOUNDED_IMPLEMENTATION
-    success_gate: READY_FOR_SELF_REVIEW
-    next_state: SELF_REVIEW
-    human_gate: false
-  - skill: self-review
-    directory: skills/t-self-review
-    state: SELF_REVIEW
-    success_gate: READY_FOR_TECHNICAL_REVIEW
-    next_state: TECHNICAL_REVIEW
-    human_gate: false
-  - skill: technical-review
-    directory: skills/t-technical-review
-    state: TECHNICAL_REVIEW
-    success_gate: READY_FOR_VERIFICATION
-    next_state: VERIFICATION
-    human_gate: false
-  - skill: verification
-    directory: skills/t-verification
-    state: VERIFICATION
-    success_gate: READY_FOR_RECONCILIATION
-    next_state: RECONCILIATION
-    human_gate: false
-  - skill: reconciliation
-    directory: skills/t-reconciliation
-    state: RECONCILIATION
-    success_gate: RECONCILED_COMPLETE
-    next_state: COMPLETED
-    human_gate: true
-loopback_rule:
-  policy: Route to the earliest lifecycle phase that owns the invalidated semantic decision or missing evidence.
-  no_silent_repair: true
-  preserve_superseded_artifacts: true
-  require_new_version_or_run_id: true
-mutation_boundaries:
-  read_only_states:
-    - PROBLEM_ALIGNMENT
-    - INVESTIGATION
-    - SYSTEM_MODEL
-    - MODEL_CRITIQUE
-    - SOLUTION_DESIGN
-    - SOLUTION_CRITIQUE
-    - IMPLEMENTATION_PLAN
-    - PLAN_CRITIQUE
-    - IMPLEMENTATION_CHECKLIST
-    - CHECKLIST_CRITIQUE
-    - SELF_REVIEW
-    - TECHNICAL_REVIEW
-    - VERIFICATION
-    - RECONCILIATION
   repository_mutation_state: BOUNDED_IMPLEMENTATION
   remediation_during_review_allowed: false

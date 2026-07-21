@@ -1,0 +1,6 @@
+skill: implementation-review
+state: IMPLEMENTATION_REVIEW
+composite: true
+success_state: VERIFICATION
+success_gate: READY_FOR_VERIFICATION
+lifecycle_transition_owned_by: t-think

@@ -1,11 +1,14 @@
 PYTHON ?= python3
-.PHONY: adapters audit subagents smoke economy validate test archives checksums verify clean
+.PHONY: adapters audit subagents lanes smoke economy validate test archives checksums verify clean
 
 adapters:
 	$(PYTHON) scripts/generate_adapters.py
 
 subagents:
 	$(PYTHON) scripts/subagent_contract_test.py
+
+lanes:
+	$(PYTHON) scripts/lane_contract_test.py
 
 audit:
 	$(PYTHON) scripts/audit_alignment.py
@@ -29,7 +32,7 @@ checksums:
 	$(PYTHON) scripts/generate_checksums.py
 	sha256sum -c CHECKSUMS.sha256
 
-verify: adapters audit subagents smoke economy validate test checksums
+verify: adapters audit subagents lanes smoke economy validate test checksums
 	@echo "t-think multi-agent bundle verification completed"
 
 clean:

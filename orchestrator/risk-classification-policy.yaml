@@ -1,0 +1,96 @@
+schema_version: 1.0.0
+classifier_version: 1.0.0
+unknown_default_lane: standard
+thresholds:
+  quick_max: 2
+  standard_max: 5
+  full_min: 6
+hard_triggers:
+  security_boundary: Authentication, authorization, cryptography, trust boundary, or sensitive-data policy changes.
+  destructive_migration: Destructive or irreversible database, storage, or state migration.
+  public_api_breaking: Breaking public API, serialized contract, protocol, package export, or compatibility change.
+  concurrency_invariant: Concurrency, ordering, memory-model, lock, idempotency, or distributed consistency invariant.
+  financial_correctness: Billing, charging, pricing, money movement, ledger, or financial calculation correctness.
+  secrets_or_iam: Secrets, credentials, signing keys, IAM, deployment identity, or privileged infrastructure.
+  irreversible_operation: Operation that cannot be safely rolled back or restored from a tested recovery path.
+  cross_service_protocol: Cross-service protocol, event schema, distributed transaction, or coordinated rollout.
+soft_signals:
+  multiple_primary_files: 1
+  behavior_without_test: 1
+  shared_utility: 1
+  dependency_change: 1
+  compatibility_concern: 2
+  multiple_modules: 2
+  rollback_nontrivial: 2
+  behavior_ambiguous: 2
+  write_targets_unknown: 2
+  external_runtime_matrix: 2
+  local_reversible: 0
+  existing_reproduction: 0
+  documentation_only: 0
+  test_only: 0
+quick_qualifiers:
+  - local_reversible
+  - existing_reproduction
+  - documentation_only
+  - test_only
+rules:
+  - Any hard trigger forces full regardless of requested lane.
+  - Auto classification with no declared or conservatively inferred signal selects standard.
+  - Quick requires a score of at most quick_max and at least one quick qualifier.
+  - Standard covers non-hard-trigger work through standard_max or work with incomplete classification evidence.
+  - Scores at or above full_min select full.
+  - Explicit human lane selection is recorded, but cannot downgrade a hard-trigger classification.
+keyword_hints:
+  security_boundary:
+    - authentication
+    - authorization
+    - oauth
+    - oidc
+    - cryptography
+    - encryption
+    - permission
+  destructive_migration:
+    - destructive migration
+    - drop column
+    - drop table
+    - data deletion
+  public_api_breaking:
+    - breaking api
+    - public api
+    - remove export
+    - incompatible contract
+  concurrency_invariant:
+    - concurrency
+    - race condition
+    - deadlock
+    - distributed lock
+    - memory model
+  financial_correctness:
+    - billing
+    - pricing
+    - charge
+    - ledger
+  secrets_or_iam:
+    - secret
+    - credential
+    - iam
+    - signing key
+  cross_service_protocol:
+    - event schema
+    - cross-service
+    - distributed transaction
+  documentation_only:
+    - documentation only
+    - docs only
+    - typo
+  test_only:
+    - test only
+    - fixture only
+  existing_reproduction:
+    - failing test
+    - reproduction exists
+  local_reversible:
+    - local patch
+    - small bugfix
+    - reversible

@@ -1,0 +1,6 @@
+skill: breaking-review
+parent_phase: IMPLEMENTATION_REVIEW
+track: breaking_review
+track_success: PASS
+lifecycle_transition_owned_by: t-think
+source_mutation_allowed: false

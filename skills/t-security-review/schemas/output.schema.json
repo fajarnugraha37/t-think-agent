@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_id",
+    "lane",
+    "phase",
+    "track",
+    "reviewer_agent",
+    "invocation_id",
+    "context_fresh",
+    "source_mutation",
+    "checks",
+    "findings",
+    "status",
+    "recommended_route",
+    "applicability_reason"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "work_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lane": {
+      "enum": [
+        "quick",
+        "standard",
+        "full"
+      ]
+    },
+    "phase": {
+      "const": "IMPLEMENTATION_REVIEW"
+    },
+    "track": {
+      "const": "security_review"
+    },
+    "reviewer_agent": {
+      "const": "t-security-reviewer"
+    },
+    "invocation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "context_fresh": {
+      "const": true
+    },
+    "source_mutation": {
+      "const": false
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_id",
+          "category",
+          "status",
+          "rationale",
+          "evidence_refs"
+        ],
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "pattern": "^[A-Z]+-[0-9]{3}$"
+          },
+          "category": {
+            "enum": [
+              "AUTHENTICATION",
+              "AUTHORIZATION",
+              "INPUT_VALIDATION",
+              "INJECTION",
+              "SENSITIVE_DATA",
+              "SECRETS",
+              "DEPENDENCY_RISK",
+              "LOGGING_EXPOSURE",
+              "TENANT_ISOLATION",
+              "FAIL_OPEN_BEHAVIOR"
+            ]
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "NOT_APPLICABLE",
+              "BLOCKED"
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 5
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "finding_id",
+          "severity",
+          "category",
+          "summary",
+          "evidence_refs",
+          "required_route"
+        ],
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[A-Z]+-[0-9]{3}$"
+          },
+          "severity": {
+            "enum": [
+              "LOW",
+              "MEDIUM",
+              "HIGH",
+              "CRITICAL"
+            ]
+          },
+          "category": {
+            "enum": [
+              "AUTHENTICATION",
+              "AUTHORIZATION",
+              "INPUT_VALIDATION",
+              "INJECTION",
+              "SENSITIVE_DATA",
+              "SECRETS",
+              "DEPENDENCY_RISK",
+              "LOGGING_EXPOSURE",
+              "TENANT_ISOLATION",
+              "FAIL_OPEN_BEHAVIOR"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 8
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required_route": {
+            "enum": [
+              "BOUNDED_IMPLEMENTATION",
+              "IMPLEMENTATION_BLUEPRINT",
+              "SOLUTION_DESIGN",
+              "PROBLEM_ALIGNMENT"
+            ]
+          }
+        }
+      }
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "CHANGES_REQUIRED",
+        "BLOCKED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "recommended_route": {
+      "enum": [
+        "BOUNDED_IMPLEMENTATION",
+        "IMPLEMENTATION_BLUEPRINT",
+        "SOLUTION_DESIGN",
+        "PROBLEM_ALIGNMENT",
+        null
+      ]
+    },
+    "applicability_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

@@ -72,9 +72,11 @@ def main():
         if skill.is_dir():
             dst=shared/skill.name
             installed.append({'kind':'skill','name':skill.name,'path':str(dst),'status':copy_or_link(skill,dst,a.mode,a.force,backups)})
+    worker_count=len([x for x in (ROOT/'agents').iterdir() if x.is_dir()])
     for platform in sorted(targets):
         files=platform_files(platform)
-        if len(files)!=9: raise RuntimeError(f'Expected 9 {platform} adapter artifacts, found {len(files)}')
+        expected=worker_count+1
+        if len(files)!=expected: raise RuntimeError(f'Expected {expected} {platform} adapter artifacts, found {len(files)}')
         for src,kind in files:
             dst=adapter_destination(home,platform,src,kind)
             name='t-think' if kind=='profile' else src.stem

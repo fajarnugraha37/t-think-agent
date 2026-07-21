@@ -1,39 +1,47 @@
-schema_version: 1.0.0
-purpose: Map globally installed t-* skill names to immutable artifact contract identifiers
-  used by validated schemas and fixture digests.
+schema_version: 2.0.0
+purpose: Map installed t-* skills to stable artifact contract identifiers.
 rules:
-- Use installed_skill for discovery and invocation.
-- Use contract_id only in schema fields that explicitly require it.
-- Do not rewrite contract_id values in approved artifacts; they are digest-bound identifiers,
-  not legacy install names.
+- Use installed_skill for invocation.
+- Composite track skills do not advance lifecycle state directly.
+- Use contract_id only in fields that require it.
 mappings:
-- installed_skill: t-problem-alignment
-  contract_id: problem-alignment-skill
-- installed_skill: t-investigation
-  contract_id: investigation-skill
-- installed_skill: t-system-modeling
-  contract_id: system-modeling-skill
-- installed_skill: t-model-critique
-  contract_id: model-critique-skill
-- installed_skill: t-solution-design
-  contract_id: solution-design-skill
-- installed_skill: t-solution-critique
-  contract_id: solution-critique-skill
-- installed_skill: t-implementation-planning
-  contract_id: implementation-planning-skill
-- installed_skill: t-plan-critique
-  contract_id: plan-critique-skill
+- installed_skill: t-blueprint-critique
+  contract_id: blueprint-critique-skill
+- installed_skill: t-bounded-implementation
+  contract_id: bounded-implementation-skill
+- installed_skill: t-breaking-review
+  contract_id: breaking-review-skill
 - installed_skill: t-checklist-builder
   contract_id: checklist-builder-skill
 - installed_skill: t-checklist-critique
   contract_id: checklist-critique-skill
-- installed_skill: t-bounded-implementation
-  contract_id: bounded-implementation-skill
+- installed_skill: t-implementation-blueprint
+  contract_id: implementation-blueprint-skill
+- installed_skill: t-implementation-planning
+  contract_id: implementation-planning-skill
+- installed_skill: t-implementation-review
+  contract_id: implementation-review-skill
+- installed_skill: t-investigation
+  contract_id: investigation-skill
+- installed_skill: t-model-critique
+  contract_id: model-critique-skill
+- installed_skill: t-plan-critique
+  contract_id: plan-critique-skill
+- installed_skill: t-problem-alignment
+  contract_id: problem-alignment-skill
+- installed_skill: t-reconciliation
+  contract_id: reconciliation-skill
+- installed_skill: t-security-review
+  contract_id: security-review-skill
 - installed_skill: t-self-review
   contract_id: self-review-skill
+- installed_skill: t-solution-critique
+  contract_id: solution-critique-skill
+- installed_skill: t-solution-design
+  contract_id: solution-design-skill
+- installed_skill: t-system-modeling
+  contract_id: system-modeling-skill
 - installed_skill: t-technical-review
   contract_id: technical-review-skill
 - installed_skill: t-verification
   contract_id: verification-skill
-- installed_skill: t-reconciliation
-  contract_id: reconciliation-skill

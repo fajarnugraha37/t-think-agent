@@ -2,14 +2,16 @@
 name: t-plan-critique
 description: Assess plan critiques and freeze a human-approved implementation plan without silently mutating it.
 version: 1.0.0
-lifecycle_state: PLAN_CRITIQUE
+lifecycle_state: BLUEPRINT_CRITIQUE
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
   suite: t-think
-  lifecycle-state: PLAN_CRITIQUE
+  lifecycle-state: BLUEPRINT_CRITIQUE
   cost-profile: economy-compatible
 ---
 # Plan Critique Skill
+
+> **Composite-phase component:** Runs as a fresh track inside `BLUEPRINT_CRITIQUE`. It does not advance lifecycle state directly; `t-think` creates the aggregate artifact.
 
 ## Purpose
 Evaluate human critique of an evidence-backed implementation plan without blindly following the reviewer, silently mutating planning artifacts, making new semantic decisions, or implementing code.

@@ -1,41 +1,61 @@
-schema_version: 2.1.0
+schema_version: 1.0.0
 default: economy
-model_policy: inherit-unless-explicitly-escalated
 profiles:
   economy:
-    intent: Reliable governed role isolation on low-cost coding models.
-    subagents_enabled: true
+    intent: Reliable sequential execution on low-cost coding models.
     max_active_skills: 1
-    max_concurrent_subagents: 1
     parallel_subagents: false
-    max_delegation_depth: 1
     require_template_first: true
     require_validator_after_artifact: true
-    context_policy: fresh-role-context-active-phase-only
+    context_policy: active-phase-only
+    context_budget_policy: orchestrator/context-budget-policy.yaml
     log_policy: save-and-summarize
+    subagents_enabled: true
+    max_concurrent_subagents: 1
+    max_delegation_depth: 1
     model: inherit
-    escalation: explicit-policy-only
+    governance_lanes:
+      - quick
+      - standard
+      - full
+    lane_policy: selected by deterministic risk policy; hard triggers force full
+    lane_promotion_before_model_escalation: true
+    escalation:
+      - unresolved semantic ambiguity after lane suitability is confirmed
+      - evidence conflict that changes a decision
+      - validator defect rather than artifact defect
+      - security or data-loss reasoning unresolved in the full lane
   balanced:
-    intent: Sequential lifecycle with limited parallel read-only investigation or verification shards.
-    subagents_enabled: true
+    intent: More independent review capacity while preserving deterministic gates.
     max_active_skills: 1
-    max_concurrent_subagents: 2
-    parallel_subagents: independent-read-only-only
-    max_delegation_depth: 1
+    parallel_subagents: read-only-only
     require_template_first: true
     require_validator_after_artifact: true
-    context_policy: fresh-role-context-required-upstream-only
+    context_policy: active-phase-plus-required-upstream
     log_policy: save-and-summarize
-    model: inherit
-  high-assurance:
-    intent: Independent evidence challenges for critical changes while keeping source writes single-threaded.
     subagents_enabled: true
-    max_active_skills: 1
-    max_concurrent_subagents: 4
-    parallel_subagents: independent-read-only-review-and-verification
+    max_concurrent_subagents: 2
     max_delegation_depth: 1
+    model: inherit
+    governance_lanes:
+      - quick
+      - standard
+      - full
+    lane_policy: selected by deterministic risk policy; hard triggers force full
+  high-assurance:
+    intent: Independent parallel evidence challenges for critical changes.
+    max_active_skills: 1
+    parallel_subagents: independent-read-only-review
     require_template_first: true
     require_validator_after_artifact: true
     context_policy: isolated-phase-workers
     log_policy: immutable-evidence-ledger
+    subagents_enabled: true
+    max_concurrent_subagents: 4
+    max_delegation_depth: 1
     model: inherit
+    governance_lanes:
+      - quick
+      - standard
+      - full
+    lane_policy: selected by deterministic risk policy; hard triggers force full

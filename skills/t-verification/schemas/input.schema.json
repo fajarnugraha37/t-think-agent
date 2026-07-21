@@ -1,435 +1,74 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.local/schemas/verification/input.schema.json",
-  "title": "Verification Input",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "metadata",
-    "source_authorization",
-    "source_artifacts",
-    "verification_policy"
+    "schema_version",
+    "work_id",
+    "lane",
+    "implementation_review",
+    "obligations"
   ],
   "properties": {
-    "metadata": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "work_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lane": {
+      "enum": [
+        "quick",
+        "standard",
+        "full"
+      ]
+    },
+    "implementation_review": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "verification_run_id",
-        "version",
-        "created_at",
-        "requested_by",
-        "language"
+        "ref",
+        "sha256",
+        "status"
       ],
       "properties": {
-        "verification_run_id": {
-          "type": "string",
-          "pattern": "^VER-"
-        },
-        "version": {
+        "ref": {
           "type": "string",
           "minLength": 1
         },
-        "created_at": {
-          "type": "string",
-          "format": "date-time"
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$"
         },
-        "requested_by": {
-          "type": "string",
-          "minLength": 1
-        },
-        "language": {
-          "type": "string",
-          "minLength": 2
+        "status": {
+          "const": "READY_FOR_VERIFICATION"
         }
       }
     },
-    "source_authorization": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "technical_review_contract_id",
-        "technical_review_bundle_digest",
-        "technical_review_run_id",
-        "implementation_result_contract_id",
-        "implementation_bundle_digest",
-        "approved_checklist_contract_id",
-        "repository_tree_digest"
-      ],
-      "properties": {
-        "technical_review_contract_id": {
-          "type": "string",
-          "pattern": "^TRCON-"
-        },
-        "technical_review_bundle_digest": {
-          "type": "string",
-          "pattern": "^sha256:[0-9a-f]{64}$"
-        },
-        "technical_review_run_id": {
-          "type": "string",
-          "pattern": "^TREV-"
-        },
-        "implementation_result_contract_id": {
-          "type": "string",
-          "pattern": "^IMPLCON-"
-        },
-        "implementation_bundle_digest": {
-          "type": "string",
-          "pattern": "^sha256:[0-9a-f]{64}$"
-        },
-        "approved_checklist_contract_id": {
-          "type": "string",
-          "pattern": "^CHKCON-"
-        },
-        "repository_tree_digest": {
-          "type": "string",
-          "pattern": "^sha256:[0-9a-f]{64}$"
-        }
-      }
-    },
-    "source_artifacts": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "technical_review_output",
-        "technical_review_contract",
-        "implementation_contract",
-        "approved_checklist_contract",
-        "checklist_items",
-        "source_verification_results",
-        "repository_state",
-        "change_records",
-        "evidence_ledger"
-      ],
-      "properties": {
-        "technical_review_output": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
+    "obligations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "obligation_id",
+          "description",
+          "command"
+        ],
+        "properties": {
+          "obligation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 3
+          },
+          "command": {
+            "type": "string",
+            "minLength": 1
           }
-        },
-        "technical_review_contract": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
-          }
-        },
-        "implementation_contract": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
-          }
-        },
-        "approved_checklist_contract": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
-          }
-        },
-        "checklist_items": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
-          }
-        },
-        "source_verification_results": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
-          }
-        },
-        "repository_state": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
-          }
-        },
-        "change_records": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
-          }
-        },
-        "evidence_ledger": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "path",
-            "format",
-            "record_count",
-            "digest"
-          ],
-          "properties": {
-            "path": {
-              "type": "string",
-              "minLength": 1
-            },
-            "format": {
-              "enum": [
-                "JSONL",
-                "YAML",
-                "CSV",
-                "MARKDOWN"
-              ]
-            },
-            "record_count": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "digest": {
-              "type": "string",
-              "pattern": "^sha256:[0-9a-f]{64}$"
-            }
-          }
-        }
-      }
-    },
-    "verification_policy": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "independent_verifier_required",
-        "require_exact_obligation_coverage",
-        "require_reproducible_environment",
-        "require_falsification_for_high_risk",
-        "minimum_falsification_attempts",
-        "allow_source_mutation",
-        "on_ambiguity",
-        "on_unapproved_change"
-      ],
-      "properties": {
-        "independent_verifier_required": {
-          "const": true
-        },
-        "require_exact_obligation_coverage": {
-          "const": true
-        },
-        "require_reproducible_environment": {
-          "const": true
-        },
-        "require_falsification_for_high_risk": {
-          "const": true
-        },
-        "minimum_falsification_attempts": {
-          "type": "integer",
-          "minimum": 1
-        },
-        "allow_source_mutation": {
-          "const": false
-        },
-        "on_ambiguity": {
-          "const": "VERIFICATION_BLOCKED"
-        },
-        "on_unapproved_change": {
-          "const": "LOOPBACK_REQUIRED"
         }
       }
     }

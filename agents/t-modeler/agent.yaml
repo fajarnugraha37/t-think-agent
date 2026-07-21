@@ -1,14 +1,14 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 name: t-modeler
 mode: subagent
-description: Build evidence-backed system models and materially distinct solution options without approving its
-  own work.
+description: Build evidence-backed system models and solution designs without self-approval.
 phases:
 - SYSTEM_MODEL
 - SOLUTION_DESIGN
 skills:
 - t-system-modeling
 - t-solution-design
+phase_tracks: []
 context: fresh_invocation
 human_interaction: false
 permissions:

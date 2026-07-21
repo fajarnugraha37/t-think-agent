@@ -1,24 +1,29 @@
-metadata:
-  technical_review_run_id: TREV-<id>
-  version: 1.0.0
-  created_at: <RFC3339>
-  coordinator_agent: <agent>
-  language: id-ID
-source_authorization:
-  self_review_contract_id: SRCON-<id>
-  self_review_bundle_digest: sha256:<64hex>
-  self_review_run_id: SREV-<id>
-  gate_status: READY_FOR_TECHNICAL_REVIEW
-  implementation_result_contract_id: IMPLCON-<id>
-  implementation_bundle_digest: sha256:<64hex>
-  approved_checklist_contract_id: CHKCON-<id>
-  repository_after_tree_digest: sha256:<64hex>
-source_artifacts: <artifact descriptors>
-review_controls:
-  independent_reviewer: true
-  inspect_actual_diff: true
-  challenge_self_review: true
-  allow_code_changes: false
-  require_all_dimensions: true
-  stop_on_source_drift: true
-  minimum_evidence_challenges: 1
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+phase: IMPLEMENTATION_REVIEW
+track: technical_review
+reviewer_agent: t-reviewer
+invocation_id: INV-001
+implementation:
+  ref: .t-think/W-1/artifacts/implementation.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+diff:
+  ref: .t-think/W-1/evidence/diff.patch
+  sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+boundary_report:
+  ref: .t-think/W-1/boundary-reports/INV-BUILD.yaml
+  sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+blueprint:
+  ref: .t-think/W-1/artifacts/implementation-blueprint.yaml
+  sha256: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+baseline_artifacts: []
+required_categories:
+- ROOT_CAUSE_RESOLUTION
+- FUNCTIONAL_CORRECTNESS
+- EDGE_CASES
+- ERROR_HANDLING
+- ARCHITECTURE_ALIGNMENT
+- REGRESSION_RISK
+- TEST_ADEQUACY
+- MAINTAINABILITY

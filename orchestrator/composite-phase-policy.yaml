@@ -1,0 +1,102 @@
+schema_version: 1.0.0
+principles:
+- Composite phases run multiple fresh terminal delegations.
+- Track completion never advances lifecycle state directly.
+- Every required track must validate before aggregation.
+- Any material track failure blocks the composite phase.
+phases:
+  IMPLEMENTATION_BLUEPRINT:
+    aggregate_skill: t-implementation-blueprint
+    tracks:
+    - id: strategy
+      agent: t-planner
+      skill: t-implementation-planning
+      lanes:
+      - standard
+      - full
+      required: true
+      fresh_context: true
+      source_write_mode: deny
+    - id: execution_checklist
+      agent: t-planner
+      skill: t-checklist-builder
+      lanes:
+      - standard
+      - full
+      required: true
+      fresh_context: true
+      source_write_mode: deny
+  BLUEPRINT_CRITIQUE:
+    aggregate_skill: t-blueprint-critique
+    tracks:
+    - id: strategy_critique
+      agent: t-critic
+      skill: t-plan-critique
+      lanes:
+      - standard
+      - full
+      required: true
+      fresh_context: true
+      source_write_mode: deny
+    - id: execution_critique
+      agent: t-critic
+      skill: t-checklist-critique
+      lanes:
+      - standard
+      - full
+      required: true
+      fresh_context: true
+      source_write_mode: deny
+  IMPLEMENTATION_REVIEW:
+    aggregate_skill: t-implementation-review
+    tracks:
+    - id: self_review
+      agent: t-builder
+      skill: t-self-review
+      lanes:
+      - quick
+      - standard
+      - full
+      required: true
+      fresh_context: true
+      source_write_mode: deny
+    - id: technical_review
+      agent: t-reviewer
+      skill: t-technical-review
+      lanes:
+      - quick
+      - standard
+      - full
+      required: true
+      fresh_context: true
+      source_write_mode: deny
+    - id: security_review
+      agent: t-security-reviewer
+      skill: t-security-review
+      lanes:
+      - standard
+      - full
+      required: true
+      fresh_context: true
+      source_write_mode: deny
+    - id: breaking_review
+      agent: t-breaking-reviewer
+      skill: t-breaking-review
+      lanes:
+      - standard
+      - full
+      required: true
+      fresh_context: true
+      source_write_mode: deny
+    aggregation:
+      passing_statuses:
+      - PASS
+      - NOT_APPLICABLE
+      not_applicable_allowed_only_for:
+      - security_review
+      - breaking_review
+      blocking_statuses:
+      - CHANGES_REQUIRED
+      - BLOCKED
+      ready_status: READY_FOR_VERIFICATION
+      default_failure_route: BOUNDED_IMPLEMENTATION

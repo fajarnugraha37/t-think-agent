@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_id",
+    "lane",
+    "phase",
+    "tracks"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "work_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lane": {
+      "enum": [
+        "quick",
+        "standard",
+        "full"
+      ]
+    },
+    "phase": {
+      "const": "BLUEPRINT_CRITIQUE"
+    },
+    "tracks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://t-think.local/schemas/composite-track-result.schema.json"
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-schema_version: 2.1.0
+schema_version: 2.3.0
 work_id: EXAMPLE-1
 current_state: PROBLEM_ALIGNMENT
 current_run_id: RUN-EXAMPLE
@@ -10,4 +10,13 @@ active_agent: t-think
 last_gate: null
 last_validator: null
 human_gate_pending: true
+governance_lane:
+  requested: auto
+  selected: standard
+  artifact_mode: normal
+  risk_score: 0
+  hard_triggers: []
+  assessment_path: .t-think/EXAMPLE-1/artifacts/lane-assessment.yaml
+  waiver_path: .t-think/EXAMPLE-1/artifacts/phase-waivers.yaml
+  promotion_count: 0
 history: []

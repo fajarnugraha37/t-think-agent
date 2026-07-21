@@ -1,7 +1,3 @@
-# Artifact Conventions
+# Artifact conventions
 
-- Preserve canonical source artifacts and create versioned successors.
-- Use SHA-256 digests for approved contracts and cross-phase source bundles.
-- Use JSONL for atomic records, YAML for lifecycle envelopes/contracts, CSV for rectangular coverage matrices, and Markdown for human-readable reports.
-- Every reference must close against a real ID in an authoritative input.
-- Never invent a sandbox path, source location, run ID, approval, or digest.
+Every v2.3 work item stores state, lane assessment, phase waivers, delegations, result envelopes, boundary reports, evidence, canonical aggregate artifacts, and composite component artifacts below `.t-think/<work-id>/`. Composite component artifacts use `artifacts/components/<phase>/<track>.yaml`; only the aggregate phase artifact may advance lifecycle state. Runtime files may be ignored locally only when durable artifacts and approvals remain available for continuation.

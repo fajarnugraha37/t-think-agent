@@ -1,90 +1,142 @@
 # t-think Governed Multi-Agent SDLC
 
-`t-think` is a globally installable, evidence-gated software-engineering orchestrator for OpenCode, Codex, Claude Code, and Cursor. It coordinates eight role subagents and fifteen progressively loaded `t-*` phase skills without adding an always-on project instruction file.
+`t-think` is a globally installable, evidence-gated software-engineering orchestrator for OpenCode, Codex, Claude Code, and Cursor. It coordinates one root orchestrator, eight terminal role workers, and fifteen progressively loaded `t-*` phase skills.
 
-The package is designed to keep semantic decisions with the human, keep source writes bounded to an approved checklist, separate producers from critics and reviewers, and preserve traceability from the original problem through verification and final closure.
+Version 2.2 adds adaptive `quick`, `standard`, and `full` governance lanes. Daily patches can use a short path while security-sensitive, irreversible, cross-service, compatibility-sensitive, and architecturally complex work still uses the complete lifecycle.
+
+Repository maintainers and coding agents must read [`AGENTS.md`](AGENTS.md) before changing this bundle. That file is the portable continuity contract for developing t-think itself; it is not installed into governed target repositories.
 
 ## Architecture
 
 ```text
 Human
-  │ decisions, critique, approvals, execution authorization
+  │ semantic decisions, critique, approvals, execution authorization
   ▼
-t-think                         control plane; never implements source
+t-think                         sole control plane and state transition owner
   ├── t-investigator            evidence gathering
-  ├── t-modeler                 system model and solution options
-  ├── t-planner                 implementation plan and atomic checklist
-  ├── t-critic                  independent adversarial critique
-  ├── t-builder                 sole authorized source writer
+  ├── t-modeler                 system model and solution design
+  ├── t-planner                 plan and atomic checklist
+  ├── t-critic                  adversarial critique
+  ├── t-builder                 sole bounded source writer
   ├── t-reviewer                independent technical review
-  ├── t-verifier                reproducible tests and falsification
-  └── t-reconciler              end-to-end traceability audit
+  ├── t-verifier                reproducible verification and falsification
+  └── t-reconciler              standard/full traceability closure
 ```
 
-The topology is a star and delegation depth is one. Workers return structured artifacts to `t-think`; workers never invoke one another. Each worker receives one phase, one skill, a bounded artifact set, explicit completion criteria, and an output schema.
+Delegation is a star with maximum depth one. Workers never invoke workers. Each invocation receives one phase, one skill, bounded inputs, explicit completion criteria, a schema, and a permission envelope.
 
-## Lifecycle
+## Adaptive governance lanes
+
+### Quick
 
 ```text
-t-problem-alignment
-→ t-investigation
-→ t-system-modeling
-→ t-model-critique
-→ t-solution-design
-→ t-solution-critique
-→ t-implementation-planning
-→ t-plan-critique
-→ t-checklist-builder
-→ t-checklist-critique
-→ t-bounded-implementation
-→ t-self-review
-→ t-technical-review
-→ t-verification
-→ t-reconciliation
+PROBLEM_ALIGNMENT
+→ BOUNDED_IMPLEMENTATION
+→ SELF_REVIEW
+→ VERIFICATION
+→ RECONCILIATION
 → COMPLETED
 ```
 
-Every skill contains its own `SKILL.md`, schemas, templates, validators, transition contract, examples, and tests. The phase router in `orchestrator/phase-registry.yaml` maps every lifecycle state to exactly one authorized role and one active skill.
+Use for a small, local, reversible patch with established expected behavior and bounded targets. Quick uses only two worker role types:
 
-## Role and phase mapping
+- `t-builder` for implementation;
+- a fresh write-denied `t-builder` invocation for self-review;
+- `t-verifier` for independent command-driven verification.
 
-| Phase | Role | Source-write mode |
-|---|---|---|
-| Problem alignment | `t-think` | denied |
-| Investigation | `t-investigator` | denied |
-| System model / solution design | `t-modeler` | denied |
-| Model / solution / plan / checklist critique | `t-critic` | denied |
-| Implementation plan / checklist | `t-planner` | denied |
-| Bounded implementation | `t-builder` | approved targets only |
-| Self-review | `t-builder`, fresh invocation | denied |
-| Technical review | `t-reviewer` | denied |
-| Verification | `t-verifier` | declared generated outputs only |
-| Reconciliation | `t-reconciler` | denied |
+Quick reconciliation is deterministic root work by `t-think`. It may summarize and reconcile validated evidence, but may not repair code or invent missing semantics. One human write-authorization gate is required before implementation.
 
-## Workspace and `.gitignore` policy
-
-`.gitignore` is used only for default discovery. It is not treated as a confidentiality, authorization, or write boundary.
+### Standard
 
 ```text
-VCS ignore rules          default discovery behavior
+PROBLEM_ALIGNMENT
+→ INVESTIGATION
+→ SOLUTION_DESIGN
+→ IMPLEMENTATION_PLAN
+→ BOUNDED_IMPLEMENTATION
+→ TECHNICAL_REVIEW
+→ VERIFICATION
+→ RECONCILIATION
+→ COMPLETED
+```
+
+Use for small-to-medium features, local refactors, and non-trivial bugs that require evidence, a solution decision, planning, and independent review.
+
+### Full
+
+```text
+PROBLEM_ALIGNMENT
+→ INVESTIGATION
+→ SYSTEM_MODEL
+→ MODEL_CRITIQUE
+→ SOLUTION_DESIGN
+→ SOLUTION_CRITIQUE
+→ IMPLEMENTATION_PLAN
+→ PLAN_CRITIQUE
+→ IMPLEMENTATION_CHECKLIST
+→ CHECKLIST_CRITIQUE
+→ BOUNDED_IMPLEMENTATION
+→ SELF_REVIEW
+→ TECHNICAL_REVIEW
+→ VERIFICATION
+→ RECONCILIATION
+→ COMPLETED
+```
+
+Full remains the canonical lifecycle. It is forced for hard-risk triggers and is the compatibility default for work states created before v2.2.
+
+Every compressed work item stores a validated lane assessment and explicit phase-waiver artifact. Waived phases do not receive empty placeholder artifacts and cannot be routed until the lane is promoted.
+
+See [`docs/adaptive-governance-lanes.md`](docs/adaptive-governance-lanes.md).
+
+## Lane classification
+
+The deterministic policy lives in `orchestrator/risk-classification-policy.yaml`.
+
+Hard triggers force `full`:
+
+- security, authentication, authorization, cryptography, or sensitive-data boundary;
+- destructive or irreversible migration;
+- public breaking API, protocol, package export, or serialized contract;
+- concurrency, ordering, locking, memory-model, idempotency, or distributed consistency invariant;
+- billing, pricing, money movement, ledger, or financial correctness;
+- secrets, credentials, IAM, signing keys, or privileged deployment identity;
+- irreversible operation without a tested recovery path;
+- cross-service protocol or coordinated rollout.
+
+Auto classification without reliable signals selects `standard`, never `quick`. Quick additionally requires a bounded/reversible qualifier such as an existing reproduction, documentation-only scope, test-only scope, or an explicitly local reversible patch.
+
+Lane transitions are monotonic:
+
+```text
+quick → standard → full
+```
+
+Demotion is forbidden. Promotion after compressed work has progressed returns to the earliest newly required phase instead of silently continuing implementation.
+
+## Workspace and write boundaries
+
+`.gitignore` controls default discovery only. It is not a confidentiality or authorization boundary.
+
+```text
+VCS ignore rules          discovery behavior
 approved_write_targets    source-change authorization
-protected_paths           sensitive or structurally unsafe paths
+protected_paths           sensitive/structural protection
 outside_workspace         filesystem containment
 ```
 
 Defaults:
 
-- searches respect VCS ignore rules;
-- normal tracked and untracked workspace files may be read when relevant;
-- ignored-file reads are denied unless a recorded human approval explicitly authorizes them;
-- access outside the active workspace is denied;
-- `.git/**`, `.env*`, secret directories, credentials, and private keys remain protected;
+- relevant tracked and untracked workspace files may be read;
+- ignored-file reads require recorded human approval;
+- outside-workspace access is denied;
+- `.git/**`, `.env*`, secrets, credentials, and private keys are protected;
 - only `t-builder` during `BOUNDED_IMPLEMENTATION` may modify source;
-- the builder may modify only targets frozen in the human-approved implementation checklist;
-- an empty `approved_write_targets` list means no source writes;
-- `t-verifier` may create only declared build, test, and report outputs.
-
-Platform-native permissions provide the first layer. Delegation validation and post-run boundary auditing provide the portable enforcement layer where a platform cannot express path-level rules exactly.
+- source writes are limited to approved targets;
+- an empty target list authorizes no source writes;
+- `SELF_REVIEW` is write-denied;
+- `t-verifier` may write only declared generated outputs;
+- every worker result requires a passing boundary report.
 
 ## Requirements
 
@@ -92,13 +144,13 @@ Platform-native permissions provide the first layer. Delegation validation and p
 - `jsonschema`
 - `PyYAML`
 - GNU Make for the complete test suite
-- `zip`, `unzip`, and `sha256sum` for packaging verification
+- `zip`, `unzip`, and `sha256sum` for package verification
 
 ```bash
 python3 -m pip install jsonschema PyYAML
 ```
 
-## Global installation
+## Installation
 
 ### macOS, Linux, or WSL
 
@@ -109,9 +161,7 @@ cd t-think-governed-sdlc
 ./bin/doctor.sh --target all
 ```
 
-Use `--mode symlink` while developing the bundle. Use `copy` for a stable normal installation.
-
-Install only one platform:
+Install one platform only:
 
 ```bash
 ./bin/install.sh --target opencode
@@ -119,6 +169,8 @@ Install only one platform:
 ./bin/install.sh --target claude
 ./bin/install.sh --target cursor
 ```
+
+Use `--mode symlink` while developing the bundle. Use `copy` for normal stable installation.
 
 ### Windows PowerShell
 
@@ -131,30 +183,28 @@ cd .\t-think-governed-sdlc
 
 ### Installed locations
 
-| Platform | Root orchestrator | Role subagents | Skills |
+| Platform | Root orchestrator | Role workers | Skills |
 |---|---|---|---|
 | OpenCode | `~/.config/opencode/agents/t-think.md` | same directory | `~/.agents/skills/t-*` |
-| Codex | `~/.codex/t-think.config.toml` profile | `~/.codex/agents/t-*.toml` | `~/.agents/skills/t-*` |
-| Claude Code | `~/.claude/agents/t-think.md` | same directory | `~/.claude/skills/t-*`, linked/copied from the shared store |
+| Codex | `~/.codex/t-think.config.toml` | `~/.codex/agents/t-*.toml` | `~/.agents/skills/t-*` |
+| Claude Code | `~/.claude/agents/t-think.md` | same directory | `~/.claude/skills/t-*` |
 | Cursor | `~/.cursor/agents/t-think.md` | same directory | `~/.agents/skills/t-*` |
 
-Global means user-level on the current machine. Install the bundle separately in a remote, containerized, or cloud execution environment that does not share the local home directory.
+“Global” means user-level within the current machine, container, remote host, or cloud environment. Install separately when home directories are not shared.
 
 ## Invocation
 
 ### OpenCode
 
-Select `t-think` as the primary agent, then state the problem. OpenCode workers are installed as subagents and are allowlisted for delegation by the primary adapter.
+Select `t-think` as the primary agent and describe the problem. The root adapter allowlists the eight terminal workers.
 
 ### Codex
-
-Run `t-think` as the root session profile:
 
 ```bash
 codex --profile t-think
 ```
 
-Do not launch `t-think` as a custom child agent. Codex custom agents are spawned sessions; keeping `t-think` at root depth allows it to spawn the eight terminal workers while `agents.max_depth = 1` prevents recursive delegation.
+`t-think` must be the root session profile. Codex custom agents are terminal child sessions, and `agents.max_depth = 1` prevents recursive delegation.
 
 ### Claude Code
 
@@ -162,110 +212,139 @@ Do not launch `t-think` as a custom child agent. Codex custom agents are spawned
 claude --agent t-think
 ```
 
-The root agent allowlists the eight workers. Worker definitions omit the `Agent` tool, so they cannot recursively delegate.
-
 ### Cursor
 
-Select or invoke the global `t-think` agent in Agent mode. The adapter keeps role workers foreground and model-neutral.
+Select or invoke the global `t-think` agent in Agent mode.
 
-## Start and route a work item
+## Classify and initialize work
+
+Classify without creating state:
 
 ```bash
-python3 bin/t-thinkctl.py init ORDER-2471 --profile economy
-python3 bin/t-thinkctl.py route --file .t-think/ORDER-2471/state.yaml
+python3 bin/t-thinkctl.py classify BUG-123 \
+  --task "Fix the local parser bug covered by an existing failing test" \
+  --signal local_reversible \
+  --signal existing_reproduction
 ```
 
-The route output identifies the only valid phase, role, skill, context policy, and write mode. `t-think` must not choose a different worker from prose or memory.
+Initialize with automatic classification:
 
-Prepare a delegation packet:
+```bash
+python3 bin/t-thinkctl.py init BUG-123 \
+  --profile economy \
+  --lane auto \
+  --task "Fix the local parser bug covered by an existing failing test" \
+  --signal local_reversible \
+  --signal existing_reproduction
+```
+
+No signals defaults to standard:
+
+```bash
+python3 bin/t-thinkctl.py init FEATURE-42 --profile economy
+```
+
+Explicit lane selection:
+
+```bash
+python3 bin/t-thinkctl.py init PATCH-9 --lane quick \
+  --signal local_reversible \
+  --signal existing_reproduction
+
+python3 bin/t-thinkctl.py init AUTH-9 --lane full \
+  --signal security_boundary
+```
+
+A hard trigger overrides an unsafe lower-lane request and records the forced promotion.
+
+## Route and delegate
+
+```bash
+python3 bin/t-thinkctl.py route \
+  --file .t-think/BUG-123/state.yaml
+```
+
+The route includes lane, artifact mode, active phase, skill, worker, next state, write mode, context policy, and human-gate requirements.
+
+Prepare a bounded implementation delegation:
 
 ```bash
 python3 bin/t-thinkctl.py prepare-delegation \
-  --file .t-think/ORDER-2471/state.yaml \
-  --objective "Trace the actual order creation and retry path" \
-  --criterion "Identify every entry point" \
-  --criterion "Identify the transaction boundary" \
-  --criterion "Identify database uniqueness enforcement"
+  --file .t-think/BUG-123/state.yaml \
+  --objective "Apply the approved local parser patch" \
+  --criterion "The failing regression test passes" \
+  --criterion "Existing tests remain green" \
+  --approved-write-target src/parser.ts \
+  --approved-write-target tests/parser.test.ts \
+  --generated-output dist/**
 ```
 
-For bounded implementation, pass only checklist-approved write targets:
+Every v2.2 delegation packet binds:
+
+```yaml
+lifecycle:
+  lane: quick
+  artifact_mode: compact
+  expected_next_state: SELF_REVIEW
+```
+
+## Promote a lane
 
 ```bash
-python3 bin/t-thinkctl.py prepare-delegation \
-  --file .t-think/ORDER-2471/state.yaml \
-  --objective "Execute the authorized checklist" \
-  --criterion "Complete each item without a new semantic decision" \
-  --approved-write-target src/main/java/com/acme/order/OrderService.java \
-  --approved-write-target src/test/java/com/acme/order/OrderServiceTest.java \
-  --generated-output target/**
+python3 bin/t-thinkctl.py promote \
+  --file .t-think/BUG-123/state.yaml \
+  --lane standard \
+  --reason "The root cause spans a shared utility and two modules" \
+  --signal shared_utility \
+  --signal multiple_modules
 ```
 
-## Validate every worker handoff
+Previous lane assessments and waivers are preserved as versioned artifacts. Promotion cannot move downward.
+
+## Validate worker handoffs
 
 ```bash
 python3 bin/validate_delegation.py --file delegation.yaml
-python3 bin/audit_boundaries.py --delegation delegation.yaml --activity activity.yaml
+python3 bin/audit_boundaries.py \
+  --delegation delegation.yaml \
+  --activity activity.yaml
 python3 bin/validate_result.py \
   --result result.yaml \
   --delegation delegation.yaml \
   --boundary-report boundary-report.yaml
 ```
 
-A worker's prose is never enough to advance lifecycle state. `t-think` accepts a phase only after schema validation, semantic checks, artifact-digest checks, phase validation, and a passing boundary report.
+Worker prose is never sufficient to advance state. Schema, semantics, artifact digests, lane transition, and boundary validation must all pass.
 
-## Model profiles
+## Economy-model behavior
 
-The default is `economy`:
+The default `economy` profile:
 
-- models are inherited from the platform or session;
-- no flagship model or reasoning tier is pinned;
-- exactly one phase skill is active;
-- exactly one worker runs at a time;
-- each worker starts with a fresh, bounded context;
-- templates and enumerated statuses precede prose;
-- raw logs remain evidence files rather than conversation history;
-- missing semantics produce `UNKNOWN`, `BLOCKED`, or loopback—not guesses;
-- validators control transitions externally.
+- inherits the host model and reasoning settings;
+- runs one active skill and one sequential worker;
+- uses fresh bounded worker contexts;
+- applies lane-specific source/evidence budgets;
+- saves raw command output as evidence;
+- converts missing semantics into `UNKNOWN`, `BLOCKED`, loopback, or promotion;
+- uses validators and command exit codes as external memory;
+- promotes governance before escalating model cost when scope or risk changes.
 
-`balanced` permits at most two independent read-only shards. `high-assurance` permits at most four independent read-only review or verification shards. Source edits, migrations, human gates, lifecycle transitions, and reconciliation remain sequential in every profile.
-
-A stronger model is an explicit escalation path, not a lifecycle dependency. Escalation triggers include repeated phase failure, contradictory material evidence, security boundaries, destructive migration, unproven concurrency invariants, unresolved producer/critic disagreement, or nondeterministic verification failure.
-
-## Failure and loopback behavior
-
-- Schema failure: one constrained retry containing validator errors.
-- Semantic incompleteness: one constrained retry containing missing completion criteria.
-- Second failure: return control to `t-think` without a transition.
-- Boundary violation: invalidate immediately; do not auto-retry.
-- New semantic decision during implementation: mark `IMPLEMENTATION_FAILED` and loop back to the earliest owning phase.
-- Artifact digest drift: invalidate downstream approvals.
-- Critique disagreement: preserve both positions and request evidence or human resolution.
-
-## Example delegation artifacts
-
-`examples/subagent-delegation/` contains a complete investigation handoff:
-
-- delegation packet;
-- recorded activity;
-- boundary report;
-- result envelope;
-- validation commands.
-
-`examples/e2e-duplicate-order/` contains the complete governed lifecycle simulation for a Java/Jakarta REST, PostgreSQL, and Kafka duplicate-order scenario, including human critique, loopbacks, solution trade-offs, plan correction, checklist decomposition, independent review, verification, and reconciliation.
+A stronger model is an explicit exception path, not a correctness dependency.
 
 ## Validation and tests
 
 ```bash
-make adapters     # regenerate all native adapters from canonical role definitions
-make audit        # lifecycle, skill, role, and adapter alignment
-make subagents    # routing, authority, boundaries, result contracts, negative cases
-make smoke        # isolated copy/symlink install, doctor, uninstall, state routing
-make economy      # model neutrality and bounded-context contracts
-make validate     # transition-ready and loopback examples for all phase skills
+make adapters     # regenerate all native adapters
+make audit        # canonical alignment
+make subagents    # authority, permissions, result contracts, negative cases
+make lanes        # classifier, paths, waivers, promotion, legacy compatibility
+make economy      # model neutrality and context-budget contracts
+make smoke        # isolated install/doctor/uninstall and runtime smoke
+make validate     # all phase validators
 make test         # all phase unit tests
-make archives     # rebuild standalone skill ZIPs
-make checksums    # regenerate and verify checksums
-make verify       # complete verification set
+make archives     # standalone skill ZIP files
+make checksums    # regenerate and verify root integrity inventory
+make verify       # complete repository acceptance set
 ```
 
 ## Uninstall
@@ -282,12 +361,8 @@ PowerShell:
 .\bin\uninstall.ps1 -RestoreBackups
 ```
 
-The uninstaller removes only paths recorded in `~/.local/share/t-think/installation-manifest.json`. Files replaced using `--force` are timestamp-backed-up and can be restored.
-
-## Identifier rule
-
-Installed and invocable skill names always use `t-*`. Some phase artifact schemas retain immutable producer identifiers such as `problem-alignment-skill`; these are schema contract values, not additional skills or migration aliases. The explicit mapping is in `orchestrator/contract-id-map.yaml`.
+The uninstaller removes only paths recorded in the t-think installation manifest.
 
 ## Assurance boundary
 
-The package can validate its schemas, routing, permissions contracts, negative boundary cases, lifecycle transitions, installers, archives, checksums, and all included unit tests offline. Native behavior can still be affected by the installed version, account policy, runtime overrides, or managed configuration of a third-party platform. Portable boundary validators remain mandatory even when native permissions are present.
+The bundle can verify its schemas, classifier, lane routing, phase waivers, monotonic promotion, permissions, negative boundary cases, lifecycle contracts, installers, archives, checksums, and included tests offline. Native platform behavior may still depend on the installed CLI version, account policy, managed configuration, or runtime overrides. Portable validators remain authoritative for lifecycle transitions.

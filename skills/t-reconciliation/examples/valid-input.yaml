@@ -1,56 +1,39 @@
-metadata:
-  reconciliation_run_id: REC-duplicate-event-001
-  version: 1.0.0
-  created_at: '2026-07-22T00:00:00+07:00'
-  requested_by: human-owner-01
-  language: id-ID
-source_authorization:
-  verification_contract_id: VCON-001
-  verification_bundle_digest: sha256:39b419784d4c067dd5b2edbe63de4d81701c4054129f6838a5043f653aeb7a75
-  verification_run_id: VER-duplicate-event-001
-  technical_review_contract_id: TRCON-001
-  implementation_result_contract_id: IMPLCON-001
-  approved_checklist_contract_id: CHKCON-001
-  repository_tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
-source_artifacts:
-  verification_output:
-    path: examples/source-valid-verification-output.yaml
-    digest: sha256:35270f13be534d1683c80a3c6919640549b3ca84886cf629b0ef125a0723637c
-    required: true
-  verification_contract:
-    path: examples/source-valid-verification-result-contract.yaml
-    digest: sha256:9f5df067a907b381947a02f9bd35da12cd088b11bf92a1829a29d0a544f6bb7b
-    required: true
-  verification_obligations:
-    path: examples/source-valid-verification-obligations.jsonl
-    digest: sha256:b37bb1302bf040b62c59d07bf864bfeedbd041cdd4b8448a809fc8f84a0e826f
-    required: true
-  verification_executions:
-    path: examples/source-valid-verification-executions.jsonl
-    digest: sha256:bf65b3bda78b4f71bfa670e7537010109c0b16fc4469c8bccfe1d4cd9c8e962e
-    required: true
-  verification_evidence:
-    path: examples/source-valid-verification-evidence.jsonl
-    digest: sha256:a48d6d699b002dab7a099a479a1be7f959d09e25dfed8e4e783048c14b871b55
-    required: true
-  technical_review_contract:
-    path: examples/source-valid-technical-review-result-contract.yaml
-    digest: sha256:b0b7e77b7b607adeea82693e1e672833fadbf2ba9c222f408f30bd87bb4d143f
-    required: true
-  implementation_contract:
-    path: examples/source-valid-implementation-result-contract.yaml
-    digest: sha256:9c9abb303f08298d02e30e24f7d53f5ff8a11acd89730e79268c318e93079be3
-    required: true
-  checklist_contract:
-    path: examples/source-valid-approved-checklist-contract.yaml
-    digest: sha256:6e4ebd5b647cab5de35356a05ed8f05803e7a2c9fcb7eb9cf1d1fe50fe883948
-    required: true
-reconciliation_policy:
-  require_all_lifecycle_phases: true
-  require_exact_digest_binding: true
-  require_problem_to_verification_path: true
-  require_problem_to_change_path: true
-  require_human_closure_approval: true
-  allow_open_blocking_gap: false
-  allow_source_mutation: false
-requested_transition: COMPLETED
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+phase_artifacts:
+- phase: PROBLEM_ALIGNMENT
+  ref: .t-think/W-1/artifacts/problem_alignment.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+- phase: INVESTIGATION
+  ref: .t-think/W-1/artifacts/investigation.yaml
+  sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+- phase: SOLUTION_DESIGN
+  ref: .t-think/W-1/artifacts/solution_design.yaml
+  sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+- phase: IMPLEMENTATION_BLUEPRINT
+  ref: .t-think/W-1/artifacts/implementation_blueprint.yaml
+  sha256: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+- phase: BLUEPRINT_CRITIQUE
+  ref: .t-think/W-1/artifacts/blueprint_critique.yaml
+  sha256: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+- phase: BOUNDED_IMPLEMENTATION
+  ref: .t-think/W-1/artifacts/bounded_implementation.yaml
+  sha256: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+- phase: IMPLEMENTATION_REVIEW
+  ref: .t-think/W-1/artifacts/implementation_review.yaml
+  sha256: 1111111111111111111111111111111111111111111111111111111111111111
+- phase: VERIFICATION
+  ref: .t-think/W-1/artifacts/verification.yaml
+  sha256: 2222222222222222222222222222222222222222222222222222222222222222
+- phase: RECONCILIATION
+  ref: .t-think/W-1/artifacts/reconciliation.yaml
+  sha256: 3333333333333333333333333333333333333333333333333333333333333333
+acceptance_criteria:
+- criterion_id: AC-001
+  status: SATISFIED
+  evidence_refs:
+  - evidence/test.txt
+implementation_review_status: READY_FOR_VERIFICATION
+verification_status: READY_FOR_RECONCILIATION
+open_blocking_findings: []

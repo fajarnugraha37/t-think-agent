@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "skill": "t-security-review",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.965,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
+    },
+    {
+      "skill": "t-self-review",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.034,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
+    },
+    {
+      "skill": "t-solution-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "schemas"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 18.803,
+      "output": "All JSON schemas are valid JSON\n"
+    },
+    {
+      "skill": "t-solution-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-example"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.095,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --assessments examples/valid-assessments.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl --approval examples/valid-decision-approval.yaml --contract examples/valid-approved-solution-contract.yaml --design-output examples/source-valid-solution-design-output.yaml --options examples/source-valid-options.jsonl --coverage examples/source-valid-coverage.csv --decision examples/source-valid-decision.yaml --dominance examples/source-valid-dominance.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --require-transition-ready\nVALID and transition-ready for IMPLEMENTATION_PLAN\n"
+    },
+    {
+      "skill": "t-solution-design",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-transition"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.073,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --critique-output examples/source-valid-model-critique-output.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --output examples/valid-output.yaml --options examples/valid-options.jsonl --coverage examples/valid-coverage.csv --decision examples/valid-decision.yaml --dominance examples/valid-dominance.yaml --require-transition-ready\nVALID and transition-ready for SOLUTION_CRITIQUE\n"
+    },
+    {
+      "skill": "t-solution-design",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-single"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.049,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --critique-output examples/source-valid-model-critique-output.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --output examples/single-valid-output.yaml --options examples/single-valid-options.jsonl --coverage examples/single-valid-coverage.csv --decision examples/single-valid-decision.yaml --dominance examples/single-valid-dominance.yaml --require-transition-ready\nVALID and transition-ready for SOLUTION_CRITIQUE\n"
+    }
+  ]
+}

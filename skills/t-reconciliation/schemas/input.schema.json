@@ -1,172 +1,103 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.local/reconciliation/input.schema.json",
-  "title": "input",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "metadata",
-    "source_authorization",
-    "source_artifacts",
-    "reconciliation_policy",
-    "requested_transition"
+    "schema_version",
+    "work_id",
+    "lane",
+    "phase_artifacts",
+    "acceptance_criteria",
+    "implementation_review_status",
+    "verification_status",
+    "open_blocking_findings"
   ],
   "properties": {
-    "metadata": {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
-      "$id": "https://example.local/reconciliation/metadata.schema.json",
-      "title": "metadata",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "reconciliation_run_id",
-        "version",
-        "created_at",
-        "requested_by",
-        "language"
-      ],
-      "properties": {
-        "reconciliation_run_id": {
-          "type": "string",
-          "pattern": "^REC-[A-Za-z0-9._-]+$"
-        },
-        "version": {
-          "type": "string",
-          "minLength": 1
-        },
-        "created_at": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "requested_by": {
-          "type": "string",
-          "minLength": 1
-        },
-        "language": {
-          "type": "string",
-          "minLength": 1
-        }
-      }
+    "schema_version": {
+      "const": "1.0.0"
     },
-    "source_authorization": {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
-      "$id": "https://example.local/reconciliation/source_authorization.schema.json",
-      "title": "source_authorization",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "verification_contract_id",
-        "verification_bundle_digest",
-        "verification_run_id",
-        "technical_review_contract_id",
-        "implementation_result_contract_id",
-        "approved_checklist_contract_id",
-        "repository_tree_digest"
-      ],
-      "properties": {
-        "verification_contract_id": {
-          "type": "string",
-          "pattern": "^VCON-[0-9]{3,}$"
-        },
-        "verification_bundle_digest": {
-          "type": "string",
-          "pattern": "^sha256:[0-9a-f]{64}$"
-        },
-        "verification_run_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "technical_review_contract_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "implementation_result_contract_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "approved_checklist_contract_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "repository_tree_digest": {
-          "type": "string",
-          "pattern": "^sha256:[0-9a-f]{64}$"
-        }
-      }
+    "work_id": {
+      "type": "string",
+      "minLength": 1
     },
-    "source_artifacts": {
-      "type": "object",
-      "minProperties": 7,
-      "additionalProperties": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": "https://example.local/reconciliation/artifact-ref.schema.json",
-        "title": "artifact-ref",
+    "lane": {
+      "enum": [
+        "quick",
+        "standard",
+        "full"
+      ]
+    },
+    "phase_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "path",
-          "digest",
-          "required"
+          "phase",
+          "ref",
+          "sha256"
         ],
         "properties": {
-          "path": {
+          "phase": {
             "type": "string",
             "minLength": 1
           },
-          "digest": {
+          "ref": {
             "type": "string",
-            "pattern": "^sha256:[0-9a-f]{64}$"
+            "minLength": 1
           },
-          "required": {
-            "type": "boolean"
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$"
           }
         }
       }
     },
-    "reconciliation_policy": {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
-      "$id": "https://example.local/reconciliation/policy.schema.json",
-      "title": "policy",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "require_all_lifecycle_phases",
-        "require_exact_digest_binding",
-        "require_problem_to_verification_path",
-        "require_problem_to_change_path",
-        "require_human_closure_approval",
-        "allow_open_blocking_gap",
-        "allow_source_mutation"
-      ],
-      "properties": {
-        "require_all_lifecycle_phases": {
-          "const": true
-        },
-        "require_exact_digest_binding": {
-          "const": true
-        },
-        "require_problem_to_verification_path": {
-          "const": true
-        },
-        "require_problem_to_change_path": {
-          "const": true
-        },
-        "require_human_closure_approval": {
-          "const": true
-        },
-        "allow_open_blocking_gap": {
-          "const": false
-        },
-        "allow_source_mutation": {
-          "const": false
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "criterion_id",
+          "status",
+          "evidence_refs"
+        ],
+        "properties": {
+          "criterion_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "SATISFIED",
+              "UNSATISFIED",
+              "BLOCKED"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       }
     },
-    "requested_transition": {
-      "enum": [
-        "COMPLETED",
-        "RECONCILIATION"
-      ]
+    "implementation_review_status": {
+      "const": "READY_FOR_VERIFICATION"
+    },
+    "verification_status": {
+      "const": "READY_FOR_RECONCILIATION"
+    },
+    "open_blocking_findings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   }
 }

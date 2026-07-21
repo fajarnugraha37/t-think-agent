@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "skill": "t-model-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.009,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --assessments examples/valid-assessments.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl --model-output examples/source-valid-output-ready.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --traceability examples/source-valid-traceability-matrix.csv --ledger examples/source-valid-evidence-ledger.jsonl --require-transition-ready\nVALID and transition-ready for SOLUTION_DESIGN\n"
+    },
+    {
+      "skill": "t-plan-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-schemas"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.146,
+      "output": "python3 validators/validate.py --kind schema\nVALID\n"
+    },
+    {
+      "skill": "t-plan-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-example"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.073,
+      "output": "python3 validators/validate.py --kind package \\\n --input examples/valid-input.yaml --output examples/valid-output-ready.yaml \\\n --planning-output examples/source-valid-planning-output.yaml \\\n --targets examples/source-valid-planning-targets.jsonl --plans examples/source-valid-plan-items.jsonl \\\n --dependencies examples/source-valid-dependency-edges.jsonl --coverage examples/source-valid-coverage.csv \\\n --verifications examples/source-valid-verification-plan.jsonl --rollbacks examples/source-valid-rollback-plan.jsonl \\\n --findings examples/source-empty-planning-findings.jsonl --solution-contract examples/source-valid-approved-solution-contract.yaml \\\n --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl \\\n --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments.jsonl \\\n --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl \\\n --approval examples/valid-plan-approval.yaml --plan-contract examples/valid-approved-plan-contract.yaml \\\n --require-transition-ready\nVALID\nPackage is transition-ready for IMPLEMENTATION_CHECKLIST\n"
+    },
+    {
+      "skill": "t-problem-alignment",
+      "mode": "validate",
+      "command": [
+        "python3",
+        "validators/validate.py",
+        "--kind",
+        "input",
+        "--file",
+        "examples/valid-input.yaml"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.028,
+      "output": "VALID: examples/valid-input.yaml\n"
+    },
+    {
+      "skill": "t-problem-alignment",
+      "mode": "validate",
+      "command": [
+        "python3",
+        "validators/validate.py",
+        "--kind",
+        "output",
+        "--file",
+        "examples/valid-output-approved.yaml",
+        "--require-transition-ready"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.964,
+      "output": "VALID and transition-ready: examples/valid-output-approved.yaml\n"
+    },
+    {
+      "skill": "t-reconciliation",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.037,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
+    }
+  ]
+}

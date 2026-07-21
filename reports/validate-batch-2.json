@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "skill": "t-implementation-blueprint",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.069,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\n/mnt/data/t-think-governed-sdlc/skills/t-implementation-blueprint/validators/validate.py:6: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.\n  from jsonschema import Draft202012Validator,RefResolver\nPASS\n"
+    },
+    {
+      "skill": "t-implementation-planning",
+      "mode": "validate",
+      "command": [
+        "make",
+        "schemas"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.095,
+      "output": "python -c \"import json,pathlib; from jsonschema import Draft202012Validator; [Draft202012Validator.check_schema(json.loads(p.read_text())) for p in pathlib.Path('schemas').glob('*.json')]; print('All schemas valid')\"\nAll schemas valid\n"
+    },
+    {
+      "skill": "t-implementation-planning",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-example"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.066,
+      "output": "python validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --plans examples/valid-plan-items.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --findings examples/empty-planning-findings.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-ready.yaml --require-transition-ready\nVALID and transition-ready for PLAN_CRITIQUE\n"
+    },
+    {
+      "skill": "t-implementation-planning",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-routes"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.17,
+      "output": "python validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --plans examples/valid-plan-items.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-investigation-route.yaml --findings examples/valid-findings-investigation-route.jsonl\nVALID\npython validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-solution-design-route.yaml --plans examples/invalid-plan-new-semantic-decision.jsonl --findings examples/valid-findings-solution-design-route.jsonl\nVALID\n"
+    },
+    {
+      "skill": "t-implementation-review",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.08,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\n/mnt/data/t-think-governed-sdlc/skills/t-implementation-review/validators/validate.py:6: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.\n  from jsonschema import Draft202012Validator,RefResolver\nPASS\n"
+    },
+    {
+      "skill": "t-investigation",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.943,
+      "output": "python validators/validate.py --kind input --file examples/valid-input.yaml\nVALID: examples/valid-input.yaml\npython validators/validate.py --kind ledger --file examples/valid-evidence-ledger.jsonl\nVALID: examples/valid-evidence-ledger.jsonl\npython validators/validate.py --kind output --file examples/valid-output-ready.yaml --ledger examples/valid-evidence-ledger.jsonl --require-transition-ready\nVALID and transition-ready: examples/valid-output-ready.yaml\n"
+    }
+  ]
+}

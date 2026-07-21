@@ -1,0 +1,74 @@
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+phase: IMPLEMENTATION_REVIEW
+track: breaking_review
+reviewer_agent: t-breaking-reviewer
+invocation_id: INV-001
+context_fresh: true
+source_mutation: false
+checks:
+- check_id: CHK-001
+  category: CONTROL_FLOW
+  status: PASS
+  rationale: CONTROL_FLOW checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-002
+  category: BUSINESS_RULES
+  status: PASS
+  rationale: BUSINESS_RULES checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-003
+  category: VALIDATION_SEMANTICS
+  status: PASS
+  rationale: VALIDATION_SEMANTICS checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-004
+  category: DATA_STRUCTURE
+  status: PASS
+  rationale: DATA_STRUCTURE checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-005
+  category: DATA_MAPPING
+  status: PASS
+  rationale: DATA_MAPPING checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-006
+  category: PUBLIC_CONTRACT
+  status: PASS
+  rationale: PUBLIC_CONTRACT checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-007
+  category: PERSISTED_DATA
+  status: PASS
+  rationale: PERSISTED_DATA checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-008
+  category: EVENT_CONTRACT
+  status: PASS
+  rationale: EVENT_CONTRACT checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-009
+  category: CONFIGURATION_CONTRACT
+  status: PASS
+  rationale: CONFIGURATION_CONTRACT checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-010
+  category: OPERATIONAL_BEHAVIOR
+  status: PASS
+  rationale: OPERATIONAL_BEHAVIOR checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+findings: []
+status: PASS
+recommended_route: null
+applicability_reason: null

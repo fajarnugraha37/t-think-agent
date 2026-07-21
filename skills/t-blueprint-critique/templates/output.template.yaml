@@ -1,0 +1,26 @@
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+phase: BLUEPRINT_CRITIQUE
+tracks:
+- track: strategy_critique
+  agent: t-critic
+  skill: t-plan-critique
+  invocation_id: INV-001
+  status: COMPLETE
+  artifact:
+    ref: .t-think/W-1/artifacts/components/blueprint_critique/strategy_critique.yaml
+    sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  applicability_reason: null
+- track: execution_critique
+  agent: t-critic
+  skill: t-checklist-critique
+  invocation_id: INV-002
+  status: COMPLETE
+  artifact:
+    ref: .t-think/W-1/artifacts/components/blueprint_critique/execution_critique.yaml
+    sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  applicability_reason: null
+aggregate_status: READY_FOR_BOUNDED_IMPLEMENTATION
+next_state: BOUNDED_IMPLEMENTATION
+blocking_tracks: []

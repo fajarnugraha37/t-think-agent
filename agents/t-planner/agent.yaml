@@ -1,13 +1,19 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 name: t-planner
 mode: subagent
-description: Translate an approved solution into an ordered plan and atomic implementation checklist.
+description: Produce strategy and executable-checklist tracks of the implementation blueprint.
 phases:
-- IMPLEMENTATION_PLAN
-- IMPLEMENTATION_CHECKLIST
+- IMPLEMENTATION_BLUEPRINT
 skills:
 - t-implementation-planning
 - t-checklist-builder
+phase_tracks:
+- phase: IMPLEMENTATION_BLUEPRINT
+  track: strategy
+  skill: t-implementation-planning
+- phase: IMPLEMENTATION_BLUEPRINT
+  track: execution_checklist
+  skill: t-checklist-builder
 context: fresh_invocation
 human_interaction: false
 permissions:

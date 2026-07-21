@@ -1,0 +1,6 @@
+skill: implementation-blueprint
+state: IMPLEMENTATION_BLUEPRINT
+composite: true
+success_state: BLUEPRINT_CRITIQUE
+success_gate: READY_FOR_BLUEPRINT_CRITIQUE
+lifecycle_transition_owned_by: t-think

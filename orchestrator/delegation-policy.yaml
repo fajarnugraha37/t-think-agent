@@ -1,4 +1,4 @@
-schema_version: 1.0.0
+schema_version: 1.1.0
 topology: star
 parent: t-think
 max_depth: 1
@@ -7,7 +7,9 @@ rules:
 - Subagents may not invoke other subagents.
 - Exactly one lifecycle phase and one active skill are permitted per invocation.
 - Every invocation uses a fresh context except continuity is carried by digest-bound artifacts.
-- The result is advisory until schema, semantic, digest, and boundary validation pass.
+- The selected governance lane, artifact mode, and expected next state are included in every v2.3 delegation packet.
+- A phase waived by the selected lane may not be delegated unless the lane is promoted.
+- The result is advisory until schema, semantic, digest, lane-transition, and boundary validation pass.
 - Only t-think transitions lifecycle state.
 required_packet_sections:
 - identity
@@ -23,3 +25,4 @@ retry_policy:
   semantic_incompleteness: one constrained retry with missing completion criteria
   second_failure: return control to t-think without transition
   boundary_violation: invalidate immediately; no automatic retry
+  lane_mismatch: stop and request monotonic lane promotion

@@ -1,85 +1,27 @@
-metadata:
-  self_review_run_id: SREV-duplicate-event-001
-  version: 1.0.0
-  created_at: '2026-07-21T21:10:00+07:00'
-  reviewer_agent: self-review-skill
-  language: id-ID
-source_authorization:
-  implementation_result_contract_id: IMPLCON-001
-  implementation_bundle_digest: sha256:cbde9fe0dd9fd5b22d08a406d3a605cd1eafe8cbe4dd9d25f338da0af8619004
-  bounded_implementation_run_id: BIMPL-duplicate-event-001
-  gate_status: READY_FOR_SELF_REVIEW
-  repository_after_tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
-source_artifacts:
-  bounded_output:
-    path: examples/source-valid-bounded-output.yaml
-    format: YAML
-    record_count: 1
-    digest: sha256:89dfc2a5bc551784886e0734dbac7b0d65b9bf240521dbac5491e9b970634169
-  implementation_result_contract:
-    path: examples/source-valid-implementation-result-contract.yaml
-    format: YAML
-    record_count: 1
-    digest: sha256:9c9abb303f08298d02e30e24f7d53f5ff8a11acd89730e79268c318e93079be3
-  approved_checklist_contract:
-    path: examples/source-valid-approved-checklist-contract.yaml
-    format: YAML
-    record_count: 1
-    digest: sha256:6e4ebd5b647cab5de35356a05ed8f05803e7a2c9fcb7eb9cf1d1fe50fe883948
-  checklist_items:
-    path: examples/source-valid-checklist-items.jsonl
-    format: JSONL
-    record_count: 17
-    digest: sha256:6a3b87f86615168e9e77b432fa47c7826b6cf7b54821c3005ad32457d5ddac13
-  execution_records:
-    path: examples/source-valid-execution-records.jsonl
-    format: JSONL
-    record_count: 17
-    digest: sha256:d4cc3036a075605036fa14dd5804bf057e32af1696ff6bc6f7936d6ef8fa7c3d
-  change_records:
-    path: examples/source-valid-change-records.jsonl
-    format: JSONL
-    record_count: 17
-    digest: sha256:5b21c0427a3b59569487ca6b2fceb3d8c7e4d76443e7feef2c36446a62c4fff8
-  command_results:
-    path: examples/source-valid-command-results.jsonl
-    format: JSONL
-    record_count: 17
-    digest: sha256:fea9550ab8a9b4c973414f3bdd748da566b7c58c4722433e37dd1e1a1e1dab14
-  verification_results:
-    path: examples/source-valid-verification-results.jsonl
-    format: JSONL
-    record_count: 12
-    digest: sha256:e4cc282ae503c693ea23e23d398b9d8977a5ca6eb0de047f331ba0b2b284f340
-  rollback_results:
-    path: examples/source-valid-rollback-results.jsonl
-    format: JSONL
-    record_count: 7
-    digest: sha256:d6dd48585642ff41407e758031b1fd4d5be8b6850bd7d4877a0a721b2a556505
-  implementation_findings:
-    path: examples/source-valid-implementation-findings.jsonl
-    format: JSONL
-    record_count: 0
-    digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-  repository_before:
-    path: examples/source-valid-repository-before.yaml
-    format: YAML
-    record_count: 1
-    digest: sha256:58bcd3c5fcc49786aaa111dd58eeedf6b456ddbeec2647fc05df397b55050665
-  repository_after:
-    path: examples/source-valid-repository-after.yaml
-    format: YAML
-    record_count: 1
-    digest: sha256:555d357ecbfac6a1e01faba70d2de3f24d785c29d54b161aa21b8b4dbb35fd32
-  evidence_ledger:
-    path: examples/source-valid-evidence-ledger.jsonl
-    format: JSONL
-    record_count: 5
-    digest: sha256:929fe1fe53d9ec750eb8b2380c87d7c7cc4be158b045b40a07cf33066276e02f
-review_controls:
-  independent_second_pass: true
-  inspect_actual_diff: true
-  replay_or_recheck_verification: true
-  require_all_dimensions: true
-  stop_on_source_drift: true
-  allow_code_changes: false
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+phase: IMPLEMENTATION_REVIEW
+track: self_review
+reviewer_agent: t-builder
+invocation_id: INV-001
+implementation:
+  ref: .t-think/W-1/artifacts/implementation.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+diff:
+  ref: .t-think/W-1/evidence/diff.patch
+  sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+boundary_report:
+  ref: .t-think/W-1/boundary-reports/INV-BUILD.yaml
+  sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+blueprint:
+  ref: .t-think/W-1/artifacts/implementation-blueprint.yaml
+  sha256: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+baseline_artifacts: []
+required_categories:
+- BLUEPRINT_CONFORMANCE
+- SCOPE_INTEGRITY
+- TEST_INTEGRITY
+- DOCUMENTATION_IMPACT
+- ROLLBACK_READINESS
+- UNRELATED_CHANGE

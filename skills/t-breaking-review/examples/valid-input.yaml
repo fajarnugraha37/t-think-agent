@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+phase: IMPLEMENTATION_REVIEW
+track: breaking_review
+reviewer_agent: t-breaking-reviewer
+invocation_id: INV-001
+implementation:
+  ref: .t-think/W-1/artifacts/implementation.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+diff:
+  ref: .t-think/W-1/evidence/diff.patch
+  sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+boundary_report:
+  ref: .t-think/W-1/boundary-reports/INV-BUILD.yaml
+  sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+blueprint:
+  ref: .t-think/W-1/artifacts/implementation-blueprint.yaml
+  sha256: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+baseline_artifacts: []
+required_categories:
+- CONTROL_FLOW
+- BUSINESS_RULES
+- VALIDATION_SEMANTICS
+- DATA_STRUCTURE
+- DATA_MAPPING
+- PUBLIC_CONTRACT
+- PERSISTED_DATA
+- EVENT_CONTRACT
+- CONFIGURATION_CONTRACT
+- OPERATIONAL_BEHAVIOR

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/phase-waiver.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "work_id", "lane", "required_phases", "omitted_phases"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "work_id": {"type": "string", "minLength": 1},
+    "lane": {"enum": ["quick", "standard", "full"]},
+    "required_phases": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+    "omitted_phases": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["phase", "reason"],
+        "properties": {
+          "phase": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 3}
+        }
+      }
+    }
+  }
+}

@@ -1,17 +1,33 @@
-schema_version: 1.0.0
+schema_version: 1.1.0
 default_model: inherit
-principle: A stronger model is an exception path, not a lifecycle dependency.
-triggers:
-- two failed attempts in the same phase
+principle: A stronger model is an exception path, not a lifecycle dependency; governance-lane promotion is separate and occurs first when scope or risk expands.
+lane_promotion_triggers:
+- current root cause differs materially from the approved problem
+- approved write targets must expand
+- more than one materially plausible solution emerges
+- expected behavior is conflicting or undocumented
+- a security, public contract, migration, concurrency, financial, secrets/IAM, irreversible, or cross-service boundary is discovered
+- two builder attempts fail
+- verification is nondeterministic
+- a new semantic decision is required during implementation
+- the current lane completion criteria cannot be satisfied without guessing
+lane_actions:
+- record a new lane assessment and phase-waiver artifact
+- preserve all previous assessments, approvals, artifacts, and evidence
+- allow only monotonic promotion from quick to standard to full
+- route to the earliest safe owning phase when the target lane does not contain the active compressed phase
+- never silently continue under the old lane
+model_escalation_triggers:
+- two failed attempts in the same phase after lane suitability is confirmed
 - contradictory evidence that changes a material decision
-- security or authorization boundary affected
-- irreversible or destructive data migration
+- security or authorization reasoning remains unresolved in the full lane
+- irreversible or destructive data migration reasoning remains unresolved in the full lane
 - concurrency invariant cannot be proven
 - producer and critic disagree after one revision
-- nondeterministic verification failure
+- nondeterministic verification failure remains after environment evidence is captured
 - explicit human request
-actions:
+model_actions:
 - record escalation request
-- preserve the same phase, skill, artifacts, schemas, and gates
+- preserve the same phase, skill, artifacts, schemas, permissions, lane, and gates
 - choose a stronger available model or request human decision
 - never silently advance state

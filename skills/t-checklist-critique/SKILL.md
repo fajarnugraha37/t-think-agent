@@ -2,14 +2,16 @@
 name: t-checklist-critique
 description: Assess checklist critiques, obtain human approval and execution authorization, and freeze the checklist contract.
 version: 1.0.0
-lifecycle_state: CHECKLIST_CRITIQUE
+lifecycle_state: BLUEPRINT_CRITIQUE
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
   suite: t-think
-  lifecycle-state: CHECKLIST_CRITIQUE
+  lifecycle-state: BLUEPRINT_CRITIQUE
   cost-profile: economy-compatible
 ---
 # Checklist Critique Skill
+
+> **Composite-phase component:** Runs as a fresh track inside `BLUEPRINT_CRITIQUE`. It does not advance lifecycle state directly; `t-think` creates the aggregate artifact.
 
 ## Purpose
 Evaluate human critique of an atomic implementation checklist without blindly following the reviewer, silently mutating checklist artifacts, authorizing unbounded work, making new semantic decisions, or executing implementation.

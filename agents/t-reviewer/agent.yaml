@@ -1,11 +1,15 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 name: t-reviewer
 mode: subagent
-description: Independently review the actual diff against approved artifacts in a fresh read-only context.
+description: Independently review implementation correctness in a fresh read-only context.
 phases:
-- TECHNICAL_REVIEW
+- IMPLEMENTATION_REVIEW
 skills:
 - t-technical-review
+phase_tracks:
+- phase: IMPLEMENTATION_REVIEW
+  track: technical_review
+  skill: t-technical-review
 context: fresh_invocation
 human_interaction: false
 permissions:

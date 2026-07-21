@@ -1,8 +1,10 @@
 {
   "status": "PASS",
-  "skills": 15,
-  "role_subagents": 8,
-  "platform_agent_adapters": 36,
+  "canonical_phases": 12,
+  "installed_skills": 20,
+  "role_subagents": 10,
+  "governance_lanes": 3,
+  "platform_agent_adapters": 44,
   "issues": [],
-  "core_characters": 5632
+  "core_characters": 6279
 }

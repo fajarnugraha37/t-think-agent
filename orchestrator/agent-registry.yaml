@@ -1,4 +1,4 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 suite: t-think
 topology: star
 max_delegation_depth: 1
@@ -14,18 +14,20 @@ orchestrator:
   - t-critic
   - t-builder
   - t-reviewer
+  - t-security-reviewer
+  - t-breaking-reviewer
   - t-verifier
   - t-reconciler
 agents:
-- schema_version: 1.0.0
+- schema_version: 2.0.0
   name: t-investigator
   mode: subagent
-  description: Collect direct repository, configuration, test, runtime, and documentation evidence without proposing
-    or implementing a solution.
+  description: Collect repository and runtime evidence without proposing or implementing a solution.
   phases:
   - INVESTIGATION
   skills:
   - t-investigation
+  phase_tracks: []
   context: fresh_invocation
   human_interaction: false
   permissions:
@@ -47,17 +49,17 @@ agents:
     - '**/*private-key*'
     command_policy: diagnostic-read-only
     spawn_subagent: deny
-- schema_version: 1.0.0
+- schema_version: 2.0.0
   name: t-modeler
   mode: subagent
-  description: Build evidence-backed system models and materially distinct solution options without approving its
-    own work.
+  description: Build evidence-backed system models and solution designs without self-approval.
   phases:
   - SYSTEM_MODEL
   - SOLUTION_DESIGN
   skills:
   - t-system-modeling
   - t-solution-design
+  phase_tracks: []
   context: fresh_invocation
   human_interaction: false
   permissions:
@@ -73,16 +75,22 @@ agents:
     protected_paths: *id001
     command_policy: read-only
     spawn_subagent: deny
-- schema_version: 1.0.0
+- schema_version: 2.0.0
   name: t-planner
   mode: subagent
-  description: Translate an approved solution into an ordered plan and atomic implementation checklist.
+  description: Produce strategy and executable-checklist tracks of the implementation blueprint.
   phases:
-  - IMPLEMENTATION_PLAN
-  - IMPLEMENTATION_CHECKLIST
+  - IMPLEMENTATION_BLUEPRINT
   skills:
   - t-implementation-planning
   - t-checklist-builder
+  phase_tracks:
+  - phase: IMPLEMENTATION_BLUEPRINT
+    track: strategy
+    skill: t-implementation-planning
+  - phase: IMPLEMENTATION_BLUEPRINT
+    track: execution_checklist
+    skill: t-checklist-builder
   context: fresh_invocation
   human_interaction: false
   permissions:
@@ -98,20 +106,26 @@ agents:
     protected_paths: *id001
     command_policy: read-only
     spawn_subagent: deny
-- schema_version: 1.0.0
+- schema_version: 2.0.0
   name: t-critic
   mode: subagent
-  description: Perform fresh-context adversarial critique of models, solutions, plans, and checklists.
+  description: Perform fresh-context critique of models, solutions, and both blueprint tracks.
   phases:
   - MODEL_CRITIQUE
   - SOLUTION_CRITIQUE
-  - PLAN_CRITIQUE
-  - CHECKLIST_CRITIQUE
+  - BLUEPRINT_CRITIQUE
   skills:
   - t-model-critique
   - t-solution-critique
   - t-plan-critique
   - t-checklist-critique
+  phase_tracks:
+  - phase: BLUEPRINT_CRITIQUE
+    track: strategy_critique
+    skill: t-plan-critique
+  - phase: BLUEPRINT_CRITIQUE
+    track: execution_critique
+    skill: t-checklist-critique
   context: fresh_invocation
   human_interaction: false
   permissions:
@@ -127,16 +141,20 @@ agents:
     protected_paths: *id001
     command_policy: read-only
     spawn_subagent: deny
-- schema_version: 1.0.0
+- schema_version: 2.0.0
   name: t-builder
   mode: subagent
-  description: Execute only the human-authorized atomic checklist and perform a fresh-invocation self-review.
+  description: Execute authorized blueprint tasks and perform a fresh self-review track.
   phases:
   - BOUNDED_IMPLEMENTATION
-  - SELF_REVIEW
+  - IMPLEMENTATION_REVIEW
   skills:
   - t-bounded-implementation
   - t-self-review
+  phase_tracks:
+  - phase: IMPLEMENTATION_REVIEW
+    track: self_review
+    skill: t-self-review
   context: fresh_invocation
   human_interaction: false
   permissions:
@@ -150,16 +168,20 @@ agents:
     source_write:
       mode: approved_targets_only
     protected_paths: *id001
-    command_policy: approved-checklist-only
+    command_policy: approved-blueprint-only
     spawn_subagent: deny
-- schema_version: 1.0.0
+- schema_version: 2.0.0
   name: t-reviewer
   mode: subagent
-  description: Independently review the actual diff against approved artifacts in a fresh read-only context.
+  description: Independently review implementation correctness in a fresh read-only context.
   phases:
-  - TECHNICAL_REVIEW
+  - IMPLEMENTATION_REVIEW
   skills:
   - t-technical-review
+  phase_tracks:
+  - phase: IMPLEMENTATION_REVIEW
+    track: technical_review
+    skill: t-technical-review
   context: fresh_invocation
   human_interaction: false
   permissions:
@@ -175,14 +197,69 @@ agents:
     protected_paths: *id001
     command_policy: read-only-checks
     spawn_subagent: deny
-- schema_version: 1.0.0
+- schema_version: 2.0.0
+  name: t-security-reviewer
+  mode: subagent
+  description: Perform a dedicated security review of the actual change without source edits.
+  phases:
+  - IMPLEMENTATION_REVIEW
+  skills:
+  - t-security-review
+  phase_tracks:
+  - phase: IMPLEMENTATION_REVIEW
+    track: security_review
+    skill: t-security-review
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: deny
+    protected_paths: *id001
+    command_policy: security-read-only-checks
+    spawn_subagent: deny
+- schema_version: 2.0.0
+  name: t-breaking-reviewer
+  mode: subagent
+  description: Detect breaking changes in flow, rules, validation, structures, mappings, contracts, and operations.
+  phases:
+  - IMPLEMENTATION_REVIEW
+  skills:
+  - t-breaking-review
+  phase_tracks:
+  - phase: IMPLEMENTATION_REVIEW
+    track: breaking_review
+    skill: t-breaking-review
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: deny
+    protected_paths: *id001
+    command_policy: compatibility-read-only-checks
+    spawn_subagent: deny
+- schema_version: 2.0.0
   name: t-verifier
   mode: subagent
-  description: Execute approved reproducible verification and falsification without changing source code.
+  description: Execute approved reproducible verification without changing source code.
   phases:
   - VERIFICATION
   skills:
   - t-verification
+  phase_tracks: []
   context: fresh_invocation
   human_interaction: false
   permissions:
@@ -198,14 +275,15 @@ agents:
     protected_paths: *id001
     command_policy: approved-verification-only
     spawn_subagent: deny
-- schema_version: 1.0.0
+- schema_version: 2.0.0
   name: t-reconciler
   mode: subagent
-  description: Audit end-to-end traceability and unresolved findings before final human closure.
+  description: Audit end-to-end traceability and unresolved findings before final closure.
   phases:
   - RECONCILIATION
   skills:
   - t-reconciliation
+  phase_tracks: []
   context: fresh_invocation
   human_interaction: false
   permissions:

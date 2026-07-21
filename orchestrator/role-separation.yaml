@@ -1,4 +1,4 @@
-version: 2.1.0
+version: 2.3.0
 topology: star
 max_delegation_depth: 1
 human_owner:
@@ -10,32 +10,38 @@ human_owner:
 orchestrator:
   agent: t-think
   responsibilities:
-  - enforce lifecycle and human gates
+  - enforce lane-aware lifecycle and gates
+  - orchestrate composite phases and aggregate track results
   - create and validate delegation packets
-  - delegate only to the phase-authorized role
   - preserve artifact lineage and digests
-  - route loopbacks to earliest owner
-  - prevent state skipping and hidden delegation
+  - route loopbacks to earliest canonical owner
+  - prevent hidden delegation
   source_write: deny
 phase_roles:
   INVESTIGATION: t-investigator
   SYSTEM_MODEL: t-modeler
-  SOLUTION_DESIGN: t-modeler
-  IMPLEMENTATION_PLAN: t-planner
-  IMPLEMENTATION_CHECKLIST: t-planner
   MODEL_CRITIQUE: t-critic
+  SOLUTION_DESIGN: t-modeler
   SOLUTION_CRITIQUE: t-critic
-  PLAN_CRITIQUE: t-critic
-  CHECKLIST_CRITIQUE: t-critic
   BOUNDED_IMPLEMENTATION: t-builder
-  SELF_REVIEW: t-builder
-  TECHNICAL_REVIEW: t-reviewer
   VERIFICATION: t-verifier
   RECONCILIATION: t-reconciler
+composite_track_roles:
+  IMPLEMENTATION_BLUEPRINT:
+    strategy: t-planner
+    execution_checklist: t-planner
+  BLUEPRINT_CRITIQUE:
+    strategy_critique: t-critic
+    execution_critique: t-critic
+  IMPLEMENTATION_REVIEW:
+    self_review: t-builder
+    technical_review: t-reviewer
+    security_review: t-security-reviewer
+    breaking_review: t-breaking-reviewer
 independence:
-  critique: t-critic uses a fresh invocation and does not mutate producer artifacts
-  self_review: t-builder uses a fresh invocation after implementation; source mutation is disabled during SELF_REVIEW
-  technical_review: t-reviewer actor and invocation differ from builder/self-review and receive actual diff, not
-    private reasoning
-  verification: t-verifier differs from builder and reviewers and may write only generated outputs
-  reconciliation: t-reconciler differs from upstream execution and review actors
+  self_review: fresh t-builder invocation with source mutation disabled
+  technical_review: fresh t-reviewer context without private builder reasoning
+  security_review: dedicated t-security-reviewer in standard and full
+  breaking_review: dedicated t-breaking-reviewer in standard and full
+  verification: t-verifier is independent from every review track
+  reconciliation: t-reconciler is independent from execution and review

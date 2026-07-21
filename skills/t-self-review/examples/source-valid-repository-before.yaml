@@ -1,7 +1,0 @@
-repository_id: approval-service
-branch: main
-commit_sha: abcdef1234567890
-working_tree_status: CLEAN
-tree_digest: sha256:df4c7bfddb3b1da8348adbe46704b3f8f8b694721ec3cccf79354234712a43a8
-changed_paths: []
-captured_at: '2026-07-21T20:00:00+07:00'

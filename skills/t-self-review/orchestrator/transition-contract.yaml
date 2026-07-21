@@ -1,25 +1,6 @@
 skill: self-review
-state: SELF_REVIEW
-previous_state: BOUNDED_IMPLEMENTATION
-success_state: TECHNICAL_REVIEW
-success_gate: READY_FOR_TECHNICAL_REVIEW
-loopback_states:
-- BOUNDED_IMPLEMENTATION
-- IMPLEMENTATION_CHECKLIST
-- CHECKLIST_CRITIQUE
-- IMPLEMENTATION_PLAN
-- PLAN_CRITIQUE
-- INVESTIGATION
-- SYSTEM_MODEL
-- SOLUTION_DESIGN
-- SOLUTION_CRITIQUE
-- PROBLEM_ALIGNMENT
-requirements:
-- source implementation contract complete and digest-valid
-- all checklist items reviewed exactly once
-- all mandatory dimensions covered
-- no open blocking findings
-- no unapplied remediation directives
-- no silent mutation
-on_ambiguity: BLOCKED
-on_new_semantic_decision: route to earliest responsible upstream phase
+parent_phase: IMPLEMENTATION_REVIEW
+track: self_review
+track_success: PASS
+lifecycle_transition_owned_by: t-think
+source_mutation_allowed: false

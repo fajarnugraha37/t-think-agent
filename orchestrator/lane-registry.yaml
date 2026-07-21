@@ -1,0 +1,111 @@
+schema_version: 2.0.0
+default_request: auto
+lane_order:
+- quick
+- standard
+- full
+lanes:
+  quick:
+    rank: 0
+    intent: Small, local, reversible changes with established behavior and bounded write targets.
+    artifact_mode: compact
+    role_types:
+    - t-builder
+    - t-reviewer
+    - t-verifier
+    phase_path:
+    - PROBLEM_ALIGNMENT
+    - BOUNDED_IMPLEMENTATION
+    - IMPLEMENTATION_REVIEW
+    - VERIFICATION
+    - RECONCILIATION
+    - COMPLETED
+    phase_overrides:
+      RECONCILIATION:
+        agent: t-think
+        source_write_mode: deny
+        context: current_invocation
+        description: Deterministically reconcile compact artifacts and verification evidence.
+    human_gates_before:
+    - BOUNDED_IMPLEMENTATION
+    human_gates_after: []
+    maximum_builder_attempts: 2
+    escalation_target: standard
+  standard:
+    rank: 1
+    intent: Small-to-medium features, refactors, and non-trivial bugs requiring evidence and four-perspective review.
+    artifact_mode: normal
+    role_types:
+    - t-investigator
+    - t-modeler
+    - t-planner
+    - t-critic
+    - t-builder
+    - t-reviewer
+    - t-security-reviewer
+    - t-breaking-reviewer
+    - t-verifier
+    - t-reconciler
+    phase_path:
+    - PROBLEM_ALIGNMENT
+    - INVESTIGATION
+    - SOLUTION_DESIGN
+    - IMPLEMENTATION_BLUEPRINT
+    - BLUEPRINT_CRITIQUE
+    - BOUNDED_IMPLEMENTATION
+    - IMPLEMENTATION_REVIEW
+    - VERIFICATION
+    - RECONCILIATION
+    - COMPLETED
+    phase_overrides: {}
+    human_gates_before:
+    - BOUNDED_IMPLEMENTATION
+    human_gates_after:
+    - RECONCILIATION
+    maximum_builder_attempts: 2
+    escalation_target: full
+  full:
+    rank: 2
+    intent: High-risk, cross-boundary, irreversible, security-sensitive, compatibility-sensitive, or architecturally
+      complex changes.
+    artifact_mode: exhaustive
+    role_types:
+    - t-investigator
+    - t-modeler
+    - t-planner
+    - t-critic
+    - t-builder
+    - t-reviewer
+    - t-security-reviewer
+    - t-breaking-reviewer
+    - t-verifier
+    - t-reconciler
+    phase_path:
+    - PROBLEM_ALIGNMENT
+    - INVESTIGATION
+    - SYSTEM_MODEL
+    - MODEL_CRITIQUE
+    - SOLUTION_DESIGN
+    - SOLUTION_CRITIQUE
+    - IMPLEMENTATION_BLUEPRINT
+    - BLUEPRINT_CRITIQUE
+    - BOUNDED_IMPLEMENTATION
+    - IMPLEMENTATION_REVIEW
+    - VERIFICATION
+    - RECONCILIATION
+    - COMPLETED
+    phase_overrides: {}
+    human_gates_before: []
+    human_gates_after:
+    - PROBLEM_ALIGNMENT
+    - SOLUTION_CRITIQUE
+    - BLUEPRINT_CRITIQUE
+    - RECONCILIATION
+    maximum_builder_attempts: 2
+    escalation_target: null
+promotion_entry_states:
+  quick:
+    standard: INVESTIGATION
+    full: INVESTIGATION
+  standard:
+    full: SYSTEM_MODEL

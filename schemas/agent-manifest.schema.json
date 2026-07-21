@@ -12,11 +12,12 @@
     "skills",
     "context",
     "human_interaction",
-    "permissions"
+    "permissions",
+    "phase_tracks"
   ],
   "properties": {
     "schema_version": {
-      "const": "1.0.0"
+      "const": "2.0.0"
     },
     "name": {
       "pattern": "^t-[a-z0-9-]+$"
@@ -122,6 +123,31 @@
         },
         "spawn_subagent": {
           "const": "deny"
+        }
+      }
+    },
+    "phase_tracks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "phase",
+          "track",
+          "skill"
+        ],
+        "properties": {
+          "phase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "track": {
+            "type": "string",
+            "minLength": 1
+          },
+          "skill": {
+            "pattern": "^t-[a-z0-9-]+$"
+          }
         }
       }
     }

@@ -1,0 +1,74 @@
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+phase: IMPLEMENTATION_REVIEW
+track: security_review
+reviewer_agent: t-security-reviewer
+invocation_id: INV-001
+context_fresh: true
+source_mutation: false
+checks:
+- check_id: CHK-001
+  category: AUTHENTICATION
+  status: PASS
+  rationale: AUTHENTICATION checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-002
+  category: AUTHORIZATION
+  status: PASS
+  rationale: AUTHORIZATION checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-003
+  category: INPUT_VALIDATION
+  status: PASS
+  rationale: INPUT_VALIDATION checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-004
+  category: INJECTION
+  status: PASS
+  rationale: INJECTION checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-005
+  category: SENSITIVE_DATA
+  status: PASS
+  rationale: SENSITIVE_DATA checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-006
+  category: SECRETS
+  status: PASS
+  rationale: SECRETS checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-007
+  category: DEPENDENCY_RISK
+  status: PASS
+  rationale: DEPENDENCY_RISK checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-008
+  category: LOGGING_EXPOSURE
+  status: PASS
+  rationale: LOGGING_EXPOSURE checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-009
+  category: TENANT_ISOLATION
+  status: PASS
+  rationale: TENANT_ISOLATION checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+- check_id: CHK-010
+  category: FAIL_OPEN_BEHAVIOR
+  status: PASS
+  rationale: FAIL_OPEN_BEHAVIOR checked against actual diff and evidence.
+  evidence_refs:
+  - evidence/diff.patch
+findings: []
+status: PASS
+recommended_route: null
+applicability_reason: null

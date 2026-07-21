@@ -2,14 +2,16 @@
 name: t-checklist-builder
 description: Convert every approved plan operation into one atomic, dependency-aware, test- and rollback-bound checklist item.
 version: 1.0.0
-lifecycle_state: IMPLEMENTATION_CHECKLIST
+lifecycle_state: IMPLEMENTATION_BLUEPRINT
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
   suite: t-think
-  lifecycle-state: IMPLEMENTATION_CHECKLIST
+  lifecycle-state: IMPLEMENTATION_BLUEPRINT
   cost-profile: economy-compatible
 ---
 # Checklist Builder Skill
+
+> **Composite-phase component:** Runs as a fresh track inside `IMPLEMENTATION_BLUEPRINT`. It does not advance lifecycle state directly; `t-think` creates the aggregate artifact.
 
 ## Purpose
 Transform an approved, immutable implementation plan into an atomic implementation checklist without executing changes, inventing semantic decisions, silently replanning, or expanding the approved change surface.

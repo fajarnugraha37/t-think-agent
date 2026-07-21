@@ -1,9 +1,208 @@
 {
   "status": "PASS",
-  "skills": 15,
-  "commands": 27,
-  "transition_ready_and_loopback_validation": "PASS",
+  "bundle_version": "2.3.0",
+  "execution_mode": "five deterministic batches",
+  "skill_count": 20,
+  "command_count": 28,
+  "skills": [
+    "t-blueprint-critique",
+    "t-bounded-implementation",
+    "t-breaking-review",
+    "t-checklist-builder",
+    "t-checklist-critique",
+    "t-implementation-blueprint",
+    "t-implementation-planning",
+    "t-implementation-review",
+    "t-investigation",
+    "t-model-critique",
+    "t-plan-critique",
+    "t-problem-alignment",
+    "t-reconciliation",
+    "t-security-review",
+    "t-self-review",
+    "t-solution-critique",
+    "t-solution-design",
+    "t-system-modeling",
+    "t-technical-review",
+    "t-verification"
+  ],
   "results": [
+    {
+      "skill": "t-blueprint-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.069,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\n/mnt/data/t-think-governed-sdlc/skills/t-blueprint-critique/validators/validate.py:6: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.\n  from jsonschema import Draft202012Validator,RefResolver\nPASS\n"
+    },
+    {
+      "skill": "t-bounded-implementation",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.064,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
+    },
+    {
+      "skill": "t-breaking-review",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.116,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
+    },
+    {
+      "skill": "t-checklist-builder",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.439,
+      "output": "python3 validators/validate.py --kind schema\nVALID\npython3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --plan-contract examples/source-valid-approved-plan-contract.yaml --plan-critique-output examples/source-valid-plan-critique-output.yaml --planning-output examples/source-valid-planning-output.yaml --targets examples/source-valid-planning-targets.jsonl --plans examples/source-valid-plan-items.jsonl --plan-dependencies examples/source-valid-plan-dependencies.jsonl --plan-coverage examples/source-valid-plan-coverage.csv --verifications examples/source-valid-verification-plan.jsonl --rollbacks examples/source-valid-rollback-plan.jsonl --planning-findings examples/source-empty-planning-findings.jsonl --solution-contract examples/source-valid-approved-solution-contract.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --checklists examples/valid-checklist-items.jsonl --dependencies examples/valid-checklist-dependencies.jsonl --coverage examples/valid-checklist-coverage.csv --batches examples/valid-execution-batches.jsonl --findings examples/empty-checklist-findings.jsonl --require-transition-ready\nVALID\nPackage is transition-ready for CHECKLIST_CRITIQUE\n"
+    },
+    {
+      "skill": "t-checklist-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "schema"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.265,
+      "output": "python3 validators/validate.py --kind schema\nVALID\n"
+    },
+    {
+      "skill": "t-checklist-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.507,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --builder-output examples/source-valid-checklist-builder-output.yaml --checklists examples/source-valid-checklist-items.jsonl --dependencies examples/source-valid-checklist-dependencies.jsonl --coverage examples/source-valid-checklist-coverage.csv --batches examples/source-valid-execution-batches.jsonl --findings examples/source-empty-checklist-findings.jsonl --plan-contract examples/source-valid-approved-plan-contract.yaml --plan-critique-output examples/source-valid-plan-critique-output.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl --approval examples/valid-checklist-approval.yaml --checklist-contract examples/valid-approved-checklist-contract.yaml --require-transition-ready\nVALID\nPackage is transition-ready for BOUNDED_IMPLEMENTATION\n"
+    },
+    {
+      "skill": "t-checklist-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-routes"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.152,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input-checklist-revision-route.yaml --output examples/valid-output-checklist-revision-route.yaml --builder-output examples/source-valid-checklist-builder-output.yaml --checklists examples/source-valid-checklist-items.jsonl --dependencies examples/source-valid-checklist-dependencies.jsonl --coverage examples/source-valid-checklist-coverage.csv --batches examples/source-valid-execution-batches.jsonl --findings examples/source-empty-checklist-findings.jsonl --plan-contract examples/source-valid-approved-plan-contract.yaml --plan-critique-output examples/source-valid-plan-critique-output.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments-checklist-revision-route.jsonl --revisions examples/valid-revision-directives-checklist-route.jsonl --requests examples/empty-evidence-requests.jsonl --approval examples/valid-checklist-approval-pending.yaml --checklist-contract examples/valid-pending-checklist-contract.yaml\nVALID\npython3 validators/validate.py --kind package --input examples/valid-input-investigation-route.yaml --output examples/valid-output-investigation-route.yaml --builder-output examples/source-valid-checklist-builder-output.yaml --checklists examples/source-valid-checklist-items.jsonl --dependencies examples/source-valid-checklist-dependencies.jsonl --coverage examples/source-valid-checklist-coverage.csv --batches examples/source-valid-execution-batches.jsonl --findings examples/source-empty-checklist-findings.jsonl --plan-contract examples/source-valid-approved-plan-contract.yaml --plan-critique-output examples/source-valid-plan-critique-output.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments-investigation-route.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/valid-evidence-requests-investigation-route.jsonl --approval examples/valid-checklist-approval-pending.yaml --checklist-contract examples/valid-pending-checklist-contract.yaml\nVALID\n"
+    },
+    {
+      "skill": "t-implementation-blueprint",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.069,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\n/mnt/data/t-think-governed-sdlc/skills/t-implementation-blueprint/validators/validate.py:6: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.\n  from jsonschema import Draft202012Validator,RefResolver\nPASS\n"
+    },
+    {
+      "skill": "t-implementation-planning",
+      "mode": "validate",
+      "command": [
+        "make",
+        "schemas"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.095,
+      "output": "python -c \"import json,pathlib; from jsonschema import Draft202012Validator; [Draft202012Validator.check_schema(json.loads(p.read_text())) for p in pathlib.Path('schemas').glob('*.json')]; print('All schemas valid')\"\nAll schemas valid\n"
+    },
+    {
+      "skill": "t-implementation-planning",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-example"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.066,
+      "output": "python validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --plans examples/valid-plan-items.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --findings examples/empty-planning-findings.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-ready.yaml --require-transition-ready\nVALID and transition-ready for PLAN_CRITIQUE\n"
+    },
+    {
+      "skill": "t-implementation-planning",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-routes"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.17,
+      "output": "python validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --plans examples/valid-plan-items.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-investigation-route.yaml --findings examples/valid-findings-investigation-route.jsonl\nVALID\npython validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-solution-design-route.yaml --plans examples/invalid-plan-new-semantic-decision.jsonl --findings examples/valid-findings-solution-design-route.jsonl\nVALID\n"
+    },
+    {
+      "skill": "t-implementation-review",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.08,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\n/mnt/data/t-think-governed-sdlc/skills/t-implementation-review/validators/validate.py:6: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.\n  from jsonschema import Draft202012Validator,RefResolver\nPASS\n"
+    },
+    {
+      "skill": "t-investigation",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.943,
+      "output": "python validators/validate.py --kind input --file examples/valid-input.yaml\nVALID: examples/valid-input.yaml\npython validators/validate.py --kind ledger --file examples/valid-evidence-ledger.jsonl\nVALID: examples/valid-evidence-ledger.jsonl\npython validators/validate.py --kind output --file examples/valid-output-ready.yaml --ledger examples/valid-evidence-ledger.jsonl --require-transition-ready\nVALID and transition-ready: examples/valid-output-ready.yaml\n"
+    },
+    {
+      "skill": "t-model-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.009,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --assessments examples/valid-assessments.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl --model-output examples/source-valid-output-ready.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --traceability examples/source-valid-traceability-matrix.csv --ledger examples/source-valid-evidence-ledger.jsonl --require-transition-ready\nVALID and transition-ready for SOLUTION_DESIGN\n"
+    },
+    {
+      "skill": "t-plan-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-schemas"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.146,
+      "output": "python3 validators/validate.py --kind schema\nVALID\n"
+    },
+    {
+      "skill": "t-plan-critique",
+      "mode": "validate",
+      "command": [
+        "make",
+        "validate-example"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.073,
+      "output": "python3 validators/validate.py --kind package \\\n --input examples/valid-input.yaml --output examples/valid-output-ready.yaml \\\n --planning-output examples/source-valid-planning-output.yaml \\\n --targets examples/source-valid-planning-targets.jsonl --plans examples/source-valid-plan-items.jsonl \\\n --dependencies examples/source-valid-dependency-edges.jsonl --coverage examples/source-valid-coverage.csv \\\n --verifications examples/source-valid-verification-plan.jsonl --rollbacks examples/source-valid-rollback-plan.jsonl \\\n --findings examples/source-empty-planning-findings.jsonl --solution-contract examples/source-valid-approved-solution-contract.yaml \\\n --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl \\\n --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments.jsonl \\\n --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl \\\n --approval examples/valid-plan-approval.yaml --plan-contract examples/valid-approved-plan-contract.yaml \\\n --require-transition-ready\nVALID\nPackage is transition-ready for IMPLEMENTATION_CHECKLIST\n"
+    },
     {
       "skill": "t-problem-alignment",
       "mode": "validate",
@@ -16,7 +215,7 @@
         "examples/valid-input.yaml"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 2.145,
+      "elapsed_seconds": 2.028,
       "output": "VALID: examples/valid-input.yaml\n"
     },
     {
@@ -32,63 +231,41 @@
         "--require-transition-ready"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 2.076,
+      "elapsed_seconds": 1.964,
       "output": "VALID and transition-ready: examples/valid-output-approved.yaml\n"
     },
     {
-      "skill": "t-investigation",
+      "skill": "t-reconciliation",
       "mode": "validate",
       "command": [
         "make",
         "validate"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 6.282,
-      "output": "python validators/validate.py --kind input --file examples/valid-input.yaml\nVALID: examples/valid-input.yaml\npython validators/validate.py --kind ledger --file examples/valid-evidence-ledger.jsonl\nVALID: examples/valid-evidence-ledger.jsonl\npython validators/validate.py --kind output --file examples/valid-output-ready.yaml --ledger examples/valid-evidence-ledger.jsonl --require-transition-ready\nVALID and transition-ready: examples/valid-output-ready.yaml\n"
+      "elapsed_seconds": 2.037,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
     },
     {
-      "skill": "t-system-modeling",
+      "skill": "t-security-review",
       "mode": "validate",
       "command": [
         "make",
         "validate"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 5.272,
-      "output": "python3 validators/validate.py --kind input --file examples/valid-input.yaml\nVALID: examples/valid-input.yaml\npython3 validators/validate.py --kind package --file examples/valid-output-ready.yaml --elements examples/valid-model-elements.jsonl --relations examples/valid-model-relations.jsonl --traceability examples/valid-traceability-matrix.csv --ledger examples/valid-evidence-ledger.jsonl --require-transition-ready\nVALID and transition-ready: examples/valid-output-ready.yaml\n"
+      "elapsed_seconds": 1.965,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
     },
     {
-      "skill": "t-model-critique",
+      "skill": "t-self-review",
       "mode": "validate",
       "command": [
         "make",
         "validate"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 2.085,
-      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --assessments examples/valid-assessments.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl --model-output examples/source-valid-output-ready.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --traceability examples/source-valid-traceability-matrix.csv --ledger examples/source-valid-evidence-ledger.jsonl --require-transition-ready\nVALID and transition-ready for SOLUTION_DESIGN\n"
-    },
-    {
-      "skill": "t-solution-design",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate-transition"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.014,
-      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --critique-output examples/source-valid-model-critique-output.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --output examples/valid-output.yaml --options examples/valid-options.jsonl --coverage examples/valid-coverage.csv --decision examples/valid-decision.yaml --dominance examples/valid-dominance.yaml --require-transition-ready\nVALID and transition-ready for SOLUTION_CRITIQUE\n"
-    },
-    {
-      "skill": "t-solution-design",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate-single"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.131,
-      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --critique-output examples/source-valid-model-critique-output.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --output examples/single-valid-output.yaml --options examples/single-valid-options.jsonl --coverage examples/single-valid-coverage.csv --decision examples/single-valid-decision.yaml --dominance examples/single-valid-dominance.yaml --require-transition-ready\nVALID and transition-ready for SOLUTION_CRITIQUE\n"
+      "elapsed_seconds": 2.034,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
     },
     {
       "skill": "t-solution-critique",
@@ -98,7 +275,7 @@
         "schemas"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 18.625,
+      "elapsed_seconds": 18.803,
       "output": "All JSON schemas are valid JSON\n"
     },
     {
@@ -109,140 +286,41 @@
         "validate-example"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 2.521,
+      "elapsed_seconds": 2.095,
       "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --assessments examples/valid-assessments.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl --approval examples/valid-decision-approval.yaml --contract examples/valid-approved-solution-contract.yaml --design-output examples/source-valid-solution-design-output.yaml --options examples/source-valid-options.jsonl --coverage examples/source-valid-coverage.csv --decision examples/source-valid-decision.yaml --dominance examples/source-valid-dominance.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --require-transition-ready\nVALID and transition-ready for IMPLEMENTATION_PLAN\n"
     },
     {
-      "skill": "t-implementation-planning",
+      "skill": "t-solution-design",
       "mode": "validate",
       "command": [
         "make",
-        "schemas"
+        "validate-transition"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 2.138,
-      "output": "python -c \"import json,pathlib; from jsonschema import Draft202012Validator; [Draft202012Validator.check_schema(json.loads(p.read_text())) for p in pathlib.Path('schemas').glob('*.json')]; print('All schemas valid')\"\nAll schemas valid\n"
+      "elapsed_seconds": 2.073,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --critique-output examples/source-valid-model-critique-output.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --output examples/valid-output.yaml --options examples/valid-options.jsonl --coverage examples/valid-coverage.csv --decision examples/valid-decision.yaml --dominance examples/valid-dominance.yaml --require-transition-ready\nVALID and transition-ready for SOLUTION_CRITIQUE\n"
     },
     {
-      "skill": "t-implementation-planning",
+      "skill": "t-solution-design",
       "mode": "validate",
       "command": [
         "make",
-        "validate-example"
+        "validate-single"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 2.115,
-      "output": "python validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --plans examples/valid-plan-items.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --findings examples/empty-planning-findings.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-ready.yaml --require-transition-ready\nVALID and transition-ready for PLAN_CRITIQUE\n"
+      "elapsed_seconds": 2.049,
+      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --critique-output examples/source-valid-model-critique-output.yaml --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --output examples/single-valid-output.yaml --options examples/single-valid-options.jsonl --coverage examples/single-valid-coverage.csv --decision examples/single-valid-decision.yaml --dominance examples/single-valid-dominance.yaml --require-transition-ready\nVALID and transition-ready for SOLUTION_CRITIQUE\n"
     },
     {
-      "skill": "t-implementation-planning",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate-routes"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 4.263,
-      "output": "python validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --plans examples/valid-plan-items.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-investigation-route.yaml --findings examples/valid-findings-investigation-route.jsonl\nVALID\npython validators/validate.py --kind package --input examples/valid-input.yaml --contract examples/source-valid-approved-solution-contract.yaml --critique-output examples/source-valid-solution-critique-output.yaml --targets examples/valid-planning-targets.jsonl --dependencies examples/valid-dependency-edges.jsonl --coverage examples/valid-coverage.csv --verifications examples/valid-verification-plan.jsonl --rollbacks examples/valid-rollback-plan.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --output examples/valid-output-solution-design-route.yaml --plans examples/invalid-plan-new-semantic-decision.jsonl --findings examples/valid-findings-solution-design-route.jsonl\nVALID\n"
-    },
-    {
-      "skill": "t-plan-critique",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate-schemas"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.182,
-      "output": "python3 validators/validate.py --kind schema\nVALID\n"
-    },
-    {
-      "skill": "t-plan-critique",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate-example"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.124,
-      "output": "python3 validators/validate.py --kind package \\\n --input examples/valid-input.yaml --output examples/valid-output-ready.yaml \\\n --planning-output examples/source-valid-planning-output.yaml \\\n --targets examples/source-valid-planning-targets.jsonl --plans examples/source-valid-plan-items.jsonl \\\n --dependencies examples/source-valid-dependency-edges.jsonl --coverage examples/source-valid-coverage.csv \\\n --verifications examples/source-valid-verification-plan.jsonl --rollbacks examples/source-valid-rollback-plan.jsonl \\\n --findings examples/source-empty-planning-findings.jsonl --solution-contract examples/source-valid-approved-solution-contract.yaml \\\n --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl \\\n --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments.jsonl \\\n --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl \\\n --approval examples/valid-plan-approval.yaml --plan-contract examples/valid-approved-plan-contract.yaml \\\n --require-transition-ready\nVALID\nPackage is transition-ready for IMPLEMENTATION_CHECKLIST\n"
-    },
-    {
-      "skill": "t-checklist-builder",
+      "skill": "t-system-modeling",
       "mode": "validate",
       "command": [
         "make",
         "validate"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 4.788,
-      "output": "python3 validators/validate.py --kind schema\nVALID\npython3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --plan-contract examples/source-valid-approved-plan-contract.yaml --plan-critique-output examples/source-valid-plan-critique-output.yaml --planning-output examples/source-valid-planning-output.yaml --targets examples/source-valid-planning-targets.jsonl --plans examples/source-valid-plan-items.jsonl --plan-dependencies examples/source-valid-plan-dependencies.jsonl --plan-coverage examples/source-valid-plan-coverage.csv --verifications examples/source-valid-verification-plan.jsonl --rollbacks examples/source-valid-rollback-plan.jsonl --planning-findings examples/source-empty-planning-findings.jsonl --solution-contract examples/source-valid-approved-solution-contract.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --checklists examples/valid-checklist-items.jsonl --dependencies examples/valid-checklist-dependencies.jsonl --coverage examples/valid-checklist-coverage.csv --batches examples/valid-execution-batches.jsonl --findings examples/empty-checklist-findings.jsonl --require-transition-ready\nVALID\nPackage is transition-ready for CHECKLIST_CRITIQUE\n"
-    },
-    {
-      "skill": "t-checklist-critique",
-      "mode": "validate",
-      "command": [
-        "make",
-        "schema"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.886,
-      "output": "python3 validators/validate.py --kind schema\nVALID\n"
-    },
-    {
-      "skill": "t-checklist-critique",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.637,
-      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --builder-output examples/source-valid-checklist-builder-output.yaml --checklists examples/source-valid-checklist-items.jsonl --dependencies examples/source-valid-checklist-dependencies.jsonl --coverage examples/source-valid-checklist-coverage.csv --batches examples/source-valid-execution-batches.jsonl --findings examples/source-empty-checklist-findings.jsonl --plan-contract examples/source-valid-approved-plan-contract.yaml --plan-critique-output examples/source-valid-plan-critique-output.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/empty-evidence-requests.jsonl --approval examples/valid-checklist-approval.yaml --checklist-contract examples/valid-approved-checklist-contract.yaml --require-transition-ready\nVALID\nPackage is transition-ready for BOUNDED_IMPLEMENTATION\n"
-    },
-    {
-      "skill": "t-checklist-critique",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate-routes"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 4.265,
-      "output": "python3 validators/validate.py --kind package --input examples/valid-input-checklist-revision-route.yaml --output examples/valid-output-checklist-revision-route.yaml --builder-output examples/source-valid-checklist-builder-output.yaml --checklists examples/source-valid-checklist-items.jsonl --dependencies examples/source-valid-checklist-dependencies.jsonl --coverage examples/source-valid-checklist-coverage.csv --batches examples/source-valid-execution-batches.jsonl --findings examples/source-empty-checklist-findings.jsonl --plan-contract examples/source-valid-approved-plan-contract.yaml --plan-critique-output examples/source-valid-plan-critique-output.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments-checklist-revision-route.jsonl --revisions examples/valid-revision-directives-checklist-route.jsonl --requests examples/empty-evidence-requests.jsonl --approval examples/valid-checklist-approval-pending.yaml --checklist-contract examples/valid-pending-checklist-contract.yaml\nVALID\npython3 validators/validate.py --kind package --input examples/valid-input-investigation-route.yaml --output examples/valid-output-investigation-route.yaml --builder-output examples/source-valid-checklist-builder-output.yaml --checklists examples/source-valid-checklist-items.jsonl --dependencies examples/source-valid-checklist-dependencies.jsonl --coverage examples/source-valid-checklist-coverage.csv --batches examples/source-valid-execution-batches.jsonl --findings examples/source-empty-checklist-findings.jsonl --plan-contract examples/source-valid-approved-plan-contract.yaml --plan-critique-output examples/source-valid-plan-critique-output.yaml --ledger examples/source-valid-evidence-ledger.jsonl --elements examples/source-valid-model-elements.jsonl --relations examples/source-valid-model-relations.jsonl --assessments examples/valid-assessments-investigation-route.jsonl --revisions examples/empty-revision-directives.jsonl --requests examples/valid-evidence-requests-investigation-route.jsonl --approval examples/valid-checklist-approval-pending.yaml --checklist-contract examples/valid-pending-checklist-contract.yaml\nVALID\n"
-    },
-    {
-      "skill": "t-bounded-implementation",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 4.239,
-      "output": "python3 validators/validate.py --kind schema\nVALID\npython3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --checklist-contract examples/source-valid-approved-checklist-contract.yaml --critique-output examples/source-valid-checklist-critique-output.yaml --plan-contract examples/source-valid-approved-plan-contract.yaml --checklists examples/source-valid-checklist-items.jsonl --batches examples/source-valid-execution-batches.jsonl --ledger examples/source-valid-evidence-ledger.jsonl --executions examples/valid-execution-records.jsonl --changes examples/valid-change-records.jsonl --commands examples/valid-command-results.jsonl --verifications examples/valid-verification-results.jsonl --rollbacks examples/valid-rollback-results.jsonl --findings examples/empty-implementation-findings.jsonl --repository-before examples/valid-repository-before.yaml --repository-after examples/valid-repository-after.yaml --result-contract examples/valid-implementation-result-contract.yaml --require-transition-ready\nVALID\nPackage is transition-ready for SELF_REVIEW\n"
-    },
-    {
-      "skill": "t-self-review",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 4.308,
-      "output": "python3 validators/validate.py --kind schema\nVALID\npython3 validators/validate.py --kind package --input examples/valid-input.yaml --output examples/valid-output-ready.yaml --bounded-output examples/source-valid-bounded-output.yaml --implementation-contract examples/source-valid-implementation-result-contract.yaml --checklist-contract examples/source-valid-approved-checklist-contract.yaml --checklists examples/source-valid-checklist-items.jsonl --executions examples/source-valid-execution-records.jsonl --changes examples/source-valid-change-records.jsonl --commands examples/source-valid-command-results.jsonl --verifications examples/source-valid-verification-results.jsonl --rollbacks examples/source-valid-rollback-results.jsonl --implementation-findings examples/source-valid-implementation-findings.jsonl --repository-before examples/source-valid-repository-before.yaml --repository-after examples/source-valid-repository-after.yaml --ledger examples/source-valid-evidence-ledger.jsonl --review-checks examples/valid-review-checks.jsonl --conformance-results examples/valid-conformance-results.jsonl --evidence-audits examples/valid-evidence-audits.jsonl --findings examples/empty-review-findings.jsonl --directives examples/empty-remediation-directives.jsonl --result-contract examples/valid-self-review-result-contract.yaml --require-transition-ready\nVALID\nPackage is transition-ready for TECHNICAL_REVIEW\n"
-    },
-    {
-      "skill": "t-self-review",
-      "mode": "validate",
-      "command": [
-        "make",
-        "loopback"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.11,
-      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --bounded-output examples/source-valid-bounded-output.yaml --implementation-contract examples/source-valid-implementation-result-contract.yaml --checklist-contract examples/source-valid-approved-checklist-contract.yaml --checklists examples/source-valid-checklist-items.jsonl --executions examples/source-valid-execution-records.jsonl --changes examples/source-valid-change-records.jsonl --commands examples/source-valid-command-results.jsonl --verifications examples/source-valid-verification-results.jsonl --rollbacks examples/source-valid-rollback-results.jsonl --implementation-findings examples/source-valid-implementation-findings.jsonl --repository-before examples/source-valid-repository-before.yaml --repository-after examples/source-valid-repository-after.yaml --ledger examples/source-valid-evidence-ledger.jsonl --evidence-audits examples/valid-evidence-audits.jsonl --output examples/valid-output-bounded-loopback.yaml --review-checks examples/valid-review-checks-bounded-loopback.jsonl --conformance-results examples/valid-conformance-results-bounded-loopback.jsonl --findings examples/valid-findings-bounded-loopback.jsonl --directives examples/valid-directives-bounded-loopback.jsonl --result-contract examples/valid-self-review-result-contract-bounded-loopback.yaml\nVALID\n"
+      "elapsed_seconds": 5.24,
+      "output": "python3 validators/validate.py --kind input --file examples/valid-input.yaml\nVALID: examples/valid-input.yaml\npython3 validators/validate.py --kind package --file examples/valid-output-ready.yaml --elements examples/valid-model-elements.jsonl --relations examples/valid-model-relations.jsonl --traceability examples/valid-traceability-matrix.csv --ledger examples/valid-evidence-ledger.jsonl --require-transition-ready\nVALID and transition-ready: examples/valid-output-ready.yaml\n"
     },
     {
       "skill": "t-technical-review",
@@ -252,19 +330,8 @@
         "validate"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 7.096,
-      "output": "python3 validators/validate.py --kind schema\nVALID\npython3 validators/validate.py --kind package \\\n  --input examples/valid-input.yaml \\\n  --self-review-output examples/source-valid-self-review-output.yaml \\\n  --self-review-contract examples/source-valid-self-review-result-contract.yaml \\\n  --bounded-output examples/source-valid-bounded-output.yaml \\\n  --implementation-contract examples/source-valid-implementation-result-contract.yaml \\\n  --checklist-contract examples/source-valid-approved-checklist-contract.yaml \\\n  --checklists examples/source-valid-checklist-items.jsonl \\\n  --changes examples/source-valid-change-records.jsonl \\\n  --verifications examples/source-valid-verification-results.jsonl \\\n  --repository-after examples/source-valid-repository-after.yaml \\\n  --ledger examples/source-valid-evidence-ledger.jsonl \\\n  --self-review-checks examples/source-valid-self-review-checks.jsonl \\\n  --self-review-conformance examples/source-valid-self-review-conformance.jsonl \\\n  --self-review-audits examples/source-valid-self-review-audits.jsonl \\\n  --self-review-findings examples/source-valid-self-review-findings.jsonl \\\n  --self-review-directives examples/source-valid-self-review-directives.jsonl \\\n  --assignment examples/valid-review-assignment.yaml \\\n  --output examples/valid-output-ready.yaml \\\n  --technical-checks examples/valid-technical-review-checks.jsonl \\\n  --change-assessments examples/valid-change-assessments.jsonl \\\n  --evidence-challenges examples/valid-evidence-challenges.jsonl \\\n  --findings examples/empty-review-findings.jsonl \\\n  --directives examples/empty-remediation-directives.jsonl \\\n  --result-contract examples/valid-technical-review-result-contract.yaml \\\n  --require-transition-ready\nVALID\nPackage is transition-ready for VERIFICATION\npython3 validators/validate.py --kind package \\\n  --input examples/valid-input.yaml \\\n  --self-review-output examples/source-valid-self-review-output.yaml \\\n  --self-review-contract examples/source-valid-self-review-result-contract.yaml \\\n  --bounded-output examples/source-valid-bounded-output.yaml \\\n  --implementation-contract examples/source-valid-implementation-result-contract.yaml \\\n  --checklist-contract examples/source-valid-approved-checklist-contract.yaml \\\n  --checklists examples/source-valid-checklist-items.jsonl \\\n  --changes examples/source-valid-change-records.jsonl \\\n  --verifications examples/source-valid-verification-results.jsonl \\\n  --repository-after examples/source-valid-repository-after.yaml \\\n  --ledger examples/source-valid-evidence-ledger.jsonl \\\n  --self-review-checks examples/source-valid-self-review-checks.jsonl \\\n  --self-review-conformance examples/source-valid-self-review-conformance.jsonl \\\n  --self-review-audits examples/source-valid-self-review-audits.jsonl \\\n  --self-review-findings examples/source-valid-self-review-findings.jsonl \\\n  --self-review-directives examples/source-valid-self-review-directives.jsonl \\\n  --assignment examples/valid-review-assignment.yaml \\\n  --output examples/valid-output-bounded-loopback.yaml \\\n  --technical-checks examples/valid-technical-review-checks-bounded-loopback.jsonl \\\n  --change-assessments examples/valid-change-assessments-bounded-loopback.jsonl \\\n  --evidence-challenges examples/valid-evidence-challenges-bounded-loopback.jsonl \\\n  --findings examples/valid-findings-bounded-loopback.jsonl \\\n  --directives examples/valid-directives-bounded-loopback.jsonl \\\n  --result-contract examples/valid-technical-review-result-contract-bounded-loopback.yaml\nVALID\n"
-    },
-    {
-      "skill": "t-verification",
-      "mode": "validate",
-      "command": [
-        "make",
-        "schemas"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 1.253,
-      "output": "python3 -c \"import json,glob; [json.load(open(p)) for p in glob.glob('schemas/*.json')]; print('schemas valid')\"\nschemas valid\n"
+      "elapsed_seconds": 2.237,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
     },
     {
       "skill": "t-verification",
@@ -274,41 +341,8 @@
         "validate"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 2.109,
-      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --assignment examples/valid-verifier-assignment.yaml --environment examples/valid-environment.yaml --technical-review-output examples/source-valid-technical-review-output.yaml --technical-review-contract examples/source-valid-technical-review-result-contract.yaml --implementation-contract examples/source-valid-implementation-result-contract.yaml --checklist-contract examples/source-valid-approved-checklist-contract.yaml --checklists examples/source-valid-checklist-items.jsonl --source-verifications examples/source-valid-verification-results.jsonl --repository-state examples/source-valid-repository-after.yaml --changes examples/source-valid-change-records.jsonl --source-ledger examples/source-valid-evidence-ledger.jsonl --obligations examples/valid-verification-obligations.jsonl --evidence examples/valid-verification-evidence.jsonl --output examples/valid-output-ready.yaml --executions examples/valid-verification-executions.jsonl --falsifications examples/valid-falsification-attempts.jsonl --findings examples/empty-verification-findings.jsonl --directives examples/empty-remediation-directives.jsonl --result-contract examples/valid-verification-result-contract.yaml --require-transition-ready\nVALID\n"
-    },
-    {
-      "skill": "t-verification",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate-loopback"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.288,
-      "output": "python3 validators/validate.py --kind package --input examples/valid-input.yaml --assignment examples/valid-verifier-assignment.yaml --environment examples/valid-environment.yaml --technical-review-output examples/source-valid-technical-review-output.yaml --technical-review-contract examples/source-valid-technical-review-result-contract.yaml --implementation-contract examples/source-valid-implementation-result-contract.yaml --checklist-contract examples/source-valid-approved-checklist-contract.yaml --checklists examples/source-valid-checklist-items.jsonl --source-verifications examples/source-valid-verification-results.jsonl --repository-state examples/source-valid-repository-after.yaml --changes examples/source-valid-change-records.jsonl --source-ledger examples/source-valid-evidence-ledger.jsonl --obligations examples/valid-verification-obligations.jsonl --evidence examples/valid-verification-evidence.jsonl --output examples/valid-output-bounded-loopback.yaml --executions examples/valid-verification-executions-bounded-loopback.jsonl --falsifications examples/valid-falsification-attempts-bounded-loopback.jsonl --findings examples/valid-findings-bounded-loopback.jsonl --directives examples/valid-directives-bounded-loopback.jsonl --result-contract examples/valid-verification-result-contract-bounded-loopback.yaml\nVALID\n"
-    },
-    {
-      "skill": "t-reconciliation",
-      "mode": "validate",
-      "command": [
-        "make",
-        "schemas"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 1.183,
-      "output": "python3 -c \"import json,glob; [json.load(open(p)) for p in glob.glob('schemas/*.json')]; print('VALID')\"\nVALID\n"
-    },
-    {
-      "skill": "t-reconciliation",
-      "mode": "validate",
-      "command": [
-        "make",
-        "validate"
-      ],
-      "exit_code": 0,
-      "elapsed_seconds": 2.24,
-      "output": "python3 validators/validate.py --kind package \\\n  --input examples/valid-input.yaml \\\n  --output examples/valid-output-complete.yaml \\\n  --assignment examples/valid-reconciler-assignment.yaml \\\n  --verification-output examples/source-valid-verification-output.yaml \\\n  --verification-contract examples/source-valid-verification-result-contract.yaml \\\n  --verification-obligations examples/source-valid-verification-obligations.jsonl \\\n  --verification-executions examples/source-valid-verification-executions.jsonl \\\n  --verification-evidence examples/source-valid-verification-evidence.jsonl \\\n  --technical-review-contract examples/source-valid-technical-review-result-contract.yaml \\\n  --implementation-contract examples/source-valid-implementation-result-contract.yaml \\\n  --checklist-contract examples/source-valid-approved-checklist-contract.yaml \\\n  --artifacts examples/valid-artifact-registry.jsonl \\\n  --nodes examples/valid-traceability-nodes.jsonl \\\n  --links examples/valid-traceability-links.jsonl \\\n  --closures examples/valid-closure-obligations.jsonl \\\n  --contradictions examples/empty-contradictions.jsonl \\\n  --gaps examples/empty-residual-gaps.jsonl \\\n  --approval examples/valid-closure-approval.yaml \\\n  --result-contract examples/valid-reconciliation-result-contract.yaml \\\n  --report examples/valid-reconciliation-report.md \\\n  --require-transition-ready\nVALID\n"
+      "elapsed_seconds": 1.977,
+      "output": "python3 validators/validate.py --input examples/valid-input.yaml --output examples/valid-output.yaml\nPASS\n"
     }
   ]
 }

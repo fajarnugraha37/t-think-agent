@@ -1,0 +1,27 @@
+schema_version: 2.0.0
+lanes:
+  quick:
+    max_source_files_per_worker: 8
+    max_evidence_items_per_worker: 12
+    max_worker_invocations: 4
+    max_builder_attempts: 2
+    context_selection: exact-targets-and-direct-dependencies
+  standard:
+    max_source_files_per_worker: 25
+    max_evidence_items_per_worker: 40
+    max_worker_invocations: 14
+    max_builder_attempts: 2
+    context_selection: phase-required-artifacts-and-relevant-source-map
+  full:
+    max_source_files_per_worker: null
+    max_evidence_items_per_worker: null
+    max_worker_invocations: 20
+    max_builder_attempts: 2
+    context_selection: isolated-per-phase-and-composite-track
+common:
+  one_active_skill: true
+  one_objective_per_invocation: true
+  fresh_context_per_composite_track: true
+  raw_logs_as_evidence: true
+  conversation_history_is_not_authoritative: true
+  missing_material_semantics: BLOCKED

@@ -1,17 +1,23 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 name: t-critic
 mode: subagent
-description: Perform fresh-context adversarial critique of models, solutions, plans, and checklists.
+description: Perform fresh-context critique of models, solutions, and both blueprint tracks.
 phases:
 - MODEL_CRITIQUE
 - SOLUTION_CRITIQUE
-- PLAN_CRITIQUE
-- CHECKLIST_CRITIQUE
+- BLUEPRINT_CRITIQUE
 skills:
 - t-model-critique
 - t-solution-critique
 - t-plan-critique
 - t-checklist-critique
+phase_tracks:
+- phase: BLUEPRINT_CRITIQUE
+  track: strategy_critique
+  skill: t-plan-critique
+- phase: BLUEPRINT_CRITIQUE
+  track: execution_critique
+  skill: t-checklist-critique
 context: fresh_invocation
 human_interaction: false
 permissions:

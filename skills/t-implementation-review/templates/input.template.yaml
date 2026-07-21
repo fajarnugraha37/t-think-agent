@@ -1,0 +1,41 @@
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+phase: IMPLEMENTATION_REVIEW
+tracks:
+- track: self_review
+  agent: t-builder
+  skill: t-self-review
+  invocation_id: INV-001
+  status: PASS
+  artifact:
+    ref: .t-think/W-1/artifacts/components/implementation_review/self_review.yaml
+    sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  applicability_reason: null
+- track: technical_review
+  agent: t-reviewer
+  skill: t-technical-review
+  invocation_id: INV-002
+  status: PASS
+  artifact:
+    ref: .t-think/W-1/artifacts/components/implementation_review/technical_review.yaml
+    sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  applicability_reason: null
+- track: security_review
+  agent: t-security-reviewer
+  skill: t-security-review
+  invocation_id: INV-003
+  status: PASS
+  artifact:
+    ref: .t-think/W-1/artifacts/components/implementation_review/security_review.yaml
+    sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+  applicability_reason: null
+- track: breaking_review
+  agent: t-breaking-reviewer
+  skill: t-breaking-review
+  invocation_id: INV-004
+  status: PASS
+  artifact:
+    ref: .t-think/W-1/artifacts/components/implementation_review/breaking_review.yaml
+    sha256: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+  applicability_reason: null

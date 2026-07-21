@@ -1,0 +1,6 @@
+skill: blueprint-critique
+state: BLUEPRINT_CRITIQUE
+composite: true
+success_state: BOUNDED_IMPLEMENTATION
+success_gate: READY_FOR_BOUNDED_IMPLEMENTATION
+lifecycle_transition_owned_by: t-think

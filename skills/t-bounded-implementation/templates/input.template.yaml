@@ -1,53 +1,17 @@
-metadata:
-  implementation_run_id: BIMPL-duplicate-event-001
-  version: 1.0.0
-  created_at: '2026-07-21T20:00:00+07:00'
-  author_agent: bounded-implementation-skill
-  language: id-ID
-source_authorization:
-  approved_checklist_contract_id: CHKCON-001
-  checklist_bundle_digest: sha256:d480c717183839f20dc113d744f013d46e6db6e3e69eb88f8d90eecf3940a530
-  checklist_critique_run_id: CCRIT-duplicate-event-001
-  gate_status: READY_FOR_BOUNDED_IMPLEMENTATION
-  repository_commit: abcdef1234567890
-  execution_authorized: true
-source_artifacts:
-  approved_checklist_contract:
-    path: examples/source-valid-approved-checklist-contract.yaml
-    format: YAML
-    record_count: 1
-    digest: sha256:6e4ebd5b647cab5de35356a05ed8f05803e7a2c9fcb7eb9cf1d1fe50fe883948
-  checklist_critique_output:
-    path: examples/source-valid-checklist-critique-output.yaml
-    format: YAML
-    record_count: 1
-    digest: sha256:a477bd602a9adff6660d02e0f22f01eec9834c99b91abc40c0728d03efa69136
-  approved_plan_contract:
-    path: examples/source-valid-approved-plan-contract.yaml
-    format: YAML
-    record_count: 1
-    digest: sha256:4a7e50e3a9c7f4b3319e9c59ff11387840296c56e4c1b9ae7b067e6c2f7063f7
-  checklist_items:
-    path: examples/source-valid-checklist-items.jsonl
-    format: JSONL
-    record_count: 17
-    digest: sha256:6a3b87f86615168e9e77b432fa47c7826b6cf7b54821c3005ad32457d5ddac13
-  execution_batches:
-    path: examples/source-valid-execution-batches.jsonl
-    format: JSONL
-    record_count: 13
-    digest: sha256:a17327b8f87fadd550331af8b73dffb46c1dff145d2d92c98e199649af4a067b
-  evidence_ledger:
-    path: examples/source-valid-evidence-ledger.jsonl
-    format: JSONL
-    record_count: 5
-    digest: sha256:929fe1fe53d9ec750eb8b2380c87d7c7cc4be158b045b40a07cf33066276e02f
-execution_controls:
-  mode: APPLY_APPROVED_CHECKLIST
-  max_remediation_attempts: 2
-  stop_on_ambiguity: true
-  stop_on_scope_drift: true
-  stop_on_semantic_decision: true
-  capture_commands: true
-  capture_diffs: true
-  capture_verification: true
+schema_version: 1.0.0
+work_id: W-1
+lane: standard
+authorization_ref: APPROVAL-1
+source_contract:
+  ref: .t-think/W-1/artifacts/implementation-blueprint.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+approved_write_targets:
+- src/**
+- tests/**
+tasks:
+- task_id: TASK-001
+  action: Implement the approved behavior
+  write_targets:
+  - src/core.ts
+  acceptance_criteria:
+  - Behavior is covered by tests

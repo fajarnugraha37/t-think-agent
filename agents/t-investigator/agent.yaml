@@ -1,12 +1,12 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 name: t-investigator
 mode: subagent
-description: Collect direct repository, configuration, test, runtime, and documentation evidence without proposing
-  or implementing a solution.
+description: Collect repository and runtime evidence without proposing or implementing a solution.
 phases:
 - INVESTIGATION
 skills:
 - t-investigation
+phase_tracks: []
 context: fresh_invocation
 human_interaction: false
 permissions:

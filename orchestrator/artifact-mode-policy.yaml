@@ -1,0 +1,25 @@
+schema_version: 2.0.0
+modes:
+  compact:
+    description: Quick-lane aggregate artifacts; component review artifacts stay under artifacts/components.
+    path_overrides:
+      PROBLEM_ALIGNMENT: change-record.yaml
+      BOUNDED_IMPLEMENTATION: implementation.yaml
+      IMPLEMENTATION_REVIEW: implementation-review.yaml
+      VERIFICATION: verification.yaml
+      RECONCILIATION: closure.yaml
+  normal:
+    description: One aggregate artifact per standard phase plus separately auditable component artifacts.
+    path_overrides:
+      PROBLEM_ALIGNMENT: problem.yaml
+      INVESTIGATION: investigation.yaml
+      SOLUTION_DESIGN: solution.yaml
+      IMPLEMENTATION_BLUEPRINT: implementation-blueprint.yaml
+      BLUEPRINT_CRITIQUE: blueprint-critique.yaml
+      BOUNDED_IMPLEMENTATION: implementation.yaml
+      IMPLEMENTATION_REVIEW: implementation-review.yaml
+      VERIFICATION: verification.yaml
+      RECONCILIATION: reconciliation.yaml
+  exhaustive:
+    description: One aggregate artifact for every full phase plus every component artifact.
+    path_overrides: {}

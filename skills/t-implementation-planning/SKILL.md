@@ -2,14 +2,16 @@
 name: t-implementation-planning
 description: Convert an approved solution into an ordered implementation, verification, rollout, migration, and rollback plan.
 version: 1.0.0
-lifecycle_state: IMPLEMENTATION_PLAN
+lifecycle_state: IMPLEMENTATION_BLUEPRINT
 compatibility: OpenCode, Codex, Claude Code, Cursor; Python 3.10+ for validators
 metadata:
   suite: t-think
-  lifecycle-state: IMPLEMENTATION_PLAN
+  lifecycle-state: IMPLEMENTATION_BLUEPRINT
   cost-profile: economy-compatible
 ---
 # Implementation Planning Skill
+
+> **Composite-phase component:** Runs as a fresh track inside `IMPLEMENTATION_BLUEPRINT`. It does not advance lifecycle state directly; `t-think` creates the aggregate artifact.
 
 ## Purpose
 Translate one immutable, human-approved solution contract into a complete, evidence-backed, reviewable implementation plan without editing code or making new semantic decisions.
