@@ -1,0 +1,347 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/system-modeling/input.schema.json",
+  "title": "System Modeling Skill Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_investigation",
+    "approved_problem",
+    "modeling_objectives",
+    "required_dimensions",
+    "modeling_policy"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "modeling_id",
+        "created_at"
+      ],
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modeling_id": {
+          "type": "string",
+          "pattern": "^MODEL-[A-Za-z0-9._-]+$"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "language": {
+          "type": "string"
+        },
+        "requested_by": {
+          "type": "string"
+        }
+      }
+    },
+    "source_investigation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_path",
+        "artifact_version",
+        "status",
+        "gate_status",
+        "investigation_id",
+        "evidence_ledger_path",
+        "problem_statement_ids"
+      ],
+      "properties": {
+        "artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "const": "COMPLETE"
+        },
+        "gate_status": {
+          "const": "READY_FOR_SYSTEM_MODEL"
+        },
+        "investigation_id": {
+          "type": "string",
+          "pattern": "^INVEST-[A-Za-z0-9._-]+$"
+        },
+        "evidence_ledger_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_digest": {
+          "type": "string"
+        },
+        "ledger_digest": {
+          "type": "string"
+        },
+        "problem_statement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(PS|PE|AC|CST)-[0-9]{3,}$"
+          }
+        }
+      }
+    },
+    "approved_problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "elements",
+        "scope",
+        "success_criteria"
+      ],
+      "properties": {
+        "elements": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/problemElement"
+          }
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "in_scope",
+            "out_of_scope"
+          ],
+          "properties": {
+            "in_scope": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "out_of_scope": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "environments": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "success_criteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/problemElement"
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/problemElement"
+          }
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "term",
+              "definition"
+            ],
+            "properties": {
+              "term": {
+                "type": "string",
+                "minLength": 1
+              },
+              "definition": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "modeling_objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/objective"
+      }
+    },
+    "required_dimensions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/dimension"
+      }
+    },
+    "optional_dimensions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/dimension"
+      }
+    },
+    "modeling_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actual_source_only",
+        "context_firewall",
+        "explicit_reasoning_summary",
+        "require_falsifiability",
+        "require_alternative_explanations",
+        "allow_solution_design"
+      ],
+      "properties": {
+        "actual_source_only": {
+          "const": true
+        },
+        "context_firewall": {
+          "const": true
+        },
+        "explicit_reasoning_summary": {
+          "const": true
+        },
+        "require_falsifiability": {
+          "const": true
+        },
+        "require_alternative_explanations": {
+          "const": true
+        },
+        "allow_solution_design": {
+          "const": false
+        },
+        "max_model_iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "require_actual_intended_gap": {
+          "type": "boolean",
+          "default": true
+        },
+        "require_invariant_analysis": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "known_limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "problemElement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(PS|PE|AC|CST)-[0-9]{3,}$"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "question",
+        "mapped_problem_ids",
+        "completion_condition"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^OBJ-[0-9]{3,}$"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mapped_problem_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(PS|PE|AC|CST)-[0-9]{3,}$"
+          }
+        },
+        "completion_condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "enum": [
+            "CRITICAL",
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        }
+      }
+    },
+    "dimension": {
+      "enum": [
+        "ACTORS",
+        "ENTRY_POINTS",
+        "COMPONENTS",
+        "EXECUTION_PATH",
+        "STATE_MODEL",
+        "DATA_FLOW",
+        "OWNERSHIP",
+        "SOURCE_OF_TRUTH",
+        "TRANSACTIONS",
+        "CONCURRENCY",
+        "RETRY_AND_IDEMPOTENCY",
+        "FAILURE_PATHS",
+        "EXTERNAL_DEPENDENCIES",
+        "SECURITY_BOUNDARIES",
+        "CONTRACTS",
+        "CONFIGURATION",
+        "OBSERVABILITY",
+        "COMPATIBILITY",
+        "INVARIANTS",
+        "ACTUAL_BEHAVIOR",
+        "INTENDED_BEHAVIOR",
+        "BEHAVIOR_GAP",
+        "MODEL_LIMITATIONS"
+      ]
+    }
+  }
+}

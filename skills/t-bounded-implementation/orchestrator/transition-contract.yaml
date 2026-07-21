@@ -1,0 +1,35 @@
+skill: bounded-implementation
+current_state: BOUNDED_IMPLEMENTATION
+allowed_next_states:
+- SELF_REVIEW
+- BOUNDED_IMPLEMENTATION
+- IMPLEMENTATION_CHECKLIST
+- CHECKLIST_CRITIQUE
+- IMPLEMENTATION_PLAN
+- PLAN_CRITIQUE
+- INVESTIGATION
+- SYSTEM_MODEL
+- SOLUTION_DESIGN
+- SOLUTION_CRITIQUE
+- PROBLEM_ALIGNMENT
+success_gate:
+  status: READY_FOR_SELF_REVIEW
+  next_state: SELF_REVIEW
+  requires:
+  - all checklist items COMPLETED
+  - all required verification PASS
+  - approved scope preserved
+  - semantic boundary preserved
+  - dependencies and order honored
+  - human gates honored
+  - failure budget respected
+  - implementation result contract COMPLETE
+loopback_policy:
+  mechanical_failure_within_budget: BOUNDED_IMPLEMENTATION
+  checklist_defect: IMPLEMENTATION_CHECKLIST
+  approval_or_contract_defect: CHECKLIST_CRITIQUE
+  plan_defect: IMPLEMENTATION_PLAN
+  evidence_gap: INVESTIGATION
+  model_defect: SYSTEM_MODEL
+  solution_defect: SOLUTION_DESIGN
+  problem_defect: PROBLEM_ALIGNMENT

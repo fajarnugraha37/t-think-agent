@@ -1,0 +1,49 @@
+contract_id: SOLCON-001
+status: APPROVED
+source_design_id: SDES-<slug>-001
+source_decision_id: DEC-001
+decision_approval_id: SAPP-001
+selected_option_id: OPT-001
+selected_option_digest: sha256:<digest>
+approved_model_version: 1.0.0
+problem_ids:
+- PS-001
+target_ids:
+- TGT-001
+model_ids:
+- MDL-001
+evidence_ids:
+- F-001
+invariant_ids:
+- INV-001
+accepted_assumption_ids: []
+accepted_risk_ids:
+- SRSK-001
+behavior_commitments:
+  target_behavior: <copy exactly from selected option>
+  preserved_behavior:
+  - <preserved behavior>
+  intentionally_changed_behavior:
+  - <approved change>
+  failure_semantics: <copy exactly>
+  transaction_semantics: <copy exactly>
+  concurrency_semantics: <copy exactly>
+change_surface:
+  components:
+  - <component>
+  files_or_artifacts: []
+  public_contract_changes: []
+  data_changes: []
+  configuration_changes: []
+  dependencies: []
+semantic_constraints:
+- Do not weaken the approved invariant.
+planning_constraints:
+- The next phase may plan but may not change the selected solution.
+prohibited_changes:
+- No new business rule, fallback, retry, or public contract change without returning
+  to solution design.
+approval:
+  approved_by: human-reviewer
+  approved_at: 2026-07-21 15:30:00+07:00
+  approved_by_role: HUMAN

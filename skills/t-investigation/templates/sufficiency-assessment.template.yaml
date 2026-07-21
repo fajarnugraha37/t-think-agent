@@ -1,0 +1,11 @@
+investigation_id: INVEST-example
+evaluated_at: "2026-07-21T12:00:00+07:00"
+status: FAIL
+problem_coverage_complete: false
+required_dimensions_complete: false
+direct_fact_count: 0
+blocking_unknown_ids: []
+blocking_conflict_ids: []
+cross_file_consistent: false
+decision: CONTINUE_INVESTIGATION
+rationale: State the exact reasons evidence is or is not sufficient.

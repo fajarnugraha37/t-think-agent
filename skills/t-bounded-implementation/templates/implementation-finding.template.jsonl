@@ -1,0 +1,1 @@
+{"finding_id":"IFND-001","implementation_run_id":"BIMPL-...","category":"AMBIGUITY","severity":"HIGH","status":"OPEN","blocking":true,"summary":"Describe the blocking implementation fact.","target_ids":["CHK-001"],"evidence_refs":["artifacts/..."],"remediation_attempts":0,"route":"IMPLEMENTATION_CHECKLIST","rationale":"Explain why the earliest valid route is required."}

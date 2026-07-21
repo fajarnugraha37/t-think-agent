@@ -1,0 +1,525 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/investigation/evidence-record.schema.json",
+  "title": "Investigation Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "status",
+    "claim",
+    "created_at",
+    "scope",
+    "confidence"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+    },
+    "type": {
+      "enum": [
+        "FACT",
+        "INFERENCE",
+        "ASSUMPTION",
+        "UNKNOWN",
+        "CONFLICT",
+        "INVARIANT_CANDIDATE",
+        "RISK"
+      ]
+    },
+    "status": {
+      "enum": [
+        "ACTIVE",
+        "WEAKENED",
+        "RETRACTED",
+        "SUPERSEDED",
+        "RESOLVED"
+      ]
+    },
+    "claim": {
+      "type": "string",
+      "minLength": 3
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "confidence": {
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repositories",
+        "modules",
+        "environments"
+      ],
+      "properties": {
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^REPO-[0-9]{3,}$"
+          }
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "fact_scope": {
+      "enum": [
+        "SYSTEM_OBSERVED",
+        "HUMAN_REPORTED",
+        "DOCUMENT_OBSERVED"
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "supporting_claim_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "contradicting_claim_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "reasoning_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "alternative_explanations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "falsification_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "impact_if_wrong": {
+      "type": "string",
+      "minLength": 1
+    },
+    "basis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verification_method": {
+      "type": "string",
+      "minLength": 1
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "required_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "conflicting_claim_ids": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "resolution_status": {
+      "enum": [
+        "UNRESOLVED",
+        "PARTIALLY_RESOLVED",
+        "RESOLVED"
+      ]
+    },
+    "resolution_summary": {
+      "type": "string"
+    },
+    "candidate_enforcement_points": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "failure_consequence": {
+      "type": "string"
+    },
+    "severity": {
+      "enum": [
+        "CRITICAL",
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    "likelihood": {
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW",
+        "UNKNOWN"
+      ]
+    },
+    "negative_claim": {
+      "type": "boolean"
+    },
+    "search_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "queries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "excluded_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "FACT"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "fact_scope",
+          "sources"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "INFERENCE"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "supporting_claim_ids",
+          "reasoning_summary",
+          "alternative_explanations",
+          "falsification_conditions",
+          "impact_if_wrong"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "ASSUMPTION"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "basis",
+          "verification_method",
+          "impact_if_wrong"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "UNKNOWN"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "blocking",
+          "required_evidence",
+          "impact_if_wrong"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "CONFLICT"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "conflicting_claim_ids",
+          "resolution_status",
+          "blocking"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "INVARIANT_CANDIDATE"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "supporting_claim_ids",
+          "candidate_enforcement_points",
+          "failure_consequence"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "RISK"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "supporting_claim_ids",
+          "severity",
+          "likelihood"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "negative_claim"
+        ],
+        "properties": {
+          "negative_claim": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "search_scope",
+          "falsification_conditions"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_type",
+        "authority",
+        "source_context",
+        "locator"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "pattern": "^SRC-[A-Za-z0-9._-]+$"
+        },
+        "source_type": {
+          "enum": [
+            "SOURCE_CODE",
+            "TEST_SOURCE",
+            "TEST_OUTPUT",
+            "CONFIGURATION",
+            "BUILD_METADATA",
+            "SCHEMA",
+            "MIGRATION",
+            "LOG",
+            "TRACE",
+            "DATABASE_QUERY",
+            "COMMAND_OUTPUT",
+            "RUNTIME_BEHAVIOR",
+            "VERSION_CONTROL",
+            "EXTERNAL_CONTRACT",
+            "DOCUMENTATION",
+            "COMMENT",
+            "HUMAN_REPORT",
+            "CONVERSATION_HINT"
+          ]
+        },
+        "authority": {
+          "enum": [
+            "DIRECT",
+            "SUPPORTING",
+            "HINT_ONLY"
+          ]
+        },
+        "source_context": {
+          "enum": [
+            "ACTUAL_SYSTEM",
+            "HUMAN_PROVIDED",
+            "CONVERSATION_CONTEXT",
+            "GENERATED_ARTIFACT"
+          ]
+        },
+        "locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "repository_id": {
+              "type": "string",
+              "pattern": "^REPO-[0-9]{3,}$"
+            },
+            "commit_sha": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{7,64}$"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "line_start": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "line_end": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "symbol": {
+              "type": "string"
+            },
+            "command": {
+              "type": "string"
+            },
+            "output_reference": {
+              "type": "string"
+            },
+            "test_name": {
+              "type": "string"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "trace_id": {
+              "type": "string"
+            },
+            "span_id": {
+              "type": "string"
+            },
+            "correlation_id": {
+              "type": "string"
+            },
+            "query_reference": {
+              "type": "string"
+            },
+            "document_section": {
+              "type": "string"
+            }
+          }
+        },
+        "excerpt": {
+          "type": "string"
+        },
+        "content_digest": {
+          "type": "string",
+          "minLength": 8
+        },
+        "redacted": {
+          "type": "boolean",
+          "default": false
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Solution Revision Directive",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "directive_id",
+    "trigger_critique_ids",
+    "target_artifact",
+    "target_id",
+    "operation",
+    "requested_change",
+    "rationale",
+    "evidence_ids",
+    "affected_target_ids",
+    "semantic_decision_required",
+    "human_approval_required",
+    "apply_in_phase",
+    "status"
+  ],
+  "properties": {
+    "directive_id": {
+      "type": "string",
+      "pattern": "^SREV-[0-9]{3,}$"
+    },
+    "trigger_critique_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^SOLCRIT-[0-9]{3,}$"
+      }
+    },
+    "target_artifact": {
+      "enum": [
+        "OPTION",
+        "COVERAGE_MATRIX",
+        "DECISION_RECORD",
+        "DOMINANCE_PROOF",
+        "SOLUTION_DESIGN_OUTPUT"
+      ]
+    },
+    "target_id": {
+      "type": "string",
+      "pattern": "^(OPT|SCOV|DEC)-[0-9]{3,}$|^DOMINANCE-PROOF$|^SOLUTION-DESIGN-OUTPUT$"
+    },
+    "operation": {
+      "enum": [
+        "ADD",
+        "REVISE",
+        "WEAKEN",
+        "RETRACT",
+        "RECALCULATE"
+      ]
+    },
+    "requested_change": {
+      "type": "string",
+      "minLength": 3
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 3
+    },
+    "evidence_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "affected_target_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TGT-"
+      }
+    },
+    "semantic_decision_required": {
+      "type": "boolean"
+    },
+    "human_approval_required": {
+      "const": true
+    },
+    "apply_in_phase": {
+      "const": "SOLUTION_DESIGN"
+    },
+    "status": {
+      "const": "PROPOSED"
+    }
+  }
+}

@@ -1,0 +1,707 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/system-modeling/output.schema.json",
+  "title": "System Modeling Skill Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_investigation",
+    "model_scope",
+    "model_summary",
+    "model_files",
+    "dimension_coverage",
+    "problem_coverage",
+    "reasoning_disclosure",
+    "consistency_assessment",
+    "artifacts",
+    "gate"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modeling_id",
+        "version",
+        "status",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "modeling_id": {
+          "type": "string",
+          "pattern": "^MODEL-[A-Za-z0-9._-]+$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "IN_PROGRESS",
+            "COMPLETE",
+            "BLOCKED",
+            "REJECTED",
+            "SUPERSEDED"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "language": {
+          "type": "string"
+        },
+        "author_agent": {
+          "type": "string"
+        }
+      }
+    },
+    "source_investigation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_path",
+        "artifact_version",
+        "investigation_id",
+        "status",
+        "gate_status",
+        "evidence_ledger_path",
+        "problem_statement_ids"
+      ],
+      "properties": {
+        "artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "investigation_id": {
+          "type": "string",
+          "pattern": "^INVEST-[A-Za-z0-9._-]+$"
+        },
+        "status": {
+          "const": "COMPLETE"
+        },
+        "gate_status": {
+          "const": "READY_FOR_SYSTEM_MODEL"
+        },
+        "evidence_ledger_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problem_statement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(PS|PE|AC|CST)-[0-9]{3,}$"
+          }
+        },
+        "artifact_digest": {
+          "type": "string"
+        },
+        "ledger_digest": {
+          "type": "string"
+        }
+      }
+    },
+    "model_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "included",
+        "excluded",
+        "repositories",
+        "environments",
+        "limitations"
+      ],
+      "properties": {
+        "included": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "repositories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "repository_id",
+              "commit_sha"
+            ],
+            "properties": {
+              "repository_id": {
+                "type": "string"
+              },
+              "commit_sha": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{7,64}$"
+              },
+              "branch": {
+                "type": "string"
+              },
+              "modules": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "model_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "actual_behavior_summary",
+        "intended_behavior_summary",
+        "gap_summary",
+        "leading_explanation",
+        "alternative_explanations"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actual_behavior_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intended_behavior_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gap_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "leading_explanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alternative_explanations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        }
+      }
+    },
+    "model_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "elements",
+        "relations",
+        "traceability_matrix"
+      ],
+      "properties": {
+        "elements": {
+          "$ref": "#/$defs/fileSummary"
+        },
+        "relations": {
+          "$ref": "#/$defs/fileSummary"
+        },
+        "traceability_matrix": {
+          "$ref": "#/$defs/fileSummary"
+        },
+        "diagram": {
+          "$ref": "#/$defs/fileSummary"
+        }
+      }
+    },
+    "dimension_coverage": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/dimensionCoverage"
+      }
+    },
+    "problem_coverage": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/problemCoverage"
+      }
+    },
+    "reasoning_disclosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact_to_model_mappings",
+        "inference_to_model_mappings",
+        "assumption_usage",
+        "conflicts",
+        "unknowns",
+        "discarded_evidence",
+        "summary_method"
+      ],
+      "properties": {
+        "fact_to_model_mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claimMapping"
+          }
+        },
+        "inference_to_model_mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claimMapping"
+          }
+        },
+        "assumption_usage": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/assumptionUsage"
+          }
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/openClaim"
+          }
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/openClaim"
+          }
+        },
+        "discarded_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "evidence_id",
+              "reason"
+            ],
+            "properties": {
+              "evidence_id": {
+                "type": "string",
+                "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "summary_method": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "consistency_assessment": {
+      "$ref": "consistency-decision.schema.json"
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "next_state",
+        "blocking_reasons",
+        "next_valid_transitions"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY_FOR_MODEL_CRITIQUE",
+            "MODEL_INCOMPLETE",
+            "BLOCKED"
+          ]
+        },
+        "next_state": {
+          "enum": [
+            "MODEL_CRITIQUE",
+            "SYSTEM_MODEL",
+            "INVESTIGATION"
+          ]
+        },
+        "blocking_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "next_valid_transitions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "MODEL_CRITIQUE",
+              "SYSTEM_MODEL",
+              "INVESTIGATION",
+              "PROBLEM_ALIGNMENT"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "fileSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "format",
+        "record_count",
+        "digest"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "format": {
+          "enum": [
+            "JSONL",
+            "CSV",
+            "MARKDOWN",
+            "MERMAID",
+            "YAML"
+          ]
+        },
+        "record_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "dimensionCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dimension",
+        "required",
+        "status",
+        "model_element_ids",
+        "evidence_ids",
+        "summary"
+      ],
+      "properties": {
+        "dimension": {
+          "enum": [
+            "ACTORS",
+            "ENTRY_POINTS",
+            "COMPONENTS",
+            "EXECUTION_PATH",
+            "STATE_MODEL",
+            "DATA_FLOW",
+            "OWNERSHIP",
+            "SOURCE_OF_TRUTH",
+            "TRANSACTIONS",
+            "CONCURRENCY",
+            "RETRY_AND_IDEMPOTENCY",
+            "FAILURE_PATHS",
+            "EXTERNAL_DEPENDENCIES",
+            "SECURITY_BOUNDARIES",
+            "CONTRACTS",
+            "CONFIGURATION",
+            "OBSERVABILITY",
+            "COMPATIBILITY",
+            "INVARIANTS",
+            "ACTUAL_BEHAVIOR",
+            "INTENDED_BEHAVIOR",
+            "BEHAVIOR_GAP",
+            "MODEL_LIMITATIONS"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "COVERED",
+            "PARTIAL",
+            "UNEXPLAINED",
+            "JUSTIFIED_NOT_APPLICABLE"
+          ]
+        },
+        "model_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^MDL-[0-9]{3,}$"
+          }
+        },
+        "evidence_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+          }
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "justification": {
+          "type": "string"
+        }
+      }
+    },
+    "problemCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "problem_id",
+        "status",
+        "model_element_ids",
+        "evidence_ids",
+        "summary"
+      ],
+      "properties": {
+        "problem_id": {
+          "type": "string",
+          "pattern": "^(PS|PE|AC|CST)-[0-9]{3,}$"
+        },
+        "status": {
+          "enum": [
+            "FULL",
+            "PARTIAL",
+            "UNEXPLAINED",
+            "JUSTIFIED_OUT_OF_SCOPE"
+          ]
+        },
+        "model_element_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^MDL-[0-9]{3,}$"
+          }
+        },
+        "model_relation_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^REL-[0-9]{3,}$"
+          }
+        },
+        "evidence_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+          }
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limitations": {
+          "type": "string"
+        }
+      }
+    },
+    "claimMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "model_element_ids",
+        "transformation"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+        },
+        "model_element_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^MDL-[0-9]{3,}$"
+          }
+        },
+        "model_relation_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^REL-[0-9]{3,}$"
+          }
+        },
+        "transformation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "assumptionUsage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assumption_id",
+        "used_by_model_ids",
+        "blocking",
+        "impact_if_wrong",
+        "verification"
+      ],
+      "properties": {
+        "assumption_id": {
+          "type": "string",
+          "pattern": "^ASM-[0-9]{3,}$"
+        },
+        "used_by_model_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^MDL-[0-9]{3,}$"
+          }
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "impact_if_wrong": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verification": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "openClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "blocking",
+        "impact",
+        "next_action"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "impact": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_action": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_type",
+        "path",
+        "status",
+        "digest"
+      ],
+      "properties": {
+        "artifact_type": {
+          "enum": [
+            "SYSTEM_MODEL",
+            "MODEL_ELEMENTS",
+            "MODEL_RELATIONS",
+            "TRACEABILITY_MATRIX",
+            "MODELING_OUTPUT",
+            "MODEL_DIAGRAM",
+            "CRITIQUE_LOG"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "COMPLETE",
+            "BLOCKED",
+            "SUPERSEDED"
+          ]
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

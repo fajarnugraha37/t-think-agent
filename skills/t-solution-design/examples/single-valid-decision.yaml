@@ -1,0 +1,24 @@
+decision_id: DEC-001
+status: DRAFT
+binding_authority: HUMAN
+candidate_option_ids: [OPT-001]
+recommended_option_id: OPT-001
+recommendation_basis: [Only option remaining viable under the documented constraints; see dominance proof.]
+comparison_criteria:
+  - criterion: Correctness
+    weight: 5
+    option_scores: {OPT-001: 5}
+    rationale: Enforces uniqueness at durable boundary.
+  - criterion: Compatibility
+    weight: 4
+    option_scores: {OPT-001: 4}
+    rationale: Can preserve public contract with server-derived identity.
+  - criterion: Operability
+    weight: 3
+    option_scores: {OPT-001: 4}
+    rationale: Requires conflict metrics but no intent recovery state machine.
+human_selection: {status: NOT_SELECTED, selected_option_id: null, selected_by: null, selected_at: null}
+decisions:
+  - {decision_question_id: DECQ-001, status: OPEN, owner: HUMAN, notes: Confirm stable identity.}
+assumptions: []
+residual_risks: [SRSK-001]

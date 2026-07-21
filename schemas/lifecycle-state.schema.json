@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/lifecycle-state.schema.json",
+  "title": "Canonical lifecycle state",
+  "type": "string",
+  "enum": [
+    "PROBLEM_ALIGNMENT",
+    "INVESTIGATION",
+    "SYSTEM_MODEL",
+    "MODEL_CRITIQUE",
+    "SOLUTION_DESIGN",
+    "SOLUTION_CRITIQUE",
+    "IMPLEMENTATION_PLAN",
+    "PLAN_CRITIQUE",
+    "IMPLEMENTATION_CHECKLIST",
+    "CHECKLIST_CRITIQUE",
+    "BOUNDED_IMPLEMENTATION",
+    "SELF_REVIEW",
+    "TECHNICAL_REVIEW",
+    "VERIFICATION",
+    "RECONCILIATION",
+    "COMPLETED",
+    "REJECTED"
+  ]
+}

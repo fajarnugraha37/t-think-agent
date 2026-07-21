@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/epistemic-claim.schema.json",
+  "title": "Evidence-governed claim",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claim_id",
+    "status",
+    "statement",
+    "evidence_ids",
+    "confidence",
+    "limitations"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "pattern": "^CLM-[A-Za-z0-9._-]+$"
+    },
+    "status": {
+      "enum": [
+        "FACT",
+        "INFERENCE",
+        "ASSUMPTION",
+        "UNKNOWN",
+        "CONFLICT",
+        "DECISION",
+        "RISK",
+        "LIMITATION"
+      ]
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "rationale": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "alternatives_considered": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "falsification_condition": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "confidence": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "FACT"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "INFERENCE"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "rationale",
+          "falsification_condition"
+        ],
+        "properties": {
+          "evidence_ids": {
+            "minItems": 1
+          },
+          "alternatives_considered": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

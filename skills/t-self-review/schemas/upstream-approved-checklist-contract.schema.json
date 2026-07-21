@@ -1,0 +1,406 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/checklist-critique/approved-checklist-contract.schema.json",
+  "title": "Approved Checklist Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_id",
+    "status",
+    "source_builder_run_id",
+    "source_plan_contract_id",
+    "checklist_approval_id",
+    "repository_snapshot",
+    "artifact_versions",
+    "source_plan_bundle_digest",
+    "checklist_bundle_digest",
+    "checklist_item_ids",
+    "dependency_edge_ids",
+    "coverage_row_ids",
+    "execution_batch_ids",
+    "operation_bindings",
+    "execution_order",
+    "parallel_levels",
+    "change_surface",
+    "human_gate_batch_ids",
+    "decision_envelope",
+    "failure_budget",
+    "implementation_constraints",
+    "execution_policy",
+    "accepted_residual_risk_ids",
+    "accepted_limitations",
+    "approval"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string",
+      "pattern": "^CHKCON-"
+    },
+    "status": {
+      "enum": [
+        "PENDING",
+        "APPROVED"
+      ]
+    },
+    "source_builder_run_id": {
+      "type": "string",
+      "pattern": "^CBLD-"
+    },
+    "source_plan_contract_id": {
+      "type": "string",
+      "pattern": "^PLANCON-"
+    },
+    "checklist_approval_id": {
+      "type": "string",
+      "pattern": "^CAPP-"
+    },
+    "repository_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id",
+        "branch",
+        "commit_sha",
+        "working_tree_status"
+      ],
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{7,64}$"
+        },
+        "working_tree_status": {
+          "enum": [
+            "CLEAN",
+            "DIRTY"
+          ]
+        }
+      }
+    },
+    "artifact_versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checklist_builder_output_version",
+        "approved_plan_contract_id"
+      ],
+      "properties": {
+        "checklist_builder_output_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_plan_contract_id": {
+          "type": "string",
+          "pattern": "^PLANCON-"
+        }
+      }
+    },
+    "source_plan_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "checklist_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "checklist_item_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CHK-"
+      }
+    },
+    "dependency_edge_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CDEP-"
+      }
+    },
+    "coverage_row_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CCOV-"
+      }
+    },
+    "execution_batch_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^BATCH-"
+      }
+    },
+    "operation_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "checklist_id",
+          "source_plan_id",
+          "operation_sequence",
+          "source_operation_digest",
+          "checklist_item_digest"
+        ],
+        "properties": {
+          "checklist_id": {
+            "type": "string",
+            "pattern": "^CHK-"
+          },
+          "source_plan_id": {
+            "type": "string",
+            "pattern": "^PLN-"
+          },
+          "operation_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source_operation_digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "checklist_item_digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "execution_order": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CHK-"
+      }
+    },
+    "parallel_levels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^CHK-"
+        }
+      }
+    },
+    "change_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "components",
+        "files_or_artifacts"
+      ],
+      "properties": {
+        "components": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "files_or_artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "human_gate_batch_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^BATCH-"
+      }
+    },
+    "decision_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_mechanical_discretion",
+        "prohibited_semantic_discretion",
+        "no_silent_replanning"
+      ],
+      "properties": {
+        "allowed_mechanical_discretion": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "prohibited_semantic_discretion": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "no_silent_replanning": {
+          "const": true
+        }
+      }
+    },
+    "failure_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_remediation_attempts",
+        "on_exhaustion"
+      ],
+      "properties": {
+        "max_remediation_attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "on_exhaustion": {
+          "const": "IMPLEMENTATION_FAILED"
+        }
+      }
+    },
+    "implementation_constraints": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "execution_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implement_only_approved_items",
+        "preserve_execution_order",
+        "capture_evidence_after_each_item",
+        "update_status_after_each_item",
+        "no_silent_replanning",
+        "on_ambiguity",
+        "on_unapproved_change"
+      ],
+      "properties": {
+        "implement_only_approved_items": {
+          "const": true
+        },
+        "preserve_execution_order": {
+          "const": true
+        },
+        "capture_evidence_after_each_item": {
+          "const": true
+        },
+        "update_status_after_each_item": {
+          "const": true
+        },
+        "no_silent_replanning": {
+          "const": true
+        },
+        "on_ambiguity": {
+          "const": "IMPLEMENTATION_FAILED"
+        },
+        "on_unapproved_change": {
+          "const": "LOOPBACK_REQUIRED"
+        }
+      }
+    },
+    "accepted_residual_risk_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "accepted_limitations": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "approved_by",
+        "approver_role",
+        "approved_at",
+        "execution_authorization"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "PENDING",
+            "APPROVED"
+          ]
+        },
+        "approved_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approver_role": {
+          "enum": [
+            "HUMAN",
+            "UNASSIGNED"
+          ]
+        },
+        "approved_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "execution_authorization": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

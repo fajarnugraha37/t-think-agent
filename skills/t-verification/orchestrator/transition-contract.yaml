@@ -1,0 +1,41 @@
+skill: verification
+state: VERIFICATION
+previous_state: TECHNICAL_REVIEW
+success_state: RECONCILIATION
+preconditions:
+- Technical Review output READY_FOR_VERIFICATION
+- Technical Review contract PASS
+- Exact repository tree and upstream digests available
+- Independent verifier assigned
+success_gate:
+  status: READY_FOR_RECONCILIATION
+  requirements:
+  - Exact obligation coverage
+  - All mandatory obligations PASS
+  - Required falsification attempts complete
+  - Evidence references and digests valid
+  - Environment reproducible
+  - Repository unchanged
+  - No open blocking finding
+loopback_routes:
+- VERIFICATION
+- TECHNICAL_REVIEW
+- SELF_REVIEW
+- BOUNDED_IMPLEMENTATION
+- IMPLEMENTATION_CHECKLIST
+- CHECKLIST_CRITIQUE
+- IMPLEMENTATION_PLAN
+- PLAN_CRITIQUE
+- INVESTIGATION
+- SYSTEM_MODEL
+- SOLUTION_DESIGN
+- SOLUTION_CRITIQUE
+- PROBLEM_ALIGNMENT
+mutation_policy:
+  source_mutation_allowed: false
+  remediation_allowed: false
+  new_semantic_decision_allowed: false
+failure_behavior:
+  ambiguity: BLOCK_VERIFICATION
+  unapproved_change: LOOPBACK_REQUIRED
+  source_drift: LOOPBACK_REQUIRED

@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "issues": [],
+  "core_characters": 5632,
+  "role_agent_character_sizes": {
+    "t-builder": 1894,
+    "t-critic": 1954,
+    "t-investigator": 1853,
+    "t-modeler": 1870,
+    "t-planner": 1896,
+    "t-reconciler": 1794,
+    "t-reviewer": 1842,
+    "t-verifier": 1835
+  },
+  "skill_character_sizes": {
+    "t-bounded-implementation": 3961,
+    "t-checklist-builder": 3764,
+    "t-checklist-critique": 3989,
+    "t-implementation-planning": 4304,
+    "t-investigation": 14460,
+    "t-model-critique": 6213,
+    "t-plan-critique": 3682,
+    "t-problem-alignment": 13181,
+    "t-reconciliation": 3896,
+    "t-self-review": 4216,
+    "t-solution-critique": 3539,
+    "t-solution-design": 7475,
+    "t-system-modeling": 8882,
+    "t-technical-review": 4008,
+    "t-verification": 3819
+  }
+}

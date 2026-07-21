@@ -1,0 +1,26 @@
+decision_approval_id: SAPP-001
+source_decision_id: DEC-001
+status: APPROVED
+selected_option_id: OPT-001
+candidate_option_ids:
+- OPT-001
+- OPT-002
+approved_by: human-reviewer
+approved_at: '2026-07-21T15:30:00+07:00'
+decision_rationale: Select database-enforced idempotency because it gives a durable
+  cross-node guarantee with lower ongoing operational complexity.
+accepted_assumption_ids: []
+accepted_risk_ids: []
+rejected_option_ids:
+- OPT-002
+conditions:
+- Implementation planning must preserve the expand-migrate-contract rollout and activation
+  precondition.
+residual_uncertainties:
+- Production routing remains to be verified during planning.
+authority_assertions:
+  selection_is_human_decision: true
+  implementation_not_authorized: true
+  planning_only_next: true
+  no_silent_semantic_change: true
+approved_by_role: HUMAN

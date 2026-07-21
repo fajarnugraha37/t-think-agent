@@ -1,0 +1,58 @@
+metadata:
+  request_id: REQ-...
+  modeling_id: MODEL-...
+  created_at: '2026-01-01T00:00:00Z'
+  language: id-ID
+  requested_by: '...'
+source_investigation:
+  artifact_path: artifacts/02a-investigation-output.yaml
+  artifact_version: 1.0.0
+  status: COMPLETE
+  gate_status: READY_FOR_SYSTEM_MODEL
+  investigation_id: INVEST-...
+  evidence_ledger_path: artifacts/02-evidence-ledger.jsonl
+  artifact_digest: sha256:...
+  ledger_digest: sha256:...
+  problem_statement_ids:
+  - PS-001
+approved_problem:
+  elements:
+  - id: PS-001
+    statement: '...'
+  scope:
+    in_scope:
+    - '...'
+    out_of_scope: []
+    environments: []
+  success_criteria:
+  - id: AC-001
+    statement: '...'
+  constraints: []
+  terms: []
+modeling_objectives:
+- id: OBJ-001
+  question: '...'
+  mapped_problem_ids:
+  - PS-001
+  completion_condition: '...'
+  priority: CRITICAL
+required_dimensions:
+- ENTRY_POINTS
+- EXECUTION_PATH
+- ACTUAL_BEHAVIOR
+- INTENDED_BEHAVIOR
+- BEHAVIOR_GAP
+- INVARIANTS
+optional_dimensions:
+- OBSERVABILITY
+modeling_policy:
+  actual_source_only: true
+  context_firewall: true
+  explicit_reasoning_summary: true
+  require_falsifiability: true
+  require_alternative_explanations: true
+  allow_solution_design: false
+  max_model_iterations: 10
+  require_actual_intended_gap: true
+  require_invariant_analysis: true
+known_limitations: []

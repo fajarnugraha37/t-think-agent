@@ -1,0 +1,444 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Implementation Planning Skill Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_solution_critique",
+    "source_solution_contract",
+    "repository_snapshot",
+    "source_artifacts",
+    "planning_configuration",
+    "human_constraints"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_run_id",
+        "version",
+        "created_at",
+        "author_agent"
+      ],
+      "properties": {
+        "planning_run_id": {
+          "type": "string",
+          "pattern": "^IPLAN-"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author_agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "source_solution_critique": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "critique_run_id",
+        "artifact_version",
+        "gate_status"
+      ],
+      "properties": {
+        "critique_run_id": {
+          "type": "string",
+          "pattern": "^SCRIT-"
+        },
+        "artifact_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gate_status": {
+          "const": "READY_FOR_IMPLEMENTATION_PLAN"
+        },
+        "artifact_digest": {
+          "type": "string"
+        }
+      }
+    },
+    "source_solution_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_id",
+        "status",
+        "selected_option_id",
+        "approved_model_version"
+      ],
+      "properties": {
+        "contract_id": {
+          "type": "string",
+          "pattern": "^SOLCON-"
+        },
+        "status": {
+          "const": "APPROVED"
+        },
+        "selected_option_id": {
+          "type": "string",
+          "pattern": "^OPT-"
+        },
+        "approved_model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_digest": {
+          "type": "string"
+        }
+      }
+    },
+    "repository_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id",
+        "repository_path",
+        "branch",
+        "commit_sha",
+        "working_tree_status",
+        "actual_code_reinspection_required"
+      ],
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{7,64}$"
+        },
+        "working_tree_status": {
+          "enum": [
+            "CLEAN",
+            "DIRTY",
+            "UNKNOWN"
+          ]
+        },
+        "actual_code_reinspection_required": {
+          "const": true
+        },
+        "runtime_profile": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "source_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approved_solution_contract",
+        "solution_critique_output",
+        "evidence_ledger",
+        "model_elements",
+        "model_relations"
+      ],
+      "properties": {
+        "approved_solution_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "solution_critique_output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "evidence_ledger": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "model_elements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "model_relations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "planning_configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_plan_dimensions",
+        "required_test_categories",
+        "rollback_required_change_types",
+        "allow_new_semantic_decisions",
+        "require_acyclic_dependency_graph",
+        "require_full_mandatory_coverage"
+      ],
+      "properties": {
+        "required_plan_dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CODE",
+              "DATABASE",
+              "DATA",
+              "CONFIGURATION",
+              "DEPLOYMENT",
+              "MIGRATION",
+              "TESTING",
+              "OBSERVABILITY",
+              "SECURITY",
+              "ROLLBACK",
+              "COMPATIBILITY",
+              "OPERATIONS"
+            ]
+          }
+        },
+        "required_test_categories": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "REGRESSION_REPRODUCTION",
+              "UNIT",
+              "INTEGRATION",
+              "CONTRACT",
+              "CONCURRENCY",
+              "MIGRATION",
+              "SECURITY",
+              "PERFORMANCE",
+              "OBSERVABILITY",
+              "ROLLBACK",
+              "NEGATIVE_PATH",
+              "COMPATIBILITY",
+              "INVARIANT",
+              "BUILD",
+              "STATIC_ANALYSIS"
+            ]
+          }
+        },
+        "rollback_required_change_types": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CODE",
+              "DATABASE_SCHEMA",
+              "DATA_BACKFILL",
+              "CONFIGURATION",
+              "DEPLOYMENT",
+              "MIGRATION",
+              "OBSERVABILITY",
+              "SECURITY_CONTROL",
+              "OPERATIONS"
+            ]
+          }
+        },
+        "allow_new_semantic_decisions": {
+          "const": false
+        },
+        "require_acyclic_dependency_graph": {
+          "const": true
+        },
+        "require_full_mandatory_coverage": {
+          "const": true
+        },
+        "maximum_plan_item_size": {
+          "enum": [
+            "SMALL",
+            "MEDIUM",
+            "LARGE"
+          ]
+        },
+        "failure_budget": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "human_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "explicit_directives",
+        "forbidden_operations",
+        "accepted_limitations"
+      ],
+      "properties": {
+        "explicit_directives": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "forbidden_operations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "accepted_limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

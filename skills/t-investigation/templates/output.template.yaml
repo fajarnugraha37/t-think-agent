@@ -1,0 +1,93 @@
+metadata:
+  investigation_id: INVEST-example
+  version: 0.1.0
+  status: IN_PROGRESS
+  created_at: "2026-07-21T12:00:00+07:00"
+  updated_at: "2026-07-21T12:00:00+07:00"
+  language: id-ID
+
+source_problem_alignment:
+  artifact_path: artifacts/00-problem-alignment.md
+  artifact_version: 1.0.0
+  approval_status: APPROVED
+  gate_status: APPROVED_FOR_INVESTIGATION
+  problem_statement_ids: [PS-001]
+
+snapshot:
+  captured_at: "2026-07-21T12:01:00+07:00"
+  repositories:
+    - repository_id: REPO-001
+      name: application
+      location: /workspace/application
+      branch: main
+      commit_sha: 0123456789abcdef0123456789abcdef01234567
+      working_tree_status: CLEAN
+      modules_inspected: []
+      modules_not_inspected: []
+  environments: []
+
+investigation_scope:
+  inspected: []
+  not_inspected: []
+  limitations: []
+
+operation_summary:
+  operations: []
+  read_only_count: 0
+  non_mutating_test_count: 0
+  mutating_count: 0
+  destructive_count: 0
+
+evidence_ledger:
+  path: artifacts/02-evidence-ledger.jsonl
+  format: JSONL
+  record_count: 1
+  active_record_count: 1
+  counts_by_type:
+    FACT: 1
+    INFERENCE: 0
+    ASSUMPTION: 0
+    UNKNOWN: 0
+    CONFLICT: 0
+    INVARIANT_CANDIDATE: 0
+    RISK: 0
+
+problem_coverage:
+  - problem_element_id: PE-001
+    status: UNEXPLAINED
+    supporting_claim_ids: []
+    summary: Investigation still in progress.
+    remaining_gap: Add exact gap.
+
+coverage_dimensions:
+  - dimension: ENTRY_POINTS
+    required: true
+    status: NOT_COVERED
+    supporting_claim_ids: []
+    summary: Not yet inspected.
+    gap: Locate and inspect entry points.
+
+sufficiency_assessment:
+  status: INSUFFICIENT
+  rationale: Evidence is not yet sufficient to construct a reliable system model.
+  blocking_unknown_ids: []
+  blocking_conflict_ids: []
+  required_followups: [Continue investigation]
+  confidence: HIGH
+
+artifacts:
+  - artifact_type: INVESTIGATION_LOG
+    path: artifacts/01-investigation-log.md
+    status: DRAFT
+  - artifact_type: EVIDENCE_LEDGER
+    path: artifacts/02-evidence-ledger.jsonl
+    status: DRAFT
+  - artifact_type: INVESTIGATION_OUTPUT
+    path: artifacts/02a-investigation-output.yaml
+    status: DRAFT
+
+gate:
+  status: INVESTIGATION_INCOMPLETE
+  next_state: INVESTIGATION
+  blocking_reasons: [Evidence coverage incomplete]
+  next_valid_transitions: [INVESTIGATION, PROBLEM_ALIGNMENT]

@@ -1,0 +1,62 @@
+metadata:
+  critique_run_id: MCRIT-example-001
+  version: 1.0.0
+  status: DRAFT
+  created_at: '2026-07-21T12:00:00+07:00'
+  updated_at: '2026-07-21T12:15:00+07:00'
+  author_agent: model-critique-skill
+  language: id-ID
+source_model:
+  modeling_id: MODEL-example-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_MODEL_CRITIQUE
+artifact_files:
+  assessments:
+    path: artifacts/04c-model-critique-assessments.jsonl
+    format: JSONL
+    record_count: 1
+  revision_directives:
+    path: artifacts/04d-model-revision-directives.jsonl
+    format: JSONL
+    record_count: 0
+  evidence_requests:
+    path: artifacts/04e-model-critique-evidence-requests.jsonl
+    format: JSONL
+    record_count: 0
+  report:
+    path: artifacts/04f-model-critique-report.md
+    format: MARKDOWN
+    record_count: 1
+review_summary:
+  total_critiques: 1
+  accepted: 0
+  partially_accepted: 0
+  rejected_with_evidence: 1
+  requires_investigation: 0
+  unassessed: 0
+coverage:
+  all_critiques_assessed: true
+  all_targets_resolved: true
+  all_references_valid: true
+  all_material_responses_evidence_backed: true
+model_impact:
+  revision_required: false
+  investigation_required: false
+  affected_model_ids: []
+  affected_relation_ids: []
+  affected_traceability_ids: []
+  retained_model_ids:
+  - MDL-001
+  retracted_model_ids: []
+  residual_uncertainties: []
+gate_decision:
+  status: AWAITING_HUMAN_APPROVAL
+  rationale: All critiques are resolved; explicit approval is pending.
+  blocking_critique_ids: []
+  blocking_request_ids: []
+  required_next_actions:
+  - Human reviews and approves or rejects the model.
+  next_state: MODEL_CRITIQUE
+human_model_approval:
+  status: PENDING
+limitations: []

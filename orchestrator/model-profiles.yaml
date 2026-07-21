@@ -1,0 +1,41 @@
+schema_version: 2.1.0
+default: economy
+model_policy: inherit-unless-explicitly-escalated
+profiles:
+  economy:
+    intent: Reliable governed role isolation on low-cost coding models.
+    subagents_enabled: true
+    max_active_skills: 1
+    max_concurrent_subagents: 1
+    parallel_subagents: false
+    max_delegation_depth: 1
+    require_template_first: true
+    require_validator_after_artifact: true
+    context_policy: fresh-role-context-active-phase-only
+    log_policy: save-and-summarize
+    model: inherit
+    escalation: explicit-policy-only
+  balanced:
+    intent: Sequential lifecycle with limited parallel read-only investigation or verification shards.
+    subagents_enabled: true
+    max_active_skills: 1
+    max_concurrent_subagents: 2
+    parallel_subagents: independent-read-only-only
+    max_delegation_depth: 1
+    require_template_first: true
+    require_validator_after_artifact: true
+    context_policy: fresh-role-context-required-upstream-only
+    log_policy: save-and-summarize
+    model: inherit
+  high-assurance:
+    intent: Independent evidence challenges for critical changes while keeping source writes single-threaded.
+    subagents_enabled: true
+    max_active_skills: 1
+    max_concurrent_subagents: 4
+    parallel_subagents: independent-read-only-review-and-verification
+    max_delegation_depth: 1
+    require_template_first: true
+    require_validator_after_artifact: true
+    context_policy: isolated-phase-workers
+    log_policy: immutable-evidence-ledger
+    model: inherit

@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/technical-review/technical-review-result-contract.schema.json",
+  "title": "Technical Review Result Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_id",
+    "status",
+    "technical_review_run_id",
+    "assignment_id",
+    "reviewer_id",
+    "source_self_review_contract_id",
+    "source_self_review_bundle_digest",
+    "source_implementation_contract_id",
+    "source_implementation_bundle_digest",
+    "source_checklist_contract_id",
+    "repository_after_tree_digest",
+    "technical_review_bundle_digest",
+    "technical_check_ids",
+    "change_assessment_ids",
+    "evidence_challenge_ids",
+    "finding_ids",
+    "remediation_directive_ids",
+    "verdict",
+    "integrity",
+    "limitations"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string",
+      "pattern": "^TRCON-"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCKED"
+      ]
+    },
+    "technical_review_run_id": {
+      "type": "string",
+      "pattern": "^TREV-"
+    },
+    "assignment_id": {
+      "type": "string",
+      "pattern": "^TRA-"
+    },
+    "reviewer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_self_review_contract_id": {
+      "type": "string",
+      "pattern": "^SRCON-"
+    },
+    "source_self_review_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_implementation_contract_id": {
+      "type": "string",
+      "pattern": "^IMPLCON-"
+    },
+    "source_implementation_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_checklist_contract_id": {
+      "type": "string",
+      "pattern": "^CHKCON-"
+    },
+    "repository_after_tree_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "technical_review_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "technical_check_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TRCHK-"
+      }
+    },
+    "change_assessment_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TRCA-"
+      }
+    },
+    "evidence_challenge_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TRCH-"
+      }
+    },
+    "finding_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TRF-"
+      }
+    },
+    "remediation_directive_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TRDIR-"
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "next_state",
+        "rationale",
+        "blocking_finding_ids"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY_FOR_VERIFICATION",
+            "RETURN_TO_BOUNDED_IMPLEMENTATION",
+            "RETURN_TO_IMPLEMENTATION_CHECKLIST",
+            "RETURN_TO_CHECKLIST_CRITIQUE",
+            "RETURN_TO_IMPLEMENTATION_PLAN",
+            "RETURN_TO_PLAN_CRITIQUE",
+            "RETURN_TO_INVESTIGATION",
+            "RETURN_TO_SYSTEM_MODEL",
+            "RETURN_TO_SOLUTION_DESIGN",
+            "RETURN_TO_SOLUTION_CRITIQUE",
+            "RETURN_TO_PROBLEM_ALIGNMENT",
+            "RETURN_TO_SELF_REVIEW",
+            "BLOCKED"
+          ]
+        },
+        "next_state": {
+          "enum": [
+            "VERIFICATION",
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "CHECKLIST_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "PLAN_CRITIQUE",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "PROBLEM_ALIGNMENT",
+            "SELF_REVIEW",
+            "TECHNICAL_REVIEW"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_finding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^TRF-"
+          }
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_bundle_verified",
+        "reviewer_independent",
+        "mandatory_dimensions_complete",
+        "change_coverage_complete",
+        "self_review_claims_covered",
+        "evidence_challenges_complete",
+        "evidence_complete",
+        "scope_preserved",
+        "semantic_boundary_preserved",
+        "no_silent_mutation"
+      ],
+      "properties": {
+        "source_bundle_verified": {
+          "type": "boolean"
+        },
+        "reviewer_independent": {
+          "type": "boolean"
+        },
+        "mandatory_dimensions_complete": {
+          "type": "boolean"
+        },
+        "change_coverage_complete": {
+          "type": "boolean"
+        },
+        "self_review_claims_covered": {
+          "type": "boolean"
+        },
+        "evidence_challenges_complete": {
+          "type": "boolean"
+        },
+        "evidence_complete": {
+          "type": "boolean"
+        },
+        "scope_preserved": {
+          "type": "boolean"
+        },
+        "semantic_boundary_preserved": {
+          "type": "boolean"
+        },
+        "no_silent_mutation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

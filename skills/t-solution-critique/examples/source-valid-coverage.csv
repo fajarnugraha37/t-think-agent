@@ -1,0 +1,7 @@
+coverage_id,option_id,target_id,coverage_status,mechanism,evidence_ids,model_ids,limitations,verification_ids
+SCOV-001,OPT-001,TGT-001,FULL,Database uniqueness serializes duplicate durable effects,F-002|F-003|INF-001,MDL-006|MDL-011,Guarantee begins only after upgraded-writer convergence.,VSTR-001
+SCOV-002,OPT-001,TGT-002,FULL,Unique key enforces at-most-one committed row,F-002|INV-001,MDL-010,Guarantee begins only after upgraded-writer convergence.,VSTR-001
+SCOV-003,OPT-001,TGT-003,FULL,Server-derived key avoids public contract change,F-001,MDL-002,Guarantee begins only after upgraded-writer convergence.,VSTR-002
+SCOV-004,OPT-002,TGT-001,FULL,Intent ownership serializes equivalent executions,F-001|F-002|INF-001,MDL-006|MDL-011,Guarantee begins only after upgraded-writer convergence.,VSTR-003
+SCOV-005,OPT-002,TGT-002,FULL,One intent owner produces one durable result,F-002|INV-001,MDL-010,Guarantee begins only after upgraded-writer convergence.,VSTR-003
+SCOV-006,OPT-002,TGT-003,FULL,Intent key is derived internally and leaves API shape unchanged,F-001,MDL-002,Guarantee begins only after upgraded-writer convergence.,VSTR-004

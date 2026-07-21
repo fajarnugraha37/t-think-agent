@@ -1,0 +1,18 @@
+coverage_id,plan_id,operation_sequence,coverage_status,checklist_ids,verification_ids,rollback_ids,rationale
+CCOV-001,PLN-001,1,FULL,CHK-001,TST-002|TST-003,RBK-001,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-002,PLN-001,2,FULL,CHK-002,TST-002|TST-003,RBK-001,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-003,PLN-002,1,FULL,CHK-003,TST-004|TST-005|TST-006,RBK-002,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-004,PLN-002,2,FULL,CHK-004,TST-004|TST-005|TST-006,RBK-002,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-005,PLN-003,1,FULL,CHK-005,TST-001|TST-005|TST-006|TST-007|TST-008,RBK-003,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-006,PLN-003,2,FULL,CHK-006,TST-001|TST-005|TST-006|TST-007|TST-008,RBK-003,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-007,PLN-004,1,FULL,CHK-007,TST-003|TST-009,RBK-004,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-008,PLN-004,2,FULL,CHK-008,TST-003|TST-009,RBK-004,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-009,PLN-005,1,FULL,CHK-016,TST-003|TST-005|TST-009|TST-010,RBK-005,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-010,PLN-005,2,FULL,CHK-017,TST-003|TST-005|TST-009|TST-010,RBK-005,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-011,PLN-006,1,FULL,CHK-009,TST-011|TST-008,RBK-006,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-012,PLN-006,2,FULL,CHK-010,TST-011|TST-008,RBK-006,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-013,PLN-007,1,FULL,CHK-011,TST-001|TST-004|TST-005|TST-006|TST-007|TST-008|TST-012,,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-014,PLN-007,2,FULL,CHK-012,TST-001|TST-004|TST-005|TST-006|TST-007|TST-008|TST-012,,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-015,PLN-008,1,FULL,CHK-013,TST-010|TST-011|TST-012,RBK-007,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-016,PLN-008,2,FULL,CHK-014,TST-010|TST-011|TST-012,RBK-007,Exactly one atomic checklist item represents this approved plan operation.
+CCOV-017,PLN-008,3,FULL,CHK-015,TST-010|TST-011|TST-012,RBK-007,Exactly one atomic checklist item represents this approved plan operation.

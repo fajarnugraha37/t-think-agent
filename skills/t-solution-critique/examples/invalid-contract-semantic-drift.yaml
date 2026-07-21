@@ -1,0 +1,79 @@
+contract_id: SOLCON-001
+status: APPROVED
+source_design_id: SDES-duplicate-event-001
+source_decision_id: DEC-001
+decision_approval_id: SAPP-001
+selected_option_id: OPT-001
+selected_option_digest: sha256:0a0bda0935bf7423d9ccb6eb9b3ce4a7824bd608d164b1cefdfcad82cd3cc9af
+approved_model_version: 1.0.0
+problem_ids:
+- PS-001
+- PE-001
+- PE-002
+- AC-001
+target_ids:
+- TGT-001
+- TGT-002
+- TGT-003
+model_ids:
+- MDL-004
+- MDL-005
+- MDL-006
+- MDL-008
+- MDL-009
+- MDL-010
+- MDL-011
+evidence_ids:
+- F-001
+- F-002
+- F-003
+- INF-001
+- INV-001
+invariant_ids:
+- MDL-010
+- INV-001
+accepted_assumption_ids: []
+accepted_risk_ids:
+- SRSK-001
+behavior_commitments:
+  target_behavior: Equivalent requests carrying the same business intent converge
+    on one committed outbox row and one business result.
+  preserved_behavior:
+  - Existing approval API shape
+  - Atomic approval-state and outbox persistence
+  intentionally_changed_behavior:
+  - The second equivalent durable insert is rejected or resolved to the existing result.
+  failure_semantics: Silently retry forever.
+  transaction_semantics: The unique check and outbox write execute in the existing
+    transaction; a uniqueness conflict is converted into a read of the already committed
+    or concurrently committed business result.
+  concurrency_semantics: Database uniqueness is the final serialization point across
+    processes and nodes.
+change_surface:
+  components:
+  - ApprovalService
+  - ApprovalRepository
+  - approval_outbox schema
+  files_or_artifacts:
+  - ApprovalService.java
+  - approval repository mapping
+  - database migration
+  public_contract_changes: []
+  data_changes:
+  - Add idempotency_key column and unique constraint
+  configuration_changes: []
+  dependencies: []
+semantic_constraints:
+- The database uniqueness boundary remains the final cross-node serialization point.
+- Equivalent retries must converge on one committed durable effect.
+planning_constraints:
+- Use expand-migrate-contract and do not activate strict enforcement before old writers
+  are isolated or upgraded.
+- Planning may decompose work but may not change solution semantics.
+prohibited_changes:
+- No new public API contract, fallback, retry behavior, state machine, dependency,
+  or persistence strategy without returning to Solution Design.
+approval:
+  approved_by: human-reviewer
+  approved_at: '2026-07-21T15:30:00+07:00'
+  approved_by_role: HUMAN

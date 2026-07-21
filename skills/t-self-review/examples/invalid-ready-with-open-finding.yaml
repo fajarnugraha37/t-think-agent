@@ -1,0 +1,92 @@
+metadata:
+  self_review_run_id: SREV-duplicate-event-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T21:10:00+07:00'
+  updated_at: '2026-07-21T21:30:00+07:00'
+  reviewer_agent: self-review-skill
+  language: id-ID
+source_binding:
+  implementation_result_contract_id: IMPLCON-001
+  implementation_bundle_digest: sha256:cbde9fe0dd9fd5b22d08a406d3a605cd1eafe8cbe4dd9d25f338da0af8619004
+  bounded_implementation_run_id: BIMPL-duplicate-event-001
+  source_checklist_contract_id: CHKCON-001
+  repository_after_tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
+artifact_files:
+  review_checks:
+    path: examples/valid-review-checks.jsonl
+    format: JSONL
+    record_count: 17
+    digest: sha256:a6f25f92bc8416e275cf53bd00d3020a9be692ac9fc1e6e6b1e663bcab85ef2a
+  conformance_results:
+    path: examples/valid-conformance-results.jsonl
+    format: JSONL
+    record_count: 17
+    digest: sha256:fbafcfc15efc45738fb7f1c891fdb5846ff8fb6fb3b847c193acd3831c7281be
+  evidence_audits:
+    path: examples/valid-evidence-audits.jsonl
+    format: JSONL
+    record_count: 13
+    digest: sha256:eb35ce781057a562919884fe4770e09e1a9376af23e505e7c821492042ff44c9
+  findings:
+    path: examples/empty-review-findings.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  remediation_directives:
+    path: examples/empty-remediation-directives.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  self_review_result_contract:
+    path: examples/valid-self-review-result-contract.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:5e93c20c78bbfe976386e5e2349f25046385059861c1af22f11e60c4589810c7
+  report:
+    path: examples/valid-self-review-report.md
+    format: MARKDOWN
+    record_count: 1
+    digest: sha256:cb14b05316a906009fe41d0fc6c5b9446355e2089a4d8270b22c142f657ef0ed
+review_summary:
+  total: 17
+  passed: 17
+  failed: 0
+  not_applicable: 0
+  inconclusive: 0
+  required_dimensions: 17
+  covered_dimensions: 17
+conformance_summary:
+  total: 17
+  passed: 17
+  failed: 0
+  inconclusive: 0
+  complete_coverage: true
+integrity:
+  source_bundle_verified: true
+  checklist_coverage_complete: true
+  review_dimensions_complete: true
+  evidence_complete: true
+  scope_preserved: true
+  semantic_boundary_preserved: true
+  no_silent_mutation: true
+finding_summary:
+  total: 0
+  open_blocking_finding_ids:
+  - SRF-001
+  open_nonblocking_finding_ids: []
+  resolved_finding_ids: []
+  accepted_risk_finding_ids: []
+  remediation_directive_ids: []
+  required_route: NONE
+gate_decision:
+  status: READY_FOR_TECHNICAL_REVIEW
+  rationale: All mandatory review dimensions pass, every checklist item conforms,
+    and no blocking finding remains.
+  blocking_ids: []
+  required_next_actions:
+  - Proceed to independent technical review.
+  next_state: TECHNICAL_REVIEW
+limitations:
+- Example evidence paths are illustrative; production runs must inspect real diffs
+  and command output.

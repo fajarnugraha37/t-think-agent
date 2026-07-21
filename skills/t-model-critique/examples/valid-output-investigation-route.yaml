@@ -1,0 +1,69 @@
+metadata:
+  critique_run_id: MCRIT-duplicate-event-002
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T12:00:00+07:00'
+  updated_at: '2026-07-21T12:15:00+07:00'
+  author_agent: model-critique-skill
+  language: id-ID
+source_model:
+  modeling_id: MODEL-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_MODEL_CRITIQUE
+  artifact_digest: sha256:model
+artifact_files:
+  assessments:
+    path: artifacts/04c-model-critique-assessments.jsonl
+    format: JSONL
+    record_count: 1
+  revision_directives:
+    path: artifacts/04d-model-revision-directives.jsonl
+    format: JSONL
+    record_count: 0
+  evidence_requests:
+    path: artifacts/04e-model-critique-evidence-requests.jsonl
+    format: JSONL
+    record_count: 1
+  report:
+    path: artifacts/04f-model-critique-report.md
+    format: MARKDOWN
+    record_count: 1
+review_summary:
+  total_critiques: 1
+  accepted: 0
+  partially_accepted: 0
+  rejected_with_evidence: 0
+  requires_investigation: 1
+  unassessed: 0
+coverage:
+  all_critiques_assessed: true
+  all_targets_resolved: true
+  all_references_valid: true
+  all_material_responses_evidence_backed: true
+model_impact:
+  revision_required: false
+  investigation_required: true
+  affected_model_ids: []
+  affected_relation_ids: []
+  affected_traceability_ids: []
+  retained_model_ids:
+  - MDL-006
+  - MDL-008
+  retracted_model_ids: []
+  residual_uncertainties:
+  - Production gateway and deployed schema remain outside inspected scope.
+gate_decision:
+  status: RETURN_TO_INVESTIGATION
+  rationale: A material production-schema assertion cannot be resolved from current
+    evidence.
+  blocking_critique_ids:
+  - CRIT-001
+  blocking_request_ids:
+  - EREQ-001
+  required_next_actions:
+  - Inspect deployed database constraints and update the evidence ledger.
+  next_state: INVESTIGATION
+human_model_approval:
+  status: PENDING
+limitations:
+- No new production evidence was collected during critique.

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/problem-alignment/critique.schema.json",
+  "title": "Problem Alignment Critique",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["critique_id", "artifact_id", "target", "human_comment", "classification", "result"],
+  "properties": {
+    "critique_id": {"type": "string", "pattern": "^CRIT-[0-9]{3,}$"},
+    "artifact_id": {"type": "string", "pattern": "^PA-[A-Za-z0-9._-]+$"},
+    "target": {"type": "string", "minLength": 1},
+    "human_comment": {"type": "string", "minLength": 1},
+    "classification": {
+      "type": "string",
+      "enum": [
+        "ACCEPTED",
+        "PARTIALLY_ACCEPTED",
+        "REJECTED_AS_MISUNDERSTANDING",
+        "REQUIRES_MORE_CLARIFICATION"
+      ]
+    },
+    "agent_response": {"type": "string"},
+    "affected_fields": {"type": "array", "items": {"type": "string"}},
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["new_artifact_status", "requires_reapproval"],
+      "properties": {
+        "new_artifact_status": {"type": "string", "enum": ["DRAFT", "UNDER_REVIEW", "REJECTED"]},
+        "requires_reapproval": {"type": "boolean"},
+        "required_questions": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

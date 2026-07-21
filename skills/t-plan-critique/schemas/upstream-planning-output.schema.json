@@ -1,0 +1,731 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Implementation Planning Skill Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_solution_contract",
+    "artifact_files",
+    "plan_summary",
+    "coverage_summary",
+    "dependency_analysis",
+    "semantic_decision_guard",
+    "change_surface_reconciliation",
+    "verification_readiness",
+    "rollback_readiness",
+    "finding_summary",
+    "gate_decision",
+    "limitations"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_run_id",
+        "version",
+        "status",
+        "created_at",
+        "updated_at",
+        "author_agent"
+      ],
+      "properties": {
+        "planning_run_id": {
+          "type": "string",
+          "pattern": "^IPLAN-"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "COMPLETE",
+            "BLOCKED",
+            "REJECTED",
+            "SUPERSEDED"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author_agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "source_solution_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_id",
+        "selected_option_id",
+        "approved_model_version",
+        "status"
+      ],
+      "properties": {
+        "contract_id": {
+          "type": "string",
+          "pattern": "^SOLCON-"
+        },
+        "selected_option_id": {
+          "type": "string",
+          "pattern": "^OPT-"
+        },
+        "approved_model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "const": "APPROVED"
+        },
+        "artifact_digest": {
+          "type": "string"
+        }
+      }
+    },
+    "artifact_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_targets",
+        "plan_items",
+        "dependency_edges",
+        "coverage_matrix",
+        "verification_plan",
+        "rollback_plan",
+        "planning_findings",
+        "report"
+      ],
+      "properties": {
+        "planning_targets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "plan_items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "dependency_edges": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "coverage_matrix": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "verification_plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "rollback_plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "planning_findings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "report": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "plan_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_plan_items",
+        "ready_for_review",
+        "blocked",
+        "change_type_counts"
+      ],
+      "properties": {
+        "total_plan_items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ready_for_review": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "change_type_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "coverage_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_targets",
+        "mandatory_targets",
+        "fully_covered_mandatory_targets",
+        "partially_covered_targets",
+        "uncovered_targets",
+        "all_mandatory_targets_fully_covered"
+      ],
+      "properties": {
+        "total_targets": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mandatory_targets": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fully_covered_mandatory_targets": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "partially_covered_targets": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "uncovered_targets": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "all_mandatory_targets_fully_covered": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dependency_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "acyclic",
+        "all_references_valid",
+        "root_plan_ids",
+        "leaf_plan_ids",
+        "topological_order"
+      ],
+      "properties": {
+        "acyclic": {
+          "type": "boolean"
+        },
+        "all_references_valid": {
+          "type": "boolean"
+        },
+        "root_plan_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^PLN-"
+          }
+        },
+        "leaf_plan_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^PLN-"
+          }
+        },
+        "topological_order": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^PLN-"
+          }
+        }
+      }
+    },
+    "semantic_decision_guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "new_semantic_decisions_detected",
+        "unapproved_behavior_changes_detected",
+        "prohibited_change_conflicts",
+        "status"
+      ],
+      "properties": {
+        "new_semantic_decisions_detected": {
+          "type": "boolean"
+        },
+        "unapproved_behavior_changes_detected": {
+          "type": "boolean"
+        },
+        "prohibited_change_conflicts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "status": {
+          "enum": [
+            "PASS",
+            "FAIL"
+          ]
+        }
+      }
+    },
+    "change_surface_reconciliation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approved_components_covered",
+        "approved_artifacts_covered",
+        "discovered_supporting_files",
+        "unapproved_scope_expansions"
+      ],
+      "properties": {
+        "approved_components_covered": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "approved_artifacts_covered": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "discovered_supporting_files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "evidence_ids",
+              "rationale",
+              "semantic_scope_expansion"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-"
+                }
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1
+              },
+              "semantic_scope_expansion": {
+                "const": false
+              }
+            }
+          }
+        },
+        "unapproved_scope_expansions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "verification_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "all_plan_items_have_verification",
+        "required_categories_covered",
+        "pre_patch_regression_planned",
+        "negative_paths_planned",
+        "invariants_planned",
+        "compatibility_planned",
+        "status"
+      ],
+      "properties": {
+        "all_plan_items_have_verification": {
+          "type": "boolean"
+        },
+        "required_categories_covered": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "pre_patch_regression_planned": {
+          "type": "boolean"
+        },
+        "negative_paths_planned": {
+          "type": "boolean"
+        },
+        "invariants_planned": {
+          "type": "boolean"
+        },
+        "compatibility_planned": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "READY",
+            "INCOMPLETE"
+          ]
+        }
+      }
+    },
+    "rollback_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "all_required_plan_items_have_rollback",
+        "data_preservation_addressed",
+        "irreversible_effects_explicit",
+        "status"
+      ],
+      "properties": {
+        "all_required_plan_items_have_rollback": {
+          "type": "boolean"
+        },
+        "data_preservation_addressed": {
+          "type": "boolean"
+        },
+        "irreversible_effects_explicit": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "READY",
+            "INCOMPLETE"
+          ]
+        }
+      }
+    },
+    "finding_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "blocking",
+        "by_type",
+        "blocking_finding_ids"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocking": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "by_type": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "blocking_finding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^PFND-"
+          }
+        }
+      }
+    },
+    "gate_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale",
+        "blocking_finding_ids",
+        "required_next_actions",
+        "next_state"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY_FOR_PLAN_CRITIQUE",
+            "RETURN_TO_INVESTIGATION",
+            "RETURN_TO_SYSTEM_MODEL",
+            "RETURN_TO_SOLUTION_DESIGN",
+            "RETURN_TO_SOLUTION_CRITIQUE",
+            "BLOCKED"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_finding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^PFND-"
+          }
+        },
+        "required_next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "next_state": {
+          "enum": [
+            "PLAN_CRITIQUE",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "IMPLEMENTATION_PLAN"
+          ]
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

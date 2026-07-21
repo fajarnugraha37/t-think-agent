@@ -1,0 +1,99 @@
+metadata:
+  technical_review_run_id: TREV-duplicate-event-001
+  version: 1.0.0
+  created_at: '2026-07-21T22:00:00+07:00'
+  coordinator_agent: technical-review-orchestrator
+  language: id-ID
+source_authorization:
+  self_review_contract_id: SRCON-001
+  self_review_bundle_digest: sha256:d3c922e15fac8d446c3c806b2390be459b7834da0890eec8b118a17b859ad3c8
+  self_review_run_id: SREV-duplicate-event-001
+  gate_status: READY_FOR_TECHNICAL_REVIEW
+  implementation_result_contract_id: IMPLCON-001
+  implementation_bundle_digest: sha256:cbde9fe0dd9fd5b22d08a406d3a605cd1eafe8cbe4dd9d25f338da0af8619004
+  approved_checklist_contract_id: CHKCON-001
+  repository_after_tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
+source_artifacts:
+  self_review_output:
+    path: examples/source-valid-self-review-output.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:279da5fda388b86f91e596526301e314dcb44367c2efd20d42855145caa0d99e
+  self_review_result_contract:
+    path: examples/source-valid-self-review-result-contract.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:5e93c20c78bbfe976386e5e2349f25046385059861c1af22f11e60c4589810c7
+  bounded_output:
+    path: examples/source-valid-bounded-output.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:89dfc2a5bc551784886e0734dbac7b0d65b9bf240521dbac5491e9b970634169
+  implementation_result_contract:
+    path: examples/source-valid-implementation-result-contract.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:9c9abb303f08298d02e30e24f7d53f5ff8a11acd89730e79268c318e93079be3
+  approved_checklist_contract:
+    path: examples/source-valid-approved-checklist-contract.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:6e4ebd5b647cab5de35356a05ed8f05803e7a2c9fcb7eb9cf1d1fe50fe883948
+  checklist_items:
+    path: examples/source-valid-checklist-items.jsonl
+    format: JSONL
+    record_count: 17
+    digest: sha256:6a3b87f86615168e9e77b432fa47c7826b6cf7b54821c3005ad32457d5ddac13
+  change_records:
+    path: examples/source-valid-change-records.jsonl
+    format: JSONL
+    record_count: 17
+    digest: sha256:5b21c0427a3b59569487ca6b2fceb3d8c7e4d76443e7feef2c36446a62c4fff8
+  verification_results:
+    path: examples/source-valid-verification-results.jsonl
+    format: JSONL
+    record_count: 12
+    digest: sha256:e4cc282ae503c693ea23e23d398b9d8977a5ca6eb0de047f331ba0b2b284f340
+  repository_after:
+    path: examples/source-valid-repository-after.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:555d357ecbfac6a1e01faba70d2de3f24d785c29d54b161aa21b8b4dbb35fd32
+  evidence_ledger:
+    path: examples/source-valid-evidence-ledger.jsonl
+    format: JSONL
+    record_count: 5
+    digest: sha256:929fe1fe53d9ec750eb8b2380c87d7c7cc4be158b045b40a07cf33066276e02f
+  self_review_checks:
+    path: examples/source-valid-self-review-checks.jsonl
+    format: JSONL
+    record_count: 17
+    digest: sha256:a6f25f92bc8416e275cf53bd00d3020a9be692ac9fc1e6e6b1e663bcab85ef2a
+  self_review_conformance:
+    path: examples/source-valid-self-review-conformance.jsonl
+    format: JSONL
+    record_count: 17
+    digest: sha256:fbafcfc15efc45738fb7f1c891fdb5846ff8fb6fb3b847c193acd3831c7281be
+  self_review_audits:
+    path: examples/source-valid-self-review-audits.jsonl
+    format: JSONL
+    record_count: 13
+    digest: sha256:eb35ce781057a562919884fe4770e09e1a9376af23e505e7c821492042ff44c9
+  self_review_findings:
+    path: examples/source-valid-self-review-findings.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  self_review_directives:
+    path: examples/source-valid-self-review-directives.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+review_controls:
+  independent_reviewer: true
+  inspect_actual_diff: true
+  challenge_self_review: true
+  allow_code_changes: false
+  require_all_dimensions: true
+  stop_on_source_drift: true
+  minimum_evidence_challenges: 1

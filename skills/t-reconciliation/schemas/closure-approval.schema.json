@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/reconciliation/closure-approval.schema.json",
+  "title": "closure-approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval_id",
+    "reconciliation_run_id",
+    "decision",
+    "approver_id",
+    "approver_role",
+    "reconciler_id",
+    "approved_result_contract_id",
+    "accepted_risk_node_ids",
+    "accepted_gap_ids",
+    "accepted_contradiction_ids",
+    "confirmation",
+    "decided_at",
+    "rationale"
+  ],
+  "properties": {
+    "approval_id": {
+      "type": "string",
+      "pattern": "^RAPP-[0-9]{3,}$"
+    },
+    "reconciliation_run_id": {
+      "type": "string",
+      "pattern": "^REC-[A-Za-z0-9._-]+$"
+    },
+    "decision": {
+      "enum": [
+        "APPROVED",
+        "REJECTED",
+        "PENDING"
+      ]
+    },
+    "approver_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approver_role": {
+      "const": "HUMAN"
+    },
+    "reconciler_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approved_result_contract_id": {
+      "type": "string",
+      "pattern": "^RCON-[0-9]{3,}$"
+    },
+    "accepted_risk_node_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^TN-[0-9]{3,}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "accepted_gap_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^GAP-[0-9]{3,}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "accepted_contradiction_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^CON-[0-9]{3,}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "confirmation": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/confirmation.schema.json",
+      "title": "confirmation",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "traceability_reviewed",
+        "verification_reviewed",
+        "residual_risks_reviewed",
+        "no_unauthorized_semantic_change",
+        "authorize_completion"
+      ],
+      "properties": {
+        "traceability_reviewed": {
+          "const": true
+        },
+        "verification_reviewed": {
+          "const": true
+        },
+        "residual_risks_reviewed": {
+          "const": true
+        },
+        "no_unauthorized_semantic_change": {
+          "const": true
+        },
+        "authorize_completion": {
+          "type": "boolean"
+        }
+      }
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

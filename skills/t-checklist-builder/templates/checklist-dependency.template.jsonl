@@ -1,0 +1,1 @@
+{"dependency_id":"CDEP-001","from_checklist_id":"CHK-001","to_checklist_id":"CHK-002","dependency_type":"WITHIN_PLAN_SEQUENCE","source_plan_dependency_id":null,"hard":true,"rationale":"Preserves the approved order of numbered operations within one plan item."}

@@ -1,0 +1,117 @@
+metadata:
+  technical_review_run_id: TREV-duplicate-event-001
+  version: 1.0.0
+  status: FAILED
+  created_at: '2026-07-21T22:00:00+07:00'
+  updated_at: '2026-07-21T22:45:00+07:00'
+  reviewer_id: technical-review-agent-02
+  language: id-ID
+source_binding:
+  self_review_contract_id: SRCON-001
+  self_review_bundle_digest: sha256:d3c922e15fac8d446c3c806b2390be459b7834da0890eec8b118a17b859ad3c8
+  self_review_run_id: SREV-duplicate-event-001
+  implementation_result_contract_id: IMPLCON-001
+  implementation_bundle_digest: sha256:cbde9fe0dd9fd5b22d08a406d3a605cd1eafe8cbe4dd9d25f338da0af8619004
+  source_checklist_contract_id: CHKCON-001
+  repository_after_tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
+artifact_files:
+  review_assignment:
+    path: examples/valid-review-assignment.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:53b15a6de5f1ffa51071730a58a2322a0ff9f613abbb08969751c8c2cd4ca5d8
+  technical_checks:
+    path: examples/valid-technical-review-checks-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 20
+    digest: sha256:a00f0e1373695122c0cdb76eebb5d676ed6132a9322ca768e9f7949ef4952a7f
+  change_assessments:
+    path: examples/valid-change-assessments-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 17
+    digest: sha256:7ddd94af60b24e4655af06ccdeff37727902ba28cd605ec4b2326324b041d873
+  evidence_challenges:
+    path: examples/valid-evidence-challenges-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 3
+    digest: sha256:692f9f112ed0dd3300707f9b37210f115a96b345f8fa843c60e39e9164a7290a
+  findings:
+    path: examples/valid-findings-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 1
+    digest: sha256:f36c7dda6dbe8178aba2d9b6f78bd811c724ba99336341d35caf3aee5d530405
+  remediation_directives:
+    path: examples/valid-directives-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 1
+    digest: sha256:e51dba5dbc5680ecf6f672b6a4233c5c27af968ffba29e0d9a1ce6736a3ef0b8
+  technical_review_result_contract:
+    path: examples/valid-technical-review-result-contract-bounded-loopback.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:592bf901c7fa16e3f92a8bab4905b8bb02671c54447fd24efe8c6a5a93059dcc
+  report:
+    path: examples/valid-technical-review-report-bounded-loopback.md
+    format: MARKDOWN
+    record_count: 1
+    digest: sha256:942750134c1c995620e2c03b277591220f0e4c5540314849c2e1011d4ab57df0
+review_summary:
+  total: 20
+  passed: 19
+  failed: 1
+  not_applicable: 0
+  inconclusive: 0
+  required_dimensions: 20
+  covered_dimensions: 20
+change_assessment_summary:
+  total: 17
+  approved: 16
+  request_changes: 1
+  inconclusive: 0
+  complete_coverage: true
+challenge_summary:
+  total: 3
+  confirmed: 2
+  refuted: 1
+  inconclusive: 0
+  minimum_required: 1
+  requirement_met: true
+independence:
+  reviewer_id: technical-review-agent-02
+  implementation_author_id: bounded-implementation-skill
+  self_reviewer_id: self-review-skill
+  independent: true
+  competency_coverage_complete: true
+  conflict_ids: []
+integrity:
+  source_bundle_verified: true
+  reviewer_independent: true
+  mandatory_dimensions_complete: true
+  change_coverage_complete: true
+  self_review_claims_covered: true
+  evidence_challenges_complete: false
+  evidence_complete: true
+  scope_preserved: true
+  semantic_boundary_preserved: true
+  no_silent_mutation: true
+finding_summary:
+  total: 1
+  open_blocking_finding_ids:
+  - TRF-001
+  open_nonblocking_finding_ids: []
+  resolved_finding_ids: []
+  accepted_risk_finding_ids: []
+  remediation_directive_ids:
+  - TRDIR-001
+  required_route: BOUNDED_IMPLEMENTATION
+gate_decision:
+  status: RETURN_TO_BOUNDED_IMPLEMENTATION
+  rationale: A blocking transaction implementation defect requires correction.
+  blocking_ids:
+  - TRF-001
+  required_next_actions:
+  - Apply TRDIR-001 in Bounded Implementation and regenerate evidence.
+  next_state: BOUNDED_IMPLEMENTATION
+limitations:
+- Example evidence paths are illustrative; production review must inspect actual repository
+  content and runtime evidence.

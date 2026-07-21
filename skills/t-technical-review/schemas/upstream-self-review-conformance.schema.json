@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/self-review/conformance-result.schema.json",
+  "title": "Checklist Conformance Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "conformance_id",
+    "self_review_run_id",
+    "checklist_id",
+    "execution_id",
+    "source_operation_digest",
+    "checklist_item_digest",
+    "implementation_change_ids",
+    "verification_result_ids",
+    "outcome",
+    "assertions",
+    "deviations",
+    "evidence_refs"
+  ],
+  "properties": {
+    "conformance_id": {
+      "type": "string",
+      "pattern": "^SRCNF-"
+    },
+    "self_review_run_id": {
+      "type": "string",
+      "pattern": "^SREV-"
+    },
+    "checklist_id": {
+      "type": "string",
+      "pattern": "^CHK-"
+    },
+    "execution_id": {
+      "type": "string",
+      "pattern": "^EXEC-"
+    },
+    "source_operation_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "checklist_item_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "implementation_change_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^CHG-"
+      },
+      "uniqueItems": true
+    },
+    "verification_result_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^VRES-"
+      },
+      "uniqueItems": true
+    },
+    "outcome": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "INCONCLUSIVE"
+      ]
+    },
+    "assertions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assertion",
+          "status",
+          "evidence_refs",
+          "notes"
+        ],
+        "properties": {
+          "assertion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "INCONCLUSIVE"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "deviations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  }
+}

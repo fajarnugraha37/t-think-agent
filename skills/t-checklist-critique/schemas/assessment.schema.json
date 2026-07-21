@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/checklist-critique/assessment.schema.json",
+  "title": "Checklist Critique Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assessment_id",
+    "critique_id",
+    "target_ids",
+    "classification",
+    "resulting_status",
+    "statement_interpreted",
+    "evidence_reviewed",
+    "model_ids",
+    "source_artifact_refs",
+    "findings",
+    "rationale",
+    "alternatives_considered",
+    "contradicting_findings",
+    "limitations",
+    "falsification_conditions",
+    "confidence",
+    "recommended_route",
+    "revision_directive_ids",
+    "evidence_request_ids"
+  ],
+  "properties": {
+    "assessment_id": {
+      "type": "string",
+      "pattern": "^CCASS-[0-9A-Za-z._-]+$"
+    },
+    "critique_id": {
+      "type": "string",
+      "pattern": "^CCRQ-"
+    },
+    "target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "classification": {
+      "enum": [
+        "ACCEPTED",
+        "PARTIALLY_ACCEPTED",
+        "REJECTED_WITH_EVIDENCE",
+        "REQUIRES_INVESTIGATION"
+      ]
+    },
+    "resulting_status": {
+      "enum": [
+        "NO_CHANGE",
+        "CHECKLIST_REVISION_REQUIRED",
+        "INVESTIGATION_REQUIRED",
+        "UPSTREAM_DECISION_REQUIRED"
+      ]
+    },
+    "statement_interpreted": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_reviewed": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "model_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_artifact_refs": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "alternatives_considered": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "alternative",
+          "reason_not_selected"
+        ],
+        "properties": {
+          "alternative": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason_not_selected": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "contradicting_findings": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "falsification_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "confidence": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "recommended_route": {
+      "enum": [
+        "CHECKLIST_CRITIQUE",
+        "IMPLEMENTATION_CHECKLIST",
+        "PLAN_CRITIQUE",
+        "IMPLEMENTATION_PLAN",
+        "INVESTIGATION",
+        "SYSTEM_MODEL",
+        "SOLUTION_DESIGN",
+        "SOLUTION_CRITIQUE",
+        "PROBLEM_ALIGNMENT"
+      ]
+    },
+    "revision_directive_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CCRD-"
+      }
+    },
+    "evidence_request_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CCER-"
+      }
+    }
+  }
+}

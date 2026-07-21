@@ -1,0 +1,134 @@
+metadata:
+  verification_run_id: VER-duplicate-event-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T23:00:00+07:00'
+  updated_at: '2026-07-21T23:50:00+07:00'
+  verifier_id: verification-agent-03
+  language: id-ID
+source_binding:
+  technical_review_contract_id: TRCON-001
+  technical_review_bundle_digest: sha256:74f16c9e8b45816cb82b7324ccdb6d9700eaeb9ff2e9bd4b43a111ac1919b585
+  technical_review_run_id: TREV-duplicate-event-001
+  implementation_result_contract_id: IMPLCON-001
+  implementation_bundle_digest: sha256:cbde9fe0dd9fd5b22d08a406d3a605cd1eafe8cbe4dd9d25f338da0af8619004
+  source_checklist_contract_id: CHKCON-001
+  repository_tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
+artifact_files:
+  verifier_assignment:
+    path: examples/valid-verifier-assignment.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:750a3fcfb8faeaef1098144a3461fd180f17e0ad78aaba393dd9003f6eea7150
+  environment:
+    path: examples/valid-environment.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:dc00d325a786d682b401fd7ebec4ff119b3b5040397d0690160c68a1db099951
+  obligations:
+    path: examples/valid-verification-obligations.jsonl
+    format: JSONL
+    record_count: 12
+    digest: sha256:b37bb1302bf040b62c59d07bf864bfeedbd041cdd4b8448a809fc8f84a0e826f
+  executions:
+    path: examples/valid-verification-executions-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 12
+    digest: sha256:29ca1b74759ef1acbf08267275f9b42375f673d92d3073ce31664875833715a9
+  falsification_attempts:
+    path: examples/valid-falsification-attempts-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 3
+    digest: sha256:a2075f9c7be14d3aa533c1b12e28efa41726e205a4957789d0c0e3ced34bbd9d
+  evidence:
+    path: examples/valid-verification-evidence.jsonl
+    format: JSONL
+    record_count: 16
+    digest: sha256:a48d6d699b002dab7a099a479a1be7f959d09e25dfed8e4e783048c14b871b55
+  findings:
+    path: examples/valid-findings-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 1
+    digest: sha256:40d1d0111a7557274307886360760f4acd08f7e9660cf501c78838f33e3c35f0
+  remediation_directives:
+    path: examples/valid-directives-bounded-loopback.jsonl
+    format: JSONL
+    record_count: 1
+    digest: sha256:bbddb00916b7ce3730e1bae1198d8418d4b68cb6b3d8c24fe049389fbebbe3a5
+  verification_result_contract:
+    path: examples/valid-verification-result-contract-bounded-loopback.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:5f1b2b73365bd7b689c7d12f7a9d029f67b62d75612db53f09e61a00f37d6370
+  report:
+    path: examples/valid-verification-report-bounded-loopback.md
+    format: MARKDOWN
+    record_count: 1
+    digest: sha256:1eebf3174563c5db4769268d16b61e15dd14ddaf91b9e0b98ccf9dd66fbbba1a
+obligation_summary:
+  total: 12
+  mandatory: 12
+  not_applicable: 0
+  passed: 11
+  failed: 1
+  blocked: 0
+  inconclusive: 0
+  coverage_complete: true
+execution_summary:
+  total: 12
+  passed: 11
+  failed: 1
+  blocked: 0
+  inconclusive: 0
+  not_run: 0
+  repository_unchanged: true
+falsification_summary:
+  total: 3
+  survived: 2
+  refuted: 1
+  inconclusive: 0
+  required_obligation_ids:
+  - VOB-006
+  - VOB-007
+  - VOB-010
+  covered_obligation_ids:
+  - VOB-006
+  - VOB-007
+  - VOB-010
+  requirement_met: true
+environment_integrity:
+  environment_id: VENV-001
+  source_tree_verified: true
+  toolchain_recorded: true
+  dependencies_available: true
+  test_data_resettable: true
+  secrets_safe: true
+  reproducible: true
+evidence_integrity:
+  total: 16
+  all_references_resolved: true
+  all_digests_valid: true
+  all_required_reproducible: true
+  source_evidence_resolved: true
+finding_summary:
+  total: 1
+  open_blocking_finding_ids:
+  - VRF-001
+  open_nonblocking_finding_ids: []
+  resolved_finding_ids: []
+  accepted_risk_finding_ids: []
+  remediation_directive_ids:
+  - VRDIR-001
+  required_route: BOUNDED_IMPLEMENTATION
+gate_decision:
+  status: RETURN_TO_BOUNDED_IMPLEMENTATION
+  rationale: A blocking implementation defect was reproduced by independent concurrency
+    verification.
+  blocking_ids:
+  - VRF-001
+  required_next_actions:
+  - Apply VRDIR-001 in Bounded Implementation and repeat downstream reviews.
+  next_state: BOUNDED_IMPLEMENTATION
+limitations:
+- Example evidence is illustrative and must be replaced by actual runtime artifacts
+  in production.

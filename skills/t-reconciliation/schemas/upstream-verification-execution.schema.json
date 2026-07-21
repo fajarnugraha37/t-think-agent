@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/verification/execution.schema.json",
+  "title": "Verification Execution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "verification_run_id",
+    "obligation_id",
+    "environment_id",
+    "attempt",
+    "command",
+    "command_type",
+    "started_at",
+    "completed_at",
+    "exit_code",
+    "outcome",
+    "expected",
+    "observed",
+    "output_digest",
+    "evidence_ids",
+    "repository_tree_before",
+    "repository_tree_after",
+    "mutation_detected",
+    "limitations"
+  ],
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "pattern": "^VEXEC-[0-9]{3,}$"
+    },
+    "verification_run_id": {
+      "type": "string",
+      "pattern": "^VER-"
+    },
+    "obligation_id": {
+      "type": "string",
+      "pattern": "^VOB-"
+    },
+    "environment_id": {
+      "type": "string",
+      "pattern": "^VENV-"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command_type": {
+      "enum": [
+        "TEST",
+        "STATIC_ANALYSIS",
+        "RUNTIME_PROBE",
+        "MANUAL_INSPECTION",
+        "MIGRATION_CHECK",
+        "SECURITY_SCAN",
+        "PERFORMANCE_PROBE",
+        "ROLLBACK_REHEARSAL"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "exit_code": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCKED",
+        "INCONCLUSIVE",
+        "NOT_RUN"
+      ]
+    },
+    "expected": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed": {
+      "type": "string",
+      "minLength": 1
+    },
+    "output_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VE-"
+      }
+    },
+    "repository_tree_before": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "repository_tree_after": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "mutation_detected": {
+      "const": false
+    },
+    "limitations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

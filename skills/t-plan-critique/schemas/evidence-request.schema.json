@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/plan-critique/evidence-request.schema.json",
+  "title": "Plan Critique Evidence Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "source_critique_ids",
+    "question",
+    "required_evidence",
+    "reason",
+    "blocking",
+    "route",
+    "status",
+    "created_at"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "pattern": "^PEREQ-[0-9]{3,}$"
+    },
+    "source_critique_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PCRQ-"
+      }
+    },
+    "question": {
+      "type": "string",
+      "minLength": 3
+    },
+    "required_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 3
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "route": {
+      "enum": [
+        "INVESTIGATION",
+        "SYSTEM_MODEL",
+        "PROBLEM_ALIGNMENT"
+      ]
+    },
+    "status": {
+      "const": "OPEN"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

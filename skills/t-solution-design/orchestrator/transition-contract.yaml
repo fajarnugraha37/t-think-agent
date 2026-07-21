@@ -1,0 +1,36 @@
+skill: solution-design
+state: SOLUTION_DESIGN
+allowed_entry:
+  from_state: MODEL_CRITIQUE
+  conditions:
+    - model_critique.gate_decision.status == READY_FOR_CHANGE_OPTIONS
+    - model_critique.human_model_approval.status == APPROVED
+    - model_critique.model_impact.revision_required == false
+    - model_critique.model_impact.investigation_required == false
+allowed_exit:
+  - gate: READY_FOR_SOLUTION_CRITIQUE
+    next_state: SOLUTION_CRITIQUE
+    requires:
+      - output.metadata.status == COMPLETE
+      - all quality_checks == true
+      - no blocking assumptions
+      - no uncovered required targets
+      - options are materially distinct OR valid dominance proof exists
+      - decision_record.status != APPROVED
+  - gate: RETURN_TO_INVESTIGATION
+    next_state: INVESTIGATION
+    requires:
+      - blocking evidence need is explicit
+  - gate: RETURN_TO_SYSTEM_MODEL
+    next_state: SYSTEM_MODEL
+    requires:
+      - model insufficiency or contradiction is explicit
+  - gate: BLOCKED
+    next_state: SOLUTION_DESIGN
+canonical_outputs:
+  - artifacts/05b-solution-options.jsonl
+  - artifacts/05c-solution-coverage-matrix.csv
+  - artifacts/05d-decision-record.yaml
+  - artifacts/05e-dominance-proof.yaml
+  - artifacts/05f-solution-design-report.md
+  - artifacts/05g-solution-design-output.yaml

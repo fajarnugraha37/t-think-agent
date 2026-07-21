@@ -1,0 +1,26 @@
+skill: plan-critique
+current_state: PLAN_CRITIQUE
+allowed_transitions:
+- gate: READY_FOR_IMPLEMENTATION_CHECKLIST
+  next_state: IMPLEMENTATION_CHECKLIST
+  requires:
+  - all critiques assessed
+  - no revision directives
+  - no open evidence requests
+  - human plan approval
+  - approved plan contract
+  - valid bundle digest
+- gate: RETURN_TO_IMPLEMENTATION_PLAN
+  next_state: IMPLEMENTATION_PLAN
+- gate: RETURN_TO_INVESTIGATION
+  next_state: INVESTIGATION
+- gate: RETURN_TO_SYSTEM_MODEL
+  next_state: SYSTEM_MODEL
+- gate: RETURN_TO_SOLUTION_DESIGN
+  next_state: SOLUTION_DESIGN
+- gate: RETURN_TO_SOLUTION_CRITIQUE
+  next_state: SOLUTION_CRITIQUE
+- gate: RETURN_TO_PROBLEM_ALIGNMENT
+  next_state: PROBLEM_ALIGNMENT
+- gate: BLOCKED
+  next_state: PLAN_CRITIQUE

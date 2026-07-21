@@ -1,0 +1,9 @@
+work_id: ORDER-2471
+submitted_by: human:fajar
+statement: Repeated or concurrent POST /orders requests can create duplicate orders and duplicate events. Make the operation idempotent without breaking legacy clients.
+known_constraints:
+  - Java Jakarta REST service
+  - PostgreSQL database
+  - Kafka order-created events
+  - rolling deployment across multiple pods
+  - legacy clients may not send an idempotency key

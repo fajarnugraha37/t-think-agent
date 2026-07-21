@@ -1,0 +1,810 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/reconciliation/output.schema.json",
+  "title": "output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_binding",
+    "artifact_files",
+    "artifact_summary",
+    "traceability_summary",
+    "consistency_summary",
+    "approval_summary",
+    "gate_decision",
+    "limitations"
+  ],
+  "properties": {
+    "metadata": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/metadata.schema.json",
+      "title": "metadata",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reconciliation_run_id",
+        "version",
+        "status",
+        "created_at",
+        "updated_at",
+        "reconciler_id",
+        "language"
+      ],
+      "properties": {
+        "reconciliation_run_id": {
+          "type": "string",
+          "pattern": "^REC-[A-Za-z0-9._-]+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "COMPLETE",
+            "BLOCKED",
+            "AWAITING_APPROVAL"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reconciler_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source_binding": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/source-binding.schema.json",
+      "title": "source-binding",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verification_contract_id",
+        "verification_bundle_digest",
+        "verification_run_id",
+        "technical_review_contract_id",
+        "implementation_result_contract_id",
+        "approved_checklist_contract_id",
+        "repository_tree_digest"
+      ],
+      "properties": {
+        "verification_contract_id": {
+          "type": "string",
+          "pattern": "^VCON-[0-9]{3,}$"
+        },
+        "verification_bundle_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "verification_run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "technical_review_contract_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "implementation_result_contract_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_checklist_contract_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository_tree_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "artifact_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignment",
+        "artifact_registry",
+        "traceability_nodes",
+        "traceability_links",
+        "closure_obligations",
+        "contradictions",
+        "residual_gaps",
+        "closure_approval",
+        "result_contract",
+        "report"
+      ],
+      "properties": {
+        "assignment": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "artifact_registry": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "traceability_nodes": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "traceability_links": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "closure_obligations": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "contradictions": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "residual_gaps": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "closure_approval": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "result_contract": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "report": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://example.local/reconciliation/artifact-file.schema.json",
+          "title": "artifact-file",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "YAML",
+                "JSON",
+                "JSONL",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "artifact_summary": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/artifact-summary.schema.json",
+      "title": "artifact-summary",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "phases_required",
+        "phases_present",
+        "all_required_present",
+        "all_digests_valid",
+        "canonical_role_conflicts"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "phases_required": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "PROBLEM_ALIGNMENT",
+              "INVESTIGATION",
+              "SYSTEM_MODEL",
+              "MODEL_CRITIQUE",
+              "SOLUTION_DESIGN",
+              "SOLUTION_CRITIQUE",
+              "IMPLEMENTATION_PLAN",
+              "PLAN_CRITIQUE",
+              "IMPLEMENTATION_CHECKLIST",
+              "CHECKLIST_CRITIQUE",
+              "BOUNDED_IMPLEMENTATION",
+              "SELF_REVIEW",
+              "TECHNICAL_REVIEW",
+              "VERIFICATION"
+            ]
+          },
+          "minItems": 14,
+          "uniqueItems": true
+        },
+        "phases_present": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "PROBLEM_ALIGNMENT",
+              "INVESTIGATION",
+              "SYSTEM_MODEL",
+              "MODEL_CRITIQUE",
+              "SOLUTION_DESIGN",
+              "SOLUTION_CRITIQUE",
+              "IMPLEMENTATION_PLAN",
+              "PLAN_CRITIQUE",
+              "IMPLEMENTATION_CHECKLIST",
+              "CHECKLIST_CRITIQUE",
+              "BOUNDED_IMPLEMENTATION",
+              "SELF_REVIEW",
+              "TECHNICAL_REVIEW",
+              "VERIFICATION"
+            ]
+          },
+          "minItems": 14,
+          "uniqueItems": true
+        },
+        "all_required_present": {
+          "type": "boolean"
+        },
+        "all_digests_valid": {
+          "type": "boolean"
+        },
+        "canonical_role_conflicts": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "traceability_summary": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/trace-summary.schema.json",
+      "title": "trace-summary",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_total",
+        "link_total",
+        "terminal_required_total",
+        "closure_total",
+        "closed_total",
+        "accepted_risk_total",
+        "open_total",
+        "problem_to_change_complete",
+        "problem_to_verification_complete"
+      ],
+      "properties": {
+        "node_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "link_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "terminal_required_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "closure_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "closed_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "accepted_risk_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "open_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "problem_to_change_complete": {
+          "type": "boolean"
+        },
+        "problem_to_verification_complete": {
+          "type": "boolean"
+        }
+      }
+    },
+    "consistency_summary": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/consistency-summary.schema.json",
+      "title": "consistency-summary",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contradiction_total",
+        "open_blocking_contradiction_ids",
+        "gap_total",
+        "open_blocking_gap_ids",
+        "accepted_risk_node_ids",
+        "required_route"
+      ],
+      "properties": {
+        "contradiction_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "open_blocking_contradiction_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^CON-[0-9]{3,}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "gap_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "open_blocking_gap_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^GAP-[0-9]{3,}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "accepted_risk_node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^TN-[0-9]{3,}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "required_route": {
+          "enum": [
+            "NONE",
+            "RECONCILIATION",
+            "VERIFICATION",
+            "TECHNICAL_REVIEW",
+            "SELF_REVIEW",
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "CHECKLIST_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "PLAN_CRITIQUE",
+            "SOLUTION_CRITIQUE",
+            "SOLUTION_DESIGN",
+            "MODEL_CRITIQUE",
+            "SYSTEM_MODEL",
+            "INVESTIGATION",
+            "PROBLEM_ALIGNMENT"
+          ]
+        }
+      }
+    },
+    "approval_summary": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/approval-summary.schema.json",
+      "title": "approval-summary",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approval_required",
+        "approval_id",
+        "decision",
+        "human_approver",
+        "completion_authorized"
+      ],
+      "properties": {
+        "approval_required": {
+          "const": true
+        },
+        "approval_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^RAPP-[0-9]{3,}$"
+        },
+        "decision": {
+          "enum": [
+            "APPROVED",
+            "REJECTED",
+            "PENDING"
+          ]
+        },
+        "human_approver": {
+          "type": "boolean"
+        },
+        "completion_authorized": {
+          "type": "boolean"
+        }
+      }
+    },
+    "gate_decision": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/gate.schema.json",
+      "title": "gate",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale",
+        "blocking_ids",
+        "required_next_actions",
+        "next_state"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "RECONCILED_COMPLETE",
+            "AWAITING_HUMAN_CLOSURE",
+            "LOOPBACK_REQUIRED",
+            "BLOCKED"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "required_next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "next_state": {
+          "enum": [
+            "COMPLETED",
+            "RECONCILIATION",
+            "VERIFICATION",
+            "TECHNICAL_REVIEW",
+            "SELF_REVIEW",
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "CHECKLIST_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "PLAN_CRITIQUE",
+            "SOLUTION_CRITIQUE",
+            "SOLUTION_DESIGN",
+            "MODEL_CRITIQUE",
+            "SYSTEM_MODEL",
+            "INVESTIGATION",
+            "PROBLEM_ALIGNMENT"
+          ]
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  }
+}

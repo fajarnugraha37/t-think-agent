@@ -1,0 +1,24 @@
+metadata:
+  technical_review_run_id: TREV-<id>
+  version: 1.0.0
+  created_at: <RFC3339>
+  coordinator_agent: <agent>
+  language: id-ID
+source_authorization:
+  self_review_contract_id: SRCON-<id>
+  self_review_bundle_digest: sha256:<64hex>
+  self_review_run_id: SREV-<id>
+  gate_status: READY_FOR_TECHNICAL_REVIEW
+  implementation_result_contract_id: IMPLCON-<id>
+  implementation_bundle_digest: sha256:<64hex>
+  approved_checklist_contract_id: CHKCON-<id>
+  repository_after_tree_digest: sha256:<64hex>
+source_artifacts: <artifact descriptors>
+review_controls:
+  independent_reviewer: true
+  inspect_actual_diff: true
+  challenge_self_review: true
+  allow_code_changes: false
+  require_all_dimensions: true
+  stop_on_source_drift: true
+  minimum_evidence_challenges: 1

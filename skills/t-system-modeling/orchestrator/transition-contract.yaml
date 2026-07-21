@@ -1,0 +1,29 @@
+skill: system-modeling
+state: SYSTEM_MODEL
+requires:
+  - approved problem-alignment artifact
+  - investigation output with gate READY_FOR_SYSTEM_MODEL
+  - evidence ledger from actual-system investigation
+produces:
+  - artifacts/03-system-model.md
+  - artifacts/03a-model-elements.jsonl
+  - artifacts/03b-model-relations.jsonl
+  - artifacts/03c-system-model.mmd
+  - artifacts/04-traceability-matrix.csv
+  - artifacts/04a-system-model-output.yaml
+transition:
+  ready_status: READY_FOR_MODEL_CRITIQUE
+  next_state: MODEL_CRITIQUE
+  required_conditions:
+    - output metadata status is COMPLETE
+    - every required problem and dimension is fully covered or explicitly not applicable
+    - every active model element and relation maps to valid evidence
+    - every relation endpoint exists
+    - actual behavior, intended behavior, and behavior gap are present and consistent
+    - all blocking unknowns and conflicts are empty
+    - no hidden material assumption remains
+    - consistency assessment is CONSISTENT
+loopbacks:
+  evidence_gap: INVESTIGATION
+  problem_ambiguity: PROBLEM_ALIGNMENT
+  model_inconsistency: SYSTEM_MODEL

@@ -1,0 +1,57 @@
+metadata:
+  critique_run_id: SCRIT-<slug>-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: 2026-07-21T15:00:00+07:00
+  updated_at: 2026-07-21T15:35:00+07:00
+  author_agent: solution-critique-skill
+  language: id-ID
+source_solution_design:
+  design_id: SDES-<slug>-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_SOLUTION_CRITIQUE
+artifact_files:
+  assessments: {path: artifacts/06a-solution-critique-assessments.jsonl, format: JSONL, record_count: 1}
+  revision_directives: {path: artifacts/06b-solution-revision-directives.jsonl, format: JSONL, record_count: 0}
+  evidence_requests: {path: artifacts/06c-solution-evidence-requests.jsonl, format: JSONL, record_count: 0}
+  decision_approval: {path: artifacts/06d-solution-decision-approval.yaml, format: YAML, record_count: 1}
+  approved_solution_contract: {path: artifacts/06e-approved-solution-contract.yaml, format: YAML, record_count: 1}
+  report: {path: artifacts/06f-solution-critique-report.md, format: MARKDOWN, record_count: 1}
+review_summary: {total_critiques: 1, accepted: 0, partially_accepted: 1, rejected_with_evidence: 0, requires_investigation: 0, unassessed: 0}
+coverage: {all_critiques_assessed: true, all_targets_resolved: true, all_references_valid: true, all_material_responses_evidence_backed: true}
+solution_impact:
+  solution_revision_required: false
+  investigation_required: false
+  model_revision_required: false
+  problem_realignment_required: false
+  affected_option_ids: [OPT-001]
+  affected_coverage_ids: []
+  affected_decision_ids: []
+  dominance_affected: false
+  retained_option_ids: [OPT-001, OPT-002]
+  residual_uncertainties: []
+decision_readiness:
+  selection_permitted: true
+  selected_option_id: OPT-001
+  selected_option_active: true
+  selected_option_viable: true
+  all_blocking_critiques_resolved: true
+  all_required_risks_accepted: true
+  all_required_assumptions_accepted: true
+  selected_option_fully_covers_required_targets: true
+  approved_solution_contract_ready: true
+human_solution_approval:
+  status: APPROVED
+  decision_approval_id: SAPP-001
+  selected_option_id: OPT-001
+  solution_contract_id: SOLCON-001
+  approved_by: human-reviewer
+  approved_at: 2026-07-21T15:30:00+07:00
+gate_decision:
+  status: READY_FOR_IMPLEMENTATION_PLAN
+  rationale: All critiques are resolved, the human selected a viable fully covering option, and the approved solution contract is complete.
+  blocking_critique_ids: []
+  blocking_request_ids: []
+  required_next_actions: [Invoke implementation-planning with the approved solution contract.]
+  next_state: IMPLEMENTATION_PLAN
+limitations: []

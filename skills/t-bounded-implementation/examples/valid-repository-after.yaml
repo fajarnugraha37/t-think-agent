@@ -1,0 +1,12 @@
+repository_id: approval-service
+branch: main
+commit_sha: abcdef1234567890
+working_tree_status: DIRTY
+tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
+changed_paths:
+- ApprovalService.java
+- approval repository mapping
+- database migration
+- deployment manifests
+- src/test/java/example/ApprovalIdempotencyIT.java
+captured_at: '2026-07-21T21:00:00+07:00'

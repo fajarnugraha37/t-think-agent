@@ -1,0 +1,99 @@
+metadata:
+  request_id: REQ-plan-review-001
+  critique_run_id: PCRIT-duplicate-event-001
+  created_at: '2026-07-21T17:00:00+07:00'
+  author_agent: plan-critique-skill
+  language: id-ID
+  requested_by: fajar
+source_planning:
+  planning_run_id: IPLAN-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_PLAN_CRITIQUE
+  repository_commit: abcdef1234567890
+  artifact_digest: sha256:planning-output
+source_artifacts:
+  planning_output:
+    path: artifacts/07a-implementation-planning-output.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:planning-output
+  planning_targets:
+    path: artifacts/07b-planning-targets.jsonl
+    format: JSONL
+    record_count: 35
+    digest: sha256:targets
+  plan_items:
+    path: artifacts/07c-plan-items.jsonl
+    format: JSONL
+    record_count: 8
+    digest: sha256:plans
+  dependency_edges:
+    path: artifacts/07d-dependencies.jsonl
+    format: JSONL
+    record_count: 13
+    digest: sha256:deps
+  coverage_matrix:
+    path: artifacts/07e-coverage.csv
+    format: CSV
+    record_count: 35
+    digest: sha256:coverage
+  verification_plan:
+    path: artifacts/07f-verification.jsonl
+    format: JSONL
+    record_count: 12
+    digest: sha256:verification
+  rollback_plan:
+    path: artifacts/07g-rollback.jsonl
+    format: JSONL
+    record_count: 7
+    digest: sha256:rollback
+  planning_findings:
+    path: artifacts/07h-findings.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:findings
+  approved_solution_contract:
+    path: artifacts/06-approved-solution-contract.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:solution-contract
+  evidence_ledger:
+    path: artifacts/02-evidence-ledger.jsonl
+    format: JSONL
+    record_count: 5
+    digest: sha256:ledger
+  model_elements:
+    path: artifacts/03-model-elements.jsonl
+    format: JSONL
+    record_count: 13
+    digest: sha256:elements
+  model_relations:
+    path: artifacts/03-model-relations.jsonl
+    format: JSONL
+    record_count: 11
+    digest: sha256:relations
+human_critiques:
+- critique_id: PCRQ-001
+  submitted_by: human-reviewer
+  submitted_at: '2026-07-21T17:01:00+07:00'
+  target_kind: PLAN_SEQUENCE
+  target_ids:
+  - PLN-999
+  statement: Constraint activation tampak terlalu dini dibanding fleet-convergence
+    gate.
+  requested_outcome: Pertahankan atau revisi urutan berdasarkan dependency graph dan
+    rollout evidence.
+  claimed_evidence_ids:
+  - F-001
+  - F-003
+  priority: HIGH
+  blocking: true
+review_policy:
+  actual_source_only: true
+  context_firewall: true
+  evaluate_not_obey: true
+  require_evidence_for_rejection: true
+  require_falsifiability: true
+  allow_silent_plan_mutation: false
+  allow_implementation: false
+  allow_new_semantic_decisions: false

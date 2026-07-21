@@ -1,0 +1,31 @@
+assignment_id: TRA-001
+technical_review_run_id: TREV-duplicate-event-001
+reviewer_id: technical-review-agent-02
+reviewer_type: AGENT
+reviewer_role: Independent senior technical reviewer
+assigned_at: '2026-07-21T22:00:00+07:00'
+independence:
+  not_implementation_author: true
+  not_self_reviewer: true
+  no_unresolved_conflict: true
+  conflicting_identity_ids: []
+  declaration: Reviewer did not implement the change, did not perform self-review,
+    and has no unresolved conflict.
+required_competencies:
+- JAVA_BACKEND
+- DATABASE_TRANSACTION
+- DISTRIBUTED_SYSTEMS
+- SECURITY
+- TESTING
+declared_competencies:
+- JAVA_BACKEND
+- DATABASE_TRANSACTION
+- DISTRIBUTED_SYSTEMS
+- SECURITY
+- TESTING
+- OBSERVABILITY
+review_scope:
+- Actual diff and change records
+- Approved checklist conformance
+- Runtime and verification evidence
+- Failure, rollback, and operational behavior

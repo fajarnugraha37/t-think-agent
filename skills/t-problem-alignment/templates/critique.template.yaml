@@ -1,0 +1,13 @@
+critique_id: CRIT-001
+artifact_id: PA-CHANGE-ME
+target: normalized_problem.expected_behavior[0]
+human_comment: Describe the issue with the current alignment artifact.
+classification: REQUIRES_MORE_CLARIFICATION
+agent_response: Explain how the critique is handled without blindly accepting it.
+affected_fields:
+  - normalized_problem.expected_behavior
+result:
+  new_artifact_status: UNDER_REVIEW
+  requires_reapproval: true
+  required_questions:
+    - Add the focused clarification question required to resolve this critique.

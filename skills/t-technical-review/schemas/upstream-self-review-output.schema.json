@@ -1,0 +1,596 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/self-review/output.schema.json",
+  "title": "Self Review Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_binding",
+    "artifact_files",
+    "review_summary",
+    "conformance_summary",
+    "integrity",
+    "finding_summary",
+    "gate_decision",
+    "limitations"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "self_review_run_id",
+        "version",
+        "status",
+        "created_at",
+        "updated_at",
+        "reviewer_agent",
+        "language"
+      ],
+      "properties": {
+        "self_review_run_id": {
+          "type": "string",
+          "pattern": "^SREV-"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "COMPLETE",
+            "FAILED",
+            "BLOCKED"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reviewer_agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implementation_result_contract_id",
+        "implementation_bundle_digest",
+        "bounded_implementation_run_id",
+        "source_checklist_contract_id",
+        "repository_after_tree_digest"
+      ],
+      "properties": {
+        "implementation_result_contract_id": {
+          "type": "string",
+          "pattern": "^IMPLCON-"
+        },
+        "implementation_bundle_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "bounded_implementation_run_id": {
+          "type": "string",
+          "pattern": "^BIMPL-"
+        },
+        "source_checklist_contract_id": {
+          "type": "string",
+          "pattern": "^CHKCON-"
+        },
+        "repository_after_tree_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "artifact_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_checks",
+        "conformance_results",
+        "evidence_audits",
+        "findings",
+        "remediation_directives",
+        "self_review_result_contract",
+        "report"
+      ],
+      "properties": {
+        "review_checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "conformance_results": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "evidence_audits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "findings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "remediation_directives": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "self_review_result_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "report": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "review_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "passed",
+        "failed",
+        "not_applicable",
+        "inconclusive",
+        "required_dimensions",
+        "covered_dimensions"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "not_applicable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inconclusive": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "required_dimensions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "covered_dimensions": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "conformance_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "passed",
+        "failed",
+        "inconclusive",
+        "complete_coverage"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inconclusive": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "complete_coverage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_bundle_verified",
+        "checklist_coverage_complete",
+        "review_dimensions_complete",
+        "evidence_complete",
+        "scope_preserved",
+        "semantic_boundary_preserved",
+        "no_silent_mutation"
+      ],
+      "properties": {
+        "source_bundle_verified": {
+          "type": "boolean"
+        },
+        "checklist_coverage_complete": {
+          "type": "boolean"
+        },
+        "review_dimensions_complete": {
+          "type": "boolean"
+        },
+        "evidence_complete": {
+          "type": "boolean"
+        },
+        "scope_preserved": {
+          "type": "boolean"
+        },
+        "semantic_boundary_preserved": {
+          "type": "boolean"
+        },
+        "no_silent_mutation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "finding_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "open_blocking_finding_ids",
+        "open_nonblocking_finding_ids",
+        "resolved_finding_ids",
+        "accepted_risk_finding_ids",
+        "remediation_directive_ids",
+        "required_route"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "open_blocking_finding_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^SRF-"
+          },
+          "uniqueItems": true
+        },
+        "open_nonblocking_finding_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^SRF-"
+          },
+          "uniqueItems": true
+        },
+        "resolved_finding_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^SRF-"
+          },
+          "uniqueItems": true
+        },
+        "accepted_risk_finding_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^SRF-"
+          },
+          "uniqueItems": true
+        },
+        "remediation_directive_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^SRDIR-"
+          },
+          "uniqueItems": true
+        },
+        "required_route": {
+          "enum": [
+            "NONE",
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "CHECKLIST_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "PLAN_CRITIQUE",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "PROBLEM_ALIGNMENT"
+          ]
+        }
+      }
+    },
+    "gate_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale",
+        "blocking_ids",
+        "required_next_actions",
+        "next_state"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY_FOR_TECHNICAL_REVIEW",
+            "RETURN_TO_BOUNDED_IMPLEMENTATION",
+            "RETURN_TO_IMPLEMENTATION_CHECKLIST",
+            "RETURN_TO_CHECKLIST_CRITIQUE",
+            "RETURN_TO_IMPLEMENTATION_PLAN",
+            "RETURN_TO_PLAN_CRITIQUE",
+            "RETURN_TO_INVESTIGATION",
+            "RETURN_TO_SYSTEM_MODEL",
+            "RETURN_TO_SOLUTION_DESIGN",
+            "RETURN_TO_SOLUTION_CRITIQUE",
+            "RETURN_TO_PROBLEM_ALIGNMENT",
+            "BLOCKED"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "required_next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "next_state": {
+          "enum": [
+            "TECHNICAL_REVIEW",
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "CHECKLIST_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "PLAN_CRITIQUE",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "PROBLEM_ALIGNMENT",
+            "SELF_REVIEW"
+          ]
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  }
+}

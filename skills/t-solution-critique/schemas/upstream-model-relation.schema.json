@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "id",
+    "from_element_id",
+    "to_element_id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^REL-"
+    },
+    "from_element_id": {
+      "type": "string",
+      "pattern": "^MDL-"
+    },
+    "to_element_id": {
+      "type": "string",
+      "pattern": "^MDL-"
+    }
+  },
+  "additionalProperties": true
+}

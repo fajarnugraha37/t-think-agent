@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/verification/result-contract.schema.json",
+  "title": "Verification Result Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_id",
+    "status",
+    "verification_run_id",
+    "assignment_id",
+    "environment_id",
+    "source_technical_review_contract_id",
+    "source_technical_review_bundle_digest",
+    "source_implementation_contract_id",
+    "source_implementation_bundle_digest",
+    "source_checklist_contract_id",
+    "repository_tree_digest",
+    "verification_bundle_digest",
+    "obligation_ids",
+    "execution_ids",
+    "falsification_ids",
+    "evidence_ids",
+    "finding_ids",
+    "remediation_directive_ids",
+    "verdict",
+    "integrity",
+    "limitations"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string",
+      "pattern": "^VCON-"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCKED"
+      ]
+    },
+    "verification_run_id": {
+      "type": "string",
+      "pattern": "^VER-"
+    },
+    "assignment_id": {
+      "type": "string",
+      "pattern": "^VA-"
+    },
+    "environment_id": {
+      "type": "string",
+      "pattern": "^VENV-"
+    },
+    "source_technical_review_contract_id": {
+      "type": "string",
+      "pattern": "^TRCON-"
+    },
+    "source_technical_review_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_implementation_contract_id": {
+      "type": "string",
+      "pattern": "^IMPLCON-"
+    },
+    "source_implementation_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_checklist_contract_id": {
+      "type": "string",
+      "pattern": "^CHKCON-"
+    },
+    "repository_tree_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "verification_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "obligation_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VOB-"
+      }
+    },
+    "execution_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VEXEC-"
+      }
+    },
+    "falsification_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VFAL-"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VE-"
+      }
+    },
+    "finding_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VRF-"
+      }
+    },
+    "remediation_directive_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VRDIR-"
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "next_state",
+        "rationale",
+        "blocking_finding_ids"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY_FOR_RECONCILIATION",
+            "RETURN_TO_TECHNICAL_REVIEW",
+            "RETURN_TO_SELF_REVIEW",
+            "RETURN_TO_BOUNDED_IMPLEMENTATION",
+            "RETURN_TO_IMPLEMENTATION_CHECKLIST",
+            "RETURN_TO_CHECKLIST_CRITIQUE",
+            "RETURN_TO_IMPLEMENTATION_PLAN",
+            "RETURN_TO_PLAN_CRITIQUE",
+            "RETURN_TO_INVESTIGATION",
+            "RETURN_TO_SYSTEM_MODEL",
+            "RETURN_TO_SOLUTION_DESIGN",
+            "RETURN_TO_SOLUTION_CRITIQUE",
+            "RETURN_TO_PROBLEM_ALIGNMENT",
+            "BLOCKED"
+          ]
+        },
+        "next_state": {
+          "enum": [
+            "RECONCILIATION",
+            "VERIFICATION",
+            "TECHNICAL_REVIEW",
+            "SELF_REVIEW",
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "CHECKLIST_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "PLAN_CRITIQUE",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "PROBLEM_ALIGNMENT"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_finding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^VRF-"
+          }
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_bundle_verified",
+        "verifier_independent",
+        "environment_reproducible",
+        "obligation_coverage_complete",
+        "execution_evidence_complete",
+        "falsification_complete",
+        "repository_unchanged",
+        "no_silent_mutation"
+      ],
+      "properties": {
+        "source_bundle_verified": {
+          "type": "boolean"
+        },
+        "verifier_independent": {
+          "type": "boolean"
+        },
+        "environment_reproducible": {
+          "type": "boolean"
+        },
+        "obligation_coverage_complete": {
+          "type": "boolean"
+        },
+        "execution_evidence_complete": {
+          "type": "boolean"
+        },
+        "falsification_complete": {
+          "type": "boolean"
+        },
+        "repository_unchanged": {
+          "type": "boolean"
+        },
+        "no_silent_mutation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

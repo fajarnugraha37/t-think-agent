@@ -1,0 +1,808 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/verification/output.schema.json",
+  "title": "Verification Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_binding",
+    "artifact_files",
+    "obligation_summary",
+    "execution_summary",
+    "falsification_summary",
+    "environment_integrity",
+    "evidence_integrity",
+    "finding_summary",
+    "gate_decision",
+    "limitations"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verification_run_id",
+        "version",
+        "status",
+        "created_at",
+        "updated_at",
+        "verifier_id",
+        "language"
+      ],
+      "properties": {
+        "verification_run_id": {
+          "type": "string",
+          "pattern": "^VER-"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "COMPLETE",
+            "BLOCKED"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verifier_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 2
+        }
+      }
+    },
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "technical_review_contract_id",
+        "technical_review_bundle_digest",
+        "technical_review_run_id",
+        "implementation_result_contract_id",
+        "implementation_bundle_digest",
+        "source_checklist_contract_id",
+        "repository_tree_digest"
+      ],
+      "properties": {
+        "technical_review_contract_id": {
+          "type": "string",
+          "pattern": "^TRCON-"
+        },
+        "technical_review_bundle_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "technical_review_run_id": {
+          "type": "string",
+          "pattern": "^TREV-"
+        },
+        "implementation_result_contract_id": {
+          "type": "string",
+          "pattern": "^IMPLCON-"
+        },
+        "implementation_bundle_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "source_checklist_contract_id": {
+          "type": "string",
+          "pattern": "^CHKCON-"
+        },
+        "repository_tree_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "artifact_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verifier_assignment",
+        "environment",
+        "obligations",
+        "executions",
+        "falsification_attempts",
+        "evidence",
+        "findings",
+        "remediation_directives",
+        "verification_result_contract",
+        "report"
+      ],
+      "properties": {
+        "verifier_assignment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "obligations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "executions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "falsification_attempts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "findings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "remediation_directives": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "verification_result_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "report": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "obligation_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "mandatory",
+        "not_applicable",
+        "passed",
+        "failed",
+        "blocked",
+        "inconclusive",
+        "coverage_complete"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mandatory": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "not_applicable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inconclusive": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "coverage_complete": {
+          "type": "boolean"
+        }
+      }
+    },
+    "execution_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "passed",
+        "failed",
+        "blocked",
+        "inconclusive",
+        "not_run",
+        "repository_unchanged"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inconclusive": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "not_run": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "repository_unchanged": {
+          "type": "boolean"
+        }
+      }
+    },
+    "falsification_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "survived",
+        "refuted",
+        "inconclusive",
+        "required_obligation_ids",
+        "covered_obligation_ids",
+        "requirement_met"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "survived": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "refuted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inconclusive": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "required_obligation_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^VOB-"
+          }
+        },
+        "covered_obligation_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^VOB-"
+          }
+        },
+        "requirement_met": {
+          "type": "boolean"
+        }
+      }
+    },
+    "environment_integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environment_id",
+        "source_tree_verified",
+        "toolchain_recorded",
+        "dependencies_available",
+        "test_data_resettable",
+        "secrets_safe",
+        "reproducible"
+      ],
+      "properties": {
+        "environment_id": {
+          "type": "string",
+          "pattern": "^VENV-"
+        },
+        "source_tree_verified": {
+          "type": "boolean"
+        },
+        "toolchain_recorded": {
+          "type": "boolean"
+        },
+        "dependencies_available": {
+          "type": "boolean"
+        },
+        "test_data_resettable": {
+          "type": "boolean"
+        },
+        "secrets_safe": {
+          "type": "boolean"
+        },
+        "reproducible": {
+          "type": "boolean"
+        }
+      }
+    },
+    "evidence_integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "all_references_resolved",
+        "all_digests_valid",
+        "all_required_reproducible",
+        "source_evidence_resolved"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "all_references_resolved": {
+          "type": "boolean"
+        },
+        "all_digests_valid": {
+          "type": "boolean"
+        },
+        "all_required_reproducible": {
+          "type": "boolean"
+        },
+        "source_evidence_resolved": {
+          "type": "boolean"
+        }
+      }
+    },
+    "finding_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "open_blocking_finding_ids",
+        "open_nonblocking_finding_ids",
+        "resolved_finding_ids",
+        "accepted_risk_finding_ids",
+        "remediation_directive_ids",
+        "required_route"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "open_blocking_finding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^VRF-"
+          }
+        },
+        "open_nonblocking_finding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^VRF-"
+          }
+        },
+        "resolved_finding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^VRF-"
+          }
+        },
+        "accepted_risk_finding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^VRF-"
+          }
+        },
+        "remediation_directive_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^VRDIR-"
+          }
+        },
+        "required_route": {
+          "enum": [
+            "NONE",
+            "VERIFICATION",
+            "TECHNICAL_REVIEW",
+            "SELF_REVIEW",
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "CHECKLIST_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "PLAN_CRITIQUE",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "PROBLEM_ALIGNMENT"
+          ]
+        }
+      }
+    },
+    "gate_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale",
+        "blocking_ids",
+        "required_next_actions",
+        "next_state"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY_FOR_RECONCILIATION",
+            "RETURN_TO_TECHNICAL_REVIEW",
+            "RETURN_TO_SELF_REVIEW",
+            "RETURN_TO_BOUNDED_IMPLEMENTATION",
+            "RETURN_TO_IMPLEMENTATION_CHECKLIST",
+            "RETURN_TO_CHECKLIST_CRITIQUE",
+            "RETURN_TO_IMPLEMENTATION_PLAN",
+            "RETURN_TO_PLAN_CRITIQUE",
+            "RETURN_TO_INVESTIGATION",
+            "RETURN_TO_SYSTEM_MODEL",
+            "RETURN_TO_SOLUTION_DESIGN",
+            "RETURN_TO_SOLUTION_CRITIQUE",
+            "RETURN_TO_PROBLEM_ALIGNMENT",
+            "BLOCKED"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required_next_actions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "next_state": {
+          "enum": [
+            "RECONCILIATION",
+            "VERIFICATION",
+            "TECHNICAL_REVIEW",
+            "SELF_REVIEW",
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "CHECKLIST_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "PLAN_CRITIQUE",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "PROBLEM_ALIGNMENT"
+          ]
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

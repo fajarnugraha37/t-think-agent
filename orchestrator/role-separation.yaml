@@ -1,0 +1,41 @@
+version: 2.1.0
+topology: star
+max_delegation_depth: 1
+human_owner:
+  exclusive_authority:
+  - semantic approval
+  - risk acceptance
+  - execution authorization
+  - final closure approval
+orchestrator:
+  agent: t-think
+  responsibilities:
+  - enforce lifecycle and human gates
+  - create and validate delegation packets
+  - delegate only to the phase-authorized role
+  - preserve artifact lineage and digests
+  - route loopbacks to earliest owner
+  - prevent state skipping and hidden delegation
+  source_write: deny
+phase_roles:
+  INVESTIGATION: t-investigator
+  SYSTEM_MODEL: t-modeler
+  SOLUTION_DESIGN: t-modeler
+  IMPLEMENTATION_PLAN: t-planner
+  IMPLEMENTATION_CHECKLIST: t-planner
+  MODEL_CRITIQUE: t-critic
+  SOLUTION_CRITIQUE: t-critic
+  PLAN_CRITIQUE: t-critic
+  CHECKLIST_CRITIQUE: t-critic
+  BOUNDED_IMPLEMENTATION: t-builder
+  SELF_REVIEW: t-builder
+  TECHNICAL_REVIEW: t-reviewer
+  VERIFICATION: t-verifier
+  RECONCILIATION: t-reconciler
+independence:
+  critique: t-critic uses a fresh invocation and does not mutate producer artifacts
+  self_review: t-builder uses a fresh invocation after implementation; source mutation is disabled during SELF_REVIEW
+  technical_review: t-reviewer actor and invocation differ from builder/self-review and receive actual diff, not
+    private reasoning
+  verification: t-verifier differs from builder and reviewers and may write only generated outputs
+  reconciliation: t-reconciler differs from upstream execution and review actors

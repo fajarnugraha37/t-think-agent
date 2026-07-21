@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/plan-critique/revision-directive.schema.json",
+  "title": "Plan Revision Directive",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "directive_id",
+    "source_critique_ids",
+    "source_assessment_ids",
+    "target_kind",
+    "target_ids",
+    "change_kind",
+    "statement",
+    "rationale",
+    "evidence_ids",
+    "expected_effect",
+    "semantic_change_required",
+    "route",
+    "applied",
+    "created_at"
+  ],
+  "properties": {
+    "directive_id": {
+      "type": "string",
+      "pattern": "^PREV-[0-9]{3,}$"
+    },
+    "source_critique_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PCRQ-"
+      }
+    },
+    "source_assessment_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PASM-"
+      }
+    },
+    "target_kind": {
+      "enum": [
+        "PLANNING_TARGET",
+        "PLAN_ITEM",
+        "DEPENDENCY_EDGE",
+        "COVERAGE_ROW",
+        "VERIFICATION_ITEM",
+        "ROLLBACK_ITEM",
+        "PLANNING_OUTPUT",
+        "PLAN_REPORT"
+      ]
+    },
+    "target_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(PTGT|PLN|PDEP|PCOV|TST|RBK|PFND)-"
+      }
+    },
+    "change_kind": {
+      "enum": [
+        "ADD",
+        "MODIFY",
+        "REMOVE",
+        "REORDER",
+        "SPLIT",
+        "MERGE",
+        "RESEQUENCE",
+        "EXPAND_TEST",
+        "EXPAND_ROLLBACK",
+        "CLARIFY",
+        "REMAP"
+      ]
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 3
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 10
+    },
+    "evidence_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-"
+      }
+    },
+    "expected_effect": {
+      "type": "string",
+      "minLength": 3
+    },
+    "semantic_change_required": {
+      "type": "boolean"
+    },
+    "route": {
+      "enum": [
+        "IMPLEMENTATION_PLAN",
+        "SOLUTION_DESIGN",
+        "SOLUTION_CRITIQUE",
+        "SYSTEM_MODEL",
+        "INVESTIGATION",
+        "PROBLEM_ALIGNMENT"
+      ]
+    },
+    "applied": {
+      "const": false
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

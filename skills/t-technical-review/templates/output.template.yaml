@@ -1,0 +1,24 @@
+metadata:
+  technical_review_run_id: TREV-<id>
+  version: 1.0.0
+  status: BLOCKED
+  created_at: <RFC3339>
+  updated_at: <RFC3339>
+  reviewer_id: <reviewer>
+  language: id-ID
+source_binding: <exact source binding>
+artifact_files: <artifact descriptors>
+review_summary: <computed>
+change_assessment_summary: <computed>
+challenge_summary: <computed>
+independence: <computed>
+integrity: <computed>
+finding_summary: <computed>
+gate_decision:
+  status: BLOCKED
+  rationale: <why>
+  blocking_ids: []
+  required_next_actions:
+  - <action>
+  next_state: TECHNICAL_REVIEW
+limitations: []

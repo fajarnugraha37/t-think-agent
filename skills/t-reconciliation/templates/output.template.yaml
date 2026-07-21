@@ -1,0 +1,122 @@
+metadata:
+  reconciliation_run_id: REC-duplicate-event-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-22T00:00:00+07:00'
+  updated_at: '2026-07-22T01:00:00+07:00'
+  reconciler_id: reconciliation-agent-04
+  language: id-ID
+source_binding:
+  verification_contract_id: VCON-001
+  verification_bundle_digest: sha256:39b419784d4c067dd5b2edbe63de4d81701c4054129f6838a5043f653aeb7a75
+  verification_run_id: VER-duplicate-event-001
+  technical_review_contract_id: TRCON-001
+  implementation_result_contract_id: IMPLCON-001
+  approved_checklist_contract_id: CHKCON-001
+  repository_tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
+artifact_files:
+  assignment:
+    path: examples/valid-reconciler-assignment.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:723dfbf25389b27acc2e4dd6ac4209a7ece45356c11e9fd9c1ccc3b253318b17
+  artifact_registry:
+    path: examples/valid-artifact-registry.jsonl
+    format: JSONL
+    record_count: 14
+    digest: sha256:718dc96acbfa68f91cfc826ae5f7cd5bf3bec65fe6992e977ca013cd960729fe
+  traceability_nodes:
+    path: examples/valid-traceability-nodes.jsonl
+    format: JSONL
+    record_count: 15
+    digest: sha256:dd02cdea58a0e76e258269d1268f7e744aef305b708d6e737ef21f90d4387f38
+  traceability_links:
+    path: examples/valid-traceability-links.jsonl
+    format: JSONL
+    record_count: 20
+    digest: sha256:5de0ca2ed2e33eb1118be0524f6def8ef85e3c1c22b4cd6de195e18c94140ab5
+  closure_obligations:
+    path: examples/valid-closure-obligations.jsonl
+    format: JSONL
+    record_count: 4
+    digest: sha256:126b2bac6d307819ede7e1f4653a075bee44767fd132363c98c3c92fc13a755a
+  contradictions:
+    path: examples/empty-contradictions.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  residual_gaps:
+    path: examples/empty-residual-gaps.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  closure_approval:
+    path: examples/valid-closure-approval.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:2937ae603f8f150dc8a4298ed34f0adfc8dd4ae0ac34b9806a3e2b1dce470281
+  result_contract:
+    path: examples/valid-reconciliation-result-contract.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:f3fb5b3ebe463e722e7a74e6670a9466c9db745c20370d5f469a03f9618f2465
+  report:
+    path: examples/valid-reconciliation-report.md
+    format: MARKDOWN
+    record_count: 1
+    digest: sha256:da568a909d0acda16500c437bce0d362820c5e9c0dbe760e97849ffb901d34c5
+artifact_summary:
+  total: 14
+  phases_required: &id001
+  - PROBLEM_ALIGNMENT
+  - INVESTIGATION
+  - SYSTEM_MODEL
+  - MODEL_CRITIQUE
+  - SOLUTION_DESIGN
+  - SOLUTION_CRITIQUE
+  - IMPLEMENTATION_PLAN
+  - PLAN_CRITIQUE
+  - IMPLEMENTATION_CHECKLIST
+  - CHECKLIST_CRITIQUE
+  - BOUNDED_IMPLEMENTATION
+  - SELF_REVIEW
+  - TECHNICAL_REVIEW
+  - VERIFICATION
+  phases_present: *id001
+  all_required_present: true
+  all_digests_valid: true
+  canonical_role_conflicts: 0
+traceability_summary:
+  node_total: 15
+  link_total: 20
+  terminal_required_total: 4
+  closure_total: 4
+  closed_total: 4
+  accepted_risk_total: 0
+  open_total: 0
+  problem_to_change_complete: true
+  problem_to_verification_complete: true
+consistency_summary:
+  contradiction_total: 0
+  open_blocking_contradiction_ids: []
+  gap_total: 0
+  open_blocking_gap_ids: []
+  accepted_risk_node_ids: []
+  required_route: NONE
+approval_summary:
+  approval_required: true
+  approval_id: RAPP-001
+  decision: APPROVED
+  human_approver: true
+  completion_authorized: true
+gate_decision:
+  status: RECONCILED_COMPLETE
+  rationale: End-to-end artifact integrity, semantic traceability, verification evidence,
+    and human closure approval are complete.
+  blocking_ids: []
+  required_next_actions:
+  - Mark the governed lifecycle run as completed and preserve the immutable evidence
+    package.
+  next_state: COMPLETED
+limitations:
+- Example artifact registry paths are illustrative.

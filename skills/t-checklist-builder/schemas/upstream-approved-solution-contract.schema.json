@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Approved Solution Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_id",
+    "status",
+    "source_design_id",
+    "source_decision_id",
+    "decision_approval_id",
+    "selected_option_id",
+    "selected_option_digest",
+    "approved_model_version",
+    "problem_ids",
+    "target_ids",
+    "model_ids",
+    "evidence_ids",
+    "invariant_ids",
+    "accepted_assumption_ids",
+    "accepted_risk_ids",
+    "behavior_commitments",
+    "change_surface",
+    "semantic_constraints",
+    "planning_constraints",
+    "prohibited_changes",
+    "approval"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string",
+      "pattern": "^SOLCON-[0-9]{3,}$"
+    },
+    "status": {
+      "enum": [
+        "PENDING",
+        "APPROVED"
+      ]
+    },
+    "source_design_id": {
+      "type": "string",
+      "pattern": "^SDES-"
+    },
+    "source_decision_id": {
+      "type": "string",
+      "pattern": "^DEC-[0-9]{3,}$"
+    },
+    "decision_approval_id": {
+      "type": "string",
+      "pattern": "^SAPP-[0-9]{3,}$"
+    },
+    "selected_option_id": {
+      "type": "string",
+      "pattern": "^OPT-[0-9]{3,}$"
+    },
+    "selected_option_digest": {
+      "type": "string",
+      "minLength": 8
+    },
+    "approved_model_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "problem_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(PS|PE|AC)-"
+      }
+    },
+    "target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TGT-"
+      }
+    },
+    "model_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^MDL-"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-"
+      }
+    },
+    "invariant_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(INV|MDL)-"
+      }
+    },
+    "accepted_assumption_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(ASM|SASM)-"
+      }
+    },
+    "accepted_risk_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(RSK|SRSK)-"
+      }
+    },
+    "behavior_commitments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_behavior",
+        "preserved_behavior",
+        "intentionally_changed_behavior",
+        "failure_semantics",
+        "transaction_semantics",
+        "concurrency_semantics"
+      ],
+      "properties": {
+        "target_behavior": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preserved_behavior": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "intentionally_changed_behavior": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "failure_semantics": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transaction_semantics": {
+          "type": "string",
+          "minLength": 1
+        },
+        "concurrency_semantics": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "change_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "components",
+        "files_or_artifacts",
+        "public_contract_changes",
+        "data_changes",
+        "configuration_changes",
+        "dependencies"
+      ],
+      "properties": {
+        "components": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "files_or_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "public_contract_changes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "data_changes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "configuration_changes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "semantic_constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "planning_constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "prohibited_changes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approved_by",
+        "approved_at",
+        "approved_by_role"
+      ],
+      "properties": {
+        "approved_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "approved_by_role": {
+          "const": "HUMAN"
+        }
+      }
+    }
+  }
+}

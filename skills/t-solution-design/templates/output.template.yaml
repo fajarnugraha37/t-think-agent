@@ -1,0 +1,34 @@
+metadata:
+  design_id: SDES-example-001
+  version: 1.0.0
+  status: INCOMPLETE
+  created_at: 2026-07-21T14:00:00+07:00
+  updated_at: 2026-07-21T14:00:00+07:00
+  author_agent: solution-design-skill
+  language: id-ID
+source_model:
+  modeling_id: MODEL-example-001
+  model_version: 1.0.0
+  critique_run_id: MCRIT-example-001
+  critique_gate_status: READY_FOR_CHANGE_OPTIONS
+artifact_files:
+  options: {path: artifacts/05b-solution-options.jsonl, format: JSONL, record_count: 0}
+  coverage_matrix: {path: artifacts/05c-solution-coverage-matrix.csv, format: CSV, record_count: 0}
+  decision_record: {path: artifacts/05d-decision-record.yaml, format: YAML, record_count: 1}
+  dominance_proof: {path: artifacts/05e-dominance-proof.yaml, format: YAML, record_count: 1}
+  report: {path: artifacts/05f-solution-design-report.md, format: MARKDOWN, record_count: 1}
+design_summary: {total_options: 0, viable_options: 0, conditionally_viable_options: 0, eliminated_options: 0, required_targets: 1, single_option_mode: false}
+coverage_summary: {total_rows: 0, full_rows: 0, partial_rows: 0, none_rows: 0, targets_with_at_least_one_full_option: 0, uncovered_target_ids: [TGT-001]}
+distinctness_summary: {materially_distinct: false, duplicate_option_pairs: [], dimensions_used: []}
+assumption_summary: {all_assumptions_explicit: true, blocking_assumption_ids: [], nonblocking_assumption_ids: []}
+risk_summary: {all_options_have_residual_risks: false, critical_risk_ids: [], human_acceptance_required_ids: []}
+recommendation: {recommended_option_id: null, binding: false, rationale: No recommendation until options are complete., confidence: LOW, limitations: []}
+quality_checks: {references_valid: false, coverage_complete: false, meaningful_alternatives: false, decision_dimensions_explicit: false, assumptions_explicit: true, risks_explicit: false, compatibility_explicit: false, verification_explicit: false, recommendation_nonbinding: true, no_approved_decision: true}
+gate_decision:
+  status: BLOCKED
+  rationale: Solution option package is incomplete.
+  blocking_target_ids: [TGT-001]
+  blocking_assumption_ids: []
+  required_next_actions: [Complete solution option design.]
+  next_state: SOLUTION_DESIGN
+limitations: []

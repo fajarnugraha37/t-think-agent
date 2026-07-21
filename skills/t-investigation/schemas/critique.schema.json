@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/investigation/critique.schema.json",
+  "title": "Investigation Critique",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "critique_id",
+    "created_at",
+    "target",
+    "statement",
+    "classification",
+    "evidence_reviewed",
+    "required_action",
+    "resulting_status"
+  ],
+  "properties": {
+    "critique_id": {
+      "type": "string",
+      "pattern": "^CRIT-[0-9]{3,}$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "raised_by": {
+      "type": "string"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "target_id"
+      ],
+      "properties": {
+        "artifact": {
+          "enum": [
+            "INVESTIGATION_LOG",
+            "EVIDENCE_LEDGER",
+            "INVESTIGATION_OUTPUT",
+            "SUFFICIENCY_ASSESSMENT"
+          ]
+        },
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 3
+    },
+    "classification": {
+      "enum": [
+        "ACCEPTED",
+        "PARTIALLY_ACCEPTED",
+        "REJECTED_WITH_EVIDENCE",
+        "REQUIRES_INVESTIGATION"
+      ]
+    },
+    "evidence_reviewed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK|SRC)-[A-Za-z0-9._-]+$"
+      }
+    },
+    "agent_response": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_action": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "resulting_status": {
+      "enum": [
+        "NO_CHANGE",
+        "CLAIM_WEAKENED",
+        "CLAIM_RETRACTED",
+        "CLAIM_SUPERSEDED",
+        "EVIDENCE_ADDED",
+        "SUFFICIENCY_RECALCULATION_REQUIRED"
+      ]
+    }
+  }
+}

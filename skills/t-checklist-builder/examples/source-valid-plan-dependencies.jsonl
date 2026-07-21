@@ -1,0 +1,13 @@
+{"dependency_id":"PDEP-001","from_plan_id":"PLN-001","to_plan_id":"PLN-002","relationship":"REQUIRES","rationale":"PLN-002 requires completion of PLN-001."}
+{"dependency_id":"PDEP-002","from_plan_id":"PLN-002","to_plan_id":"PLN-003","relationship":"REQUIRES","rationale":"PLN-003 requires completion of PLN-002."}
+{"dependency_id":"PDEP-003","from_plan_id":"PLN-001","to_plan_id":"PLN-004","relationship":"REQUIRES","rationale":"PLN-004 requires completion of PLN-001."}
+{"dependency_id":"PDEP-004","from_plan_id":"PLN-004","to_plan_id":"PLN-005","relationship":"REQUIRES","rationale":"PLN-005 requires completion of PLN-004."}
+{"dependency_id":"PDEP-005","from_plan_id":"PLN-008","to_plan_id":"PLN-005","relationship":"REQUIRES","rationale":"PLN-005 requires completion of PLN-008."}
+{"dependency_id":"PDEP-006","from_plan_id":"PLN-002","to_plan_id":"PLN-006","relationship":"REQUIRES","rationale":"PLN-006 requires completion of PLN-002."}
+{"dependency_id":"PDEP-007","from_plan_id":"PLN-003","to_plan_id":"PLN-006","relationship":"REQUIRES","rationale":"PLN-006 requires completion of PLN-003."}
+{"dependency_id":"PDEP-008","from_plan_id":"PLN-002","to_plan_id":"PLN-007","relationship":"REQUIRES","rationale":"PLN-007 requires completion of PLN-002."}
+{"dependency_id":"PDEP-009","from_plan_id":"PLN-003","to_plan_id":"PLN-007","relationship":"REQUIRES","rationale":"PLN-007 requires completion of PLN-003."}
+{"dependency_id":"PDEP-010","from_plan_id":"PLN-001","to_plan_id":"PLN-008","relationship":"REQUIRES","rationale":"PLN-008 requires completion of PLN-001."}
+{"dependency_id":"PDEP-011","from_plan_id":"PLN-003","to_plan_id":"PLN-008","relationship":"REQUIRES","rationale":"PLN-008 requires completion of PLN-003."}
+{"dependency_id":"PDEP-012","from_plan_id":"PLN-006","to_plan_id":"PLN-008","relationship":"REQUIRES","rationale":"PLN-008 requires completion of PLN-006."}
+{"dependency_id":"PDEP-013","from_plan_id":"PLN-007","to_plan_id":"PLN-008","relationship":"REQUIRES","rationale":"PLN-008 requires completion of PLN-007."}

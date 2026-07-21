@@ -1,0 +1,9 @@
+repository_id: approval-service
+branch: main
+commit_sha: abcdef1234567890
+working_tree_status: DIRTY
+tree_digest: sha256:3fc93baa84db302f69c1bdafd6b2f49d21af83bacca65daaee782073ee86ed89
+changed_paths:
+- approval repository mapping
+- database migration
+captured_at: '2026-07-21T21:00:00+07:00'

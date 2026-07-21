@@ -1,0 +1,17 @@
+schema_version: 1.0.0
+default_model: inherit
+principle: A stronger model is an exception path, not a lifecycle dependency.
+triggers:
+- two failed attempts in the same phase
+- contradictory evidence that changes a material decision
+- security or authorization boundary affected
+- irreversible or destructive data migration
+- concurrency invariant cannot be proven
+- producer and critic disagree after one revision
+- nondeterministic verification failure
+- explicit human request
+actions:
+- record escalation request
+- preserve the same phase, skill, artifacts, schemas, and gates
+- choose a stronger available model or request human decision
+- never silently advance state

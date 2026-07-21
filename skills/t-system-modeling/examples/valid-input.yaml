@@ -1,0 +1,96 @@
+metadata:
+  request_id: REQ-system-model-duplicate-event
+  modeling_id: MODEL-duplicate-event-001
+  created_at: '2026-07-21T10:00:00+07:00'
+  language: id-ID
+  requested_by: Fajar
+source_investigation:
+  artifact_path: artifacts/02a-investigation-output.yaml
+  artifact_version: 1.0.0
+  status: COMPLETE
+  gate_status: READY_FOR_SYSTEM_MODEL
+  investigation_id: INVEST-duplicate-event-001
+  evidence_ledger_path: artifacts/02-evidence-ledger.jsonl
+  artifact_digest: sha256:investigation-output
+  ledger_digest: sha256:exampleledger
+  problem_statement_ids:
+  - PS-001
+approved_problem:
+  elements:
+  - id: PS-001
+    statement: A repeated approval request can produce duplicate durable approval
+      events.
+  - id: PE-001
+    statement: The relevant producer execution path and durable write behavior must
+      be explained.
+  - id: PE-002
+    statement: The expected single durable effect must be represented explicitly.
+  scope:
+    in_scope:
+    - Approval HTTP entry point
+    - Approval service transaction
+    - Approval outbox persistence
+    out_of_scope:
+    - Downstream consumer redesign
+    environments:
+    - local-test
+  success_criteria:
+  - id: AC-001
+    statement: The model explains how equivalent requests can reach duplicate durable
+      writes and what invariant is violated.
+  constraints:
+  - id: CST-001
+    statement: System modeling must not propose or implement a solution.
+  terms:
+  - term: durable approval event
+    definition: A committed approval outbox record.
+modeling_objectives:
+- id: OBJ-001
+  question: How does an approval request reach durable outbox persistence?
+  mapped_problem_ids:
+  - PS-001
+  - PE-001
+  completion_condition: Entry point, service, transaction, data store, and relations
+    are evidence-backed.
+  priority: CRITICAL
+- id: OBJ-002
+  question: What actual behavior, intended behavior, invariant, and gap explain the
+    duplicate effect?
+  mapped_problem_ids:
+  - PS-001
+  - PE-002
+  - AC-001
+  completion_condition: Actual, intended, gap, and invariant elements are explicit
+    and falsifiable.
+  priority: CRITICAL
+required_dimensions:
+- ACTORS
+- ENTRY_POINTS
+- COMPONENTS
+- EXECUTION_PATH
+- DATA_FLOW
+- SOURCE_OF_TRUTH
+- TRANSACTIONS
+- CONCURRENCY
+- INVARIANTS
+- ACTUAL_BEHAVIOR
+- INTENDED_BEHAVIOR
+- BEHAVIOR_GAP
+- MODEL_LIMITATIONS
+optional_dimensions:
+- FAILURE_PATHS
+- RETRY_AND_IDEMPOTENCY
+- OBSERVABILITY
+- COMPATIBILITY
+modeling_policy:
+  actual_source_only: true
+  context_firewall: true
+  explicit_reasoning_summary: true
+  require_falsifiability: true
+  require_alternative_explanations: true
+  allow_solution_design: false
+  max_model_iterations: 10
+  require_actual_intended_gap: true
+  require_invariant_analysis: true
+known_limitations:
+- Production gateway and deployed database schema were not inspected.

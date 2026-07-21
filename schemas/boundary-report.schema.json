@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/boundary-report.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "invocation_id",
+    "agent",
+    "status",
+    "source_changes",
+    "governance_artifact_changes",
+    "generated_output_changes",
+    "outside_workspace_access",
+    "ignored_file_access",
+    "violations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "invocation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent": {
+      "pattern": "^t-[a-z0-9-]+$"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "source_changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "governance_artifact_changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "generated_output_changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outside_workspace_access": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ignored_file_access": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

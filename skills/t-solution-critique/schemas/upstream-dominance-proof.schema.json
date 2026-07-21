@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Single Option Dominance Proof",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "required",
+    "surviving_option_id",
+    "conclusion",
+    "considered_alternatives",
+    "constraints_used",
+    "evidence_ids",
+    "residual_risks",
+    "falsification_conditions",
+    "human_review_required"
+  ],
+  "properties": {
+    "required": {
+      "type": "boolean"
+    },
+    "surviving_option_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^OPT-"
+    },
+    "conclusion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "considered_alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "alternative_id",
+          "description",
+          "elimination_reason",
+          "constraint_ids",
+          "evidence_ids",
+          "would_become_viable_if"
+        ],
+        "properties": {
+          "alternative_id": {
+            "type": "string",
+            "pattern": "^ALT-[0-9]{3,}$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "elimination_reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "constraint_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-"
+            },
+            "uniqueItems": true
+          },
+          "would_become_viable_if": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "constraints_used": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-"
+      },
+      "uniqueItems": true
+    },
+    "residual_risks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "falsification_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "human_review_required": {
+      "const": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "required": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "surviving_option_id": {
+            "type": "string",
+            "pattern": "^OPT-"
+          },
+          "considered_alternatives": {
+            "minItems": 1
+          },
+          "constraints_used": {
+            "minItems": 1
+          },
+          "evidence_ids": {
+            "minItems": 1
+          },
+          "falsification_conditions": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "required": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "surviving_option_id": {
+            "type": "null"
+          },
+          "considered_alternatives": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

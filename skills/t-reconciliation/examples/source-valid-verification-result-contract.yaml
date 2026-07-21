@@ -1,0 +1,79 @@
+contract_id: VCON-001
+status: PASS
+verification_run_id: VER-duplicate-event-001
+assignment_id: VA-001
+environment_id: VENV-001
+source_technical_review_contract_id: TRCON-001
+source_technical_review_bundle_digest: sha256:74f16c9e8b45816cb82b7324ccdb6d9700eaeb9ff2e9bd4b43a111ac1919b585
+source_implementation_contract_id: IMPLCON-001
+source_implementation_bundle_digest: sha256:cbde9fe0dd9fd5b22d08a406d3a605cd1eafe8cbe4dd9d25f338da0af8619004
+source_checklist_contract_id: CHKCON-001
+repository_tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
+verification_bundle_digest: sha256:39b419784d4c067dd5b2edbe63de4d81701c4054129f6838a5043f653aeb7a75
+obligation_ids:
+- VOB-001
+- VOB-002
+- VOB-003
+- VOB-004
+- VOB-005
+- VOB-006
+- VOB-007
+- VOB-008
+- VOB-009
+- VOB-010
+- VOB-011
+- VOB-012
+execution_ids:
+- VEXEC-001
+- VEXEC-002
+- VEXEC-003
+- VEXEC-004
+- VEXEC-005
+- VEXEC-006
+- VEXEC-007
+- VEXEC-008
+- VEXEC-009
+- VEXEC-010
+- VEXEC-011
+- VEXEC-012
+falsification_ids:
+- VFAL-001
+- VFAL-002
+- VFAL-003
+evidence_ids:
+- VE-001
+- VE-002
+- VE-003
+- VE-004
+- VE-005
+- VE-006
+- VE-007
+- VE-008
+- VE-009
+- VE-010
+- VE-011
+- VE-012
+- VE-013
+- VE-014
+- VE-015
+- VE-016
+finding_ids: []
+remediation_directive_ids: []
+verdict:
+  status: READY_FOR_RECONCILIATION
+  next_state: RECONCILIATION
+  rationale: All mandatory verification obligations passed independently, required
+    falsification attempts survived, and the bound repository tree remained unchanged.
+  blocking_finding_ids: []
+integrity:
+  source_bundle_verified: true
+  verifier_independent: true
+  environment_reproducible: true
+  obligation_coverage_complete: true
+  execution_evidence_complete: true
+  falsification_complete: true
+  repository_unchanged: true
+  no_silent_mutation: true
+limitations:
+- Example commands and artifact paths are illustrative; production use must capture
+  actual command output and environment provenance.

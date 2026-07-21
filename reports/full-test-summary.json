@@ -1,0 +1,195 @@
+{
+  "status": "PASS",
+  "skills": 15,
+  "tests_passed": 234,
+  "tests_failed": 0,
+  "per_skill": {
+    "t-problem-alignment": 4,
+    "t-investigation": 7,
+    "t-system-modeling": 8,
+    "t-model-critique": 11,
+    "t-solution-design": 10,
+    "t-solution-critique": 12,
+    "t-implementation-planning": 12,
+    "t-plan-critique": 15,
+    "t-checklist-builder": 16,
+    "t-checklist-critique": 16,
+    "t-bounded-implementation": 17,
+    "t-self-review": 20,
+    "t-technical-review": 24,
+    "t-verification": 30,
+    "t-reconciliation": 32
+  },
+  "results": [
+    {
+      "skill": "t-problem-alignment",
+      "mode": "test",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.061,
+      "output": "test_invalid_output_is_rejected (test_validator.ValidatorTests.test_invalid_output_is_rejected) ... ok\ntest_valid_approved_output_is_transition_ready (test_validator.ValidatorTests.test_valid_approved_output_is_transition_ready) ... ok\ntest_valid_draft_output (test_validator.ValidatorTests.test_valid_draft_output) ... ok\ntest_valid_input (test_validator.ValidatorTests.test_valid_input) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.024s\n\nOK\n"
+    },
+    {
+      "skill": "t-investigation",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 16.948,
+      "output": "python -m unittest discover -s tests -v\ntest_reject_context_hint_as_system_fact (test_validator.InvestigationValidatorTests.test_reject_context_hint_as_system_fact) ... ok\ntest_reject_ledger_count_mismatch (test_validator.InvestigationValidatorTests.test_reject_ledger_count_mismatch) ... ok\ntest_reject_premature_transition (test_validator.InvestigationValidatorTests.test_reject_premature_transition) ... ok\ntest_reject_unknown_inference_reference (test_validator.InvestigationValidatorTests.test_reject_unknown_inference_reference) ... ok\ntest_valid_input (test_validator.InvestigationValidatorTests.test_valid_input) ... ok\ntest_valid_ledger (test_validator.InvestigationValidatorTests.test_valid_ledger) ... ok\ntest_valid_transition_ready_output (test_validator.InvestigationValidatorTests.test_valid_transition_ready_output) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 15.556s\n\nOK\n"
+    },
+    {
+      "skill": "t-system-modeling",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 18.396,
+      "output": "python3 -m unittest discover -s tests -p 'test_*.py' -v\ntest_dangling_evidence_is_rejected (test_validator.ValidatorTests.test_dangling_evidence_is_rejected) ... ok\ntest_dangling_relation_endpoint_is_rejected (test_validator.ValidatorTests.test_dangling_relation_endpoint_is_rejected) ... ok\ntest_partial_coverage_is_rejected (test_validator.ValidatorTests.test_partial_coverage_is_rejected) ... ok\ntest_valid_element_file (test_validator.ValidatorTests.test_valid_element_file) ... ok\ntest_valid_input (test_validator.ValidatorTests.test_valid_input) ... ok\ntest_valid_relation_file (test_validator.ValidatorTests.test_valid_relation_file) ... ok\ntest_valid_traceability_file (test_validator.ValidatorTests.test_valid_traceability_file) ... ok\ntest_valid_transition_ready_package (test_validator.ValidatorTests.test_valid_transition_ready_package) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 17.218s\n\nOK\n"
+    },
+    {
+      "skill": "t-model-critique",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 24.419,
+      "output": "python3 -m unittest discover -s tests -v\ntest_dangling_target (test_validator.Tests.test_dangling_target) ... ok\ntest_individual_assessment (test_validator.Tests.test_individual_assessment) ... ok\ntest_input_critique_dangling_target (test_validator.Tests.test_input_critique_dangling_target) ... ok\ntest_investigation_route_not_change_ready (test_validator.Tests.test_investigation_route_not_change_ready) ... ok\ntest_ready_package (test_validator.Tests.test_ready_package) ... ok\ntest_ready_without_approval (test_validator.Tests.test_ready_without_approval) ... ok\ntest_reject_without_evidence (test_validator.Tests.test_reject_without_evidence) ... ok\ntest_unassessed_rejected (test_validator.Tests.test_unassessed_rejected) ... ok\ntest_valid_input (test_validator.Tests.test_valid_input) ... ok\ntest_valid_investigation_route (test_validator.Tests.test_valid_investigation_route) ... ok\ntest_valid_system_model_route (test_validator.Tests.test_valid_system_model_route) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 23.236s\n\nOK\n"
+    },
+    {
+      "skill": "t-solution-design",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 33.606,
+      "output": "python3 -m unittest discover -s tests -v\ntest_approved_decision_schema_rejected (test_validator.ValidatorTests.test_approved_decision_schema_rejected) ... ok\ntest_blocking_assumption_prevents_ready (test_validator.ValidatorTests.test_blocking_assumption_prevents_ready) ... ok\ntest_dangling_evidence_rejected (test_validator.ValidatorTests.test_dangling_evidence_rejected) ... ok\ntest_duplicate_semantic_options_rejected (test_validator.ValidatorTests.test_duplicate_semantic_options_rejected) ... ok\ntest_individual_schemas (test_validator.ValidatorTests.test_individual_schemas) ... ok\ntest_missing_coverage_row_rejected (test_validator.ValidatorTests.test_missing_coverage_row_rejected) ... ok\ntest_output_count_mismatch_rejected (test_validator.ValidatorTests.test_output_count_mismatch_rejected) ... ok\ntest_single_option_without_dominance_rejected (test_validator.ValidatorTests.test_single_option_without_dominance_rejected) ... ok\ntest_valid_multi_option_transition (test_validator.ValidatorTests.test_valid_multi_option_transition) ... ok\ntest_valid_single_option_with_dominance (test_validator.ValidatorTests.test_valid_single_option_with_dominance) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 32.429s\n\nOK\n"
+    },
+    {
+      "skill": "t-solution-critique",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 27.334,
+      "output": "python3 -m unittest discover -s tests -v\ntest_agent_cannot_fake_human_selection (test_validator.ValidatorTests.test_agent_cannot_fake_human_selection) ... ok\ntest_contract_semantic_drift_rejected (test_validator.ValidatorTests.test_contract_semantic_drift_rejected) ... ok\ntest_dangling_target_rejected (test_validator.ValidatorTests.test_dangling_target_rejected) ... ok\ntest_investigation_route (test_validator.ValidatorTests.test_investigation_route) ... ok\ntest_investigation_route_not_transition_ready (test_validator.ValidatorTests.test_investigation_route_not_transition_ready) ... ok\ntest_missing_risk_acceptance_rejected (test_validator.ValidatorTests.test_missing_risk_acceptance_rejected) ... ok\ntest_ready_summary_without_approval_rejected (test_validator.ValidatorTests.test_ready_summary_without_approval_rejected) ... ok\ntest_rejection_without_evidence_rejected (test_validator.ValidatorTests.test_rejection_without_evidence_rejected) ... ok\ntest_solution_design_route (test_validator.ValidatorTests.test_solution_design_route) ... ok\ntest_source_gate_must_be_ready (test_validator.ValidatorTests.test_source_gate_must_be_ready) ... ok\ntest_transition_ready_package (test_validator.ValidatorTests.test_transition_ready_package) ... ok\ntest_unassessed_critique_rejected (test_validator.ValidatorTests.test_unassessed_critique_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 26.167s\n\nOK\n"
+    },
+    {
+      "skill": "t-implementation-planning",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 26.865,
+      "output": "python -m unittest discover -s tests -v\ntest_all_json_schemas_are_valid (test_validator.ValidatorTests.test_all_json_schemas_are_valid) ... ok\ntest_dangling_evidence_is_rejected (test_validator.ValidatorTests.test_dangling_evidence_is_rejected) ... ok\ntest_dependency_cycle_is_rejected (test_validator.ValidatorTests.test_dependency_cycle_is_rejected) ... ok\ntest_investigation_route_is_valid (test_validator.ValidatorTests.test_investigation_route_is_valid) ... ok\ntest_missing_required_rollback_is_rejected (test_validator.ValidatorTests.test_missing_required_rollback_is_rejected) ... ok\ntest_new_semantic_decision_cannot_use_ready_output (test_validator.ValidatorTests.test_new_semantic_decision_cannot_use_ready_output) ... ok\ntest_nonapproved_contract_is_rejected (test_validator.ValidatorTests.test_nonapproved_contract_is_rejected) ... ok\ntest_partial_mandatory_coverage_is_rejected (test_validator.ValidatorTests.test_partial_mandatory_coverage_is_rejected) ... ok\ntest_solution_design_route_is_valid (test_validator.ValidatorTests.test_solution_design_route_is_valid) ... ok\ntest_source_record_count_drift_is_rejected (test_validator.ValidatorTests.test_source_record_count_drift_is_rejected) ... ok\ntest_transition_ready_example (test_validator.ValidatorTests.test_transition_ready_example) ... ok\ntest_unreconciled_file_is_rejected (test_validator.ValidatorTests.test_unreconciled_file_is_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 24.771s\n\nOK\n"
+    },
+    {
+      "skill": "t-plan-critique",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 33.048,
+      "output": "python3 -m unittest discover -s tests -v\ntest_agent_self_approval_is_rejected (test_validator.ValidatorTests.test_agent_self_approval_is_rejected) ... ok\ntest_all_json_schemas_are_valid (test_validator.ValidatorTests.test_all_json_schemas_are_valid) ... ok\ntest_contract_digest_drift_is_rejected (test_validator.ValidatorTests.test_contract_digest_drift_is_rejected) ... ok\ntest_dangling_critique_target_is_rejected (test_validator.ValidatorTests.test_dangling_critique_target_is_rejected) ... ok\ntest_execution_order_drift_is_rejected (test_validator.ValidatorTests.test_execution_order_drift_is_rejected) ... ok\ntest_investigation_route_is_valid (test_validator.ValidatorTests.test_investigation_route_is_valid) ... ok\ntest_missing_assessment_is_rejected (test_validator.ValidatorTests.test_missing_assessment_is_rejected) ... ok\ntest_missing_plan_risk_acceptance_is_rejected (test_validator.ValidatorTests.test_missing_plan_risk_acceptance_is_rejected) ... ok\ntest_plan_revision_route_is_valid (test_validator.ValidatorTests.test_plan_revision_route_is_valid) ... ok\ntest_ready_output_without_approval_is_rejected (test_validator.ValidatorTests.test_ready_output_without_approval_is_rejected) ... ok\ntest_rejection_without_evidence_is_rejected (test_validator.ValidatorTests.test_rejection_without_evidence_is_rejected) ... ok\ntest_solution_design_route_is_valid (test_validator.ValidatorTests.test_solution_design_route_is_valid) ... ok\ntest_source_record_count_drift_is_rejected (test_validator.ValidatorTests.test_source_record_count_drift_is_rejected) ... ok\ntest_transition_ready_example (test_validator.ValidatorTests.test_transition_ready_example) ... ok\ntest_unresolved_revision_cannot_use_ready_output (test_validator.ValidatorTests.test_unresolved_revision_cannot_use_ready_output) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 30.959s\n\nOK\n"
+    },
+    {
+      "skill": "t-checklist-builder",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.438,
+      "output": "python3 -m unittest discover -s tests -v\ntest_01_schemas (test_validator.Tests.test_01_schemas) ... ok\ntest_02_transition_ready (test_validator.Tests.test_02_transition_ready) ... ok\ntest_03_investigation_route (test_validator.Tests.test_03_investigation_route) ... ok\ntest_04_implementation_plan_route (test_validator.Tests.test_04_implementation_plan_route) ... ok\ntest_05_cycle_rejected (test_validator.Tests.test_05_cycle_rejected) ... ok\ntest_06_partial_coverage_rejected (test_validator.Tests.test_06_partial_coverage_rejected) ... ok\ntest_07_duplicate_coverage_rejected (test_validator.Tests.test_07_duplicate_coverage_rejected) ... ok\ntest_08_dangling_verification_rejected (test_validator.Tests.test_08_dangling_verification_rejected) ... ok\ntest_09_semantic_decision_rejected (test_validator.Tests.test_09_semantic_decision_rejected) ... ok\ntest_10_source_operation_drift_rejected (test_validator.Tests.test_10_source_operation_drift_rejected) ... ok\ntest_11_batch_drift_rejected (test_validator.Tests.test_11_batch_drift_rejected) ... ok\ntest_12_pending_contract_rejected (test_validator.Tests.test_12_pending_contract_rejected) ... ok\ntest_13_bundle_digest_drift_rejected (test_validator.Tests.test_13_bundle_digest_drift_rejected) ... ok\ntest_14_source_count_drift_rejected (test_validator.Tests.test_14_source_count_drift_rejected) ... ok\ntest_15_scope_expansion_rejected (test_validator.Tests.test_15_scope_expansion_rejected) ... ok\ntest_16_output_count_drift_rejected (test_validator.Tests.test_16_output_count_drift_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 2.242s\n\nOK\n"
+    },
+    {
+      "skill": "t-checklist-critique",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.297,
+      "output": "python3 tests/test_validator.py\n16/16 tests passed\n"
+    },
+    {
+      "skill": "t-bounded-implementation",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.533,
+      "output": "python3 -m unittest -v tests/test_validator.py\ntest_01_valid_ready (tests.test_validator.Tests.test_01_valid_ready) ... ok\ntest_02_schema_valid (tests.test_validator.Tests.test_02_schema_valid) ... ok\ntest_03_checklist_loopback_valid (tests.test_validator.Tests.test_03_checklist_loopback_valid) ... ok\ntest_04_reject_source_gate (tests.test_validator.Tests.test_04_reject_source_gate) ... ok\ntest_05_reject_contract_digest_drift (tests.test_validator.Tests.test_05_reject_contract_digest_drift) ... ok\ntest_06_reject_missing_execution (tests.test_validator.Tests.test_06_reject_missing_execution) ... ok\ntest_07_reject_execution_order (tests.test_validator.Tests.test_07_reject_execution_order) ... ok\ntest_08_reject_scope_expansion (tests.test_validator.Tests.test_08_reject_scope_expansion) ... ok\ntest_09_reject_semantic_decision (tests.test_validator.Tests.test_09_reject_semantic_decision) ... ok\ntest_10_reject_missing_human_gate (tests.test_validator.Tests.test_10_reject_missing_human_gate) ... ok\ntest_11_reject_failed_dependency (tests.test_validator.Tests.test_11_reject_failed_dependency) ... ok\ntest_12_reject_command_exit_mismatch (tests.test_validator.Tests.test_12_reject_command_exit_mismatch) ... ok\ntest_13_reject_verification_mapping (tests.test_validator.Tests.test_13_reject_verification_mapping) ... ok\ntest_14_reject_result_digest (tests.test_validator.Tests.test_14_reject_result_digest) ... ok\ntest_15_reject_repository_paths (tests.test_validator.Tests.test_15_reject_repository_paths) ... ok\ntest_16_reject_failure_budget (tests.test_validator.Tests.test_16_reject_failure_budget) ... ok\ntest_17_reject_transition_ready_on_loopback (tests.test_validator.Tests.test_17_reject_transition_ready_on_loopback) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 1.471s\n\nOK\n"
+    },
+    {
+      "skill": "t-self-review",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.479,
+      "output": "python3 tests/test_validator.py\nPASS: all schemas valid\nPASS: ready package\nPASS: bounded loopback\nPASS: reject source gate (9 issues)\nPASS: reject missing conformance (12 issues)\nPASS: reject duplicate checklist coverage (12 issues)\nPASS: reject operation digest drift (3 issues)\nPASS: reject missing review dimension (12 issues)\nPASS: reject duplicate review dimension (11 issues)\nPASS: reject evidence-free check (9 issues)\nPASS: reject failed check without finding (8 issues)\nPASS: reject dangling finding target (3 issues)\nPASS: reject evidence-free finding (5 issues)\nPASS: reject wrong mechanical route (7 issues)\nPASS: reject missing remediation directive (6 issues)\nPASS: reject applied directive in review (1 issues)\nPASS: reject result bundle digest drift (2 issues)\nPASS: reject output summary drift (1 issues)\nPASS: reject repository drift (10 issues)\nPASS: transition-ready flag\n20/20 tests passed\n"
+    },
+    {
+      "skill": "t-technical-review",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.367,
+      "output": "python3 -m unittest -v tests/test_validator.py\ntest_01_valid_ready (tests.test_validator.TestValidator.test_01_valid_ready) ... ok\ntest_02_valid_loopback (tests.test_validator.TestValidator.test_02_valid_loopback) ... ok\ntest_03_self_review_not_ready (tests.test_validator.TestValidator.test_03_self_review_not_ready) ... ok\ntest_04_self_review_contract_not_pass (tests.test_validator.TestValidator.test_04_self_review_contract_not_pass) ... ok\ntest_05_reviewer_same_as_implementer (tests.test_validator.TestValidator.test_05_reviewer_same_as_implementer) ... ok\ntest_06_reviewer_same_as_self_reviewer (tests.test_validator.TestValidator.test_06_reviewer_same_as_self_reviewer) ... ok\ntest_07_independence_false (tests.test_validator.TestValidator.test_07_independence_false) ... ok\ntest_08_missing_competency (tests.test_validator.TestValidator.test_08_missing_competency) ... ok\ntest_09_missing_dimension (tests.test_validator.TestValidator.test_09_missing_dimension) ... ok\ntest_10_duplicate_dimension (tests.test_validator.TestValidator.test_10_duplicate_dimension) ... ok\ntest_11_missing_self_review_claim_coverage (tests.test_validator.TestValidator.test_11_missing_self_review_claim_coverage) ... ok\ntest_12_duplicate_change_assessment (tests.test_validator.TestValidator.test_12_duplicate_change_assessment) ... ok\ntest_13_missing_change_assessment (tests.test_validator.TestValidator.test_13_missing_change_assessment) ... ok\ntest_14_diff_digest_drift (tests.test_validator.TestValidator.test_14_diff_digest_drift) ... ok\ntest_15_approve_with_semantic_false (tests.test_validator.TestValidator.test_15_approve_with_semantic_false) ... ok\ntest_16_no_evidence_challenge (tests.test_validator.TestValidator.test_16_no_evidence_challenge) ... ok\ntest_17_refuted_challenge_without_finding (tests.test_validator.TestValidator.test_17_refuted_challenge_without_finding) ... ok\ntest_18_dangling_challenge_target (tests.test_validator.TestValidator.test_18_dangling_challenge_target) ... ok\ntest_19_dangling_finding_target (tests.test_validator.TestValidator.test_19_dangling_finding_target) ... ok\ntest_20_directive_applied (tests.test_validator.TestValidator.test_20_directive_applied) ... ok\ntest_21_result_contract_digest_drift (tests.test_validator.TestValidator.test_21_result_contract_digest_drift) ... ok\ntest_22_output_artifact_digest_drift (tests.test_validator.TestValidator.test_22_output_artifact_digest_drift) ... ok\ntest_23_source_artifact_digest_drift (tests.test_validator.TestValidator.test_23_source_artifact_digest_drift) ... ok\ntest_24_ready_required_rejects_loopback (tests.test_validator.TestValidator.test_24_ready_required_rejects_loopback) ... ok\n\n----------------------------------------------------------------------\nRan 24 tests in 2.303s\n\nOK\n"
+    },
+    {
+      "skill": "t-verification",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.495,
+      "output": "python3 -m unittest -v tests/test_validator.py\ntest_01_valid_ready (tests.test_validator.TestValidator.test_01_valid_ready) ... ok\ntest_02_valid_bounded_loopback (tests.test_validator.TestValidator.test_02_valid_bounded_loopback) ... ok\ntest_03_technical_review_not_ready (tests.test_validator.TestValidator.test_03_technical_review_not_ready) ... ok\ntest_04_contract_not_pass (tests.test_validator.TestValidator.test_04_contract_not_pass) ... ok\ntest_05_verifier_prohibited (tests.test_validator.TestValidator.test_05_verifier_prohibited) ... ok\ntest_06_independence_false (tests.test_validator.TestValidator.test_06_independence_false) ... ok\ntest_07_missing_competency (tests.test_validator.TestValidator.test_07_missing_competency) ... ok\ntest_08_environment_tree_drift (tests.test_validator.TestValidator.test_08_environment_tree_drift) ... ok\ntest_09_dependency_unavailable (tests.test_validator.TestValidator.test_09_dependency_unavailable) ... ok\ntest_10_missing_obligation (tests.test_validator.TestValidator.test_10_missing_obligation) ... ok\ntest_11_duplicate_source_item (tests.test_validator.TestValidator.test_11_duplicate_source_item) ... ok\ntest_12_dangling_source_result (tests.test_validator.TestValidator.test_12_dangling_source_result) ... ok\ntest_13_checklist_coverage_drift (tests.test_validator.TestValidator.test_13_checklist_coverage_drift) ... ok\ntest_14_missing_source_evidence (tests.test_validator.TestValidator.test_14_missing_source_evidence) ... ok\ntest_15_high_risk_without_falsification_flag (tests.test_validator.TestValidator.test_15_high_risk_without_falsification_flag) ... ok\ntest_16_missing_execution (tests.test_validator.TestValidator.test_16_missing_execution) ... ok\ntest_17_repository_drift (tests.test_validator.TestValidator.test_17_repository_drift) ... ok\ntest_18_pass_nonzero_exit (tests.test_validator.TestValidator.test_18_pass_nonzero_exit) ... ok\ntest_19_dangling_execution_evidence (tests.test_validator.TestValidator.test_19_dangling_execution_evidence) ... ok\ntest_20_missing_required_falsification (tests.test_validator.TestValidator.test_20_missing_required_falsification) ... ok\ntest_21_refuted_without_finding (tests.test_validator.TestValidator.test_21_refuted_without_finding) ... ok\ntest_22_failed_execution_without_finding (tests.test_validator.TestValidator.test_22_failed_execution_without_finding) ... ok\ntest_23_finding_dangling_target (tests.test_validator.TestValidator.test_23_finding_dangling_target) ... ok\ntest_24_directive_applied (tests.test_validator.TestValidator.test_24_directive_applied) ... ok\ntest_25_directive_wrong_route (tests.test_validator.TestValidator.test_25_directive_wrong_route) ... ok\ntest_26_bundle_digest_drift (tests.test_validator.TestValidator.test_26_bundle_digest_drift) ... ok\ntest_27_output_artifact_digest_drift (tests.test_validator.TestValidator.test_27_output_artifact_digest_drift) ... ok\ntest_28_source_artifact_digest_drift (tests.test_validator.TestValidator.test_28_source_artifact_digest_drift) ... ok\ntest_29_ready_summary_failure (tests.test_validator.TestValidator.test_29_ready_summary_failure) ... ok\ntest_30_ready_required_rejects_loopback (tests.test_validator.TestValidator.test_30_ready_required_rejects_loopback) ... ok\n\n----------------------------------------------------------------------\nRan 30 tests in 2.465s\n\nOK\n"
+    },
+    {
+      "skill": "t-reconciliation",
+      "mode": "test",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.498,
+      "output": "python3 -m unittest discover -s tests -v\ntest_01_valid_complete (test_validator.TestValidator.test_01_valid_complete) ... ok\ntest_02_valid_system_model_loopback (test_validator.TestValidator.test_02_valid_system_model_loopback) ... ok\ntest_03_verification_not_ready (test_validator.TestValidator.test_03_verification_not_ready) ... ok\ntest_04_verification_contract_not_pass (test_validator.TestValidator.test_04_verification_contract_not_pass) ... ok\ntest_05_source_authorization_drift (test_validator.TestValidator.test_05_source_authorization_drift) ... ok\ntest_06_source_artifact_digest_drift (test_validator.TestValidator.test_06_source_artifact_digest_drift) ... ok\ntest_07_reconciler_prohibited (test_validator.TestValidator.test_07_reconciler_prohibited) ... ok\ntest_08_independence_false (test_validator.TestValidator.test_08_independence_false) ... ok\ntest_09_missing_competency (test_validator.TestValidator.test_09_missing_competency) ... ok\ntest_10_missing_phase (test_validator.TestValidator.test_10_missing_phase) ... ok\ntest_11_duplicate_canonical_role (test_validator.TestValidator.test_11_duplicate_canonical_role) ... ok\ntest_12_artifact_repository_drift (test_validator.TestValidator.test_12_artifact_repository_drift) ... ok\ntest_13_node_dangling_artifact (test_validator.TestValidator.test_13_node_dangling_artifact) ... ok\ntest_14_node_phase_mismatch (test_validator.TestValidator.test_14_node_phase_mismatch) ... ok\ntest_15_link_dangling_endpoint (test_validator.TestValidator.test_15_link_dangling_endpoint) ... ok\ntest_16_link_without_evidence (test_validator.TestValidator.test_16_link_without_evidence) ... ok\ntest_17_missing_closure (test_validator.TestValidator.test_17_missing_closure) ... ok\ntest_18_duplicate_closure_root (test_validator.TestValidator.test_18_duplicate_closure_root) ... ok\ntest_19_closed_missing_terminal_type (test_validator.TestValidator.test_19_closed_missing_terminal_type) ... ok\ntest_20_unreachable_terminal (test_validator.TestValidator.test_20_unreachable_terminal) ... ok\ntest_21_unknown_verification_node (test_validator.TestValidator.test_21_unknown_verification_node) ... ok\ntest_22_verification_execution_not_pass (test_validator.TestValidator.test_22_verification_execution_not_pass) ... ok\ntest_23_contradiction_dangling_artifact (test_validator.TestValidator.test_23_contradiction_dangling_artifact) ... ok\ntest_24_gap_dangling_node (test_validator.TestValidator.test_24_gap_dangling_node) ... ok\ntest_25_agent_approval (test_validator.TestValidator.test_25_agent_approval) ... ok\ntest_26_accepted_risk_mismatch (test_validator.TestValidator.test_26_accepted_risk_mismatch) ... ok\ntest_27_bundle_digest_drift (test_validator.TestValidator.test_27_bundle_digest_drift) ... ok\ntest_28_result_id_order_drift (test_validator.TestValidator.test_28_result_id_order_drift) ... ok\ntest_29_output_artifact_digest_drift (test_validator.TestValidator.test_29_output_artifact_digest_drift) ... ok\ntest_30_output_summary_drift (test_validator.TestValidator.test_30_output_summary_drift) ... ok\ntest_31_output_route_drift (test_validator.TestValidator.test_31_output_route_drift) ... ok\ntest_32_ready_rejects_loopback (test_validator.TestValidator.test_32_ready_rejects_loopback) ... ok\n\n----------------------------------------------------------------------\nRan 32 tests in 3.126s\n\nOK\n"
+    }
+  ]
+}

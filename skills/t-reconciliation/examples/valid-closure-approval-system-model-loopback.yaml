@@ -1,0 +1,18 @@
+approval_id: RAPP-002
+reconciliation_run_id: REC-duplicate-event-001
+decision: PENDING
+approver_id: human-owner-01
+approver_role: HUMAN
+reconciler_id: reconciliation-agent-04
+approved_result_contract_id: RCON-002
+accepted_risk_node_ids: []
+accepted_gap_ids: []
+accepted_contradiction_ids: []
+confirmation:
+  traceability_reviewed: true
+  verification_reviewed: true
+  residual_risks_reviewed: true
+  no_unauthorized_semantic_change: true
+  authorize_completion: false
+decided_at: '2026-07-22T01:00:00+07:00'
+rationale: Completion is pending correction of the invariant traceability gap.

@@ -1,0 +1,11 @@
+approval_id: PAPP-001
+status: PENDING
+planning_run_id: IPLAN-...
+approved_plan_version: 1.0.0
+approved_by: null
+approver_role: UNASSIGNED
+approved_at: null
+resolved_critique_ids: []
+accepted_residual_risk_ids: []
+accepted_limitations: []
+approval_statement: Pending human decision.

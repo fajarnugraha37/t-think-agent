@@ -1,0 +1,42 @@
+decision_id: DEC-001
+status: DRAFT
+binding_authority: HUMAN
+candidate_option_ids: [OPT-001, OPT-002]
+recommended_option_id: OPT-001
+recommendation_basis:
+  - Places the strongest guarantee at the durable effect boundary.
+  - Has lower operational burden than an explicit intent-state machine.
+  - Requires migration complexity that remains reviewable and reversible.
+comparison_criteria:
+  - criterion: Correctness and invariant preservation
+    weight: 5
+    option_scores: {OPT-001: 5, OPT-002: 5}
+    rationale: Both can serialize one business intent when their stable-key premise holds.
+  - criterion: Compatibility and migration
+    weight: 4
+    option_scores: {OPT-001: 3, OPT-002: 4}
+    rationale: OPT-001 requires historical/schema uniqueness work; OPT-002 adds a new table without mandatory historical backfill.
+  - criterion: Operational complexity
+    weight: 4
+    option_scores: {OPT-001: 4, OPT-002: 2}
+    rationale: OPT-002 introduces intent states, lock waits, and recovery tooling.
+  - criterion: Reversibility
+    weight: 3
+    option_scores: {OPT-001: 4, OPT-002: 3}
+    rationale: Both are reversible, but intent-state dependencies add reconciliation work.
+human_selection:
+  status: NOT_SELECTED
+  selected_option_id: null
+  selected_by: null
+  selected_at: null
+decisions:
+  - decision_question_id: DECQ-001
+    status: OPEN
+    owner: HUMAN
+    notes: Confirm stable server-derived business identity before selection.
+  - decision_question_id: DECQ-002
+    status: OPEN
+    owner: HUMAN
+    notes: Relevant only if OPT-002 remains under consideration.
+assumptions: []
+residual_risks: [SRSK-001, SRSK-002]

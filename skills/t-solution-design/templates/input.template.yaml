@@ -1,0 +1,42 @@
+metadata:
+  design_id: SDES-example-001
+  version: 1.0.0
+  status: DRAFT
+  created_at: 2026-07-21T14:00:00+07:00
+  language: id-ID
+  author_agent: solution-design-skill
+source_model:
+  modeling_id: MODEL-example-001
+  model_version: 1.0.0
+  critique_run_id: MCRIT-example-001
+  critique_gate_status: READY_FOR_CHANGE_OPTIONS
+  human_approval_status: APPROVED
+source_artifacts:
+  model_critique_output: {path: artifacts/04g-model-critique-output.yaml, digest: sha256:replace}
+  model_elements: {path: artifacts/03a-model-elements.jsonl, digest: sha256:replace}
+  model_relations: {path: artifacts/03b-model-relations.jsonl, digest: sha256:replace}
+  traceability_matrix: {path: artifacts/04-traceability-matrix.csv, digest: sha256:replace}
+  evidence_ledger: {path: artifacts/02-evidence-ledger.jsonl, digest: sha256:replace}
+design_scope:
+  included: [Relevant behavior gap]
+  excluded: []
+  non_goals: []
+  constraints: [Preserve public API]
+  prohibited_changes: [Do not change business semantics]
+  accepted_residual_uncertainties: []
+design_targets:
+  - target_id: TGT-001
+    target_type: BEHAVIOR_GAP
+    source_ids: [MDL-011]
+    statement: Close the approved behavior gap.
+    required_coverage: FULL
+option_policy:
+  minimum_viable_options: 2
+  allow_single_viable_option: true
+  require_dominance_proof_for_single: true
+  require_material_distinctness: true
+  comparison_criteria: [CORRECTNESS, INVARIANT_PRESERVATION, COMPATIBILITY, FAILURE_SEMANTICS, MIGRATION, REVERSIBILITY]
+decision_authority:
+  binding_authority: HUMAN
+  agent_may_recommend: true
+  agent_may_approve: false

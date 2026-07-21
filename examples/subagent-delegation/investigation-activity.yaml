@@ -1,0 +1,7 @@
+source_changes: []
+governance_artifact_changes:
+- .t-think/ORDER-2471/artifacts/investigation.yaml
+- .t-think/ORDER-2471/evidence/investigation-index.jsonl
+generated_output_changes: []
+outside_workspace_access: []
+ignored_file_access: []

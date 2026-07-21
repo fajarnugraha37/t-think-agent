@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/reconciliation/input.schema.json",
+  "title": "input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_authorization",
+    "source_artifacts",
+    "reconciliation_policy",
+    "requested_transition"
+  ],
+  "properties": {
+    "metadata": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/metadata.schema.json",
+      "title": "metadata",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reconciliation_run_id",
+        "version",
+        "created_at",
+        "requested_by",
+        "language"
+      ],
+      "properties": {
+        "reconciliation_run_id": {
+          "type": "string",
+          "pattern": "^REC-[A-Za-z0-9._-]+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "requested_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source_authorization": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/source_authorization.schema.json",
+      "title": "source_authorization",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verification_contract_id",
+        "verification_bundle_digest",
+        "verification_run_id",
+        "technical_review_contract_id",
+        "implementation_result_contract_id",
+        "approved_checklist_contract_id",
+        "repository_tree_digest"
+      ],
+      "properties": {
+        "verification_contract_id": {
+          "type": "string",
+          "pattern": "^VCON-[0-9]{3,}$"
+        },
+        "verification_bundle_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "verification_run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "technical_review_contract_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "implementation_result_contract_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_checklist_contract_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository_tree_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "source_artifacts": {
+      "type": "object",
+      "minProperties": 7,
+      "additionalProperties": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://example.local/reconciliation/artifact-ref.schema.json",
+        "title": "artifact-ref",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "digest",
+          "required"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "required": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "reconciliation_policy": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/policy.schema.json",
+      "title": "policy",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "require_all_lifecycle_phases",
+        "require_exact_digest_binding",
+        "require_problem_to_verification_path",
+        "require_problem_to_change_path",
+        "require_human_closure_approval",
+        "allow_open_blocking_gap",
+        "allow_source_mutation"
+      ],
+      "properties": {
+        "require_all_lifecycle_phases": {
+          "const": true
+        },
+        "require_exact_digest_binding": {
+          "const": true
+        },
+        "require_problem_to_verification_path": {
+          "const": true
+        },
+        "require_problem_to_change_path": {
+          "const": true
+        },
+        "require_human_closure_approval": {
+          "const": true
+        },
+        "allow_open_blocking_gap": {
+          "const": false
+        },
+        "allow_source_mutation": {
+          "const": false
+        }
+      }
+    },
+    "requested_transition": {
+      "enum": [
+        "COMPLETED",
+        "RECONCILIATION"
+      ]
+    }
+  }
+}

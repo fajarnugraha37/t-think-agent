@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/work-state.schema.json",
+  "title": "t-think work state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "work_id", "current_state", "current_run_id", "model_profile", "repository_root", "work_directory", "active_skill", "active_agent", "human_gate_pending", "history"],
+  "properties": {
+    "schema_version": {"const": "2.1.0"},
+    "work_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "current_state": {"enum": ["PROBLEM_ALIGNMENT", "INVESTIGATION", "SYSTEM_MODEL", "MODEL_CRITIQUE", "SOLUTION_DESIGN", "SOLUTION_CRITIQUE", "IMPLEMENTATION_PLAN", "PLAN_CRITIQUE", "IMPLEMENTATION_CHECKLIST", "CHECKLIST_CRITIQUE", "BOUNDED_IMPLEMENTATION", "SELF_REVIEW", "TECHNICAL_REVIEW", "VERIFICATION", "RECONCILIATION", "COMPLETED"]},
+    "current_run_id": {"type": "string", "minLength": 1},
+    "model_profile": {"enum": ["economy", "balanced", "high-assurance"]},
+    "repository_root": {"type": "string", "minLength": 1},
+    "work_directory": {"type": "string", "minLength": 1},
+    "active_skill": {"type": ["string", "null"]},
+    "active_agent": {"type": ["string", "null"]},
+    "last_gate": {"type": ["string", "null"]},
+    "last_validator": {"type": ["object", "null"]},
+    "human_gate_pending": {"type": "boolean"},
+    "history": {"type": "array", "items": {"type": "object", "additionalProperties": true}}
+  }
+}

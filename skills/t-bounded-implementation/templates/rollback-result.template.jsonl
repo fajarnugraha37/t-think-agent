@@ -1,0 +1,1 @@
+{"rollback_result_id":"RRES-001","implementation_run_id":"BIMPL-duplicate-event-001","rollback_item_id":"RBK-001","checklist_ids":["CHK-001","CHK-002"],"invoked":false,"reason":"No rollback was required because implementation and verification passed.","command_result_ids":[],"outcome":"NOT_INVOKED","evidence_refs":[]}

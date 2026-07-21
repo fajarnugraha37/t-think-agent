@@ -1,0 +1,655 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/checklist-builder/input.schema.json",
+  "title": "Checklist Builder Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_plan_contract",
+    "source_plan_critique",
+    "repository_snapshot",
+    "source_artifacts",
+    "builder_policy"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "builder_run_id",
+        "created_at",
+        "author_agent"
+      ],
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "builder_run_id": {
+          "type": "string",
+          "pattern": "^CBLD-"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author_agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requested_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source_plan_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_id",
+        "status",
+        "source_planning_run_id",
+        "source_solution_contract_id",
+        "plan_bundle_digest",
+        "repository_commit"
+      ],
+      "properties": {
+        "contract_id": {
+          "type": "string",
+          "pattern": "^PLANCON-"
+        },
+        "status": {
+          "const": "APPROVED"
+        },
+        "source_planning_run_id": {
+          "type": "string",
+          "pattern": "^IPLAN-"
+        },
+        "source_solution_contract_id": {
+          "type": "string",
+          "pattern": "^SOLCON-"
+        },
+        "plan_bundle_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "repository_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{7,64}$"
+        }
+      }
+    },
+    "source_plan_critique": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "critique_run_id",
+        "artifact_version",
+        "gate_status",
+        "approved_plan_contract_id"
+      ],
+      "properties": {
+        "critique_run_id": {
+          "type": "string",
+          "pattern": "^PCRIT-"
+        },
+        "artifact_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gate_status": {
+          "const": "READY_FOR_IMPLEMENTATION_CHECKLIST"
+        },
+        "approved_plan_contract_id": {
+          "type": "string",
+          "pattern": "^PLANCON-"
+        }
+      }
+    },
+    "repository_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id",
+        "branch",
+        "commit_sha",
+        "working_tree_status",
+        "actual_code_reinspection_required"
+      ],
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{7,64}$"
+        },
+        "working_tree_status": {
+          "enum": [
+            "CLEAN",
+            "DIRTY"
+          ]
+        },
+        "actual_code_reinspection_required": {
+          "const": true
+        }
+      }
+    },
+    "source_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approved_plan_contract",
+        "plan_critique_output",
+        "planning_output",
+        "planning_targets",
+        "plan_items",
+        "plan_dependencies",
+        "plan_coverage",
+        "verification_plan",
+        "rollback_plan",
+        "planning_findings",
+        "approved_solution_contract",
+        "evidence_ledger",
+        "model_elements",
+        "model_relations"
+      ],
+      "properties": {
+        "approved_plan_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "plan_critique_output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "planning_output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "planning_targets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "plan_items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "plan_dependencies": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "plan_coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "verification_plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "rollback_plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "planning_findings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "approved_solution_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "evidence_ledger": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "model_elements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "model_relations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "builder_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "atomicity_required",
+        "one_source_operation_per_item",
+        "exact_operation_coverage_required",
+        "new_semantic_decisions_allowed",
+        "implementation_allowed",
+        "scope_expansion_allowed",
+        "dependency_dag_required",
+        "verification_mapping_required",
+        "rollback_mapping_required_when_planned",
+        "ambiguity_behavior"
+      ],
+      "properties": {
+        "atomicity_required": {
+          "const": true
+        },
+        "one_source_operation_per_item": {
+          "const": true
+        },
+        "exact_operation_coverage_required": {
+          "const": true
+        },
+        "new_semantic_decisions_allowed": {
+          "const": false
+        },
+        "implementation_allowed": {
+          "const": false
+        },
+        "scope_expansion_allowed": {
+          "const": false
+        },
+        "dependency_dag_required": {
+          "const": true
+        },
+        "verification_mapping_required": {
+          "const": true
+        },
+        "rollback_mapping_required_when_planned": {
+          "const": true
+        },
+        "ambiguity_behavior": {
+          "const": "IMPLEMENTATION_FAILED"
+        }
+      }
+    }
+  }
+}

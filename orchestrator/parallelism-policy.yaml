@@ -1,0 +1,21 @@
+schema_version: 1.0.0
+default: sequential
+never_parallel:
+- human approval gates
+- source edits in one worktree
+- database migration execution
+- shared-environment mutation
+- lifecycle state transition
+- reconciliation
+parallelizable_when_independent:
+- bounded codebase investigation shards
+- external documentation research
+- independent read-only review dimensions
+- isolated test suites
+- log or trace analysis
+constraints:
+  all_workers_read_only: true
+  max_delegation_depth: 1
+  shared_source_write: false
+  each_worker_has_separate_delegation_packet: true
+  orchestrator_reconciles_results: true

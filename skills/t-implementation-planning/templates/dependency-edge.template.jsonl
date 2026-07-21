@@ -1,0 +1,1 @@
+{"dependency_id":"PDEP-001","from_plan_id":"PLN-001","to_plan_id":"PLN-002","relationship":"REQUIRES","rationale":"PLN-002 requires completion of PLN-001."}

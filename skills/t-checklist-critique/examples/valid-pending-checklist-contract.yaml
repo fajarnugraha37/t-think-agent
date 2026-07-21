@@ -1,0 +1,264 @@
+contract_id: CHKCON-PENDING
+status: PENDING
+source_builder_run_id: CBLD-duplicate-event-001
+source_plan_contract_id: PLANCON-001
+checklist_approval_id: CAPP-001
+repository_snapshot:
+  repository_id: approval-service
+  branch: main
+  commit_sha: abcdef1234567890
+  working_tree_status: CLEAN
+artifact_versions:
+  checklist_builder_output_version: 1.0.0
+  approved_plan_contract_id: PLANCON-001
+source_plan_bundle_digest: sha256:c00d7389f7dbd289cf49b03bc5d053b47f679d2f5968c51157e30b64a909e885
+checklist_bundle_digest: sha256:d480c717183839f20dc113d744f013d46e6db6e3e69eb88f8d90eecf3940a530
+checklist_item_ids:
+- CHK-001
+- CHK-002
+- CHK-003
+- CHK-004
+- CHK-005
+- CHK-006
+- CHK-007
+- CHK-008
+- CHK-009
+- CHK-010
+- CHK-011
+- CHK-012
+- CHK-013
+- CHK-014
+- CHK-015
+- CHK-016
+- CHK-017
+dependency_edge_ids:
+- CDEP-001
+- CDEP-002
+- CDEP-003
+- CDEP-004
+- CDEP-005
+- CDEP-006
+- CDEP-007
+- CDEP-008
+- CDEP-009
+- CDEP-010
+- CDEP-011
+- CDEP-012
+- CDEP-013
+- CDEP-014
+- CDEP-015
+- CDEP-016
+- CDEP-017
+- CDEP-018
+- CDEP-019
+- CDEP-020
+- CDEP-021
+- CDEP-022
+coverage_row_ids:
+- CCOV-001
+- CCOV-002
+- CCOV-003
+- CCOV-004
+- CCOV-005
+- CCOV-006
+- CCOV-007
+- CCOV-008
+- CCOV-009
+- CCOV-010
+- CCOV-011
+- CCOV-012
+- CCOV-013
+- CCOV-014
+- CCOV-015
+- CCOV-016
+- CCOV-017
+execution_batch_ids:
+- BATCH-001
+- BATCH-002
+- BATCH-003
+- BATCH-004
+- BATCH-005
+- BATCH-006
+- BATCH-007
+- BATCH-008
+- BATCH-009
+- BATCH-010
+- BATCH-011
+- BATCH-012
+- BATCH-013
+operation_bindings:
+- checklist_id: CHK-001
+  source_plan_id: PLN-001
+  operation_sequence: 1
+  source_operation_digest: sha256:6c2c64e2084ddf413ea409c9d850d8643d690aca7ad3d4c07ea2cdac247b0000
+  checklist_item_digest: sha256:d804463037e43304ae6b24d48917468d94d75dd4879e8f14cd27778ab964bc32
+- checklist_id: CHK-002
+  source_plan_id: PLN-001
+  operation_sequence: 2
+  source_operation_digest: sha256:5cf876e13a6d5100eae90b2a67c87d9b3ce60215c7fe5d0f1308c96e4edce6ad
+  checklist_item_digest: sha256:abe55ae8cf1150d2facae57b80563979a7644cd0497dc1b05b68002ce08a9954
+- checklist_id: CHK-003
+  source_plan_id: PLN-002
+  operation_sequence: 1
+  source_operation_digest: sha256:febd77752ffd23ddfcb626a427b35bcc1aac3be12d080cc9025787ec312f6b9f
+  checklist_item_digest: sha256:030ec874114424b36a9c700dc44aebba212772ddd87af2cb695e636a73ba763f
+- checklist_id: CHK-004
+  source_plan_id: PLN-002
+  operation_sequence: 2
+  source_operation_digest: sha256:9ab8fe3888e8dea9cba6e662f3d6e8752fa81e35d1f97bbce1234ee9dd57a89e
+  checklist_item_digest: sha256:0412fe3221a75b5fdb7779295662116f8c56b63503867d6cbae44e4cc6d11bb8
+- checklist_id: CHK-005
+  source_plan_id: PLN-003
+  operation_sequence: 1
+  source_operation_digest: sha256:2f8b0c456ec7817c491429d60b57ed1e615b2f1ac8eece73182368b11e16e365
+  checklist_item_digest: sha256:110a716835f10f146e0e6e10a3675a19255955312e60ae0fc8a89f524af43b78
+- checklist_id: CHK-006
+  source_plan_id: PLN-003
+  operation_sequence: 2
+  source_operation_digest: sha256:de6643eee4357612526f1febccdd47698ccd8e2cd0700a68b8824cb7c7ce9680
+  checklist_item_digest: sha256:117ec7cb811553be5b194be817f3ac931d2ab0db242ba26856c2c6d818646360
+- checklist_id: CHK-007
+  source_plan_id: PLN-004
+  operation_sequence: 1
+  source_operation_digest: sha256:e67d62e8b696eb226db2e90c608557c2080f136854ea6ef78c0347c0ee88fcf8
+  checklist_item_digest: sha256:1db7969f25610fc86c9f85ba29e7103edfa0d6b63a982d8365fef6730a8374a5
+- checklist_id: CHK-008
+  source_plan_id: PLN-004
+  operation_sequence: 2
+  source_operation_digest: sha256:189ceed6c73b21b818c439e11573c064bad5d63a1b5c71848fe64526d2fd3b24
+  checklist_item_digest: sha256:629dd0f54204beda6036fae344dfd6f0632bdbd97b9a042b758da7bd595fe6c7
+- checklist_id: CHK-009
+  source_plan_id: PLN-006
+  operation_sequence: 1
+  source_operation_digest: sha256:41aa0c4421f056412eb7579381f10bc576295f31c78fd9fdf7bc5b2881d2133c
+  checklist_item_digest: sha256:a0ea4b453fdc09203a3397ab9c1c7675ef68f1ad73e564da6122996e8c77da5d
+- checklist_id: CHK-010
+  source_plan_id: PLN-006
+  operation_sequence: 2
+  source_operation_digest: sha256:33948dbcc96931070cd8122ad04d2f014ae7a082d7a342d3e01ddbcaa4677344
+  checklist_item_digest: sha256:88bad8dca320d4782eec2755140bf8ce1c31faa1b4a2bafaa1e55587db1b66bb
+- checklist_id: CHK-011
+  source_plan_id: PLN-007
+  operation_sequence: 1
+  source_operation_digest: sha256:4bcc4e05fbe10c775c146f38942dde0593802b962712b260ea0d70352bd81c3e
+  checklist_item_digest: sha256:4c1624ec59d81f590f331faa7f79b45f9f2f8ed45deee960878dd06af5cf65b2
+- checklist_id: CHK-012
+  source_plan_id: PLN-007
+  operation_sequence: 2
+  source_operation_digest: sha256:917f3d2c6117daa1bd823693fb91bb83c1185644b8a07b0950d7d984416e984d
+  checklist_item_digest: sha256:c9e5ad98b0cf58a94fe7286968053e73e0b275d5137f5926b7ac5e42ce1eda8e
+- checklist_id: CHK-013
+  source_plan_id: PLN-008
+  operation_sequence: 1
+  source_operation_digest: sha256:5544914792a47fa59d0428196f7807acf9b57e613b16d0c51341b228507b80ab
+  checklist_item_digest: sha256:fb37a254b30d773195afb89fa1ba1753e26c08f594a0bdafa652be669590be11
+- checklist_id: CHK-014
+  source_plan_id: PLN-008
+  operation_sequence: 2
+  source_operation_digest: sha256:20c1772d406d11650da245d0c5b12509ebf9ada2a60fab18f1f6ef05014dd2a3
+  checklist_item_digest: sha256:2c122a771e35e10fa10ca8c8088fde03ecf2008f36a7037e5a7e7a5c7a78a513
+- checklist_id: CHK-015
+  source_plan_id: PLN-008
+  operation_sequence: 3
+  source_operation_digest: sha256:e68739b7dfc9c76c61a3b44b9ab85d0dffb83c21a3fc47e5a8fc2179450f3e18
+  checklist_item_digest: sha256:20a0cf8a98f1ad06441f48cf86404925b19b7cdbad8cf521ddfbc0a7bc935d13
+- checklist_id: CHK-016
+  source_plan_id: PLN-005
+  operation_sequence: 1
+  source_operation_digest: sha256:9dd8f7497b70914d94a009b2c2dab271dfd0861856eb9199c2265e5224684cb7
+  checklist_item_digest: sha256:5df53dd0dd02d046a722bb14fc7f120be8ddb5fd9762862cf21fdb454d177e0e
+- checklist_id: CHK-017
+  source_plan_id: PLN-005
+  operation_sequence: 2
+  source_operation_digest: sha256:da369a8fa7283247cc4165e7986e9d3c4eb17c5c836bc1155d2cec65e9f0a6a5
+  checklist_item_digest: sha256:5102188141259d236264040dd8cf2aa4c21ee35a828f257c1800c56f5f4c2e1d
+execution_order:
+- CHK-001
+- CHK-002
+- CHK-003
+- CHK-007
+- CHK-004
+- CHK-008
+- CHK-005
+- CHK-006
+- CHK-009
+- CHK-011
+- CHK-010
+- CHK-012
+- CHK-013
+- CHK-014
+- CHK-015
+- CHK-016
+- CHK-017
+parallel_levels:
+- - CHK-001
+- - CHK-002
+- - CHK-003
+  - CHK-007
+- - CHK-004
+  - CHK-008
+- - CHK-005
+- - CHK-006
+- - CHK-009
+  - CHK-011
+- - CHK-010
+  - CHK-012
+- - CHK-013
+- - CHK-014
+- - CHK-015
+- - CHK-016
+- - CHK-017
+change_surface:
+  components:
+  - ApprovalRepository
+  - ApprovalService
+  - approval_outbox schema
+  files_or_artifacts:
+  - ApprovalService.java
+  - approval repository mapping
+  - contract test suite
+  - database migration
+  - deployment manifests
+  - observability configuration
+  - operations/backfill-idempotency.sql
+  - rollout runbook
+  - src/main/java/example/ApprovalRepository.java
+  - src/main/java/example/ApprovalService.java
+  - src/main/resources/db/migration
+  - src/test/java/example/ApprovalIdempotencyIT.java
+human_gate_batch_ids:
+- BATCH-011
+- BATCH-013
+decision_envelope:
+  allowed_mechanical_discretion:
+  - Local variable and private helper naming consistent with repository conventions.
+  - Formatting and import ordering.
+  - Syntax-equivalent implementation choices that do not alter observable behavior.
+  prohibited_semantic_discretion:
+  - No new business rule, fallback, retry, public contract, state transition, transaction,
+    concurrency, security, persistence, dependency, or migration decision.
+  - No scope expansion beyond mapped plan items.
+  no_silent_replanning: true
+failure_budget:
+  max_remediation_attempts: 2
+  on_exhaustion: IMPLEMENTATION_FAILED
+implementation_constraints:
+- Implement only checklist items derived from the approved plan.
+- Stop when actual code requires an unapproved semantic choice.
+- Update implementation evidence and checklist status after every work item.
+execution_policy:
+  implement_only_approved_items: true
+  preserve_execution_order: true
+  capture_evidence_after_each_item: true
+  update_status_after_each_item: true
+  no_silent_replanning: true
+  on_ambiguity: IMPLEMENTATION_FAILED
+  on_unapproved_change: LOOPBACK_REQUIRED
+accepted_residual_risk_ids: []
+accepted_limitations: []
+approval:
+  status: PENDING
+  approved_by: null
+  approver_role: UNASSIGNED
+  approved_at: null
+  execution_authorization: false

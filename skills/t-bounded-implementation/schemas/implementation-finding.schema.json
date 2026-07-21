@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/bounded-implementation/implementation-finding.schema.json",
+  "title": "Implementation Finding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "finding_id",
+    "implementation_run_id",
+    "category",
+    "severity",
+    "status",
+    "blocking",
+    "summary",
+    "target_ids",
+    "evidence_refs",
+    "remediation_attempts",
+    "route",
+    "rationale"
+  ],
+  "properties": {
+    "finding_id": {
+      "type": "string",
+      "pattern": "^IFND-"
+    },
+    "implementation_run_id": {
+      "type": "string",
+      "pattern": "^BIMPL-"
+    },
+    "category": {
+      "enum": [
+        "AMBIGUITY",
+        "OUT_OF_SCOPE_CHANGE",
+        "SEMANTIC_DECISION_REQUIRED",
+        "SOURCE_DRIFT",
+        "PRECONDITION_FAILURE",
+        "COMMAND_FAILURE",
+        "VERIFICATION_FAILURE",
+        "HUMAN_GATE_MISSING",
+        "DEPENDENCY_VIOLATION",
+        "EVIDENCE_GAP",
+        "OTHER"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "status": {
+      "enum": [
+        "OPEN",
+        "RESOLVED",
+        "ACCEPTED_LIMITATION"
+      ]
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "remediation_attempts": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "route": {
+      "enum": [
+        "BOUNDED_IMPLEMENTATION",
+        "IMPLEMENTATION_CHECKLIST",
+        "CHECKLIST_CRITIQUE",
+        "IMPLEMENTATION_PLAN",
+        "PLAN_CRITIQUE",
+        "INVESTIGATION",
+        "SYSTEM_MODEL",
+        "SOLUTION_DESIGN",
+        "SOLUTION_CRITIQUE",
+        "PROBLEM_ALIGNMENT"
+      ]
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

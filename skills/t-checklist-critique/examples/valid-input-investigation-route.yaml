@@ -1,0 +1,82 @@
+metadata:
+  request_id: REQ-checklist-review-003
+  critique_run_id: CCRIT-duplicate-event-003
+  created_at: '2026-07-21T19:00:00+07:00'
+  author_agent: checklist-critique-skill
+  language: id-ID
+  requested_by: fajar
+source_checklist:
+  builder_run_id: CBLD-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_CHECKLIST_CRITIQUE
+  repository_commit: abcdef1234567890
+  artifact_digest: sha256:checklist-builder-output
+source_artifacts:
+  checklist_builder_output:
+    path: artifacts/09f-checklist-builder-output.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:checklist-builder-output
+  checklist_items:
+    path: artifacts/09a-implementation-checklist.jsonl
+    format: JSONL
+    record_count: 17
+  dependency_edges:
+    path: artifacts/09b-checklist-dependencies.jsonl
+    format: JSONL
+    record_count: 22
+  coverage_matrix:
+    path: artifacts/09c-checklist-coverage.csv
+    format: CSV
+    record_count: 17
+  execution_batches:
+    path: artifacts/09d-execution-batches.jsonl
+    format: JSONL
+    record_count: 13
+  checklist_findings:
+    path: artifacts/09e-checklist-findings.jsonl
+    format: JSONL
+    record_count: 0
+  approved_plan_contract:
+    path: artifacts/08e-approved-plan-contract.yaml
+    format: YAML
+    record_count: 1
+  plan_critique_output:
+    path: artifacts/08g-plan-critique-output.yaml
+    format: YAML
+    record_count: 1
+  evidence_ledger:
+    path: artifacts/02-evidence-ledger.jsonl
+    format: JSONL
+    record_count: 5
+  model_elements:
+    path: artifacts/03a-model-elements.jsonl
+    format: JSONL
+    record_count: 13
+  model_relations:
+    path: artifacts/03b-model-relations.jsonl
+    format: JSONL
+    record_count: 11
+human_critiques:
+- critique_id: CCRQ-003
+  submitted_by: human-reviewer
+  submitted_at: '2026-07-21T19:31:00+07:00'
+  target_kind: CHECKLIST_SCOPE
+  target_ids:
+  - CHK-009
+  statement: Mapped file may no longer contain the target implementation at the bound
+    commit.
+  requested_outcome: Verify actual code location before authorizing execution.
+  claimed_evidence_ids: []
+  priority: HIGH
+  blocking: true
+review_policy:
+  actual_source_only: true
+  context_firewall: true
+  evaluate_not_obey: true
+  require_evidence_for_rejection: true
+  require_falsifiability: true
+  allow_silent_checklist_mutation: false
+  allow_implementation: false
+  allow_new_semantic_decisions: false
+  human_approval_required: true

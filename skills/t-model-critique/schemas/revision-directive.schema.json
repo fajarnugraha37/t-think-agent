@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/model-critique/revision-directive.schema.json",
+  "title": "Model Revision Directive",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "directive_id",
+    "trigger_critique_ids",
+    "target_kind",
+    "target_id",
+    "operation",
+    "reason",
+    "evidence_ids",
+    "proposed_changes",
+    "requires_system_modeling",
+    "must_not_apply_directly"
+  ],
+  "properties": {
+    "directive_id": {
+      "type": "string",
+      "pattern": "^REV-[0-9]{3,}$"
+    },
+    "trigger_critique_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^CRIT-[0-9]{3,}$"
+      }
+    },
+    "target_kind": {
+      "enum": [
+        "MODEL_SUMMARY",
+        "MODEL_ELEMENT",
+        "MODEL_RELATION",
+        "TRACEABILITY_ROW",
+        "CONSISTENCY_ASSESSMENT",
+        "MODEL_SCOPE",
+        "REASONING_DISCLOSURE"
+      ]
+    },
+    "target_id": {
+      "type": "string",
+      "pattern": "^(MDL|REL|TRC)-[0-9]{3,}$"
+    },
+    "operation": {
+      "enum": [
+        "RETAIN",
+        "WEAKEN",
+        "REVISE",
+        "RETRACT",
+        "SUPERSEDE",
+        "ADD"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 3
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "proposed_changes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field",
+          "change",
+          "rationale"
+        ],
+        "properties": {
+          "field": {
+            "type": "string",
+            "minLength": 1
+          },
+          "change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "replacement_id": {
+      "type": "string",
+      "pattern": "^(MDL|REL|TRC)-[0-9]{3,}$"
+    },
+    "requires_system_modeling": {
+      "const": true
+    },
+    "must_not_apply_directly": {
+      "const": true
+    }
+  }
+}

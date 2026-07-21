@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/checklist-critique/critique-request.schema.json",
+  "title": "Checklist Critique Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "critique_id",
+    "submitted_by",
+    "submitted_at",
+    "target_kind",
+    "target_ids",
+    "statement",
+    "requested_outcome",
+    "claimed_evidence_ids",
+    "priority",
+    "blocking"
+  ],
+  "properties": {
+    "critique_id": {
+      "type": "string",
+      "pattern": "^CCRQ-[0-9A-Za-z._-]+$"
+    },
+    "submitted_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "target_kind": {
+      "enum": [
+        "CHECKLIST_ITEM",
+        "CHECKLIST_ACTION",
+        "CHECKLIST_SCOPE",
+        "CHECKLIST_PRECONDITION",
+        "CHECKLIST_EXPECTED_RESULT",
+        "CHECKLIST_VERIFICATION_MAPPING",
+        "CHECKLIST_ROLLBACK_MAPPING",
+        "CHECKLIST_DEPENDENCY",
+        "EXECUTION_BATCH",
+        "OPERATION_COVERAGE",
+        "EXECUTION_GUARD",
+        "HUMAN_GATE",
+        "CHECKLIST_BUNDLE",
+        "SOURCE_BINDING"
+      ]
+    },
+    "target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested_outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claimed_evidence_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "priority": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "blocking": {
+      "type": "boolean"
+    }
+  }
+}

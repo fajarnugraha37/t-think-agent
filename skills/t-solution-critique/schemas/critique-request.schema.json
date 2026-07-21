@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Solution Critique Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "critique_id",
+    "submitted_by",
+    "submitted_at",
+    "category",
+    "severity",
+    "target_ids",
+    "statement",
+    "requested_check",
+    "claimed_evidence_ids"
+  ],
+  "properties": {
+    "critique_id": {
+      "type": "string",
+      "pattern": "^SOLCRIT-[0-9]{3,}$"
+    },
+    "submitted_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "category": {
+      "enum": [
+        "PROBLEM_COVERAGE",
+        "MODEL_ALIGNMENT",
+        "EVIDENCE_STRENGTH",
+        "ASSUMPTION",
+        "TRADEOFF",
+        "FAILURE_SEMANTICS",
+        "TRANSACTION",
+        "CONCURRENCY",
+        "COMPATIBILITY",
+        "MIGRATION",
+        "ROLLBACK",
+        "SECURITY",
+        "OBSERVABILITY",
+        "VERIFICATION",
+        "DISTINCTNESS",
+        "DOMINANCE_PROOF",
+        "RECOMMENDATION",
+        "RISK",
+        "DECISION",
+        "OTHER"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "BLOCKING",
+        "MATERIAL",
+        "MINOR"
+      ]
+    },
+    "target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(OPT|SCOV|DEC)-[0-9]{3,}$|^DOMINANCE-PROOF$|^SOLUTION-DESIGN-OUTPUT$"
+      }
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 3
+    },
+    "requested_check": {
+      "type": "string",
+      "minLength": 3
+    },
+    "claimed_evidence_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "proposed_conclusion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/system-modeling/traceability-row.schema.json",
+  "title": "System Model Traceability Row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "trace_id",
+    "problem_id",
+    "evidence_ids",
+    "model_element_ids",
+    "coverage_status",
+    "summary"
+  ],
+  "properties": {
+    "trace_id": {
+      "type": "string",
+      "pattern": "^TRC-[0-9]{3,}$"
+    },
+    "problem_id": {
+      "type": "string",
+      "pattern": "^(PS|PE|AC|CST)-[0-9]{3,}$"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "model_element_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^MDL-[0-9]{3,}$"
+      }
+    },
+    "model_relation_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^REL-[0-9]{3,}$"
+      }
+    },
+    "coverage_status": {
+      "enum": [
+        "FULL",
+        "PARTIAL",
+        "UNEXPLAINED",
+        "JUSTIFIED_OUT_OF_SCOPE"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "limitations": {
+      "type": "string"
+    }
+  }
+}

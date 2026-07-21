@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/checklist-critique/checklist-approval.schema.json",
+  "title": "Human Checklist Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval_id",
+    "status",
+    "builder_run_id",
+    "approved_checklist_version",
+    "approved_by",
+    "approver_role",
+    "approved_at",
+    "resolved_critique_ids",
+    "accepted_residual_risk_ids",
+    "accepted_human_gate_batch_ids",
+    "accepted_limitations",
+    "execution_authorization",
+    "approval_statement"
+  ],
+  "properties": {
+    "approval_id": {
+      "type": "string",
+      "pattern": "^CAPP-"
+    },
+    "status": {
+      "enum": [
+        "PENDING",
+        "APPROVED",
+        "REJECTED"
+      ]
+    },
+    "builder_run_id": {
+      "type": "string",
+      "pattern": "^CBLD-"
+    },
+    "approved_checklist_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approved_by": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "approver_role": {
+      "enum": [
+        "HUMAN",
+        "UNASSIGNED"
+      ]
+    },
+    "approved_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "resolved_critique_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CCRQ-"
+      }
+    },
+    "accepted_residual_risk_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "accepted_human_gate_batch_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^BATCH-"
+      }
+    },
+    "accepted_limitations": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "execution_authorization": {
+      "type": "boolean"
+    },
+    "approval_statement": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

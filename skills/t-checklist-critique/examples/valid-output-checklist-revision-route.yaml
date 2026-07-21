@@ -1,0 +1,81 @@
+metadata:
+  critique_run_id: CCRIT-duplicate-event-002
+  version: 1.0.0
+  status: BLOCKED
+  created_at: '2026-07-21T19:20:00+07:00'
+  updated_at: '2026-07-21T19:40:00+07:00'
+  author_agent: checklist-critique-skill
+  language: id-ID
+source_checklist:
+  builder_run_id: CBLD-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_CHECKLIST_CRITIQUE
+  repository_commit: abcdef1234567890
+  artifact_digest: sha256:checklist-builder-output
+artifact_files:
+  assessments:
+    path: artifacts/10a-assessments.jsonl
+    format: JSONL
+    record_count: 1
+  revision_directives:
+    path: artifacts/10b-revisions.jsonl
+    format: JSONL
+    record_count: 1
+  evidence_requests:
+    path: artifacts/10c-requests.jsonl
+    format: JSONL
+    record_count: 0
+  checklist_approval:
+    path: artifacts/10d-approval.yaml
+    format: YAML
+    record_count: 1
+  approved_checklist_contract:
+    path: artifacts/10e-contract.yaml
+    format: YAML
+    record_count: 1
+  report:
+    path: artifacts/10f-report.md
+    format: MARKDOWN
+    record_count: 1
+review_summary:
+  total_critiques: 1
+  accepted: 1
+  partially_accepted: 0
+  rejected_with_evidence: 0
+  requires_investigation: 0
+  unassessed: 0
+coverage:
+  all_critiques_assessed: true
+  all_targets_resolved: true
+  all_references_valid: true
+  all_material_responses_evidence_backed: true
+checklist_impact:
+  revision_required: true
+  investigation_required: false
+  upstream_decision_required: false
+  affected_ids:
+  - CHK-001
+  retained_ids: []
+  residual_uncertainties: []
+execution_authorization_readiness:
+  status: NOT_READY
+  human_approval_status: PENDING
+  checklist_contract_status: PENDING
+  all_blocking_critiques_resolved: false
+  all_revision_directives_absent: false
+  all_evidence_requests_closed_or_routed: true
+  bundle_digest_valid: true
+  execution_authorized: false
+  human_gates_accepted: false
+gate_decision:
+  status: RETURN_TO_IMPLEMENTATION_CHECKLIST
+  rationale: Blocking critique requires lifecycle loopback before execution authorization.
+  blocking_critique_ids:
+  - CCRQ-002
+  blocking_request_ids:
+  - CCRD-001
+  required_next_actions:
+  - Return to IMPLEMENTATION_CHECKLIST and resolve the blocking item.
+  next_state: IMPLEMENTATION_CHECKLIST
+limitations:
+- No implementation was executed.

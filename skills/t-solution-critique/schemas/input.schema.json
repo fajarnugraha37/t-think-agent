@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Solution Critique Skill Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_solution_design",
+    "source_artifacts",
+    "human_critiques",
+    "decision_context",
+    "review_policy"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "critique_run_id",
+        "version",
+        "status",
+        "created_at",
+        "author_agent"
+      ],
+      "properties": {
+        "critique_run_id": {
+          "type": "string",
+          "pattern": "^SCRIT-"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "IN_REVIEW"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author_agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "source_solution_design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "design_id",
+        "artifact_version",
+        "gate_status"
+      ],
+      "properties": {
+        "design_id": {
+          "type": "string",
+          "pattern": "^SDES-"
+        },
+        "artifact_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gate_status": {
+          "const": "READY_FOR_SOLUTION_CRITIQUE"
+        },
+        "artifact_digest": {
+          "type": "string"
+        }
+      }
+    },
+    "source_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "solution_design_output",
+        "options",
+        "coverage_matrix",
+        "decision_record",
+        "dominance_proof",
+        "evidence_ledger",
+        "model_elements",
+        "model_relations"
+      ],
+      "properties": {
+        "solution_design_output": {
+          "type": "string",
+          "minLength": 1
+        },
+        "options": {
+          "type": "string",
+          "minLength": 1
+        },
+        "coverage_matrix": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_record": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dominance_proof": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ledger": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_elements": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_relations": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "human_critiques": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "critique-request.schema.json"
+      }
+    },
+    "decision_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requested_action",
+        "proposed_selected_option_id",
+        "accepted_assumption_ids",
+        "accepted_risk_ids",
+        "comments"
+      ],
+      "properties": {
+        "requested_action": {
+          "enum": [
+            "REVIEW_ONLY",
+            "REVIEW_AND_SELECT"
+          ]
+        },
+        "proposed_selected_option_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^OPT-[0-9]{3,}$"
+        },
+        "accepted_assumption_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(ASM|SASM)-"
+          }
+        },
+        "accepted_risk_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(RSK|SRSK)-"
+          }
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "review_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actual_source_only",
+        "context_firewall",
+        "evaluate_not_obey",
+        "require_evidence_for_rejection",
+        "require_falsifiability",
+        "allow_silent_solution_mutation",
+        "require_explicit_human_selection",
+        "allow_implementation_planning"
+      ],
+      "properties": {
+        "actual_source_only": {
+          "const": true
+        },
+        "context_firewall": {
+          "const": true
+        },
+        "evaluate_not_obey": {
+          "const": true
+        },
+        "require_evidence_for_rejection": {
+          "const": true
+        },
+        "require_falsifiability": {
+          "const": true
+        },
+        "allow_silent_solution_mutation": {
+          "const": false
+        },
+        "require_explicit_human_selection": {
+          "const": true
+        },
+        "allow_implementation_planning": {
+          "const": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,567 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/investigation/input.schema.json",
+  "title": "Investigation Skill Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_problem_alignment",
+    "approved_problem",
+    "investigation_objectives",
+    "targets",
+    "evidence_requirements",
+    "execution_policy"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "investigation_id",
+        "created_at",
+        "language"
+      ],
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "pattern": "^REQ-[A-Za-z0-9._-]+$"
+        },
+        "investigation_id": {
+          "type": "string",
+          "pattern": "^INVEST-[A-Za-z0-9._-]+$"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "language": {
+          "type": "string",
+          "minLength": 2
+        },
+        "requested_by": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source_problem_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_path",
+        "artifact_version",
+        "approval_status",
+        "gate_status",
+        "problem_statement_ids"
+      ],
+      "properties": {
+        "artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approval_status": {
+          "const": "APPROVED"
+        },
+        "gate_status": {
+          "const": "APPROVED_FOR_INVESTIGATION"
+        },
+        "problem_statement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^PS-[0-9]{3,}$"
+          }
+        },
+        "artifact_digest": {
+          "type": "string",
+          "minLength": 8
+        }
+      }
+    },
+    "approved_problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observed_behavior",
+        "expected_behavior",
+        "scope",
+        "success_definition"
+      ],
+      "properties": {
+        "observed_behavior": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/problemElement"
+          }
+        },
+        "expected_behavior": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/problemElement"
+          }
+        },
+        "impact": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/problemElement"
+          }
+        },
+        "success_definition": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/problemElement"
+          }
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "in_scope",
+            "out_of_scope"
+          ],
+          "properties": {
+            "in_scope": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "out_of_scope": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "environments": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/constraint"
+          }
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/term"
+          }
+        },
+        "deferred_unknown_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^UNK-[0-9]{3,}$"
+          }
+        }
+      }
+    },
+    "investigation_objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "question",
+          "mapped_problem_ids",
+          "priority"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^OBJ-[0-9]{3,}$"
+          },
+          "question": {
+            "type": "string",
+            "minLength": 5
+          },
+          "mapped_problem_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(PS|PE|AC)-[0-9]{3,}$"
+            }
+          },
+          "priority": {
+            "enum": [
+              "CRITICAL",
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "stopping_condition": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repositories"
+      ],
+      "properties": {
+        "repositories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/repositoryTarget"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/environmentTarget"
+          }
+        },
+        "external_systems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/externalTarget"
+          }
+        }
+      }
+    },
+    "evidence_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_dimensions",
+        "required_problem_coverage"
+      ],
+      "properties": {
+        "required_dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/dimension"
+          }
+        },
+        "optional_dimensions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/dimension"
+          }
+        },
+        "required_problem_coverage": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(PS|PE|AC)-[0-9]{3,}$"
+          }
+        },
+        "minimum_direct_fact_count": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
+        },
+        "require_runtime_evidence": {
+          "type": "boolean",
+          "default": false
+        },
+        "require_reproduction": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "execution_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_mode",
+        "context_firewall",
+        "direct_source_required",
+        "authorized_operation_classes"
+      ],
+      "properties": {
+        "default_mode": {
+          "const": "READ_ONLY"
+        },
+        "context_firewall": {
+          "const": true
+        },
+        "direct_source_required": {
+          "const": true
+        },
+        "authorized_operation_classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "READ_ONLY",
+              "NON_MUTATING_TEST",
+              "MUTATING",
+              "DESTRUCTIVE"
+            ]
+          }
+        },
+        "forbidden_commands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allowed_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "redaction_required": {
+          "type": "boolean",
+          "default": true
+        },
+        "max_investigation_iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 10
+        }
+      }
+    },
+    "access_limitations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "description",
+          "potential_impact"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ACL-[0-9]{3,}$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "potential_impact": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blocking": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "problemElement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(PS|PE|AC)-[0-9]{3,}$"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^CST-[0-9]{3,}$"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "term": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "term",
+        "definition"
+      ],
+      "properties": {
+        "term": {
+          "type": "string",
+          "minLength": 1
+        },
+        "definition": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "repositoryTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "location",
+        "expected_branch"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^REPO-[0-9]{3,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{7,64}$"
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "access_mode": {
+          "enum": [
+            "LOCAL",
+            "CONNECTOR",
+            "REMOTE_READ_ONLY"
+          ]
+        }
+      }
+    },
+    "environmentTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "access_mode"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ENV-[0-9]{3,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "access_mode": {
+          "enum": [
+            "NONE",
+            "LOGS_ONLY",
+            "READ_ONLY",
+            "TEST_ENVIRONMENT"
+          ]
+        },
+        "profile": {
+          "type": "string"
+        }
+      }
+    },
+    "externalTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "evidence_access"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EXT-[0-9]{3,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_access": {
+          "enum": [
+            "NONE",
+            "DOCUMENTATION",
+            "CONTRACT",
+            "LOGS",
+            "READ_ONLY_API"
+          ]
+        }
+      }
+    },
+    "dimension": {
+      "enum": [
+        "ENTRY_POINTS",
+        "EXECUTION_PATH",
+        "STATE_AND_DATA_FLOW",
+        "OWNERSHIP",
+        "TRANSACTIONS",
+        "CONCURRENCY",
+        "RETRY_AND_IDEMPOTENCY",
+        "FAILURE_PATHS",
+        "EXTERNAL_DEPENDENCIES",
+        "CONFIGURATION_AND_DEPLOYMENT",
+        "TESTS_AND_CONTRACTS",
+        "SECURITY_AND_AUTHORIZATION",
+        "OBSERVABILITY",
+        "COMPATIBILITY",
+        "DATABASE_AND_SCHEMA"
+      ]
+    }
+  }
+}

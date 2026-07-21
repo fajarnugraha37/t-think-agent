@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Solution Coverage Row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "coverage_id",
+    "option_id",
+    "target_id",
+    "coverage_status",
+    "mechanism",
+    "evidence_ids",
+    "model_ids",
+    "limitations",
+    "verification_ids"
+  ],
+  "properties": {
+    "coverage_id": {
+      "type": "string",
+      "pattern": "^SCOV-[0-9]{3,}$"
+    },
+    "option_id": {
+      "type": "string",
+      "pattern": "^OPT-"
+    },
+    "target_id": {
+      "type": "string",
+      "pattern": "^TGT-"
+    },
+    "coverage_status": {
+      "enum": [
+        "FULL",
+        "PARTIAL",
+        "NONE",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "mechanism": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-"
+      },
+      "uniqueItems": true
+    },
+    "model_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^MDL-"
+      },
+      "uniqueItems": true
+    },
+    "limitations": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verification_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^VSTR-"
+      },
+      "uniqueItems": true
+    }
+  }
+}

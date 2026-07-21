@@ -1,0 +1,27 @@
+phase: IMPLEMENTATION_PLAN
+skill: implementation-planning
+required_previous_state: SOLUTION_CRITIQUE
+required_inputs:
+- approved solution contract
+- solution critique output
+- actual repository snapshot
+- evidence ledger
+- system model
+valid_transitions:
+- gate: READY_FOR_PLAN_CRITIQUE
+  next_state: PLAN_CRITIQUE
+- gate: RETURN_TO_INVESTIGATION
+  next_state: INVESTIGATION
+- gate: RETURN_TO_SYSTEM_MODEL
+  next_state: SYSTEM_MODEL
+- gate: RETURN_TO_SOLUTION_DESIGN
+  next_state: SOLUTION_DESIGN
+- gate: RETURN_TO_SOLUTION_CRITIQUE
+  next_state: SOLUTION_CRITIQUE
+- gate: BLOCKED
+  next_state: IMPLEMENTATION_PLAN
+forbidden_actions:
+- modify repository files
+- approve plan on behalf of human
+- introduce semantic decisions
+- begin implementation

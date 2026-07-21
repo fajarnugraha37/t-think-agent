@@ -1,0 +1,45 @@
+metadata:
+  critique_run_id: SCRIT-<slug>-001
+  version: 1.0.0
+  status: IN_REVIEW
+  created_at: 2026-07-21T15:00:00+07:00
+  author_agent: solution-critique-skill
+  language: id-ID
+source_solution_design:
+  design_id: SDES-<slug>-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_SOLUTION_CRITIQUE
+source_artifacts:
+  solution_design_output: artifacts/05a-solution-design-output.yaml
+  options: artifacts/05b-solution-options.jsonl
+  coverage_matrix: artifacts/05c-solution-coverage-matrix.csv
+  decision_record: artifacts/05d-decision-record.yaml
+  dominance_proof: artifacts/05e-dominance-proof.yaml
+  evidence_ledger: artifacts/02-evidence-ledger.jsonl
+  model_elements: artifacts/03b-model-elements.jsonl
+  model_relations: artifacts/03c-model-relations.jsonl
+human_critiques:
+  - critique_id: SOLCRIT-001
+    submitted_by: human-reviewer
+    submitted_at: 2026-07-21T15:05:00+07:00
+    category: MIGRATION
+    severity: MATERIAL
+    target_ids: [OPT-001]
+    statement: The migration may be unsafe while old writers remain active.
+    requested_check: Verify mixed-version behavior and whether the rollout preserves the invariant.
+    claimed_evidence_ids: [F-003]
+decision_context:
+  requested_action: REVIEW_AND_SELECT
+  proposed_selected_option_id: OPT-001
+  accepted_assumption_ids: []
+  accepted_risk_ids: [SRSK-001]
+  comments: []
+review_policy:
+  actual_source_only: true
+  context_firewall: true
+  evaluate_not_obey: true
+  require_evidence_for_rejection: true
+  require_falsifiability: true
+  allow_silent_solution_mutation: false
+  require_explicit_human_selection: true
+  allow_implementation_planning: false

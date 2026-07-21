@@ -1,0 +1,30 @@
+phase: SOLUTION_CRITIQUE
+requires:
+  upstream_gate: READY_FOR_SOLUTION_CRITIQUE
+  artifacts:
+    - solution-design output
+    - solution options
+    - coverage matrix
+    - draft decision record
+    - dominance proof
+    - evidence ledger
+    - model elements and relations
+valid_transitions:
+  - when: problem meaning changed
+    to: PROBLEM_ALIGNMENT
+  - when: evidence gap is material
+    to: INVESTIGATION
+  - when: approved model is invalidated
+    to: SYSTEM_MODEL
+  - when: solution artifacts require revision
+    to: SOLUTION_DESIGN
+  - when: critique complete but human selection or approval is pending
+    to: SOLUTION_CRITIQUE
+  - when: human-approved solution contract is complete and valid
+    to: IMPLEMENTATION_PLAN
+forbidden:
+  - silently mutate upstream solution artifacts
+  - treat human critique as fact
+  - approve a solution on behalf of the human
+  - begin implementation planning before approval
+  - begin implementation

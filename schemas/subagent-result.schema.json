@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/subagent-result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "invocation_id",
+    "agent",
+    "phase",
+    "skill",
+    "status",
+    "artifact",
+    "claim_counts",
+    "evidence",
+    "unresolved_items",
+    "recommended_transition",
+    "validation",
+    "boundary_report"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "invocation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent": {
+      "pattern": "^t-[a-z0-9-]+$"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "skill": {
+      "pattern": "^t-[a-z0-9-]+$"
+    },
+    "status": {
+      "enum": [
+        "COMPLETED",
+        "BLOCKED",
+        "FAILED"
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "claim_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "FACT",
+        "INFERENCE",
+        "ASSUMPTION",
+        "UNKNOWN",
+        "CONFLICT"
+      ],
+      "properties": {
+        "FACT": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "INFERENCE": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ASSUMPTION": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "UNKNOWN": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "CONFLICT": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "referenced",
+        "missing"
+      ],
+      "properties": {
+        "referenced": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "unresolved_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "gate"
+      ],
+      "properties": {
+        "state": {
+          "type": "string"
+        },
+        "gate": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_passed",
+        "semantic_checks_passed"
+      ],
+      "properties": {
+        "schema_passed": {
+          "type": "boolean"
+        },
+        "semantic_checks_passed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "boundary_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "status"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "status": {
+          "enum": [
+            "PASS",
+            "FAIL"
+          ]
+        }
+      }
+    }
+  }
+}

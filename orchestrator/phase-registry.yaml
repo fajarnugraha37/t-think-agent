@@ -1,0 +1,177 @@
+schema_version: 2.1.0
+suite: t-think
+default_model_profile: economy
+workspace_directory: .t-think
+phases:
+- ordinal: 0
+  state: PROBLEM_ALIGNMENT
+  skill: t-problem-alignment
+  path: skills/t-problem-alignment/SKILL.md
+  success_state: INVESTIGATION
+  repository_mutation: false
+  description: Clarify and obtain human approval for problem meaning before repository investigation.
+  contract_id: problem-alignment-skill
+  agent: t-think
+  context: orchestrator
+  source_write_mode: deny
+- ordinal: 1
+  state: INVESTIGATION
+  skill: t-investigation
+  path: skills/t-investigation/SKILL.md
+  success_state: SYSTEM_MODEL
+  repository_mutation: false
+  description: Collect direct repository, configuration, test, runtime, and documentation evidence without proposing
+    a solution.
+  contract_id: investigation-skill
+  agent: t-investigator
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 2
+  state: SYSTEM_MODEL
+  skill: t-system-modeling
+  path: skills/t-system-modeling/SKILL.md
+  success_state: MODEL_CRITIQUE
+  repository_mutation: false
+  description: Build an evidence-backed structural, behavioral, boundary, invariant, actual/intended, and gap model.
+  contract_id: system-modeling-skill
+  agent: t-modeler
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 3
+  state: MODEL_CRITIQUE
+  skill: t-model-critique
+  path: skills/t-model-critique/SKILL.md
+  success_state: SOLUTION_DESIGN
+  repository_mutation: false
+  description: Assess human critique of the system model, defend or route revisions with evidence, and obtain model acceptance.
+  contract_id: model-critique-skill
+  agent: t-critic
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 4
+  state: SOLUTION_DESIGN
+  skill: t-solution-design
+  path: skills/t-solution-design/SKILL.md
+  success_state: SOLUTION_CRITIQUE
+  repository_mutation: false
+  description: Create materially distinct evidence-backed solution options or a justified single-option dominance proof.
+  contract_id: solution-design-skill
+  agent: t-modeler
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 5
+  state: SOLUTION_CRITIQUE
+  skill: t-solution-critique
+  path: skills/t-solution-critique/SKILL.md
+  success_state: IMPLEMENTATION_PLAN
+  repository_mutation: false
+  description: Assess solution critiques, record human selection and risk acceptance, and freeze the approved solution
+    contract.
+  contract_id: solution-critique-skill
+  agent: t-critic
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 6
+  state: IMPLEMENTATION_PLAN
+  skill: t-implementation-planning
+  path: skills/t-implementation-planning/SKILL.md
+  success_state: PLAN_CRITIQUE
+  repository_mutation: false
+  description: Convert an approved solution into an ordered implementation, verification, rollout, migration, and rollback
+    plan.
+  contract_id: implementation-planning-skill
+  agent: t-planner
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 7
+  state: PLAN_CRITIQUE
+  skill: t-plan-critique
+  path: skills/t-plan-critique/SKILL.md
+  success_state: IMPLEMENTATION_CHECKLIST
+  repository_mutation: false
+  description: Assess plan critiques and freeze a human-approved implementation plan without silently mutating it.
+  contract_id: plan-critique-skill
+  agent: t-critic
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 8
+  state: IMPLEMENTATION_CHECKLIST
+  skill: t-checklist-builder
+  path: skills/t-checklist-builder/SKILL.md
+  success_state: CHECKLIST_CRITIQUE
+  repository_mutation: false
+  description: Convert every approved plan operation into one atomic, dependency-aware, test- and rollback-bound checklist
+    item.
+  contract_id: checklist-builder-skill
+  agent: t-planner
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 9
+  state: CHECKLIST_CRITIQUE
+  skill: t-checklist-critique
+  path: skills/t-checklist-critique/SKILL.md
+  success_state: BOUNDED_IMPLEMENTATION
+  repository_mutation: false
+  description: Assess checklist critiques, obtain human approval and execution authorization, and freeze the checklist
+    contract.
+  contract_id: checklist-critique-skill
+  agent: t-critic
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 10
+  state: BOUNDED_IMPLEMENTATION
+  skill: t-bounded-implementation
+  path: skills/t-bounded-implementation/SKILL.md
+  success_state: SELF_REVIEW
+  repository_mutation: true
+  description: Execute only the approved checklist, capture changes and commands, and stop on ambiguity or semantic drift.
+  contract_id: bounded-implementation-skill
+  agent: t-builder
+  context: fresh_invocation
+  source_write_mode: approved_targets_only
+- ordinal: 11
+  state: SELF_REVIEW
+  skill: t-self-review
+  path: skills/t-self-review/SKILL.md
+  success_state: TECHNICAL_REVIEW
+  repository_mutation: false
+  description: Audit the implementation against the checklist and evidence without fixing code during review.
+  contract_id: self-review-skill
+  agent: t-builder
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 12
+  state: TECHNICAL_REVIEW
+  skill: t-technical-review
+  path: skills/t-technical-review/SKILL.md
+  success_state: VERIFICATION
+  repository_mutation: false
+  description: Perform an independent technical review with per-change assessment and evidence challenges.
+  contract_id: technical-review-skill
+  agent: t-reviewer
+  context: fresh_invocation
+  source_write_mode: deny
+- ordinal: 13
+  state: VERIFICATION
+  skill: t-verification
+  path: skills/t-verification/SKILL.md
+  success_state: RECONCILIATION
+  repository_mutation: false
+  description: Execute reproducible verification obligations, falsification attempts, and evidence capture independently.
+  contract_id: verification-skill
+  agent: t-verifier
+  context: fresh_invocation
+  source_write_mode: generated_outputs_only
+- ordinal: 14
+  state: RECONCILIATION
+  skill: t-reconciliation
+  path: skills/t-reconciliation/SKILL.md
+  success_state: COMPLETED
+  repository_mutation: false
+  description: Reconcile the complete lifecycle trace from problem through change and verification before human closure.
+  contract_id: reconciliation-skill
+  agent: t-reconciler
+  context: fresh_invocation
+  source_write_mode: deny
+agent_registry: orchestrator/agent-registry.yaml
+workspace_policy: orchestrator/workspace-policy.yaml

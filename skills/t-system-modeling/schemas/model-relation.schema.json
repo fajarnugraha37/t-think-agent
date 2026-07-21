@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/system-modeling/model-relation.schema.json",
+  "title": "System Model Relation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "from_element_id",
+    "to_element_id",
+    "description",
+    "status",
+    "confidence",
+    "evidence_ids"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^REL-[0-9]{3,}$"
+    },
+    "type": {
+      "enum": [
+        "CALLS",
+        "READS_FROM",
+        "WRITES_TO",
+        "EMITS",
+        "CONSUMES",
+        "TRIGGERS",
+        "PRECEDES",
+        "TRANSITIONS_TO",
+        "OWNS",
+        "IS_SOURCE_OF_TRUTH_FOR",
+        "ENFORCES",
+        "CROSSES_TRANSACTION",
+        "CROSSES_CONCURRENCY",
+        "RETRIES",
+        "FAILS_TO",
+        "DEPENDS_ON",
+        "CONFIGURES",
+        "AUTHORIZES",
+        "OBSERVES",
+        "SUPPORTS",
+        "CONTRADICTS",
+        "MAPS_TO"
+      ]
+    },
+    "from_element_id": {
+      "type": "string",
+      "pattern": "^MDL-[0-9]{3,}$"
+    },
+    "to_element_id": {
+      "type": "string",
+      "pattern": "^MDL-[0-9]{3,}$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "ACTIVE",
+        "WEAKENED",
+        "RETRACTED",
+        "SUPERSEDED"
+      ]
+    },
+    "confidence": {
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "reasoning_summary": {
+      "type": "string"
+    },
+    "falsification_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "condition": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "supersedes": {
+      "type": "string",
+      "pattern": "^REL-[0-9]{3,}$"
+    }
+  }
+}

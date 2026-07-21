@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/reconciliation/residual-gap.schema.json",
+  "title": "residual-gap",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gap_id",
+    "reconciliation_run_id",
+    "gap_type",
+    "affected_artifact_ids",
+    "affected_node_ids",
+    "description",
+    "evidence_ids",
+    "severity",
+    "status",
+    "required_route",
+    "blocking",
+    "resolution"
+  ],
+  "properties": {
+    "gap_id": {
+      "type": "string",
+      "pattern": "^GAP-[0-9]{3,}$"
+    },
+    "reconciliation_run_id": {
+      "type": "string",
+      "pattern": "^REC-[A-Za-z0-9._-]+$"
+    },
+    "gap_type": {
+      "enum": [
+        "MISSING_ARTIFACT",
+        "MISSING_TRACE_LINK",
+        "UNVERIFIED_OBLIGATION",
+        "UNRESOLVED_FINDING",
+        "UNACCEPTED_RISK",
+        "INSUFFICIENT_EVIDENCE",
+        "UNKNOWN_SCOPE"
+      ]
+    },
+    "affected_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^ART-[0-9]{3,}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "affected_node_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^TN-[0-9]{3,}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(VE|F|INF|INV|TN)-[A-Za-z0-9._-]+$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "severity": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "status": {
+      "enum": [
+        "OPEN",
+        "RESOLVED",
+        "ACCEPTED_RISK"
+      ]
+    },
+    "required_route": {
+      "enum": [
+        "RECONCILIATION",
+        "VERIFICATION",
+        "TECHNICAL_REVIEW",
+        "SELF_REVIEW",
+        "BOUNDED_IMPLEMENTATION",
+        "IMPLEMENTATION_CHECKLIST",
+        "CHECKLIST_CRITIQUE",
+        "IMPLEMENTATION_PLAN",
+        "PLAN_CRITIQUE",
+        "SOLUTION_CRITIQUE",
+        "SOLUTION_DESIGN",
+        "MODEL_CRITIQUE",
+        "SYSTEM_MODEL",
+        "INVESTIGATION",
+        "PROBLEM_ALIGNMENT"
+      ]
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "resolution": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

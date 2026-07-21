@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "metadata",
+    "source_model",
+    "gate_decision",
+    "human_model_approval"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": [
+        "critique_run_id",
+        "status"
+      ]
+    },
+    "source_model": {
+      "type": "object",
+      "required": [
+        "modeling_id",
+        "artifact_version"
+      ]
+    },
+    "gate_decision": {
+      "type": "object",
+      "required": [
+        "status",
+        "next_state"
+      ]
+    },
+    "human_model_approval": {
+      "type": "object",
+      "required": [
+        "status",
+        "approved_model_version"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

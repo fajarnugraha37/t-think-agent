@@ -1,0 +1,94 @@
+metadata:
+  artifact_id: PA-CHANGE-ME
+  version: 0.1.0
+  status: DRAFT
+  created_at: 2026-07-21T10:00:00+07:00
+  updated_at: 2026-07-21T10:00:00+07:00
+  supersedes: null
+
+source_input:
+  request_id: REQ-CHANGE-ME
+  input_digest: null
+
+normalized_problem:
+  problem_statement: Replace with the normalized, solution-neutral problem statement.
+  observed_behavior:
+    - statement: Replace with an explicitly supported observed behavior.
+      source_statement_ids: [HS-001]
+  expected_behavior:
+    - statement: Replace with an explicitly supported expected behavior.
+      source_statement_ids: [HS-002]
+  impact: []
+  success_definition:
+    - statement: Replace with an observable success definition.
+      source_statement_ids: [HS-002]
+
+human_statements:
+  - id: HS-001
+    statement: Initial explicit human statement.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+
+interpretations:
+  - id: INT-001
+    original_statement_id: HS-001
+    normalized_interpretation: Explicit normalized interpretation.
+    reason: Explain why normalization was needed.
+    confidence: MEDIUM
+    material: true
+    human_confirmation: PENDING
+
+terms: []
+constraints: []
+
+scope:
+  in_scope: []
+  out_of_scope: []
+  environments: []
+
+acceptance_signals:
+  - id: AS-001
+    statement: Observable signal proving the expected outcome.
+    observable: true
+    source_statement_ids: [HS-002]
+
+open_questions:
+  - id: Q-001
+    question: A focused clarification question.
+    classification: BLOCKING_ALIGNMENT
+    status: OPEN
+    why_it_matters: Explain why this answer is required for alignment.
+    answer_statement_id: null
+
+deferred_to_investigation:
+  - id: DI-001
+    question: A technical question answerable from actual code or runtime evidence.
+    reason_for_deferral: Investigation must inspect the actual system.
+    expected_evidence_source: Source code, configuration, test, log, trace, or runtime output.
+
+prohibited_content_check:
+  contains_root_cause_hypothesis: false
+  contains_solution_proposal: false
+  contains_implementation_direction: false
+  contains_hidden_assumption: false
+  uses_unverified_previous_context_as_fact: false
+
+approval:
+  approved: false
+  reviewed_by: null
+  reviewed_at: null
+  explicit_statement: null
+  notes: ""
+
+gate:
+  status: NEEDS_HUMAN_CLARIFICATION
+  blocking_reasons:
+    - Q-001 is still open.
+  next_valid_transitions:
+    - PROBLEM_ALIGNMENT
+
+change_log:
+  - version: 0.1.0
+    changed_at: 2026-07-21T10:00:00+07:00
+    summary: Initial draft.

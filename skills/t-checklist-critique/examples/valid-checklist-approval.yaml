@@ -1,0 +1,20 @@
+approval_id: CAPP-001
+status: APPROVED
+builder_run_id: CBLD-duplicate-event-001
+approved_checklist_version: 1.0.0
+approved_by: fajar
+approver_role: HUMAN
+approved_at: '2026-07-21T19:15:00+07:00'
+resolved_critique_ids:
+- CCRQ-001
+accepted_residual_risk_ids:
+- SRSK-001
+accepted_human_gate_batch_ids:
+- BATCH-011
+- BATCH-013
+accepted_limitations:
+- No code, migration, deployment, or production validation was executed during checklist
+  critique.
+execution_authorization: true
+approval_statement: I approve this exact checklist bundle for bounded implementation.
+  No semantic change, scope expansion, or silent replanning is authorized.

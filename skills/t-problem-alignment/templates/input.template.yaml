@@ -1,0 +1,40 @@
+metadata:
+  request_id: REQ-CHANGE-ME
+  created_at: 2026-07-21T10:00:00+07:00
+  language: id-ID
+  requested_by: human-identifier
+  source: change-request
+
+human_problem_statement:
+  raw_text: >-
+    Describe the observed problem or requested behavior change using the
+    human's own words. Do not embed a proposed implementation.
+  business_context: Optional business context.
+  urgency: UNKNOWN
+
+explicit_statements:
+  - id: HS-001
+    statement: A statement explicitly provided by the human.
+    source: HUMAN
+    material: true
+
+known_constraints:
+  - id: CST-001
+    statement: A constraint explicitly stated by the human.
+    type: BUSINESS
+
+initial_scope:
+  in_scope: []
+  out_of_scope: []
+  environments: []
+
+known_terms:
+  - term: Example term
+    definition: Human-approved definition.
+    defined_by_human: true
+
+references: []
+
+interaction_policy:
+  max_questions_per_round: 7
+  preferred_question_style: MIXED

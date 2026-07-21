@@ -1,0 +1,543 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/checklist-critique/output.schema.json",
+  "title": "Checklist Critique Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_checklist",
+    "artifact_files",
+    "review_summary",
+    "coverage",
+    "checklist_impact",
+    "execution_authorization_readiness",
+    "gate_decision",
+    "limitations"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "critique_run_id",
+        "version",
+        "status",
+        "created_at",
+        "updated_at",
+        "author_agent"
+      ],
+      "properties": {
+        "critique_run_id": {
+          "type": "string",
+          "pattern": "^CCRIT-"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "COMPLETE",
+            "BLOCKED"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author_agent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "source_checklist": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "builder_run_id",
+        "artifact_version",
+        "gate_status",
+        "repository_commit",
+        "artifact_digest"
+      ],
+      "properties": {
+        "builder_run_id": {
+          "type": "string",
+          "pattern": "^CBLD-"
+        },
+        "artifact_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gate_status": {
+          "const": "READY_FOR_CHECKLIST_CRITIQUE"
+        },
+        "repository_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{7,64}$"
+        },
+        "artifact_digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "artifact_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessments",
+        "revision_directives",
+        "evidence_requests",
+        "checklist_approval",
+        "approved_checklist_contract",
+        "report"
+      ],
+      "properties": {
+        "assessments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "revision_directives": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "evidence_requests": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "checklist_approval": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "approved_checklist_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "report": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "CSV",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "review_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_critiques",
+        "accepted",
+        "partially_accepted",
+        "rejected_with_evidence",
+        "requires_investigation",
+        "unassessed"
+      ],
+      "properties": {
+        "total_critiques": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "accepted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "partially_accepted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected_with_evidence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "requires_investigation": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unassessed": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "all_critiques_assessed",
+        "all_targets_resolved",
+        "all_references_valid",
+        "all_material_responses_evidence_backed"
+      ],
+      "properties": {
+        "all_critiques_assessed": {
+          "type": "boolean"
+        },
+        "all_targets_resolved": {
+          "type": "boolean"
+        },
+        "all_references_valid": {
+          "type": "boolean"
+        },
+        "all_material_responses_evidence_backed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "checklist_impact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision_required",
+        "investigation_required",
+        "upstream_decision_required",
+        "affected_ids",
+        "retained_ids",
+        "residual_uncertainties"
+      ],
+      "properties": {
+        "revision_required": {
+          "type": "boolean"
+        },
+        "investigation_required": {
+          "type": "boolean"
+        },
+        "upstream_decision_required": {
+          "type": "boolean"
+        },
+        "affected_ids": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "retained_ids": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "residual_uncertainties": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "execution_authorization_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "human_approval_status",
+        "checklist_contract_status",
+        "all_blocking_critiques_resolved",
+        "all_revision_directives_absent",
+        "all_evidence_requests_closed_or_routed",
+        "bundle_digest_valid",
+        "execution_authorized",
+        "human_gates_accepted"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY",
+            "NOT_READY"
+          ]
+        },
+        "human_approval_status": {
+          "enum": [
+            "PENDING",
+            "APPROVED",
+            "REJECTED"
+          ]
+        },
+        "checklist_contract_status": {
+          "enum": [
+            "PENDING",
+            "APPROVED"
+          ]
+        },
+        "all_blocking_critiques_resolved": {
+          "type": "boolean"
+        },
+        "all_revision_directives_absent": {
+          "type": "boolean"
+        },
+        "all_evidence_requests_closed_or_routed": {
+          "type": "boolean"
+        },
+        "bundle_digest_valid": {
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "type": "boolean"
+        },
+        "human_gates_accepted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "gate_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale",
+        "blocking_critique_ids",
+        "blocking_request_ids",
+        "required_next_actions",
+        "next_state"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY_FOR_BOUNDED_IMPLEMENTATION",
+            "RETURN_TO_IMPLEMENTATION_CHECKLIST",
+            "RETURN_TO_PLAN_CRITIQUE",
+            "RETURN_TO_IMPLEMENTATION_PLAN",
+            "RETURN_TO_INVESTIGATION",
+            "RETURN_TO_SYSTEM_MODEL",
+            "RETURN_TO_SOLUTION_DESIGN",
+            "RETURN_TO_SOLUTION_CRITIQUE",
+            "RETURN_TO_PROBLEM_ALIGNMENT",
+            "BLOCKED"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_critique_ids": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "blocking_request_ids": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required_next_actions": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "next_state": {
+          "enum": [
+            "BOUNDED_IMPLEMENTATION",
+            "IMPLEMENTATION_CHECKLIST",
+            "PLAN_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "PROBLEM_ALIGNMENT",
+            "CHECKLIST_CRITIQUE"
+          ]
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

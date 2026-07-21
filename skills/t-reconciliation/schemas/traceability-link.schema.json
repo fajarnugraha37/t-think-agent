@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/reconciliation/traceability-link.schema.json",
+  "title": "traceability-link",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "link_id",
+    "reconciliation_run_id",
+    "from_node_id",
+    "to_node_id",
+    "relation_type",
+    "direct",
+    "rationale",
+    "evidence_ids",
+    "confidence"
+  ],
+  "properties": {
+    "link_id": {
+      "type": "string",
+      "pattern": "^TL-[0-9]{3,}$"
+    },
+    "reconciliation_run_id": {
+      "type": "string",
+      "pattern": "^REC-[A-Za-z0-9._-]+$"
+    },
+    "from_node_id": {
+      "type": "string",
+      "pattern": "^TN-[0-9]{3,}$"
+    },
+    "to_node_id": {
+      "type": "string",
+      "pattern": "^TN-[0-9]{3,}$"
+    },
+    "relation_type": {
+      "enum": [
+        "SUPPORTED_BY",
+        "MODELED_AS",
+        "CONSTRAINED_BY",
+        "ADDRESSED_BY",
+        "SELECTED_AS",
+        "PLANNED_BY",
+        "DECOMPOSED_TO",
+        "IMPLEMENTED_BY",
+        "VERIFIED_BY",
+        "REVIEWS",
+        "MITIGATES",
+        "PRESERVES",
+        "SUPERSEDES"
+      ]
+    },
+    "direct": {
+      "type": "boolean"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(VE|F|INF|INV|TN)-[A-Za-z0-9._-]+$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

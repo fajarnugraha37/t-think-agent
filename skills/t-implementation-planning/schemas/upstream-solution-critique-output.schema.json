@@ -1,0 +1,572 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Solution Critique Skill Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_solution_design",
+    "artifact_files",
+    "review_summary",
+    "coverage",
+    "solution_impact",
+    "decision_readiness",
+    "human_solution_approval",
+    "gate_decision",
+    "limitations"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "critique_run_id",
+        "version",
+        "status",
+        "created_at",
+        "updated_at",
+        "author_agent"
+      ],
+      "properties": {
+        "critique_run_id": {
+          "type": "string",
+          "pattern": "^SCRIT-"
+        },
+        "version": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "COMPLETE",
+            "BLOCKED",
+            "REJECTED",
+            "SUPERSEDED"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author_agent": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "source_solution_design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "design_id",
+        "artifact_version",
+        "gate_status"
+      ],
+      "properties": {
+        "design_id": {
+          "type": "string",
+          "pattern": "^SDES-"
+        },
+        "artifact_version": {
+          "type": "string"
+        },
+        "gate_status": {
+          "const": "READY_FOR_SOLUTION_CRITIQUE"
+        },
+        "artifact_digest": {
+          "type": "string"
+        }
+      }
+    },
+    "artifact_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessments",
+        "revision_directives",
+        "evidence_requests",
+        "decision_approval",
+        "approved_solution_contract",
+        "report"
+      ],
+      "properties": {
+        "assessments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "revision_directives": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "evidence_requests": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "decision_approval": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "approved_solution_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        },
+        "report": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "format",
+            "record_count"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "enum": [
+                "JSONL",
+                "YAML",
+                "MARKDOWN"
+              ]
+            },
+            "record_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "digest": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "review_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_critiques",
+        "accepted",
+        "partially_accepted",
+        "rejected_with_evidence",
+        "requires_investigation",
+        "unassessed"
+      ],
+      "properties": {
+        "total_critiques": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "accepted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "partially_accepted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected_with_evidence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "requires_investigation": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unassessed": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "all_critiques_assessed",
+        "all_targets_resolved",
+        "all_references_valid",
+        "all_material_responses_evidence_backed"
+      ],
+      "properties": {
+        "all_critiques_assessed": {
+          "type": "boolean"
+        },
+        "all_targets_resolved": {
+          "type": "boolean"
+        },
+        "all_references_valid": {
+          "type": "boolean"
+        },
+        "all_material_responses_evidence_backed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "solution_impact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "solution_revision_required",
+        "investigation_required",
+        "model_revision_required",
+        "problem_realignment_required",
+        "affected_option_ids",
+        "affected_coverage_ids",
+        "affected_decision_ids",
+        "dominance_affected",
+        "retained_option_ids",
+        "residual_uncertainties"
+      ],
+      "properties": {
+        "solution_revision_required": {
+          "type": "boolean"
+        },
+        "investigation_required": {
+          "type": "boolean"
+        },
+        "model_revision_required": {
+          "type": "boolean"
+        },
+        "problem_realignment_required": {
+          "type": "boolean"
+        },
+        "affected_option_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^OPT-"
+          }
+        },
+        "affected_coverage_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^SCOV-"
+          }
+        },
+        "affected_decision_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^DEC-"
+          }
+        },
+        "dominance_affected": {
+          "type": "boolean"
+        },
+        "retained_option_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^OPT-"
+          }
+        },
+        "residual_uncertainties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "decision_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selection_permitted",
+        "selected_option_id",
+        "selected_option_active",
+        "selected_option_viable",
+        "all_blocking_critiques_resolved",
+        "all_required_risks_accepted",
+        "all_required_assumptions_accepted",
+        "selected_option_fully_covers_required_targets",
+        "approved_solution_contract_ready"
+      ],
+      "properties": {
+        "selection_permitted": {
+          "type": "boolean"
+        },
+        "selected_option_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^OPT-"
+        },
+        "selected_option_active": {
+          "type": "boolean"
+        },
+        "selected_option_viable": {
+          "type": "boolean"
+        },
+        "all_blocking_critiques_resolved": {
+          "type": "boolean"
+        },
+        "all_required_risks_accepted": {
+          "type": "boolean"
+        },
+        "all_required_assumptions_accepted": {
+          "type": "boolean"
+        },
+        "selected_option_fully_covers_required_targets": {
+          "type": "boolean"
+        },
+        "approved_solution_contract_ready": {
+          "type": "boolean"
+        }
+      }
+    },
+    "human_solution_approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "decision_approval_id",
+        "selected_option_id",
+        "solution_contract_id"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "PENDING",
+            "APPROVED",
+            "REJECTED"
+          ]
+        },
+        "decision_approval_id": {
+          "type": "string",
+          "pattern": "^SAPP-"
+        },
+        "selected_option_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^OPT-"
+        },
+        "solution_contract_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^SOLCON-"
+        },
+        "approved_by": {
+          "type": "string"
+        },
+        "approved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "gate_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale",
+        "blocking_critique_ids",
+        "blocking_request_ids",
+        "required_next_actions",
+        "next_state"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "RETURN_TO_PROBLEM_ALIGNMENT",
+            "RETURN_TO_INVESTIGATION",
+            "RETURN_TO_SYSTEM_MODEL",
+            "RETURN_TO_SOLUTION_DESIGN",
+            "AWAITING_HUMAN_SELECTION",
+            "AWAITING_HUMAN_APPROVAL",
+            "READY_FOR_IMPLEMENTATION_PLAN",
+            "BLOCKED"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 3
+        },
+        "blocking_critique_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^SOLCRIT-"
+          }
+        },
+        "blocking_request_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^SEREQ-"
+          }
+        },
+        "required_next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "next_state": {
+          "enum": [
+            "PROBLEM_ALIGNMENT",
+            "INVESTIGATION",
+            "SYSTEM_MODEL",
+            "SOLUTION_DESIGN",
+            "SOLUTION_CRITIQUE",
+            "IMPLEMENTATION_PLAN",
+            "NONE"
+          ]
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

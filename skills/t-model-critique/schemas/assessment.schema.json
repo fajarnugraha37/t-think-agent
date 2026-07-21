@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/model-critique/assessment.schema.json",
+  "title": "Model Critique Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assessment_id",
+    "critique_id",
+    "classification",
+    "target_ids",
+    "critique_summary",
+    "evidence_reviewed",
+    "model_items_reviewed",
+    "reasoning_summary",
+    "supporting_findings",
+    "contradicting_findings",
+    "resulting_status",
+    "revision_directive_ids",
+    "investigation_request_ids",
+    "confidence",
+    "falsification_conditions",
+    "limitations",
+    "human_decision_required"
+  ],
+  "properties": {
+    "assessment_id": {
+      "type": "string",
+      "pattern": "^ASMT-[0-9]{3,}$"
+    },
+    "critique_id": {
+      "type": "string",
+      "pattern": "^CRIT-[0-9]{3,}$"
+    },
+    "classification": {
+      "enum": [
+        "ACCEPTED",
+        "PARTIALLY_ACCEPTED",
+        "REJECTED_WITH_EVIDENCE",
+        "REQUIRES_INVESTIGATION"
+      ]
+    },
+    "target_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(MDL|REL|TRC|F|INF|ASM|UNK|CON|INV|RSK|PS|PE|AC|CST)-[0-9]{3,}$"
+      }
+    },
+    "critique_summary": {
+      "type": "string",
+      "minLength": 3
+    },
+    "evidence_reviewed": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "model_items_reviewed": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(MDL|REL|TRC)-[0-9]{3,}$"
+      }
+    },
+    "reasoning_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "supporting_findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "contradicting_findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "alternative_interpretations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "resulting_status": {
+      "enum": [
+        "NO_CHANGE",
+        "WEAKENED",
+        "REVISED",
+        "RETRACTED",
+        "INVESTIGATION_REQUIRED"
+      ]
+    },
+    "revision_directive_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^REV-[0-9]{3,}$"
+      }
+    },
+    "investigation_request_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^EREQ-[0-9]{3,}$"
+      }
+    },
+    "confidence": {
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    "falsification_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "human_decision_required": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

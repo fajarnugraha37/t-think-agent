@@ -1,0 +1,1 @@
+{"id":"MDL-001","type":"COMPONENT","name":"...","description":"...","status":"ACTIVE","confidence":"LOW","epistemic_basis":"FACT_BACKED","problem_ids":["PS-001"],"evidence_ids":["F-001"],"supporting_fact_ids":["F-001"],"supporting_inference_ids":[],"assumption_ids":[],"unknown_ids":[],"conflict_ids":[],"scope":{"included":["..."],"excluded":[],"environments":[]},"limitations":[]}

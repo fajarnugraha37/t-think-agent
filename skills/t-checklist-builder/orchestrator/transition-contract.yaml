@@ -1,0 +1,36 @@
+skill: checklist-builder
+current_state: IMPLEMENTATION_CHECKLIST
+previous_state: PLAN_CRITIQUE
+success_state: CHECKLIST_CRITIQUE
+success_gate: READY_FOR_CHECKLIST_CRITIQUE
+required_inputs:
+- approved plan contract
+- plan critique output
+- planning bundle
+- evidence ledger
+- system model
+required_outputs:
+- atomic checklist items
+- dependency edges
+- operation coverage
+- execution batches
+- findings
+- lifecycle output
+loopbacks:
+- condition: evidence gap
+  state: INVESTIGATION
+- condition: model defect
+  state: SYSTEM_MODEL
+- condition: solution semantic decision required
+  state: SOLUTION_DESIGN
+- condition: plan approval invalid
+  state: PLAN_CRITIQUE
+- condition: plan operation ambiguous or incomplete
+  state: IMPLEMENTATION_PLAN
+guards:
+- no implementation
+- no new semantic decision
+- one operation per item
+- exact operation coverage
+- approved change surface only
+- dependency graph acyclic

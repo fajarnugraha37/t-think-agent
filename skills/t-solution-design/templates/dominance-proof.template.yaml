@@ -1,0 +1,9 @@
+required: false
+surviving_option_id: null
+conclusion: Multiple viable options exist; no single-option dominance proof is required.
+considered_alternatives: []
+constraints_used: []
+evidence_ids: []
+residual_risks: []
+falsification_conditions: []
+human_review_required: true

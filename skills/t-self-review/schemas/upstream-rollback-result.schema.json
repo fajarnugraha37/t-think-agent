@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/bounded-implementation/rollback-result.schema.json",
+  "title": "Rollback Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rollback_result_id",
+    "implementation_run_id",
+    "rollback_item_id",
+    "checklist_ids",
+    "invoked",
+    "reason",
+    "command_result_ids",
+    "outcome",
+    "evidence_refs"
+  ],
+  "properties": {
+    "rollback_result_id": {
+      "type": "string",
+      "pattern": "^RRES-"
+    },
+    "implementation_run_id": {
+      "type": "string",
+      "pattern": "^BIMPL-"
+    },
+    "rollback_item_id": {
+      "type": "string",
+      "pattern": "^RBK-"
+    },
+    "checklist_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CHK-"
+      },
+      "uniqueItems": true
+    },
+    "invoked": {
+      "type": "boolean"
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command_result_ids": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CMD-"
+      },
+      "uniqueItems": true
+    },
+    "outcome": {
+      "enum": [
+        "NOT_INVOKED",
+        "SUCCEEDED",
+        "FAILED",
+        "BLOCKED"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"finding_id":"CBFND-001","type":"EVIDENCE_GAP","severity":"HIGH","blocking":true,"statement":"A production-only lock behavior assumption lacks direct evidence.","affected_ids":["PLN-002","CHK-003"],"evidence_ids":["F-001"],"route":"INVESTIGATION","required_action":"Collect a reproducible database concurrency trace before finalizing this checklist."}

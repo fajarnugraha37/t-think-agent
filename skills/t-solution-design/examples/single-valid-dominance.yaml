@@ -1,0 +1,15 @@
+required: true
+surviving_option_id: OPT-001
+conclusion: Database-enforced idempotency is the only viable option under the bounded requirement that no additional long-lived intent state machine may be introduced.
+considered_alternatives:
+  - alternative_id: ALT-001
+    description: Dedicated approval-intent lock and result record.
+    elimination_reason: The approved operational constraint prohibits a new recoverable workflow state and associated ownership tooling.
+    constraint_ids: [No additional long-lived workflow state]
+    evidence_ids: [F-002, INV-001]
+    would_become_viable_if: The human approves a new intent state machine and operational recovery ownership.
+constraints_used: [No additional long-lived workflow state, Preserve one transactional durable effect]
+evidence_ids: [F-002, F-003, INV-001]
+residual_risks: [Historical keys may be ambiguous.]
+falsification_conditions: [The operational constraint is relaxed, or no stable idempotency key can be established.]
+human_review_required: true

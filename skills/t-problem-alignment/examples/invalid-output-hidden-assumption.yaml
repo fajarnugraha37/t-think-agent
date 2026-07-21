@@ -1,0 +1,71 @@
+metadata:
+  artifact_id: PA-INVALID-001
+  version: 1.0.0
+  status: APPROVED
+  created_at: 2026-07-21T10:00:00+07:00
+  updated_at: 2026-07-21T10:00:00+07:00
+  supersedes: null
+
+source_input:
+  request_id: REQ-INVALID-001
+
+normalized_problem:
+  problem_statement: The service probably publishes duplicates because retries happen after commit.
+  observed_behavior:
+    - statement: Duplicate events are observed.
+      source_statement_ids: [HS-001]
+  expected_behavior:
+    - statement: Only one event should be published.
+      source_statement_ids: [HS-002]
+  impact: []
+  success_definition:
+    - statement: Only one event is observed.
+      source_statement_ids: [HS-002]
+
+human_statements:
+  - id: HS-001
+    statement: Duplicate events are observed.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-002
+    statement: Only one event should be published.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+
+interpretations: []
+terms: []
+constraints: []
+scope:
+  in_scope: []
+  out_of_scope: []
+  environments: []
+
+acceptance_signals:
+  - id: AS-001
+    statement: Only one event is observed.
+    observable: true
+    source_statement_ids: [HS-002]
+
+open_questions: []
+deferred_to_investigation: []
+
+prohibited_content_check:
+  contains_root_cause_hypothesis: true
+  contains_solution_proposal: false
+  contains_implementation_direction: false
+  contains_hidden_assumption: true
+  uses_unverified_previous_context_as_fact: false
+
+approval:
+  approved: true
+  reviewed_by: reviewer
+  reviewed_at: 2026-07-21T10:00:00+07:00
+  explicit_statement: Approved.
+  notes: ""
+
+gate:
+  status: APPROVED_FOR_INVESTIGATION
+  blocking_reasons: []
+  next_valid_transitions: [INVESTIGATION]

@@ -1,0 +1,199 @@
+metadata:
+  investigation_id: INVEST-duplicate-event-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T09:00:00+07:00'
+  updated_at: '2026-07-21T09:45:00+07:00'
+  language: id-ID
+source_problem_alignment:
+  artifact_path: artifacts/00-problem-alignment.md
+  artifact_version: 1.0.0
+  approval_status: APPROVED
+  gate_status: APPROVED_FOR_INVESTIGATION
+  problem_statement_ids:
+  - PS-001
+  artifact_digest: sha256:problem001
+snapshot:
+  captured_at: '2026-07-21T09:05:00+07:00'
+  repositories:
+  - repository_id: REPO-001
+    name: order-service
+    location: /workspace/order-service
+    branch: main
+    commit_sha: 0123456789abcdef0123456789abcdef01234567
+    working_tree_status: CLEAN
+    modules_inspected:
+    - approval
+    modules_not_inspected: []
+  environments:
+  - environment_id: ENV-001
+    name: local-test
+    access_mode: TEST_ENVIRONMENT
+    profile: test
+    version_reference: commit:0123456789abcdef0123456789abcdef01234567
+investigation_scope:
+  inspected:
+  - Approval HTTP entry point
+  - Approval service transaction
+  - Outbox repository call
+  - Repository migrations
+  - Approval integration tests
+  not_inspected:
+  - Production gateway retry configuration
+  - Production database constraints
+  limitations:
+  - Runtime concurrent reproduction was not required by the approved input.
+operation_summary:
+  operations:
+  - id: OP-001
+    operation_class: READ_ONLY
+    description: Search approval entry points and outbox writes.
+    command: rg -n 'approve|outbox' src/main src/test
+    authorized: true
+    result: SUCCESS
+    output_reference: artifacts/raw/rg-approval.txt
+  - id: OP-002
+    operation_class: READ_ONLY
+    description: Inspect schema uniqueness declarations.
+    command: rg -n 'idempotency_key|UNIQUE' src/main/resources/db/migration
+    authorized: true
+    result: SUCCESS
+    output_reference: artifacts/raw/rg-idempotency.txt
+  read_only_count: 2
+  non_mutating_test_count: 0
+  mutating_count: 0
+  destructive_count: 0
+evidence_ledger:
+  path: artifacts/02-evidence-ledger.jsonl
+  format: JSONL
+  record_count: 5
+  active_record_count: 5
+  counts_by_type:
+    FACT: 3
+    INFERENCE: 1
+    ASSUMPTION: 0
+    UNKNOWN: 0
+    CONFLICT: 0
+    INVARIANT_CANDIDATE: 1
+    RISK: 0
+  ledger_digest: sha256:exampleledger
+problem_coverage:
+- problem_element_id: PE-001
+  status: EXPLAINED
+  supporting_claim_ids:
+  - F-001
+  - F-002
+  - F-003
+  - INF-001
+  summary: The inspected producer path permits duplicate durable writes when equivalent
+    requests reach the service concurrently.
+- problem_element_id: PE-002
+  status: BOUNDED
+  supporting_claim_ids:
+  - INV-001
+  - F-002
+  summary: The expected single durable effect is represented as an invariant candidate
+    for modelling.
+- problem_element_id: AC-001
+  status: BOUNDED
+  supporting_claim_ids:
+  - F-003
+  - INF-001
+  - INV-001
+  summary: Current inspected sources do not show enforcement, and the acceptance signal
+    can be modelled and later verified.
+coverage_dimensions:
+- dimension: ENTRY_POINTS
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-001
+  - F-002
+  summary: ENTRY_POINTS is bounded by inspected source and evidence.
+- dimension: EXECUTION_PATH
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-001
+  - F-002
+  summary: EXECUTION_PATH is bounded by inspected source and evidence.
+- dimension: STATE_AND_DATA_FLOW
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-001
+  - F-002
+  summary: STATE_AND_DATA_FLOW is bounded by inspected source and evidence.
+- dimension: TRANSACTIONS
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-001
+  - F-002
+  summary: TRANSACTIONS is bounded by inspected source and evidence.
+- dimension: CONCURRENCY
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-003
+  - INF-001
+  summary: CONCURRENCY is bounded by inspected source and evidence.
+- dimension: RETRY_AND_IDEMPOTENCY
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-003
+  - INF-001
+  summary: RETRY_AND_IDEMPOTENCY is bounded by inspected source and evidence.
+- dimension: FAILURE_PATHS
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-001
+  - F-002
+  summary: FAILURE_PATHS is bounded by inspected source and evidence.
+- dimension: TESTS_AND_CONTRACTS
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-001
+  - F-002
+  summary: TESTS_AND_CONTRACTS is bounded by inspected source and evidence.
+- dimension: DATABASE_AND_SCHEMA
+  required: true
+  status: COVERED
+  supporting_claim_ids:
+  - F-003
+  - INF-001
+  summary: DATABASE_AND_SCHEMA is bounded by inspected source and evidence.
+sufficiency_assessment:
+  status: SUFFICIENT
+  rationale: The entry point, transaction path, outbox write, schema enforcement boundary,
+    and relevant test contract are evidenced sufficiently to construct a falsifiable
+    system model. Production-only gateway and schema differences remain explicit limitations
+    rather than hidden assumptions.
+  blocking_unknown_ids: []
+  blocking_conflict_ids: []
+  required_followups: []
+  confidence: MEDIUM
+artifacts:
+- artifact_type: INVESTIGATION_LOG
+  path: artifacts/01-investigation-log.md
+  status: COMPLETE
+  digest: sha256:log
+- artifact_type: EVIDENCE_LEDGER
+  path: artifacts/02-evidence-ledger.jsonl
+  status: COMPLETE
+  digest: sha256:exampleledger
+- artifact_type: INVESTIGATION_OUTPUT
+  path: artifacts/02a-investigation-output.yaml
+  status: COMPLETE
+  digest: sha256:output
+gate:
+  status: READY_FOR_SYSTEM_MODEL
+  next_state: SYSTEM_MODEL
+  blocking_reasons: []
+  next_valid_transitions:
+  - SYSTEM_MODEL
+  - INVESTIGATION
+  - PROBLEM_ALIGNMENT

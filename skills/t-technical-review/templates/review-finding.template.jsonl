@@ -1,0 +1,28 @@
+{
+  "finding_id": "TRF-001",
+  "technical_review_run_id": "TREV-duplicate-event-001",
+  "category": "DATA_INTEGRITY_RISK",
+  "severity": "HIGH",
+  "blocking": true,
+  "target_ids": [
+    "TRCHK-005",
+    "TRCA-003",
+    "TRCH-003",
+    "CHG-003",
+    "CHK-003"
+  ],
+  "summary": "Atomic transaction boundary is not established.",
+  "expected": "The idempotency marker and domain effect must commit atomically.",
+  "observed": "The inspected change evidence permits separate persistence boundaries.",
+  "evidence_refs": [
+    "CHG-003",
+    "TRCH-003",
+    "examples/source-valid-change-records.jsonl"
+  ],
+  "epistemic_status": "INFERENCE",
+  "confidence": 0.91,
+  "status": "OPEN",
+  "required_route": "BOUNDED_IMPLEMENTATION",
+  "remediation_type": "MECHANICAL",
+  "rationale": "The approved semantics remain clear; implementation must be corrected without changing the checklist."
+}

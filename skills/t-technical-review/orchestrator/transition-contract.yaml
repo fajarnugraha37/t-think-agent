@@ -1,0 +1,23 @@
+skill: technical-review
+current_state: TECHNICAL_REVIEW
+previous_state: SELF_REVIEW
+success_state: VERIFICATION
+success_gate: READY_FOR_VERIFICATION
+loopback_states:
+- BOUNDED_IMPLEMENTATION
+- IMPLEMENTATION_CHECKLIST
+- CHECKLIST_CRITIQUE
+- IMPLEMENTATION_PLAN
+- PLAN_CRITIQUE
+- INVESTIGATION
+- SYSTEM_MODEL
+- SOLUTION_DESIGN
+- SOLUTION_CRITIQUE
+- PROBLEM_ALIGNMENT
+- SELF_REVIEW
+invariants:
+- No implementation mutation during review.
+- Reviewer independence must remain true.
+- Source bundle and repository tree digests must remain unchanged.
+- All review findings are evidence-backed.
+- Remediation directives remain unapplied.

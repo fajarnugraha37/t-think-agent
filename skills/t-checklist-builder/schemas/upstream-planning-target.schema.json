@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Implementation Planning Target",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "target_id",
+    "source_type",
+    "source_ref",
+    "statement",
+    "mandatory",
+    "status"
+  ],
+  "properties": {
+    "target_id": {
+      "type": "string",
+      "pattern": "^PTGT-[0-9]{3,}$"
+    },
+    "source_type": {
+      "enum": [
+        "PROBLEM",
+        "SOLUTION_TARGET",
+        "MODEL",
+        "INVARIANT",
+        "ACCEPTED_ASSUMPTION",
+        "ACCEPTED_RISK",
+        "BEHAVIOR_COMMITMENT",
+        "CHANGE_SURFACE",
+        "SEMANTIC_CONSTRAINT",
+        "PLANNING_CONSTRAINT",
+        "PROHIBITED_CHANGE"
+      ]
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mandatory": {
+      "type": "boolean"
+    },
+    "status": {
+      "enum": [
+        "ACTIVE",
+        "SUPERSEDED"
+      ]
+    },
+    "evidence_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

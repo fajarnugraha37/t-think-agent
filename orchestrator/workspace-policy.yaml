@@ -1,0 +1,30 @@
+schema_version: 1.0.0
+policy: workspace-and-permission-boundaries
+principles:
+  vcs_ignore: Controls default discovery only; it is not a confidentiality, authorization, or write boundary.
+  workspace_read: Normal tracked and untracked repository content may be read when relevant.
+  ignored_file_access: Denied by default and requires recorded human approval when essential.
+  source_write: Only t-builder, only during BOUNDED_IMPLEMENTATION, only to approved checklist targets.
+  governance_artifacts: All roles may write their own artifacts below the active .t-think work directory.
+  generated_outputs: t-verifier may create only declared build/test/report outputs; never source changes.
+  outside_workspace: Denied for every subagent.
+discovery_defaults:
+  respect_vcs_ignore: true
+  include_untracked: true
+  include_ignored: false
+protected_paths:
+- .git/**
+- .env
+- .env.*
+- '**/secrets/**'
+- '**/*credential*'
+- '**/*private-key*'
+approved_write_target_source:
+  authoritative_artifact: human-approved implementation checklist contract
+  require_exact_or_declared_glob_match: true
+  empty_means: no source writes permitted
+generated_output_examples:
+- target/**
+- build/**
+- reports/**
+- .t-think/**

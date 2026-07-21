@@ -1,0 +1,13 @@
+cases:
+  - prompt: "Sometimes POST /orders creates duplicates; make it idempotent."
+    expected_initial_state: PROBLEM_ALIGNMENT
+    expected_skill: t-problem-alignment
+    must_not_start_with: [t-investigation, t-solution-design, t-bounded-implementation]
+  - prompt: "The approved checklist is ready and execution is authorized."
+    precondition_state: BOUNDED_IMPLEMENTATION
+    expected_skill: t-bounded-implementation
+    ambiguity_behavior: IMPLEMENTATION_FAILED
+  - prompt: "The verifier found the repository tree changed during verification."
+    precondition_state: VERIFICATION
+    expected_skill: t-verification
+    expected_blocking_behavior: repository_immutability_failure

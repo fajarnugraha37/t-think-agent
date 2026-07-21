@@ -1,0 +1,223 @@
+schema_version: 1.0.0
+suite: t-think
+topology: star
+max_delegation_depth: 1
+orchestrator:
+  name: t-think
+  mode: primary
+  human_interaction: true
+  source_write: deny
+  may_delegate_to:
+  - t-investigator
+  - t-modeler
+  - t-planner
+  - t-critic
+  - t-builder
+  - t-reviewer
+  - t-verifier
+  - t-reconciler
+agents:
+- schema_version: 1.0.0
+  name: t-investigator
+  mode: subagent
+  description: Collect direct repository, configuration, test, runtime, and documentation evidence without proposing
+    or implementing a solution.
+  phases:
+  - INVESTIGATION
+  skills:
+  - t-investigation
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: deny
+    protected_paths: &id001
+    - .git/**
+    - .env
+    - .env.*
+    - '**/secrets/**'
+    - '**/*credential*'
+    - '**/*private-key*'
+    command_policy: diagnostic-read-only
+    spawn_subagent: deny
+- schema_version: 1.0.0
+  name: t-modeler
+  mode: subagent
+  description: Build evidence-backed system models and materially distinct solution options without approving its
+    own work.
+  phases:
+  - SYSTEM_MODEL
+  - SOLUTION_DESIGN
+  skills:
+  - t-system-modeling
+  - t-solution-design
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: deny
+    protected_paths: *id001
+    command_policy: read-only
+    spawn_subagent: deny
+- schema_version: 1.0.0
+  name: t-planner
+  mode: subagent
+  description: Translate an approved solution into an ordered plan and atomic implementation checklist.
+  phases:
+  - IMPLEMENTATION_PLAN
+  - IMPLEMENTATION_CHECKLIST
+  skills:
+  - t-implementation-planning
+  - t-checklist-builder
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: deny
+    protected_paths: *id001
+    command_policy: read-only
+    spawn_subagent: deny
+- schema_version: 1.0.0
+  name: t-critic
+  mode: subagent
+  description: Perform fresh-context adversarial critique of models, solutions, plans, and checklists.
+  phases:
+  - MODEL_CRITIQUE
+  - SOLUTION_CRITIQUE
+  - PLAN_CRITIQUE
+  - CHECKLIST_CRITIQUE
+  skills:
+  - t-model-critique
+  - t-solution-critique
+  - t-plan-critique
+  - t-checklist-critique
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: deny
+    protected_paths: *id001
+    command_policy: read-only
+    spawn_subagent: deny
+- schema_version: 1.0.0
+  name: t-builder
+  mode: subagent
+  description: Execute only the human-authorized atomic checklist and perform a fresh-invocation self-review.
+  phases:
+  - BOUNDED_IMPLEMENTATION
+  - SELF_REVIEW
+  skills:
+  - t-bounded-implementation
+  - t-self-review
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: approved_targets_only
+    protected_paths: *id001
+    command_policy: approved-checklist-only
+    spawn_subagent: deny
+- schema_version: 1.0.0
+  name: t-reviewer
+  mode: subagent
+  description: Independently review the actual diff against approved artifacts in a fresh read-only context.
+  phases:
+  - TECHNICAL_REVIEW
+  skills:
+  - t-technical-review
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: deny
+    protected_paths: *id001
+    command_policy: read-only-checks
+    spawn_subagent: deny
+- schema_version: 1.0.0
+  name: t-verifier
+  mode: subagent
+  description: Execute approved reproducible verification and falsification without changing source code.
+  phases:
+  - VERIFICATION
+  skills:
+  - t-verification
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: generated_outputs_only
+    protected_paths: *id001
+    command_policy: approved-verification-only
+    spawn_subagent: deny
+- schema_version: 1.0.0
+  name: t-reconciler
+  mode: subagent
+  description: Audit end-to-end traceability and unresolved findings before final human closure.
+  phases:
+  - RECONCILIATION
+  skills:
+  - t-reconciliation
+  context: fresh_invocation
+  human_interaction: false
+  permissions:
+    discovery:
+      respect_vcs_ignore: true
+      include_untracked: true
+      include_ignored: false
+    workspace_read: allow
+    outside_workspace: deny
+    governance_artifact_write: .t-think/**
+    source_write:
+      mode: deny
+    protected_paths: *id001
+    command_policy: read-only
+    spawn_subagent: deny

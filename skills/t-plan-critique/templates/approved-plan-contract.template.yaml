@@ -1,0 +1,42 @@
+contract_id: PLANCON-001
+status: PENDING
+source_planning_run_id: IPLAN-...
+source_solution_contract_id: SOLCON-...
+plan_approval_id: PAPP-001
+repository_snapshot:
+  repository_id: repo
+  branch: main
+  commit_sha: 0123456789abcdef
+  working_tree_status: CLEAN
+artifact_versions:
+  planning_output_version: 1.0.0
+  solution_contract_id: SOLCON-...
+plan_bundle_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+planning_target_ids: []
+plan_item_ids: []
+dependency_edge_ids: []
+verification_item_ids: []
+rollback_item_ids: []
+execution_order: []
+change_surface:
+  components: []
+  files_or_artifacts: []
+decision_envelope:
+  allowed_mechanical_discretion:
+  - Local naming and formatting that do not change behavior.
+  prohibited_semantic_discretion:
+  - No business-rule, contract, transaction, concurrency, retry, security, persistence,
+    or migration decision.
+  no_silent_replanning: true
+failure_budget:
+  max_remediation_attempts: 2
+  on_exhaustion: IMPLEMENTATION_FAILED
+implementation_constraints:
+- Implement only approved checklist items derived from this plan.
+accepted_residual_risk_ids: []
+accepted_limitations: []
+approval:
+  status: PENDING
+  approved_by: null
+  approver_role: UNASSIGNED
+  approved_at: null

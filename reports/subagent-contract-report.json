@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "passed_contracts": [
+    "registry and agent manifests",
+    "read-only investigation boundary",
+    "approved target and protected path enforcement",
+    "self-review write disabled",
+    "verifier generated-output boundary",
+    "ignored and outside-workspace boundaries",
+    "result envelope cross-validation",
+    "platform adapter structure and model neutrality"
+  ],
+  "issues": []
+}

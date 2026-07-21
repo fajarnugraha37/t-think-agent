@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/plan-critique/assessment.schema.json",
+  "title": "Plan Critique Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assessment_id",
+    "critique_id",
+    "classification",
+    "target_ids",
+    "critique_summary",
+    "evidence_reviewed",
+    "planning_items_reviewed",
+    "reasoning_summary",
+    "supporting_findings",
+    "contradicting_findings",
+    "resulting_status",
+    "revision_directive_ids",
+    "evidence_request_ids",
+    "recommended_route",
+    "confidence",
+    "falsification_conditions",
+    "limitations",
+    "human_decision_required",
+    "created_at"
+  ],
+  "properties": {
+    "assessment_id": {
+      "type": "string",
+      "pattern": "^PASM-[0-9]{3,}$"
+    },
+    "critique_id": {
+      "type": "string",
+      "pattern": "^PCRQ-[0-9]{3,}$"
+    },
+    "classification": {
+      "enum": [
+        "ACCEPTED",
+        "PARTIALLY_ACCEPTED",
+        "REJECTED_WITH_EVIDENCE",
+        "REQUIRES_INVESTIGATION"
+      ]
+    },
+    "target_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(PTGT|PLN|PDEP|PCOV|TST|RBK|PFND)-[0-9]{3,}$"
+      }
+    },
+    "critique_summary": {
+      "type": "string",
+      "minLength": 3
+    },
+    "evidence_reviewed": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "planning_items_reviewed": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(PTGT|PLN|PDEP|PCOV|TST|RBK|PFND)-[0-9]{3,}$"
+      }
+    },
+    "reasoning_summary": {
+      "type": "string",
+      "minLength": 10
+    },
+    "supporting_findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "contradicting_findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "alternative_interpretations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "resulting_status": {
+      "enum": [
+        "NO_CHANGE",
+        "WEAKENED",
+        "REVISION_REQUIRED",
+        "RETRACTED",
+        "INVESTIGATION_REQUIRED",
+        "UPSTREAM_DECISION_REQUIRED"
+      ]
+    },
+    "revision_directive_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PREV-[0-9]{3,}$"
+      }
+    },
+    "evidence_request_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PEREQ-[0-9]{3,}$"
+      }
+    },
+    "recommended_route": {
+      "enum": [
+        "PLAN_CRITIQUE",
+        "IMPLEMENTATION_PLAN",
+        "INVESTIGATION",
+        "SYSTEM_MODEL",
+        "SOLUTION_DESIGN",
+        "SOLUTION_CRITIQUE",
+        "PROBLEM_ALIGNMENT"
+      ]
+    },
+    "confidence": {
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    "falsification_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "human_decision_required": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

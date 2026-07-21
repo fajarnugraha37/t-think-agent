@@ -1,0 +1,91 @@
+metadata:
+  planning_run_id: IPLAN-duplicate-event-001
+  version: 1.0.0
+  created_at: '2026-07-21T16:00:00+07:00'
+  author_agent: implementation-planning-skill
+  language: id-ID
+source_solution_critique:
+  critique_run_id: SCRIT-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_IMPLEMENTATION_PLAN
+source_solution_contract:
+  contract_id: SOLCON-001
+  status: APPROVED
+  selected_option_id: OPT-001
+  approved_model_version: 1.0.0
+repository_snapshot:
+  repository_id: REPO-001
+  repository_path: /workspace/approval-service
+  branch: main
+  commit_sha: 0123456789abcdef0123456789abcdef01234567
+  working_tree_status: CLEAN
+  actual_code_reinspection_required: true
+  runtime_profile: integration-test
+  notes:
+  - Example snapshot; replace with actual repository values.
+source_artifacts:
+  approved_solution_contract:
+    path: artifacts/06e-approved-solution-contract.yaml
+    format: YAML
+    record_count: 1
+  solution_critique_output:
+    path: artifacts/06g-solution-critique-output.yaml
+    format: YAML
+    record_count: 1
+  evidence_ledger:
+    path: artifacts/02-evidence-ledger.jsonl
+    format: JSONL
+    record_count: 5
+  model_elements:
+    path: artifacts/03a-model-elements.jsonl
+    format: JSONL
+    record_count: 13
+  model_relations:
+    path: artifacts/03b-model-relations.jsonl
+    format: JSONL
+    record_count: 11
+planning_configuration:
+  required_plan_dimensions:
+  - CODE
+  - DATABASE
+  - DATA
+  - DEPLOYMENT
+  - MIGRATION
+  - TESTING
+  - OBSERVABILITY
+  - SECURITY
+  - ROLLBACK
+  - COMPATIBILITY
+  required_test_categories:
+  - REGRESSION_REPRODUCTION
+  - INTEGRATION
+  - CONTRACT
+  - CONCURRENCY
+  - MIGRATION
+  - SECURITY
+  - OBSERVABILITY
+  - ROLLBACK
+  - NEGATIVE_PATH
+  - COMPATIBILITY
+  - INVARIANT
+  rollback_required_change_types:
+  - CODE
+  - DATABASE_SCHEMA
+  - DATA_BACKFILL
+  - DEPLOYMENT
+  - MIGRATION
+  - OBSERVABILITY
+  allow_new_semantic_decisions: false
+  require_acyclic_dependency_graph: true
+  require_full_mandatory_coverage: true
+  maximum_plan_item_size: MEDIUM
+  failure_budget: 2
+human_constraints:
+  explicit_directives:
+  - Do not change the public approval API.
+  - Use expand-migrate-contract.
+  forbidden_operations:
+  - Do not delete historical approval data.
+  - Do not activate strict enforcement before fleet convergence.
+  accepted_limitations:
+  - Production-only gateway behavior remains outside this example.

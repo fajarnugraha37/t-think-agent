@@ -1,0 +1,5 @@
+trace_id,problem_id,evidence_ids,model_element_ids,model_relation_ids,coverage_status,summary,limitations
+TRC-001,PS-001,F-001|F-002|F-003|INF-001|INV-001,MDL-002|MDL-003|MDL-004|MDL-006|MDL-008|MDL-009|MDL-010|MDL-011|MDL-012,REL-002|REL-003|REL-005|REL-007|REL-008|REL-009|REL-010|REL-011,FULL,"The model connects the request path, durable write, concurrency boundary, actual behavior, intended behavior, invariant, gap, and failure path.",Production-only controls remain outside inspected scope.
+TRC-002,PE-001,F-001|F-002|F-003|INF-001,MDL-002|MDL-003|MDL-004|MDL-005|MDL-006|MDL-007|MDL-008,REL-002|REL-003|REL-004|REL-005|REL-006,FULL,The producer execution and durable write path are represented with transaction and concurrency boundaries.,
+TRC-003,PE-002,F-002|INV-001,MDL-009|MDL-010|MDL-011,REL-009|REL-010,FULL,The intended single durable effect and its invariant are explicit.,
+TRC-004,AC-001,F-002|F-003|INF-001|INV-001,MDL-006|MDL-008|MDL-009|MDL-010|MDL-011,REL-005|REL-007|REL-008|REL-009|REL-010,FULL,The model explains the duplicate possibility and identifies the violated cardinality invariant.,Runtime concurrency frequency was not measured.

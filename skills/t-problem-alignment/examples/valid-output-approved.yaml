@@ -1,0 +1,172 @@
+metadata:
+  artifact_id: PA-ORDER-DUPLICATE-001
+  version: 1.0.0
+  status: APPROVED
+  created_at: 2026-07-21T10:05:00+07:00
+  updated_at: 2026-07-21T10:30:00+07:00
+  supersedes: PA-ORDER-DUPLICATE-001@0.1.0
+
+source_input:
+  request_id: REQ-ORDER-DUPLICATE-001
+  input_digest: sha256:example
+
+normalized_problem:
+  problem_statement: >-
+    Ketika satu approval command untuk order yang sama menerima timeout dan
+    dikirim ulang dengan business operation identifier yang sama, sistem dapat
+    menghasilkan lebih dari satu durable business effect, padahal satu business
+    operation identifier harus merepresentasikan tepat satu intent approval.
+  observed_behavior:
+    - statement: Pengguna dapat mengirim ulang approval command setelah timeout.
+      source_statement_ids: [HS-001]
+    - statement: Downstream dapat menerima lebih dari satu durable business effect untuk business operation identifier yang sama.
+      source_statement_ids: [HS-004]
+  expected_behavior:
+    - statement: Satu business operation identifier merepresentasikan satu intent approval.
+      source_statement_ids: [HS-008]
+    - statement: Satu intent approval menghasilkan tepat satu durable business effect.
+      source_statement_ids: [HS-002]
+  impact:
+    - statement: Duplikasi durable business effect dapat memproses approval lebih dari sekali di downstream.
+      source_statement_ids: [HS-004]
+  success_definition:
+    - statement: Pengulangan approval command dengan business operation identifier yang sama tidak menghasilkan durable business effect tambahan.
+      source_statement_ids: [HS-008, HS-002]
+
+human_statements:
+  - id: HS-001
+    statement: Pengguna dapat mengulang request setelah menerima timeout.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-002
+    statement: Satu intent approval order harus menghasilkan satu durable business effect.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-003
+    statement: Fase ini tidak boleh menentukan root cause atau solusi.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-004
+    statement: Downstream dapat menerima efek approval lebih dari sekali.
+    source: CLARIFICATION_ANSWER
+    confirmed: true
+    material: true
+  - id: HS-005
+    statement: Existing public API compatibility harus dipertahankan kecuali disetujui kemudian.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-006
+    statement: Scope mencakup flow approval order yang mengalami timeout dan retry oleh pengguna.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-007
+    statement: Redesign keseluruhan order lifecycle tidak termasuk scope.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-008
+    statement: Business operation identifier yang sama berarti intent approval yang sama.
+    source: CLARIFICATION_ANSWER
+    confirmed: true
+    material: true
+
+interpretations:
+  - id: INT-001
+    original_statement_id: HS-002
+    normalized_interpretation: >-
+      “Satu durable business effect” berarti keseluruhan hasil bisnis persisten
+      untuk satu intent, bukan sekadar satu HTTP response.
+    reason: Istilah perlu dibedakan dari jumlah request atau response.
+    confidence: HIGH
+    material: true
+    human_confirmation: CONFIRMED
+
+terms:
+  - id: TERM-001
+    term: durable business effect
+    definition: Perubahan bisnis persisten atau side effect downstream yang dianggap satu hasil approval.
+    confirmation: CONFIRMED
+    source_statement_ids: [HS-002]
+  - id: TERM-002
+    term: business operation identifier
+    definition: Identifier yang sama menunjukkan intent approval bisnis yang sama walaupun request dikirim ulang.
+    confirmation: CONFIRMED
+    source_statement_ids: [HS-008]
+
+constraints:
+  - id: CST-001
+    statement: Existing public API compatibility harus dipertahankan kecuali disetujui kemudian.
+    type: COMPATIBILITY
+    source_statement_ids: [HS-005]
+
+scope:
+  in_scope:
+    - statement: Flow approval order yang mengalami timeout dan retry oleh pengguna.
+      source_statement_ids: [HS-006]
+  out_of_scope:
+    - statement: Redesign keseluruhan order lifecycle.
+      source_statement_ids: [HS-007]
+  environments: [UNKNOWN]
+
+acceptance_signals:
+  - id: AS-001
+    statement: Dua atau lebih approval command dengan business operation identifier yang sama menghasilkan hanya satu durable business effect.
+    observable: true
+    source_statement_ids: [HS-008, HS-002]
+
+open_questions:
+  - id: Q-001
+    question: Bagaimana satu intent approval diidentifikasi dari perspektif bisnis?
+    classification: BLOCKING_ALIGNMENT
+    status: ANSWERED
+    why_it_matters: Identitas intent diperlukan untuk menyatakan expected behavior dan acceptance signal.
+    answer_statement_id: HS-008
+  - id: Q-002
+    question: Komponen mana yang pertama menerima approval command?
+    classification: DEFER_TO_INVESTIGATION
+    status: OPEN
+    why_it_matters: Harus ditemukan dari actual system dan tidak diperlukan untuk memahami business problem.
+    answer_statement_id: null
+
+deferred_to_investigation:
+  - id: DI-001
+    question: Komponen mana yang menulis state approval dan menerbitkan efek downstream?
+    reason_for_deferral: Jawaban harus diperoleh dari actual code dan runtime evidence.
+    expected_evidence_source: Source code, configuration, tests, logs, traces, and database schema.
+  - id: DI-002
+    question: Di layer mana business operation identifier tersedia dan dipertahankan saat retry?
+    reason_for_deferral: Ini adalah fakta teknis sistem aktual.
+    expected_evidence_source: API contracts, client code, server code, logs, and traces.
+
+prohibited_content_check:
+  contains_root_cause_hypothesis: false
+  contains_solution_proposal: false
+  contains_implementation_direction: false
+  contains_hidden_assumption: false
+  uses_unverified_previous_context_as_fact: false
+
+approval:
+  approved: true
+  reviewed_by: fajar
+  reviewed_at: 2026-07-21T10:30:00+07:00
+  explicit_statement: Saya menyetujui problem alignment ini untuk dilanjutkan ke investigation.
+  notes: Technical details wajib diverifikasi dari actual repository dan runtime evidence.
+
+gate:
+  status: APPROVED_FOR_INVESTIGATION
+  blocking_reasons: []
+  next_valid_transitions:
+    - INVESTIGATION
+
+change_log:
+  - version: 0.1.0
+    changed_at: 2026-07-21T10:05:00+07:00
+    summary: Initial clarification draft.
+  - version: 1.0.0
+    changed_at: 2026-07-21T10:30:00+07:00
+    summary: Business operation identifier defined and artifact explicitly approved.

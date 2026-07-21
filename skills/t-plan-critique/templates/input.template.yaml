@@ -1,0 +1,92 @@
+metadata:
+  request_id: REQ-...
+  critique_run_id: PCRIT-...
+  created_at: '2026-07-21T00:00:00+08:00'
+  author_agent: plan-critique-skill
+  language: id-ID
+  requested_by: human
+source_planning:
+  planning_run_id: IPLAN-...
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_PLAN_CRITIQUE
+  repository_commit: 0123456789abcdef
+source_artifacts:
+  planning_output:
+    path: artifacts/...
+    format: YAML
+    record_count: 0
+    digest: sha256:...
+  planning_targets:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  plan_items:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  dependency_edges:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  coverage_matrix:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  verification_plan:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  rollback_plan:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  planning_findings:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  approved_solution_contract:
+    path: artifacts/...
+    format: YAML
+    record_count: 0
+    digest: sha256:...
+  evidence_ledger:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  model_elements:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  model_relations:
+    path: artifacts/...
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+human_critiques:
+- critique_id: PCRQ-001
+  submitted_by: human
+  submitted_at: '2026-07-21T00:00:00+08:00'
+  target_kind: PLAN_ITEM
+  target_ids:
+  - PLN-001
+  statement: '...'
+  priority: HIGH
+  blocking: true
+review_policy:
+  actual_source_only: true
+  context_firewall: true
+  evaluate_not_obey: true
+  require_evidence_for_rejection: true
+  require_falsifiability: true
+  allow_silent_plan_mutation: false
+  allow_implementation: false
+  allow_new_semantic_decisions: false

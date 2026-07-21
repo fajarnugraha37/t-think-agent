@@ -1,0 +1,145 @@
+metadata:
+  artifact_id: PA-ORDER-DUPLICATE-001
+  version: 0.1.0
+  status: DRAFT
+  created_at: 2026-07-21T10:05:00+07:00
+  updated_at: 2026-07-21T10:05:00+07:00
+  supersedes: null
+
+source_input:
+  request_id: REQ-ORDER-DUPLICATE-001
+  input_digest: sha256:example
+
+normalized_problem:
+  problem_statement: >-
+    Flow approval order yang menerima timeout dapat diulang oleh pengguna,
+    dan pengulangan tersebut berpotensi menghasilkan lebih dari satu durable
+    business effect untuk satu intent approval yang sama.
+  observed_behavior:
+    - statement: Pengguna dapat mengulang request approval setelah menerima timeout.
+      source_statement_ids: [HS-001]
+  expected_behavior:
+    - statement: Satu intent approval order menghasilkan tepat satu durable business effect.
+      source_statement_ids: [HS-002]
+  impact:
+    - statement: Downstream dapat menerima efek approval lebih dari sekali.
+      source_statement_ids: [HS-004]
+  success_definition:
+    - statement: Untuk satu intent approval yang sama, hanya satu durable business effect yang teramati.
+      source_statement_ids: [HS-002]
+
+human_statements:
+  - id: HS-001
+    statement: Pengguna dapat mengulang request setelah menerima timeout.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-002
+    statement: Satu intent approval order harus menghasilkan satu durable business effect.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-003
+    statement: Fase ini tidak boleh menentukan root cause atau solusi.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-004
+    statement: Downstream dapat menerima efek approval lebih dari sekali.
+    source: CLARIFICATION_ANSWER
+    confirmed: true
+    material: true
+  - id: HS-005
+    statement: Existing public API compatibility harus dipertahankan kecuali disetujui kemudian.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-006
+    statement: Scope mencakup flow approval order yang mengalami timeout dan retry oleh pengguna.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+  - id: HS-007
+    statement: Redesign keseluruhan order lifecycle tidak termasuk scope.
+    source: INITIAL_INPUT
+    confirmed: true
+    material: true
+
+interpretations:
+  - id: INT-001
+    original_statement_id: HS-002
+    normalized_interpretation: >-
+      “Satu durable business effect” berarti keseluruhan hasil bisnis persisten
+      untuk satu intent, bukan sekadar satu HTTP response.
+    reason: Istilah perlu dibedakan dari jumlah request atau response.
+    confidence: HIGH
+    material: true
+    human_confirmation: CONFIRMED
+
+terms:
+  - id: TERM-001
+    term: durable business effect
+    definition: Perubahan bisnis persisten atau side effect downstream yang dianggap satu hasil approval.
+    confirmation: CONFIRMED
+    source_statement_ids: [HS-002]
+
+constraints:
+  - id: CST-001
+    statement: Existing public API compatibility harus dipertahankan kecuali disetujui kemudian.
+    type: COMPATIBILITY
+    source_statement_ids: [HS-005]
+
+scope:
+  in_scope:
+    - statement: Flow approval order yang mengalami timeout dan retry oleh pengguna.
+      source_statement_ids: [HS-006]
+  out_of_scope:
+    - statement: Redesign keseluruhan order lifecycle.
+      source_statement_ids: [HS-007]
+  environments: [UNKNOWN]
+
+acceptance_signals:
+  - id: AS-001
+    statement: Satu intent approval menghasilkan satu durable business effect yang dapat dibuktikan.
+    observable: true
+    source_statement_ids: [HS-002]
+
+open_questions:
+  - id: Q-001
+    question: Bagaimana satu intent approval diidentifikasi dari perspektif bisnis?
+    classification: BLOCKING_ALIGNMENT
+    status: OPEN
+    why_it_matters: Tanpa definisi identitas intent, acceptance signal belum dapat diterapkan secara konsisten.
+    answer_statement_id: null
+
+deferred_to_investigation:
+  - id: DI-001
+    question: Komponen mana yang menulis state approval dan menerbitkan efek downstream?
+    reason_for_deferral: Jawaban harus diperoleh dari actual code dan runtime evidence.
+    expected_evidence_source: Source code, configuration, tests, logs, traces, and database schema.
+
+prohibited_content_check:
+  contains_root_cause_hypothesis: false
+  contains_solution_proposal: false
+  contains_implementation_direction: false
+  contains_hidden_assumption: false
+  uses_unverified_previous_context_as_fact: false
+
+approval:
+  approved: false
+  reviewed_by: null
+  reviewed_at: null
+  explicit_statement: null
+  notes: Menunggu jawaban Q-001.
+
+gate:
+  status: NEEDS_HUMAN_CLARIFICATION
+  blocking_reasons:
+    - Q-001 masih terbuka.
+  next_valid_transitions:
+    - PROBLEM_ALIGNMENT
+
+change_log:
+  - version: 0.1.0
+    changed_at: 2026-07-21T10:05:00+07:00
+    summary: Initial clarification draft.

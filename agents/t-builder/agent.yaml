@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+name: t-builder
+mode: subagent
+description: Execute only the human-authorized atomic checklist and perform a fresh-invocation self-review.
+phases:
+- BOUNDED_IMPLEMENTATION
+- SELF_REVIEW
+skills:
+- t-bounded-implementation
+- t-self-review
+context: fresh_invocation
+human_interaction: false
+permissions:
+  discovery:
+    respect_vcs_ignore: true
+    include_untracked: true
+    include_ignored: false
+  workspace_read: allow
+  outside_workspace: deny
+  governance_artifact_write: .t-think/**
+  source_write:
+    mode: approved_targets_only
+  protected_paths:
+  - .git/**
+  - .env
+  - .env.*
+  - '**/secrets/**'
+  - '**/*credential*'
+  - '**/*private-key*'
+  command_policy: approved-checklist-only
+  spawn_subagent: deny

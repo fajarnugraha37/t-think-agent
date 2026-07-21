@@ -1,0 +1,12 @@
+critique_id: CRIT-001
+target_artifact: artifacts/03-system-model.md
+target_ids:
+- MDL-001
+critique: '...'
+classification: REQUIRES_INVESTIGATION
+evidence_reviewed:
+- F-001
+agent_response: '...'
+required_action: '...'
+resulting_status: INVESTIGATION_REQUIRED
+created_at: '2026-01-01T00:00:00Z'

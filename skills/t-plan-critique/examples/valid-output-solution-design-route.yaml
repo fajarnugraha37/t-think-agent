@@ -1,0 +1,80 @@
+metadata:
+  critique_run_id: PCRIT-solution-design-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T17:00:00+07:00'
+  updated_at: '2026-07-21T17:16:00+07:00'
+  author_agent: plan-critique-skill
+  language: id-ID
+source_planning:
+  planning_run_id: IPLAN-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_PLAN_CRITIQUE
+  repository_commit: abcdef1234567890
+  artifact_digest: sha256:planning-output
+artifact_files:
+  assessments:
+    path: artifacts/08a-plan-critique-assessments.jsonl
+    format: JSONL
+    record_count: 1
+  revision_directives:
+    path: artifacts/08b-plan-revision-directives.jsonl
+    format: JSONL
+    record_count: 1
+  evidence_requests:
+    path: artifacts/08c-plan-evidence-requests.jsonl
+    format: JSONL
+    record_count: 0
+  plan_approval:
+    path: artifacts/08d-plan-approval.yaml
+    format: YAML
+    record_count: 1
+  approved_plan_contract:
+    path: artifacts/08e-approved-plan-contract.yaml
+    format: YAML
+    record_count: 1
+  report:
+    path: artifacts/08f-plan-critique-report.md
+    format: MARKDOWN
+    record_count: 1
+review_summary:
+  total_critiques: 1
+  accepted: 0
+  partially_accepted: 1
+  rejected_with_evidence: 0
+  requires_investigation: 0
+  unassessed: 0
+coverage:
+  all_critiques_assessed: true
+  all_targets_resolved: true
+  all_references_valid: true
+  all_material_responses_evidence_backed: true
+plan_impact:
+  revision_required: true
+  investigation_required: false
+  upstream_decision_required: true
+  affected_ids:
+  - PLN-003
+  retained_ids: []
+  residual_uncertainties: []
+approval_readiness:
+  status: NOT_READY
+  human_approval_status: PENDING
+  plan_contract_status: PENDING
+  all_blocking_critiques_resolved: false
+  all_revision_directives_absent: false
+  all_evidence_requests_closed_or_routed: true
+  bundle_digest_valid: true
+gate_decision:
+  status: RETURN_TO_SOLUTION_DESIGN
+  rationale: The requested fallback requires a new semantic decision not authorized
+    by the solution contract.
+  blocking_critique_ids:
+  - PCRQ-004
+  blocking_request_ids:
+  - PREV-002
+  required_next_actions:
+  - Revisit solution options and explicitly decide missing-key behavior.
+  next_state: SOLUTION_DESIGN
+limitations:
+- Plan critique did not execute code or production rollout.

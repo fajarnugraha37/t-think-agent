@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/system-modeling/critique.schema.json",
+  "title": "System Model Critique Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "critique_id",
+    "target_artifact",
+    "target_ids",
+    "critique",
+    "classification",
+    "evidence_reviewed",
+    "agent_response",
+    "required_action",
+    "resulting_status"
+  ],
+  "properties": {
+    "critique_id": {
+      "type": "string",
+      "pattern": "^CRIT-[0-9]{3,}$"
+    },
+    "target_artifact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(MDL|REL|TRC|F|INF|ASM|UNK|CON|INV|PS|PE|AC)-[0-9]{3,}$"
+      }
+    },
+    "critique": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classification": {
+      "enum": [
+        "ACCEPTED",
+        "PARTIALLY_ACCEPTED",
+        "REJECTED_WITH_EVIDENCE",
+        "REQUIRES_INVESTIGATION"
+      ]
+    },
+    "evidence_reviewed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "agent_response": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resulting_status": {
+      "enum": [
+        "NO_CHANGE",
+        "WEAKENED",
+        "REVISED",
+        "RETRACTED",
+        "INVESTIGATION_REQUIRED"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

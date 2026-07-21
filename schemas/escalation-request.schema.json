@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/escalation-request.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_id",
+    "phase",
+    "trigger",
+    "attempts",
+    "requested_action",
+    "state_must_not_advance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "work_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "phase": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "string",
+      "minLength": 3
+    },
+    "attempts": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "requested_action": {
+      "enum": [
+        "STRONGER_MODEL",
+        "HUMAN_DECISION",
+        "ADDITIONAL_EVIDENCE",
+        "VALIDATOR_REPAIR"
+      ]
+    },
+    "state_must_not_advance": {
+      "const": true
+    }
+  }
+}

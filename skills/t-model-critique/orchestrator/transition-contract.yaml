@@ -1,0 +1,33 @@
+skill: model-critique
+state: MODEL_CRITIQUE
+routes:
+- gate_status: RETURN_TO_PROBLEM_ALIGNMENT
+  next_state: PROBLEM_ALIGNMENT
+  conditions:
+  - business meaning or intended behavior unresolved
+- gate_status: RETURN_TO_INVESTIGATION
+  next_state: INVESTIGATION
+  conditions:
+  - at least one blocking OPEN evidence request
+- gate_status: RETURN_TO_SYSTEM_MODEL
+  next_state: SYSTEM_MODEL
+  conditions:
+  - revision directive exists
+  - no blocking open evidence request
+- gate_status: AWAITING_HUMAN_APPROVAL
+  next_state: MODEL_CRITIQUE
+  conditions:
+  - all critiques assessed
+  - no revision or investigation required
+  - human approval pending
+- gate_status: READY_FOR_CHANGE_OPTIONS
+  next_state: SOLUTION_DESIGN
+  conditions:
+  - all critiques assessed
+  - no open blocking request
+  - no revision required
+  - human model approval APPROVED
+- gate_status: BLOCKED
+  next_state: NONE
+  conditions:
+  - package integrity failure or unresolved invalid reference

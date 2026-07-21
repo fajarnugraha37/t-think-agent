@@ -1,0 +1,84 @@
+metadata:
+  critique_run_id: CCRIT-duplicate-event-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T19:00:00+07:00'
+  updated_at: '2026-07-21T19:16:00+07:00'
+  author_agent: checklist-critique-skill
+  language: id-ID
+source_checklist:
+  builder_run_id: CBLD-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_CHECKLIST_CRITIQUE
+  repository_commit: abcdef1234567890
+  artifact_digest: sha256:checklist-builder-output
+artifact_files:
+  assessments:
+    path: artifacts/10a-checklist-critique-assessments.jsonl
+    format: JSONL
+    record_count: 1
+  revision_directives:
+    path: artifacts/10b-checklist-revision-directives.jsonl
+    format: JSONL
+    record_count: 0
+  evidence_requests:
+    path: artifacts/10c-checklist-evidence-requests.jsonl
+    format: JSONL
+    record_count: 0
+  checklist_approval:
+    path: artifacts/10d-checklist-approval.yaml
+    format: YAML
+    record_count: 1
+  approved_checklist_contract:
+    path: artifacts/10e-approved-checklist-contract.yaml
+    format: YAML
+    record_count: 1
+  report:
+    path: artifacts/10f-checklist-critique-report.md
+    format: MARKDOWN
+    record_count: 1
+review_summary:
+  total_critiques: 1
+  accepted: 0
+  partially_accepted: 0
+  rejected_with_evidence: 1
+  requires_investigation: 0
+  unassessed: 0
+coverage:
+  all_critiques_assessed: true
+  all_targets_resolved: true
+  all_references_valid: true
+  all_material_responses_evidence_backed: true
+checklist_impact:
+  revision_required: false
+  investigation_required: false
+  upstream_decision_required: false
+  affected_ids: []
+  retained_ids:
+  - CDEP-001
+  residual_uncertainties:
+  - No implementation or runtime verification was executed during checklist critique.
+execution_authorization_readiness:
+  status: READY
+  human_approval_status: APPROVED
+  checklist_contract_status: APPROVED
+  all_blocking_critiques_resolved: true
+  all_revision_directives_absent: true
+  all_evidence_requests_closed_or_routed: true
+  bundle_digest_valid: true
+  execution_authorized: true
+  human_gates_accepted: true
+gate_decision:
+  status: READY_FOR_BOUNDED_IMPLEMENTATION
+  rationale: All critiques are assessed, no revision or evidence request remains,
+    the exact checklist bundle is approved by a human, and execution authorization
+    is bound to an immutable contract.
+  blocking_critique_ids: []
+  blocking_request_ids: []
+  required_next_actions:
+  - Invoke bounded-implementation using CHKCON-001 and preserve item order, human
+    gates, evidence capture, and failure behavior.
+  next_state: BOUNDED_IMPLEMENTATION
+limitations:
+- Checklist critique does not execute code, tests, migrations, deployments, or production
+  operations.

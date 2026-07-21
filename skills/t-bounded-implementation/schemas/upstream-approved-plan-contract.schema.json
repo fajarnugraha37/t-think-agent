@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/plan-critique/approved-plan-contract.schema.json",
+  "title": "Approved Implementation Plan Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_id",
+    "status",
+    "source_planning_run_id",
+    "source_solution_contract_id",
+    "plan_approval_id",
+    "repository_snapshot",
+    "artifact_versions",
+    "plan_bundle_digest",
+    "planning_target_ids",
+    "plan_item_ids",
+    "dependency_edge_ids",
+    "verification_item_ids",
+    "rollback_item_ids",
+    "execution_order",
+    "change_surface",
+    "decision_envelope",
+    "failure_budget",
+    "implementation_constraints",
+    "accepted_residual_risk_ids",
+    "accepted_limitations",
+    "approval"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string",
+      "pattern": "^PLANCON-[0-9]{3,}$"
+    },
+    "status": {
+      "enum": [
+        "PENDING",
+        "APPROVED"
+      ]
+    },
+    "source_planning_run_id": {
+      "type": "string",
+      "pattern": "^IPLAN-"
+    },
+    "source_solution_contract_id": {
+      "type": "string",
+      "pattern": "^SOLCON-"
+    },
+    "plan_approval_id": {
+      "type": "string",
+      "pattern": "^PAPP-"
+    },
+    "repository_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id",
+        "branch",
+        "commit_sha",
+        "working_tree_status"
+      ],
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{7,64}$"
+        },
+        "working_tree_status": {
+          "enum": [
+            "CLEAN",
+            "DIRTY",
+            "UNKNOWN"
+          ]
+        }
+      }
+    },
+    "artifact_versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_output_version",
+        "solution_contract_id"
+      ],
+      "properties": {
+        "planning_output_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "solution_contract_id": {
+          "type": "string",
+          "pattern": "^SOLCON-"
+        }
+      }
+    },
+    "plan_bundle_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "planning_target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PTGT-"
+      }
+    },
+    "plan_item_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PLN-"
+      }
+    },
+    "dependency_edge_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PDEP-"
+      }
+    },
+    "verification_item_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TST-"
+      }
+    },
+    "rollback_item_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^RBK-"
+      }
+    },
+    "execution_order": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PLN-"
+      }
+    },
+    "change_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "components",
+        "files_or_artifacts"
+      ],
+      "properties": {
+        "components": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "files_or_artifacts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "decision_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_mechanical_discretion",
+        "prohibited_semantic_discretion",
+        "no_silent_replanning"
+      ],
+      "properties": {
+        "allowed_mechanical_discretion": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "prohibited_semantic_discretion": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "no_silent_replanning": {
+          "const": true
+        }
+      }
+    },
+    "failure_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_remediation_attempts",
+        "on_exhaustion"
+      ],
+      "properties": {
+        "max_remediation_attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "on_exhaustion": {
+          "const": "IMPLEMENTATION_FAILED"
+        }
+      }
+    },
+    "implementation_constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "accepted_residual_risk_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(RSK|SRSK|PFND)-"
+      }
+    },
+    "accepted_limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "approved_by",
+        "approver_role",
+        "approved_at"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "PENDING",
+            "APPROVED"
+          ]
+        },
+        "approved_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approver_role": {
+          "enum": [
+            "HUMAN",
+            "UNASSIGNED"
+          ]
+        },
+        "approved_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

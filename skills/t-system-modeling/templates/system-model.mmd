@@ -1,0 +1,7 @@
+flowchart LR
+    Actor[MDL-001 Actor] -->|REL-001 TRIGGERS| Entry[MDL-002 Entry point]
+    Entry -->|REL-002 CALLS| Service[MDL-003 Component]
+    Service -->|REL-003 WRITES_TO| Store[MDL-004 Data store]
+    Actual[MDL-008 Actual behavior] -. CONTRADICTS .-> Intended[MDL-009 Intended behavior]
+    Gap[MDL-011 Behavior gap] --> Actual
+    Gap --> Intended

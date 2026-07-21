@@ -1,0 +1,30 @@
+schema_version: 1.0.0
+invocation_id: INV-DEMO-INVESTIGATION
+agent: t-investigator
+phase: INVESTIGATION
+skill: t-investigation
+status: COMPLETED
+artifact:
+  path: .t-think/ORDER-2471/artifacts/investigation.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+claim_counts:
+  FACT: 18
+  INFERENCE: 3
+  ASSUMPTION: 0
+  UNKNOWN: 2
+  CONFLICT: 0
+evidence:
+  referenced: 24
+  missing: 2
+unresolved_items:
+- Production retry timing requires runtime evidence
+recommended_transition:
+  state: SYSTEM_MODEL
+  gate: null
+validation:
+  schema_passed: true
+  semantic_checks_passed: true
+boundary_report:
+  path: .t-think/ORDER-2471/boundary-reports/INV-DEMO-INVESTIGATION.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  status: PASS

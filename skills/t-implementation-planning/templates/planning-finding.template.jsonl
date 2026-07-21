@@ -1,0 +1,1 @@
+{"finding_id":"PFND-001","type":"EVIDENCE_GAP","severity":"HIGH","blocking":true,"description":"Describe the missing evidence.","affected_refs":["PLN-001"],"evidence_ids":["F-001"],"required_action":"Collect direct evidence.","route":"INVESTIGATION"}

@@ -1,0 +1,53 @@
+skill: problem-alignment
+version: 1.0.0
+current_state: PROBLEM_ALIGNMENT
+
+required_inputs:
+  - schemas/input.schema.json
+
+required_outputs:
+  - schemas/output.schema.json
+  - artifacts/00-problem-alignment.md
+
+validators:
+  structural:
+    command: >-
+      python validators/validate.py --kind output --file <output.yaml>
+  transition_ready:
+    command: >-
+      python validators/validate.py --kind output --file <output.yaml> --require-transition-ready
+
+allowed_transitions:
+  - from: PROBLEM_ALIGNMENT
+    to: PROBLEM_ALIGNMENT
+    when:
+      gate_status:
+        - NEEDS_HUMAN_CLARIFICATION
+        - READY_FOR_HUMAN_REVIEW
+
+  - from: PROBLEM_ALIGNMENT
+    to: INVESTIGATION
+    when:
+      gate_status:
+        - APPROVED_FOR_INVESTIGATION
+      artifact_status:
+        - APPROVED
+      approval_required: true
+      no_open_blocking_questions: true
+      all_material_interpretations_confirmed: true
+      prohibited_content_check_all_false: true
+
+  - from: PROBLEM_ALIGNMENT
+    to: REJECTED
+    when:
+      gate_status:
+        - REJECTED
+
+on_validation_failure:
+  remain_in_state: PROBLEM_ALIGNMENT
+  emit_status: CLARIFICATION_FAILED
+
+canonical_artifact:
+  path: artifacts/00-problem-alignment.md
+  overwrite_approved_artifact: false
+  version_on_change: true

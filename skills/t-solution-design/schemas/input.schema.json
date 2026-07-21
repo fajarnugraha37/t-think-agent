@@ -1,0 +1,373 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Solution Design Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_model",
+    "source_artifacts",
+    "design_scope",
+    "design_targets",
+    "option_policy",
+    "decision_authority"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "design_id",
+        "version",
+        "status",
+        "created_at",
+        "language",
+        "author_agent"
+      ],
+      "properties": {
+        "design_id": {
+          "type": "string",
+          "pattern": "^SDES-[A-Za-z0-9._-]+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "IN_PROGRESS"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "author_agent": {
+          "const": "solution-design-skill"
+        }
+      }
+    },
+    "source_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modeling_id",
+        "model_version",
+        "critique_run_id",
+        "critique_gate_status",
+        "human_approval_status"
+      ],
+      "properties": {
+        "modeling_id": {
+          "type": "string",
+          "pattern": "^MODEL-"
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "critique_run_id": {
+          "type": "string",
+          "pattern": "^MCRIT-"
+        },
+        "critique_gate_status": {
+          "const": "READY_FOR_CHANGE_OPTIONS"
+        },
+        "human_approval_status": {
+          "const": "APPROVED"
+        }
+      }
+    },
+    "source_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_critique_output",
+        "model_elements",
+        "model_relations",
+        "traceability_matrix",
+        "evidence_ledger"
+      ],
+      "properties": {
+        "model_critique_output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:.+"
+            }
+          }
+        },
+        "model_elements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:.+"
+            }
+          }
+        },
+        "model_relations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:.+"
+            }
+          }
+        },
+        "traceability_matrix": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:.+"
+            }
+          }
+        },
+        "evidence_ledger": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "digest"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:.+"
+            }
+          }
+        }
+      }
+    },
+    "design_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "included",
+        "excluded",
+        "non_goals",
+        "constraints",
+        "prohibited_changes",
+        "accepted_residual_uncertainties"
+      ],
+      "properties": {
+        "included": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "non_goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "prohibited_changes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "accepted_residual_uncertainties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "design_targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "target_id",
+          "target_type",
+          "source_ids",
+          "statement",
+          "required_coverage"
+        ],
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "pattern": "^TGT-[0-9]{3,}$"
+          },
+          "target_type": {
+            "enum": [
+              "PROBLEM",
+              "BEHAVIOR_GAP",
+              "INVARIANT",
+              "RISK",
+              "CONSTRAINT",
+              "COMPATIBILITY",
+              "FAILURE_SEMANTIC",
+              "OTHER"
+            ]
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(PS|PE|AC|MDL|INV|RSK|F|INF|ASM|UNK|CON)-"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_coverage": {
+            "enum": [
+              "FULL",
+              "PARTIAL_ALLOWED"
+            ]
+          }
+        }
+      }
+    },
+    "option_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimum_viable_options",
+        "allow_single_viable_option",
+        "require_dominance_proof_for_single",
+        "require_material_distinctness",
+        "comparison_criteria"
+      ],
+      "properties": {
+        "minimum_viable_options": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 10
+        },
+        "allow_single_viable_option": {
+          "type": "boolean"
+        },
+        "require_dominance_proof_for_single": {
+          "const": true
+        },
+        "require_material_distinctness": {
+          "const": true
+        },
+        "comparison_criteria": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "CORRECTNESS",
+              "INVARIANT_PRESERVATION",
+              "COMPATIBILITY",
+              "FAILURE_SEMANTICS",
+              "MIGRATION",
+              "REVERSIBILITY",
+              "SECURITY",
+              "OPERABILITY",
+              "COMPLEXITY",
+              "PERFORMANCE",
+              "DELIVERY_RISK",
+              "RESIDUAL_RISK"
+            ]
+          },
+          "minItems": 3,
+          "uniqueItems": true
+        }
+      }
+    },
+    "decision_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_authority",
+        "agent_may_recommend",
+        "agent_may_approve"
+      ],
+      "properties": {
+        "binding_authority": {
+          "const": "HUMAN"
+        },
+        "agent_may_recommend": {
+          "const": true
+        },
+        "agent_may_approve": {
+          "const": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/verification/finding.schema.json",
+  "title": "Verification Finding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "finding_id",
+    "verification_run_id",
+    "status",
+    "severity",
+    "blocking",
+    "category",
+    "title",
+    "claim",
+    "target_type",
+    "target_id",
+    "execution_ids",
+    "falsification_ids",
+    "evidence_ids",
+    "required_route",
+    "rationale"
+  ],
+  "properties": {
+    "finding_id": {
+      "type": "string",
+      "pattern": "^VRF-[0-9]{3,}$"
+    },
+    "verification_run_id": {
+      "type": "string",
+      "pattern": "^VER-"
+    },
+    "status": {
+      "enum": [
+        "OPEN",
+        "RESOLVED",
+        "ACCEPTED_RISK"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "INFO",
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "category": {
+      "enum": [
+        "IMPLEMENTATION_DEFECT",
+        "CHECKLIST_DEFECT",
+        "PLAN_DEFECT",
+        "EVIDENCE_GAP",
+        "MODEL_DEFECT",
+        "SOLUTION_DEFECT",
+        "PROBLEM_DEFECT",
+        "TECHNICAL_REVIEW_DEFECT",
+        "SELF_REVIEW_DEFECT",
+        "ENVIRONMENT_DEFECT",
+        "TEST_DEFECT",
+        "SOURCE_DRIFT"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claim": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_type": {
+      "enum": [
+        "OBLIGATION",
+        "EXECUTION",
+        "FALSIFICATION",
+        "ENVIRONMENT",
+        "TECHNICAL_REVIEW_CONTRACT",
+        "IMPLEMENTATION_CONTRACT",
+        "CHECKLIST_ITEM"
+      ]
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VEXEC-"
+      }
+    },
+    "falsification_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VFAL-"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^VE-"
+      }
+    },
+    "required_route": {
+      "enum": [
+        "VERIFICATION",
+        "TECHNICAL_REVIEW",
+        "SELF_REVIEW",
+        "BOUNDED_IMPLEMENTATION",
+        "IMPLEMENTATION_CHECKLIST",
+        "CHECKLIST_CRITIQUE",
+        "IMPLEMENTATION_PLAN",
+        "PLAN_CRITIQUE",
+        "INVESTIGATION",
+        "SYSTEM_MODEL",
+        "SOLUTION_DESIGN",
+        "SOLUTION_CRITIQUE",
+        "PROBLEM_ALIGNMENT"
+      ]
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

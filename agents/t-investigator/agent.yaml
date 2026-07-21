@@ -1,0 +1,30 @@
+schema_version: 1.0.0
+name: t-investigator
+mode: subagent
+description: Collect direct repository, configuration, test, runtime, and documentation evidence without proposing
+  or implementing a solution.
+phases:
+- INVESTIGATION
+skills:
+- t-investigation
+context: fresh_invocation
+human_interaction: false
+permissions:
+  discovery:
+    respect_vcs_ignore: true
+    include_untracked: true
+    include_ignored: false
+  workspace_read: allow
+  outside_workspace: deny
+  governance_artifact_write: .t-think/**
+  source_write:
+    mode: deny
+  protected_paths:
+  - .git/**
+  - .env
+  - .env.*
+  - '**/secrets/**'
+  - '**/*credential*'
+  - '**/*private-key*'
+  command_policy: diagnostic-read-only
+  spawn_subagent: deny

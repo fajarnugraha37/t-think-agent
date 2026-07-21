@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Implementation Plan Coverage Row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "coverage_id",
+    "planning_target_id",
+    "coverage_status",
+    "plan_ids",
+    "verification_ids",
+    "rollback_ids",
+    "rationale"
+  ],
+  "properties": {
+    "coverage_id": {
+      "type": "string",
+      "pattern": "^PCOV-[0-9]{3,}$"
+    },
+    "planning_target_id": {
+      "type": "string",
+      "pattern": "^PTGT-"
+    },
+    "coverage_status": {
+      "enum": [
+        "FULL",
+        "PARTIAL",
+        "NONE"
+      ]
+    },
+    "plan_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PLN-"
+      }
+    },
+    "verification_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TST-"
+      }
+    },
+    "rollback_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^RBK-"
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

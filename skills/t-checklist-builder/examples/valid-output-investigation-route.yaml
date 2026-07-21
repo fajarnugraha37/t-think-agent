@@ -1,0 +1,147 @@
+metadata:
+  builder_run_id: CBLD-duplicate-event-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T18:00:00+07:00'
+  updated_at: '2026-07-21T18:20:00+07:00'
+  author_agent: checklist-builder-skill
+  language: id-ID
+source_plan_contract:
+  contract_id: PLANCON-001
+  source_planning_run_id: IPLAN-duplicate-event-001
+  source_solution_contract_id: SOLCON-001
+  plan_bundle_digest: sha256:c00d7389f7dbd289cf49b03bc5d053b47f679d2f5968c51157e30b64a909e885
+  repository_commit: abcdef1234567890
+  status: APPROVED
+artifact_files:
+  checklist_items:
+    path: artifacts/09a-implementation-checklist.jsonl
+    format: JSONL
+    record_count: 17
+  dependency_edges:
+    path: artifacts/09b-checklist-dependencies.jsonl
+    format: JSONL
+    record_count: 22
+  coverage_matrix:
+    path: artifacts/09c-checklist-coverage.csv
+    format: CSV
+    record_count: 17
+  execution_batches:
+    path: artifacts/09d-execution-batches.jsonl
+    format: JSONL
+    record_count: 13
+  findings:
+    path: artifacts/09e-checklist-findings.jsonl
+    format: JSONL
+    record_count: 1
+  report:
+    path: artifacts/09-checklist-builder-report.md
+    format: MARKDOWN
+    record_count: 1
+checklist_summary:
+  total_items: 17
+  ready_for_review: 17
+  blocked: 0
+  action_type_counts:
+    DATABASE_SCHEMA_CHANGE: 2
+    CODE_EDIT: 4
+    DATA_OPERATION: 2
+    OBSERVABILITY_CHANGE: 2
+    TEST_CREATION: 2
+    DEPLOYMENT_ACTION: 3
+    MIGRATION_ACTION: 2
+  human_action_items:
+  - CHK-015
+  - CHK-017
+coverage_summary:
+  total_plan_operations: 17
+  fully_covered_operations: 17
+  partially_covered_operations: 0
+  uncovered_operations: 0
+  duplicate_covered_operations: 0
+  all_plan_operations_exactly_once: true
+dependency_analysis:
+  acyclic: true
+  all_references_valid: true
+  root_checklist_ids:
+  - CHK-001
+  leaf_checklist_ids:
+  - CHK-017
+  topological_order:
+  - CHK-001
+  - CHK-002
+  - CHK-003
+  - CHK-007
+  - CHK-004
+  - CHK-008
+  - CHK-005
+  - CHK-006
+  - CHK-009
+  - CHK-011
+  - CHK-010
+  - CHK-012
+  - CHK-013
+  - CHK-014
+  - CHK-015
+  - CHK-016
+  - CHK-017
+  parallel_levels:
+  - - CHK-001
+  - - CHK-002
+  - - CHK-003
+    - CHK-007
+  - - CHK-004
+    - CHK-008
+  - - CHK-005
+  - - CHK-006
+  - - CHK-009
+    - CHK-011
+  - - CHK-010
+    - CHK-012
+  - - CHK-013
+  - - CHK-014
+  - - CHK-015
+  - - CHK-016
+  - - CHK-017
+atomicity_assessment:
+  all_single_primary_action: true
+  all_one_source_operation: true
+  all_independently_verifiable: true
+  semantic_decisions_detected: false
+  scope_expansions_detected: false
+  non_atomic_item_ids: []
+  status: PASS
+source_reconciliation:
+  approved_contract_valid: true
+  plan_bundle_digest_valid: true
+  exact_plan_item_set: true
+  exact_operation_coverage: true
+  exact_verification_set: true
+  exact_rollback_set: true
+  approved_change_surface_only: true
+  status: PASS
+execution_readiness:
+  all_preconditions_explicit: true
+  all_items_have_verification: true
+  all_planned_rollbacks_mapped: true
+  human_gates_explicit: true
+  batch_plan_matches_dependency_levels: true
+  status: NOT_READY
+finding_summary:
+  total: 1
+  blocking: 1
+  by_type:
+    EVIDENCE_GAP: 1
+  blocking_finding_ids:
+  - CBFND-001
+gate_decision:
+  status: RETURN_TO_INVESTIGATION
+  rationale: A blocking checklist-builder finding requires loopback to the earliest
+    responsible lifecycle phase.
+  blocking_finding_ids:
+  - CBFND-001
+  required_next_actions:
+  - Collect a reproducible database concurrency trace before finalizing this checklist.
+  next_state: INVESTIGATION
+limitations:
+- Checklist construction does not execute code, tests, migrations, or deployments.

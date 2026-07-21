@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/reconciliation/reconciler-assignment.schema.json",
+  "title": "reconciler-assignment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assignment_id",
+    "reconciliation_run_id",
+    "reconciler_id",
+    "role",
+    "prohibited_identity_ids",
+    "declared_competencies",
+    "independence",
+    "assigned_at"
+  ],
+  "properties": {
+    "assignment_id": {
+      "type": "string",
+      "pattern": "^RA-[0-9]{3,}$"
+    },
+    "reconciliation_run_id": {
+      "type": "string",
+      "pattern": "^REC-[A-Za-z0-9._-]+$"
+    },
+    "reconciler_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "const": "RECONCILER"
+    },
+    "prohibited_identity_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "declared_competencies": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "TRACEABILITY",
+          "EVIDENCE_AUDIT",
+          "SOFTWARE_ARCHITECTURE",
+          "TEST_VERIFICATION",
+          "RISK_GOVERNANCE",
+          "CHANGE_MANAGEMENT"
+        ]
+      },
+      "minItems": 4,
+      "uniqueItems": true
+    },
+    "independence": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.local/reconciliation/independence.schema.json",
+      "title": "independence",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "not_implementer",
+        "not_self_reviewer",
+        "not_technical_reviewer",
+        "not_verifier",
+        "conflict_of_interest_disclosed"
+      ],
+      "properties": {
+        "not_implementer": {
+          "const": true
+        },
+        "not_self_reviewer": {
+          "const": true
+        },
+        "not_technical_reviewer": {
+          "const": true
+        },
+        "not_verifier": {
+          "const": true
+        },
+        "conflict_of_interest_disclosed": {
+          "const": true
+        }
+      }
+    },
+    "assigned_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,80 @@
+metadata:
+  request_id: REQ-duplicate-event
+  investigation_id: INVEST-duplicate-event-001
+  created_at: "2026-07-21T09:00:00+07:00"
+  language: id-ID
+  requested_by: Fajar
+source_problem_alignment:
+  artifact_path: artifacts/00-problem-alignment.md
+  artifact_version: 1.0.0
+  approval_status: APPROVED
+  gate_status: APPROVED_FOR_INVESTIGATION
+  problem_statement_ids: [PS-001]
+  artifact_digest: sha256:problem001
+approved_problem:
+  observed_behavior:
+    - id: PE-001
+      statement: A repeated approval request can produce two durable approval events.
+  expected_behavior:
+    - id: PE-002
+      statement: Repeated requests representing the same approval intent produce one durable approval effect.
+  impact:
+    - id: PE-003
+      statement: Downstream systems may process the approval twice.
+  success_definition:
+    - id: AC-001
+      statement: Two requests with the same idempotency key result in one outbox record.
+  scope:
+    in_scope: [Approval request flow, Outbox persistence]
+    out_of_scope: [Downstream consumer redesign]
+    environments: [local-test]
+  constraints:
+    - id: CST-001
+      statement: Investigation must be read-only except for non-mutating tests.
+  terms:
+    - term: durable approval event
+      definition: A committed outbox record representing an approval.
+  deferred_unknown_ids: []
+investigation_objectives:
+  - id: OBJ-001
+    question: Which execution path writes approval outbox records?
+    mapped_problem_ids: [PE-001, PE-002]
+    priority: CRITICAL
+    stopping_condition: Entry point, service path, and repository write are directly evidenced.
+  - id: OBJ-002
+    question: What prevents or permits duplicate writes for the same idempotency key?
+    mapped_problem_ids: [PE-001, AC-001]
+    priority: CRITICAL
+    stopping_condition: Database and application enforcement are directly evidenced or bounded.
+targets:
+  repositories:
+    - id: REPO-001
+      name: order-service
+      location: /workspace/order-service
+      expected_branch: main
+      expected_commit: 0123456789abcdef0123456789abcdef01234567
+      modules: [approval]
+      access_mode: LOCAL
+  environments:
+    - id: ENV-001
+      name: local-test
+      access_mode: TEST_ENVIRONMENT
+      profile: test
+  external_systems: []
+evidence_requirements:
+  required_dimensions: [ENTRY_POINTS, EXECUTION_PATH, STATE_AND_DATA_FLOW, TRANSACTIONS, CONCURRENCY, RETRY_AND_IDEMPOTENCY, FAILURE_PATHS, TESTS_AND_CONTRACTS, DATABASE_AND_SCHEMA]
+  optional_dimensions: [OBSERVABILITY, COMPATIBILITY]
+  required_problem_coverage: [PE-001, PE-002, AC-001]
+  minimum_direct_fact_count: 2
+  require_runtime_evidence: false
+  require_reproduction: false
+execution_policy:
+  default_mode: READ_ONLY
+  context_firewall: true
+  direct_source_required: true
+  authorized_operation_classes: [READ_ONLY, NON_MUTATING_TEST]
+  forbidden_commands: ["rm -rf", "DROP TABLE", "kubectl apply"]
+  allowed_paths: [/workspace/order-service]
+  redaction_required: true
+  max_investigation_iterations: 10
+access_limitations: []

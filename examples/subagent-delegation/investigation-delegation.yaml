@@ -1,0 +1,54 @@
+schema_version: 1.0.0
+identity:
+  work_id: ORDER-2471
+  run_id: RUN-DEMO
+  invocation_id: INV-DEMO-INVESTIGATION
+  parent_agent: t-think
+  target_agent: t-investigator
+lifecycle:
+  current_phase: INVESTIGATION
+  skill: t-investigation
+  attempt: 1
+objective:
+  statement: Trace the actual duplicate-order execution path
+  completion_criteria:
+  - Identify every request entry point
+  - Identify transaction boundaries
+  - Identify uniqueness and retry behavior
+workspace:
+  root: .
+  discovery:
+    respect_vcs_ignore: true
+    include_untracked: true
+    include_ignored: false
+permissions:
+  workspace_read: allow
+  outside_workspace: deny
+  source_write: deny
+  governance_artifact_write: .t-think/**
+  approved_write_targets: []
+  generated_output_paths: []
+  protected_paths:
+  - .git/**
+  - .env
+  - .env.*
+  - '**/secrets/**'
+  - '**/*credential*'
+  - '**/*private-key*'
+  ignored_file_access:
+    mode: deny
+    human_approval_ref: null
+  spawn_subagent: deny
+artifact_inputs:
+- ref: .t-think/ORDER-2471/artifacts/problem-alignment.yaml
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+output_contract:
+  schema: skills/t-investigation/schemas/output.schema.json
+  artifact_path: .t-think/ORDER-2471/artifacts/investigation.yaml
+  result_path: .t-think/ORDER-2471/results/INV-DEMO-INVESTIGATION.yaml
+  boundary_report_path: .t-think/ORDER-2471/boundary-reports/INV-DEMO-INVESTIGATION.yaml
+stop_conditions:
+- required evidence is unavailable
+- scope or permission conflict
+- artifact digest mismatch
+- a new semantic decision is required

@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+name: t-planner
+mode: subagent
+description: Translate an approved solution into an ordered plan and atomic implementation checklist.
+phases:
+- IMPLEMENTATION_PLAN
+- IMPLEMENTATION_CHECKLIST
+skills:
+- t-implementation-planning
+- t-checklist-builder
+context: fresh_invocation
+human_interaction: false
+permissions:
+  discovery:
+    respect_vcs_ignore: true
+    include_untracked: true
+    include_ignored: false
+  workspace_read: allow
+  outside_workspace: deny
+  governance_artifact_write: .t-think/**
+  source_write:
+    mode: deny
+  protected_paths:
+  - .git/**
+  - .env
+  - .env.*
+  - '**/secrets/**'
+  - '**/*credential*'
+  - '**/*private-key*'
+  command_policy: read-only
+  spawn_subagent: deny

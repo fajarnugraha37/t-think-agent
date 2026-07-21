@@ -1,0 +1,61 @@
+skill: investigation
+state: INVESTIGATION
+previous_state: PROBLEM_ALIGNMENT
+
+entry_requirements:
+  - source_problem_alignment.approval_status == APPROVED
+  - source_problem_alignment.gate_status == APPROVED_FOR_INVESTIGATION
+  - execution_policy.context_firewall == true
+  - execution_policy.direct_source_required == true
+  - execution_policy.default_mode == READ_ONLY
+
+canonical_inputs:
+  - artifacts/00-problem-alignment.md
+  - investigation-input.yaml
+
+canonical_outputs:
+  - artifacts/01-investigation-log.md
+  - artifacts/02-evidence-ledger.jsonl
+  - artifacts/02a-investigation-output.yaml
+
+transitions:
+  READY_FOR_SYSTEM_MODEL:
+    to: SYSTEM_MODEL
+    validator:
+      command: >-
+        python validators/validate.py --kind output
+        --file artifacts/02a-investigation-output.yaml
+        --ledger artifacts/02-evidence-ledger.jsonl
+        --require-transition-ready
+    requires:
+      - metadata.status == COMPLETE
+      - sufficiency_assessment.status == SUFFICIENT
+      - no blocking unknowns
+      - no blocking unresolved conflicts
+      - all required coverage dimensions complete
+      - all required problem elements explained or bounded
+      - ledger and output cross-file consistency
+
+  INVESTIGATION_INCOMPLETE:
+    to: INVESTIGATION
+    action: Continue evidence collection using explicit gaps.
+
+  BLOCKED:
+    to: INVESTIGATION
+    external_action_required: HUMAN_DECISION
+    options:
+      - provide missing access
+      - narrow approved scope through PROBLEM_ALIGNMENT
+      - accept inability to proceed
+
+  RETURN_TO_PROBLEM_ALIGNMENT:
+    to: PROBLEM_ALIGNMENT
+    when:
+      - approved problem meaning is ambiguous
+      - investigation reveals conflicting business intent
+      - success definition cannot be operationalized
+
+prohibited_transitions:
+  - IMPLEMENTATION
+  - IMPLEMENTATION_PLAN
+  - SOLUTION_DESIGN

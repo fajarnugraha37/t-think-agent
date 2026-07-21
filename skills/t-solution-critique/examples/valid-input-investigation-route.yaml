@@ -1,0 +1,47 @@
+metadata:
+  critique_run_id: SCRIT-investigation-001
+  version: 1.0.0
+  status: IN_REVIEW
+  created_at: '2026-07-21T15:00:00+07:00'
+  author_agent: solution-critique-skill
+  language: id-ID
+source_solution_design:
+  design_id: SDES-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_SOLUTION_CRITIQUE
+source_artifacts:
+  solution_design_output: artifacts/05a-solution-design-output.yaml
+  options: artifacts/05b-solution-options.jsonl
+  coverage_matrix: artifacts/05c-solution-coverage-matrix.csv
+  decision_record: artifacts/05d-decision-record.yaml
+  dominance_proof: artifacts/05e-dominance-proof.yaml
+  evidence_ledger: artifacts/02-evidence-ledger.jsonl
+  model_elements: artifacts/03b-model-elements.jsonl
+  model_relations: artifacts/03c-model-relations.jsonl
+human_critiques:
+- critique_id: SOLCRIT-010
+  submitted_by: human-reviewer
+  submitted_at: '2026-07-21T15:05:00+07:00'
+  category: EVIDENCE_STRENGTH
+  severity: BLOCKING
+  target_ids:
+  - OPT-001
+  statement: The option assumes production routing can isolate old writers, but no
+    deployed evidence is present.
+  requested_check: Inspect deployed routing and rollout controls.
+  claimed_evidence_ids: []
+decision_context:
+  requested_action: REVIEW_ONLY
+  proposed_selected_option_id: null
+  accepted_assumption_ids: []
+  accepted_risk_ids: []
+  comments: []
+review_policy:
+  actual_source_only: true
+  context_firewall: true
+  evaluate_not_obey: true
+  require_evidence_for_rejection: true
+  require_falsifiability: true
+  allow_silent_solution_mutation: false
+  require_explicit_human_selection: true
+  allow_implementation_planning: false

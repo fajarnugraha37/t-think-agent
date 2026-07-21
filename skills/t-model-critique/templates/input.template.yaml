@@ -1,0 +1,37 @@
+metadata:
+  request_id: REQ-001
+  critique_run_id: MCRIT-example-001
+  created_at: '2026-07-21T12:00:00+07:00'
+  language: id-ID
+  requested_by: human
+source_model:
+  artifact_path: artifacts/04a-system-model-output.yaml
+  artifact_version: 1.0.0
+  modeling_id: MODEL-example-001
+  status: COMPLETE
+  gate_status: READY_FOR_MODEL_CRITIQUE
+  elements_path: artifacts/03a-model-elements.jsonl
+  relations_path: artifacts/03b-model-relations.jsonl
+  traceability_path: artifacts/04-traceability-matrix.csv
+source_evidence:
+  ledger_path: artifacts/02-evidence-ledger.jsonl
+approved_problem_ids:
+- PS-001
+human_critiques:
+- critique_id: CRIT-001
+  submitted_by: reviewer
+  submitted_at: '2026-07-21T12:00:00+07:00'
+  target_kind: MODEL_ELEMENT
+  target_ids:
+  - MDL-001
+  statement: Explain why this model element remains valid.
+  priority: MEDIUM
+  blocking: true
+review_policy:
+  actual_source_only: true
+  context_firewall: true
+  evaluate_not_obey: true
+  require_evidence_for_rejection: true
+  require_falsifiability: true
+  allow_silent_model_mutation: false
+  allow_solution_design: false

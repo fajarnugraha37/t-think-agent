@@ -1,0 +1,1 @@
+{"finding_id":"PFND-001","type":"EVIDENCE_GAP","severity":"HIGH","blocking":true,"description":"Deployed database constraints are not known.","affected_refs":["PLN-005","F-003"],"evidence_ids":["F-003"],"required_action":"Inspect deployed schema and record direct evidence.","route":"INVESTIGATION"}

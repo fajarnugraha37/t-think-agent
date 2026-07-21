@@ -1,0 +1,423 @@
+metadata:
+  modeling_id: MODEL-duplicate-event-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T10:00:00+07:00'
+  updated_at: '2026-07-21T10:45:00+07:00'
+  language: id-ID
+  author_agent: system-modeling-skill
+source_investigation:
+  artifact_path: artifacts/02a-investigation-output.yaml
+  artifact_version: 1.0.0
+  investigation_id: INVEST-duplicate-event-001
+  status: COMPLETE
+  gate_status: READY_FOR_SYSTEM_MODEL
+  evidence_ledger_path: artifacts/02-evidence-ledger.jsonl
+  problem_statement_ids:
+  - PS-001
+  artifact_digest: sha256:investigation-output
+  ledger_digest: sha256:exampleledger
+model_scope:
+  included:
+  - Approval request producer flow
+  - Approval outbox persistence
+  excluded:
+  - Downstream consumer implementation
+  repositories:
+  - repository_id: REPO-001
+    commit_sha: 0123456789abcdef0123456789abcdef01234567
+    branch: main
+    modules:
+    - approval
+  environments:
+  - local-test
+  limitations:
+  - Production gateway and deployed database schema were not inspected.
+model_summary:
+  statement: The inspected producer flow delegates approval requests to a transactional
+    service that writes a durable outbox record; no inspected uniqueness guard prevents
+    an equivalent second request from committing another row.
+  actual_behavior_summary: Equivalent requests can independently reach durable outbox
+    insertion in the inspected path.
+  intended_behavior_summary: One business approval intent should result in at most
+    one committed approval outbox row.
+  gap_summary: The inspected path does not evidence enforcement of the intended one-intent-to-one-row
+    cardinality.
+  leading_explanation: Duplicate durable events are explained by equivalent executions
+    reaching the outbox insert without an inspected uniqueness or serialization guard.
+  alternative_explanations:
+  - A production-only gateway may serialize requests.
+  - A deployed database constraint may differ from repository migrations.
+  - Downstream consumers may deduplicate even when producer records duplicate.
+  confidence: MEDIUM
+model_files:
+  elements:
+    path: artifacts/03a-model-elements.jsonl
+    format: JSONL
+    record_count: 13
+    digest: sha256:elements
+  relations:
+    path: artifacts/03b-model-relations.jsonl
+    format: JSONL
+    record_count: 11
+    digest: sha256:relations
+  traceability_matrix:
+    path: artifacts/04-traceability-matrix.csv
+    format: CSV
+    record_count: 4
+    digest: sha256:traceability
+  diagram:
+    path: artifacts/03c-system-model.mmd
+    format: MERMAID
+    record_count: 1
+    digest: sha256:diagram
+dimension_coverage:
+- dimension: ACTORS
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-001
+  evidence_ids:
+  - F-001
+  summary: ACTORS is represented by evidence-backed model elements.
+- dimension: ENTRY_POINTS
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-002
+  evidence_ids:
+  - F-001
+  summary: ENTRY_POINTS is represented by evidence-backed model elements.
+- dimension: COMPONENTS
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-003
+  evidence_ids:
+  - F-001
+  - F-002
+  summary: COMPONENTS is represented by evidence-backed model elements.
+- dimension: EXECUTION_PATH
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-002
+  - MDL-003
+  evidence_ids:
+  - F-001
+  - F-002
+  summary: EXECUTION_PATH is represented by evidence-backed model elements.
+- dimension: DATA_FLOW
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-003
+  - MDL-004
+  evidence_ids:
+  - F-002
+  summary: DATA_FLOW is represented by evidence-backed model elements.
+- dimension: SOURCE_OF_TRUTH
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-007
+  evidence_ids:
+  - F-002
+  - INV-001
+  summary: SOURCE_OF_TRUTH is represented by evidence-backed model elements.
+- dimension: TRANSACTIONS
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-005
+  evidence_ids:
+  - F-002
+  summary: TRANSACTIONS is represented by evidence-backed model elements.
+- dimension: CONCURRENCY
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-006
+  evidence_ids:
+  - F-001
+  - F-002
+  - F-003
+  - INF-001
+  summary: CONCURRENCY is represented by evidence-backed model elements.
+- dimension: INVARIANTS
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-010
+  evidence_ids:
+  - F-002
+  - INV-001
+  summary: INVARIANTS is represented by evidence-backed model elements.
+- dimension: ACTUAL_BEHAVIOR
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-008
+  evidence_ids:
+  - F-001
+  - F-002
+  - F-003
+  - INF-001
+  summary: ACTUAL_BEHAVIOR is represented by evidence-backed model elements.
+- dimension: INTENDED_BEHAVIOR
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-009
+  evidence_ids:
+  - INV-001
+  summary: INTENDED_BEHAVIOR is represented by evidence-backed model elements.
+- dimension: BEHAVIOR_GAP
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-011
+  evidence_ids:
+  - F-002
+  - F-003
+  - INF-001
+  - INV-001
+  summary: BEHAVIOR_GAP is represented by evidence-backed model elements.
+- dimension: MODEL_LIMITATIONS
+  required: true
+  status: COVERED
+  model_element_ids:
+  - MDL-013
+  evidence_ids:
+  - F-003
+  - INF-001
+  summary: MODEL_LIMITATIONS is represented by evidence-backed model elements.
+- dimension: FAILURE_PATHS
+  required: false
+  status: COVERED
+  model_element_ids:
+  - MDL-012
+  evidence_ids:
+  - INF-001
+  - INV-001
+  summary: The downstream duplicate-processing consequence is represented as a bounded
+    failure path.
+problem_coverage:
+- problem_id: PS-001
+  status: PARTIAL
+  model_element_ids:
+  - MDL-002
+  - MDL-003
+  - MDL-004
+  - MDL-006
+  - MDL-008
+  - MDL-009
+  - MDL-010
+  - MDL-011
+  - MDL-012
+  model_relation_ids:
+  - REL-002
+  - REL-003
+  - REL-005
+  - REL-007
+  - REL-008
+  - REL-009
+  - REL-010
+  - REL-011
+  evidence_ids:
+  - F-001
+  - F-002
+  - F-003
+  - INF-001
+  - INV-001
+  summary: The model connects the request path, durable write, concurrency boundary,
+    actual behavior, intended behavior, invariant, gap, and failure path.
+  limitations: Production-only controls remain outside inspected scope.
+- problem_id: PE-001
+  status: FULL
+  model_element_ids:
+  - MDL-002
+  - MDL-003
+  - MDL-004
+  - MDL-005
+  - MDL-006
+  - MDL-007
+  - MDL-008
+  model_relation_ids:
+  - REL-002
+  - REL-003
+  - REL-004
+  - REL-005
+  - REL-006
+  evidence_ids:
+  - F-001
+  - F-002
+  - F-003
+  - INF-001
+  summary: The producer execution and durable write path are represented with transaction
+    and concurrency boundaries.
+  limitations: ''
+- problem_id: PE-002
+  status: FULL
+  model_element_ids:
+  - MDL-009
+  - MDL-010
+  - MDL-011
+  model_relation_ids:
+  - REL-009
+  - REL-010
+  evidence_ids:
+  - F-002
+  - INV-001
+  summary: The intended single durable effect and its invariant are explicit.
+  limitations: ''
+- problem_id: AC-001
+  status: FULL
+  model_element_ids:
+  - MDL-006
+  - MDL-008
+  - MDL-009
+  - MDL-010
+  - MDL-011
+  model_relation_ids:
+  - REL-005
+  - REL-007
+  - REL-008
+  - REL-009
+  - REL-010
+  evidence_ids:
+  - F-002
+  - F-003
+  - INF-001
+  - INV-001
+  summary: The model explains the duplicate possibility and identifies the violated
+    cardinality invariant.
+  limitations: Runtime concurrency frequency was not measured.
+reasoning_disclosure:
+  fact_to_model_mappings:
+  - claim_id: F-001
+    model_element_ids:
+    - MDL-001
+    - MDL-002
+    - MDL-003
+    - MDL-006
+    - MDL-008
+    model_relation_ids:
+    - REL-001
+    - REL-002
+    - REL-005
+    transformation: Direct entry-point fact establishes delegation and bounds the
+      request path; caller identity remains inferred.
+  - claim_id: F-002
+    model_element_ids:
+    - MDL-003
+    - MDL-004
+    - MDL-005
+    - MDL-007
+    - MDL-008
+    - MDL-010
+    - MDL-011
+    model_relation_ids:
+    - REL-003
+    - REL-004
+    - REL-006
+    - REL-008
+    transformation: Transactional state and outbox write fact defines durable write,
+      transaction, and source-of-truth elements.
+  - claim_id: F-003
+    model_element_ids:
+    - MDL-004
+    - MDL-006
+    - MDL-008
+    - MDL-011
+    - MDL-013
+    model_relation_ids:
+    - REL-005
+    - REL-008
+    transformation: Scoped negative schema evidence supports the absence of an inspected
+      uniqueness guard and is preserved with its limitations.
+  inference_to_model_mappings:
+  - claim_id: INF-001
+    model_element_ids:
+    - MDL-006
+    - MDL-008
+    - MDL-011
+    - MDL-012
+    - MDL-013
+    model_relation_ids:
+    - REL-005
+    - REL-007
+    - REL-008
+    - REL-011
+    transformation: The concurrency inference is represented as a falsifiable boundary,
+      actual behavior, gap, and bounded failure path.
+  - claim_id: INV-001
+    model_element_ids:
+    - MDL-007
+    - MDL-009
+    - MDL-010
+    - MDL-011
+    - MDL-012
+    model_relation_ids:
+    - REL-006
+    - REL-007
+    - REL-009
+    - REL-010
+    - REL-011
+    transformation: The invariant candidate becomes an explicit intended behavior
+      and invariant while retaining medium confidence.
+  assumption_usage: []
+  conflicts: []
+  unknowns: []
+  discarded_evidence: []
+  summary_method: Facts were converted into structural elements and direct relations;
+    investigation inferences were converted only into falsifiable model elements with
+    alternatives and limitations. Actual behavior, intended behavior, invariant, and
+    their gap were then cross-checked against every approved problem element.
+consistency_assessment:
+  status: CONSISTENT
+  rationale: Every approved problem element maps to evidence, active model elements,
+    and traceability rows. Relation endpoints and evidence references are closed,
+    and the actual/intended/gap model is internally consistent within the recorded
+    scope.
+  problem_coverage_complete: true
+  evidence_mapping_complete: true
+  relation_integrity: true
+  actual_intended_gap_consistent: true
+  blocking_unknown_ids: []
+  blocking_conflict_ids: []
+  required_followups:
+  - Human critique should challenge the source-of-truth boundary and production-control
+    limitations.
+  confidence: MEDIUM
+artifacts:
+- artifact_type: SYSTEM_MODEL
+  path: artifacts/03-system-model.md
+  status: COMPLETE
+  digest: sha256:model
+- artifact_type: MODEL_ELEMENTS
+  path: artifacts/03a-model-elements.jsonl
+  status: COMPLETE
+  digest: sha256:elements
+- artifact_type: MODEL_RELATIONS
+  path: artifacts/03b-model-relations.jsonl
+  status: COMPLETE
+  digest: sha256:relations
+- artifact_type: MODEL_DIAGRAM
+  path: artifacts/03c-system-model.mmd
+  status: COMPLETE
+  digest: sha256:diagram
+- artifact_type: TRACEABILITY_MATRIX
+  path: artifacts/04-traceability-matrix.csv
+  status: COMPLETE
+  digest: sha256:traceability
+- artifact_type: MODELING_OUTPUT
+  path: artifacts/04a-system-model-output.yaml
+  status: COMPLETE
+  digest: sha256:output
+gate:
+  status: READY_FOR_MODEL_CRITIQUE
+  next_state: MODEL_CRITIQUE
+  blocking_reasons: []
+  next_valid_transitions:
+  - MODEL_CRITIQUE

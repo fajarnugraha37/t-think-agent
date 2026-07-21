@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Solution Decision Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "status",
+    "binding_authority",
+    "candidate_option_ids",
+    "recommended_option_id",
+    "recommendation_basis",
+    "comparison_criteria",
+    "human_selection",
+    "decisions",
+    "assumptions",
+    "residual_risks"
+  ],
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "pattern": "^DEC-[0-9]{3,}$"
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "UNDER_CRITIQUE"
+      ]
+    },
+    "binding_authority": {
+      "const": "HUMAN"
+    },
+    "candidate_option_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^OPT-"
+      },
+      "uniqueItems": true
+    },
+    "recommended_option_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^OPT-"
+    },
+    "recommendation_basis": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "comparison_criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "criterion",
+          "weight",
+          "option_scores",
+          "rationale"
+        ],
+        "properties": {
+          "criterion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "option_scores": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            }
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "minItems": 3
+    },
+    "human_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "selected_option_id",
+        "selected_by",
+        "selected_at"
+      ],
+      "properties": {
+        "status": {
+          "const": "NOT_SELECTED"
+        },
+        "selected_option_id": {
+          "type": "null"
+        },
+        "selected_by": {
+          "type": "null"
+        },
+        "selected_at": {
+          "type": "null"
+        }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "decision_question_id",
+          "status",
+          "owner",
+          "notes"
+        ],
+        "properties": {
+          "decision_question_id": {
+            "type": "string",
+            "pattern": "^DECQ-"
+          },
+          "status": {
+            "enum": [
+              "OPEN",
+              "PROPOSED"
+            ]
+          },
+          "owner": {
+            "const": "HUMAN"
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(ASM|SASM)-"
+      },
+      "uniqueItems": true
+    },
+    "residual_risks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(RSK|SRSK)-"
+      },
+      "uniqueItems": true
+    }
+  }
+}

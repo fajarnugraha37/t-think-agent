@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/investigation/sufficiency-decision.schema.json",
+  "title": "Investigation Sufficiency Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "investigation_id",
+    "evaluated_at",
+    "status",
+    "problem_coverage_complete",
+    "required_dimensions_complete",
+    "direct_fact_count",
+    "blocking_unknown_ids",
+    "blocking_conflict_ids",
+    "cross_file_consistent",
+    "decision"
+  ],
+  "properties": {
+    "investigation_id": {
+      "type": "string",
+      "pattern": "^INVEST-[A-Za-z0-9._-]+$"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCKED"
+      ]
+    },
+    "problem_coverage_complete": {
+      "type": "boolean"
+    },
+    "required_dimensions_complete": {
+      "type": "boolean"
+    },
+    "direct_fact_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blocking_unknown_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^UNK-[0-9]{3,}$"
+      }
+    },
+    "blocking_conflict_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^CON-[0-9]{3,}$"
+      }
+    },
+    "cross_file_consistent": {
+      "type": "boolean"
+    },
+    "decision": {
+      "enum": [
+        "READY_FOR_SYSTEM_MODEL",
+        "CONTINUE_INVESTIGATION",
+        "RETURN_TO_PROBLEM_ALIGNMENT",
+        "BLOCKED"
+      ]
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

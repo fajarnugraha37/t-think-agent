@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/installation-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_version",
+    "bundle_root",
+    "runtime_root",
+    "mode",
+    "targets",
+    "installed",
+    "backups"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "bundle_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": [
+        "copy",
+        "symlink"
+      ]
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "opencode",
+          "codex",
+          "claude",
+          "cursor"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "installed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "path",
+          "status"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "backups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "destination",
+          "backup"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "destination": {
+            "type": "string"
+          },
+          "backup": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "bundle_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_root": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

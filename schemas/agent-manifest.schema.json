@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/agent-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "name",
+    "mode",
+    "description",
+    "phases",
+    "skills",
+    "context",
+    "human_interaction",
+    "permissions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "name": {
+      "pattern": "^t-[a-z0-9-]+$"
+    },
+    "mode": {
+      "const": "subagent"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "pattern": "^t-[a-z0-9-]+$"
+      }
+    },
+    "context": {
+      "const": "fresh_invocation"
+    },
+    "human_interaction": {
+      "const": false
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "discovery",
+        "workspace_read",
+        "outside_workspace",
+        "governance_artifact_write",
+        "source_write",
+        "protected_paths",
+        "command_policy",
+        "spawn_subagent"
+      ],
+      "properties": {
+        "discovery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "respect_vcs_ignore",
+            "include_untracked",
+            "include_ignored"
+          ],
+          "properties": {
+            "respect_vcs_ignore": {
+              "const": true
+            },
+            "include_untracked": {
+              "type": "boolean"
+            },
+            "include_ignored": {
+              "const": false
+            }
+          }
+        },
+        "workspace_read": {
+          "const": "allow"
+        },
+        "outside_workspace": {
+          "const": "deny"
+        },
+        "governance_artifact_write": {
+          "const": ".t-think/**"
+        },
+        "source_write": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "deny",
+                "approved_targets_only",
+                "generated_outputs_only"
+              ]
+            }
+          }
+        },
+        "protected_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "command_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "spawn_subagent": {
+          "const": "deny"
+        }
+      }
+    }
+  }
+}

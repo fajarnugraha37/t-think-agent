@@ -1,0 +1,41 @@
+skill: checklist-critique
+current_state: CHECKLIST_CRITIQUE
+allowed_transitions:
+- gate: READY_FOR_BOUNDED_IMPLEMENTATION
+  next_state: BOUNDED_IMPLEMENTATION
+  requires:
+  - all critiques assessed
+  - no revision directives
+  - no open evidence requests
+  - human checklist approval
+  - explicit execution authorization
+  - approved checklist contract
+  - valid checklist bundle digest
+  - all human gates accepted
+- gate: RETURN_TO_IMPLEMENTATION_CHECKLIST
+  next_state: IMPLEMENTATION_CHECKLIST
+- gate: RETURN_TO_PLAN_CRITIQUE
+  next_state: PLAN_CRITIQUE
+- gate: RETURN_TO_IMPLEMENTATION_PLAN
+  next_state: IMPLEMENTATION_PLAN
+- gate: RETURN_TO_INVESTIGATION
+  next_state: INVESTIGATION
+- gate: RETURN_TO_SYSTEM_MODEL
+  next_state: SYSTEM_MODEL
+- gate: RETURN_TO_SOLUTION_DESIGN
+  next_state: SOLUTION_DESIGN
+- gate: RETURN_TO_SOLUTION_CRITIQUE
+  next_state: SOLUTION_CRITIQUE
+- gate: RETURN_TO_PROBLEM_ALIGNMENT
+  next_state: PROBLEM_ALIGNMENT
+- gate: BLOCKED
+  next_state: CHECKLIST_CRITIQUE
+guards:
+- no implementation
+- no silent checklist mutation
+- no new semantic decision
+- human-only approval
+- exact bundle digest
+- immutable operation bindings
+- preserve order and human gates
+- ambiguity becomes IMPLEMENTATION_FAILED

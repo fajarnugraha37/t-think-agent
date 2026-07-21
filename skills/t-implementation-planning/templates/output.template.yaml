@@ -1,0 +1,190 @@
+metadata:
+  planning_run_id: IPLAN-duplicate-event-001
+  version: 1.0.0
+  status: COMPLETE
+  created_at: '2026-07-21T16:00:00+07:00'
+  updated_at: '2026-07-21T16:45:00+07:00'
+  author_agent: implementation-planning-skill
+  language: id-ID
+source_solution_contract:
+  contract_id: SOLCON-001
+  selected_option_id: OPT-001
+  approved_model_version: 1.0.0
+  status: APPROVED
+artifact_files:
+  planning_targets:
+    path: artifacts/07a-planning-targets.jsonl
+    format: JSONL
+    record_count: 35
+  plan_items:
+    path: artifacts/07b-implementation-plan-items.jsonl
+    format: JSONL
+    record_count: 8
+  dependency_edges:
+    path: artifacts/07c-plan-dependencies.jsonl
+    format: JSONL
+    record_count: 13
+  coverage_matrix:
+    path: artifacts/07d-plan-coverage.csv
+    format: CSV
+    record_count: 35
+  verification_plan:
+    path: artifacts/07e-verification-plan.jsonl
+    format: JSONL
+    record_count: 12
+  rollback_plan:
+    path: artifacts/07f-rollback-plan.jsonl
+    format: JSONL
+    record_count: 7
+  planning_findings:
+    path: artifacts/07g-planning-findings.jsonl
+    format: JSONL
+    record_count: 0
+  report:
+    path: artifacts/07-implementation-plan.md
+    format: MARKDOWN
+    record_count: 1
+plan_summary:
+  total_plan_items: 8
+  ready_for_review: 8
+  blocked: 0
+  change_type_counts:
+    DATABASE_SCHEMA: 1
+    CODE: 2
+    DATA_BACKFILL: 1
+    MIGRATION: 1
+    OBSERVABILITY: 1
+    TEST: 1
+    DEPLOYMENT: 1
+coverage_summary:
+  total_targets: 35
+  mandatory_targets: 35
+  fully_covered_mandatory_targets: 35
+  partially_covered_targets: 0
+  uncovered_targets: 0
+  all_mandatory_targets_fully_covered: true
+dependency_analysis:
+  acyclic: true
+  all_references_valid: true
+  root_plan_ids:
+  - PLN-001
+  leaf_plan_ids:
+  - PLN-005
+  topological_order:
+  - PLN-001
+  - PLN-002
+  - PLN-003
+  - PLN-004
+  - PLN-006
+  - PLN-007
+  - PLN-008
+  - PLN-005
+semantic_decision_guard:
+  new_semantic_decisions_detected: false
+  unapproved_behavior_changes_detected: false
+  prohibited_change_conflicts: []
+  status: PASS
+change_surface_reconciliation:
+  approved_components_covered:
+  - ApprovalService
+  - ApprovalRepository
+  - approval_outbox schema
+  approved_artifacts_covered:
+  - ApprovalService.java
+  - approval repository mapping
+  - database migration
+  discovered_supporting_files:
+  - path: contract test suite
+    evidence_ids:
+    - F-002
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  - path: deployment manifests
+    evidence_ids:
+    - F-002
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  - path: observability configuration
+    evidence_ids:
+    - F-002
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  - path: operations/backfill-idempotency.sql
+    evidence_ids:
+    - F-002
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  - path: rollout runbook
+    evidence_ids:
+    - F-002
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  - path: src/main/java/example/ApprovalRepository.java
+    evidence_ids:
+    - F-002
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  - path: src/main/java/example/ApprovalService.java
+    evidence_ids:
+    - F-002
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  - path: src/main/resources/db/migration
+    evidence_ids:
+    - F-003
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  - path: src/test/java/example/ApprovalIdempotencyIT.java
+    evidence_ids:
+    - F-002
+    rationale: Exact supporting artifact discovered or required while decomposing
+      the approved change surface; it does not alter solution semantics.
+    semantic_scope_expansion: false
+  unapproved_scope_expansions: []
+verification_readiness:
+  all_plan_items_have_verification: true
+  required_categories_covered:
+  - COMPATIBILITY
+  - CONCURRENCY
+  - CONTRACT
+  - INTEGRATION
+  - INVARIANT
+  - MIGRATION
+  - NEGATIVE_PATH
+  - OBSERVABILITY
+  - REGRESSION_REPRODUCTION
+  - ROLLBACK
+  - SECURITY
+  pre_patch_regression_planned: true
+  negative_paths_planned: true
+  invariants_planned: true
+  compatibility_planned: true
+  status: READY
+rollback_readiness:
+  all_required_plan_items_have_rollback: true
+  data_preservation_addressed: true
+  irreversible_effects_explicit: true
+  status: READY
+finding_summary:
+  total: 0
+  blocking: 0
+  by_type: {}
+  blocking_finding_ids: []
+gate_decision:
+  status: READY_FOR_PLAN_CRITIQUE
+  rationale: The approved solution is fully decomposed, mapped, testable, rollback-aware,
+    acyclic, and contains no new semantic decision.
+  blocking_finding_ids: []
+  required_next_actions:
+  - Invoke plan-critique with this exact planning package.
+  next_state: PLAN_CRITIQUE
+limitations:
+- Production-only infrastructure behavior remains outside the example evidence scope.

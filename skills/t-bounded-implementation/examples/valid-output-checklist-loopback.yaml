@@ -1,0 +1,108 @@
+metadata:
+  implementation_run_id: BIMPL-duplicate-event-001
+  version: 1.0.0
+  status: FAILED
+  created_at: '2026-07-21T20:00:00+07:00'
+  updated_at: '2026-07-21T20:15:00+07:00'
+  author_agent: bounded-implementation-skill
+  language: id-ID
+source_binding:
+  approved_checklist_contract_id: CHKCON-001
+  checklist_bundle_digest: sha256:d480c717183839f20dc113d744f013d46e6db6e3e69eb88f8d90eecf3940a530
+  repository_commit: abcdef1234567890
+  checklist_critique_run_id: CCRIT-duplicate-event-001
+artifact_files:
+  execution_records:
+    path: examples/valid-execution-records-checklist-loopback.jsonl
+    format: JSONL
+    record_count: 17
+    digest: sha256:e447718b4e0a7f59f0012fc2096c453d73fe269c95ed05f40e222a23f367deed
+  change_records:
+    path: examples/valid-change-records-checklist-loopback.jsonl
+    format: JSONL
+    record_count: 4
+    digest: sha256:fb3d54cbc3ba35dde96dde2595386b6d2d634938e43030bdec6c9cb83628d12c
+  command_results:
+    path: examples/valid-command-results-checklist-loopback.jsonl
+    format: JSONL
+    record_count: 5
+    digest: sha256:8ae67257cfc59a88105a2e77441260ffe1cfe5353c2add23255a75fcd1e66043
+  verification_results:
+    path: examples/valid-verification-results-checklist-loopback.jsonl
+    format: JSONL
+    record_count: 6
+    digest: sha256:b38e06358899314be93faad67e77e7cef289e3c049d5688e195d6c76e7a03d35
+  rollback_results:
+    path: examples/valid-rollback-results.jsonl
+    format: JSONL
+    record_count: 7
+    digest: sha256:d6dd48585642ff41407e758031b1fd4d5be8b6850bd7d4877a0a721b2a556505
+  findings:
+    path: examples/valid-findings-checklist-loopback.jsonl
+    format: JSONL
+    record_count: 1
+    digest: sha256:5f4046d62d5f7c101c1a92ab0f0ff086f1009afcc67cc192324a3c31dda42408
+  repository_before:
+    path: examples/valid-repository-before.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:58bcd3c5fcc49786aaa111dd58eeedf6b456ddbeec2647fc05df397b55050665
+  repository_after:
+    path: examples/valid-repository-after-checklist-loopback.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:17cbd0ae05725550b0283d191c64b29caa638910462cec23b51ed7c76c0b6ee4
+  implementation_result_contract:
+    path: examples/valid-implementation-result-contract-checklist-loopback.yaml
+    format: YAML
+    record_count: 1
+    digest: sha256:58cabb9fa56b1837fb4121fde24a81608714e21c5d0ae061e808600a6dad1ad2
+  report:
+    path: examples/valid-implementation-report.md
+    format: MARKDOWN
+    record_count: 1
+    digest: sha256:aa07c7984e83fc5c9ffeb27c451b01ef7cefab9365c635bcbc03ca1d45724971
+execution_summary:
+  total: 17
+  completed: 4
+  failed: 1
+  blocked: 0
+  rolled_back: 0
+  pending: 12
+  skipped: 0
+  attempts_used: 5
+integrity:
+  source_contract_valid: true
+  order_preserved: true
+  dependencies_honored: true
+  human_gates_honored: true
+  scope_preserved: true
+  semantic_boundary_preserved: true
+  failure_budget_respected: true
+  evidence_complete: true
+verification_summary:
+  total: 6
+  passed: 6
+  failed: 0
+  blocked: 0
+  not_run: 0
+  all_required_passed: false
+failure_summary:
+  open_blocking_finding_ids:
+  - IFND-001
+  resolved_finding_ids: []
+  remediation_available: false
+  required_route: IMPLEMENTATION_CHECKLIST
+gate_decision:
+  status: RETURN_TO_IMPLEMENTATION_CHECKLIST
+  rationale: Execution stopped because a semantic choice was absent from the approved
+    checklist.
+  blocking_ids:
+  - IFND-001
+  - CHK-004
+  required_next_actions:
+  - Revise and re-approve the checklist before implementation resumes.
+  next_state: IMPLEMENTATION_CHECKLIST
+limitations:
+- Example records simulate captured implementation evidence; production use must contain
+  real command output, diffs, and repository hashes.

@@ -1,0 +1,147 @@
+contract_id: PLANCON-001
+status: APPROVED
+source_planning_run_id: IPLAN-duplicate-event-001
+source_solution_contract_id: SOLCON-001
+plan_approval_id: PAPP-001
+repository_snapshot:
+  repository_id: approval-service
+  branch: main
+  commit_sha: abcdef1234567890
+  working_tree_status: CLEAN
+artifact_versions:
+  planning_output_version: 1.0.0
+  solution_contract_id: SOLCON-001
+plan_bundle_digest: sha256:c00d7389f7dbd289cf49b03bc5d053b47f679d2f5968c51157e30b64a909e885
+planning_target_ids:
+- PTGT-001
+- PTGT-002
+- PTGT-003
+- PTGT-004
+- PTGT-005
+- PTGT-006
+- PTGT-007
+- PTGT-008
+- PTGT-009
+- PTGT-010
+- PTGT-011
+- PTGT-012
+- PTGT-014
+- PTGT-015
+- PTGT-016
+- PTGT-017
+- PTGT-018
+- PTGT-019
+- PTGT-020
+- PTGT-021
+- PTGT-022
+- PTGT-023
+- PTGT-024
+- PTGT-025
+- PTGT-026
+- PTGT-027
+- PTGT-028
+- PTGT-029
+- PTGT-030
+- PTGT-031
+- PTGT-032
+- PTGT-033
+- PTGT-034
+- PTGT-035
+- PTGT-036
+plan_item_ids:
+- PLN-001
+- PLN-002
+- PLN-003
+- PLN-004
+- PLN-005
+- PLN-006
+- PLN-007
+- PLN-008
+dependency_edge_ids:
+- PDEP-001
+- PDEP-002
+- PDEP-003
+- PDEP-004
+- PDEP-005
+- PDEP-006
+- PDEP-007
+- PDEP-008
+- PDEP-009
+- PDEP-010
+- PDEP-011
+- PDEP-012
+- PDEP-013
+verification_item_ids:
+- TST-001
+- TST-002
+- TST-003
+- TST-004
+- TST-005
+- TST-006
+- TST-007
+- TST-008
+- TST-009
+- TST-010
+- TST-011
+- TST-012
+rollback_item_ids:
+- RBK-001
+- RBK-002
+- RBK-003
+- RBK-004
+- RBK-005
+- RBK-006
+- RBK-007
+execution_order:
+- PLN-001
+- PLN-002
+- PLN-003
+- PLN-004
+- PLN-006
+- PLN-007
+- PLN-008
+- PLN-005
+change_surface:
+  components:
+  - ApprovalRepository
+  - ApprovalService
+  - approval_outbox schema
+  files_or_artifacts:
+  - ApprovalService.java
+  - approval repository mapping
+  - contract test suite
+  - database migration
+  - deployment manifests
+  - observability configuration
+  - operations/backfill-idempotency.sql
+  - rollout runbook
+  - src/main/java/example/ApprovalRepository.java
+  - src/main/java/example/ApprovalService.java
+  - src/main/resources/db/migration
+  - src/test/java/example/ApprovalIdempotencyIT.java
+decision_envelope:
+  allowed_mechanical_discretion:
+  - Local variable and private helper naming consistent with repository conventions.
+  - Formatting and import ordering.
+  - Syntax-equivalent implementation choices that do not alter observable behavior.
+  prohibited_semantic_discretion:
+  - No new business rule, fallback, retry, public contract, state transition, transaction,
+    concurrency, security, persistence, dependency, or migration decision.
+  - No scope expansion beyond mapped plan items.
+  no_silent_replanning: true
+failure_budget:
+  max_remediation_attempts: 2
+  on_exhaustion: IMPLEMENTATION_FAILED
+implementation_constraints:
+- Implement only checklist items derived from the approved plan.
+- Stop when actual code requires an unapproved semantic choice.
+- Update implementation evidence and checklist status after every work item.
+accepted_residual_risk_ids:
+- SRSK-001
+accepted_limitations:
+- No production rollout was executed during plan critique.
+approval:
+  status: APPROVED
+  approved_by: fajar
+  approver_role: HUMAN
+  approved_at: '2026-07-21T17:15:00+07:00'

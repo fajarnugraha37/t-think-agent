@@ -1,0 +1,17 @@
+metadata: {design_id: SDES-duplicate-event-001, version: 1.0.0, status: COMPLETE, created_at: 2026-07-21T14:00:00+07:00, updated_at: 2026-07-21T14:45:00+07:00, author_agent: solution-design-skill, language: id-ID}
+source_model: {modeling_id: MODEL-duplicate-event-001, model_version: 1.0.0, critique_run_id: MCRIT-duplicate-event-001, critique_gate_status: READY_FOR_CHANGE_OPTIONS}
+artifact_files:
+  options: {path: artifacts/05b-solution-options.jsonl, format: JSONL, record_count: 1}
+  coverage_matrix: {path: artifacts/05c-solution-coverage-matrix.csv, format: CSV, record_count: 3}
+  decision_record: {path: artifacts/05d-decision-record.yaml, format: YAML, record_count: 1}
+  dominance_proof: {path: artifacts/05e-dominance-proof.yaml, format: YAML, record_count: 1}
+  report: {path: artifacts/05f-solution-design-report.md, format: MARKDOWN, record_count: 1}
+design_summary: {total_options: 1, viable_options: 1, conditionally_viable_options: 0, eliminated_options: 0, required_targets: 3, single_option_mode: true}
+coverage_summary: {total_rows: 3, full_rows: 3, partial_rows: 0, none_rows: 0, targets_with_at_least_one_full_option: 3, uncovered_target_ids: []}
+distinctness_summary: {materially_distinct: true, duplicate_option_pairs: [], dimensions_used: [CONCURRENCY_CONTROL, CONSISTENCY_GUARANTEE, ENFORCEMENT_BOUNDARY, MIGRATION_STRATEGY]}
+assumption_summary: {all_assumptions_explicit: true, blocking_assumption_ids: [], nonblocking_assumption_ids: []}
+risk_summary: {all_options_have_residual_risks: true, critical_risk_ids: [], human_acceptance_required_ids: [SRSK-001]}
+recommendation: {recommended_option_id: OPT-001, binding: false, rationale: Only viable option under documented constraints; human critique remains required., confidence: MEDIUM, limitations: [Dominance depends on the operational constraint remaining approved.]}
+quality_checks: {references_valid: true, coverage_complete: true, meaningful_alternatives: true, decision_dimensions_explicit: true, assumptions_explicit: true, risks_explicit: true, compatibility_explicit: true, verification_explicit: true, recommendation_nonbinding: true, no_approved_decision: true}
+gate_decision: {status: READY_FOR_SOLUTION_CRITIQUE, rationale: One viable option is supported by a traceable dominance proof., blocking_target_ids: [], blocking_assumption_ids: [], required_next_actions: [Critique the surviving option and dominance proof.], next_state: SOLUTION_CRITIQUE}
+limitations: [Single-option viability depends on an explicit operational constraint.]

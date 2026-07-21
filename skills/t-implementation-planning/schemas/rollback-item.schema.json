@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Implementation Rollback Plan Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rollback_id",
+    "title",
+    "plan_ids",
+    "trigger_conditions",
+    "rollback_operations",
+    "data_preservation",
+    "irreversible_effects",
+    "verification_item_ids",
+    "recovery_evidence",
+    "status"
+  ],
+  "properties": {
+    "rollback_id": {
+      "type": "string",
+      "pattern": "^RBK-[0-9]{3,}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PLN-"
+      }
+    },
+    "trigger_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rollback_operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "data_preservation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "irreversible_effects": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "verification_item_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TST-"
+      }
+    },
+    "recovery_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "status": {
+      "enum": [
+        "PLANNED",
+        "NOT_REQUIRED",
+        "BLOCKED"
+      ]
+    }
+  }
+}

@@ -1,0 +1,659 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/investigation/output.schema.json",
+  "title": "Investigation Skill Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_problem_alignment",
+    "snapshot",
+    "investigation_scope",
+    "operation_summary",
+    "evidence_ledger",
+    "problem_coverage",
+    "coverage_dimensions",
+    "sufficiency_assessment",
+    "artifacts",
+    "gate"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "investigation_id",
+        "version",
+        "status",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "investigation_id": {
+          "type": "string",
+          "pattern": "^INVEST-[A-Za-z0-9._-]+$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "IN_PROGRESS",
+            "COMPLETE",
+            "BLOCKED",
+            "REJECTED",
+            "SUPERSEDED"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "source_problem_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_path",
+        "artifact_version",
+        "approval_status",
+        "gate_status",
+        "problem_statement_ids"
+      ],
+      "properties": {
+        "artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approval_status": {
+          "const": "APPROVED"
+        },
+        "gate_status": {
+          "const": "APPROVED_FOR_INVESTIGATION"
+        },
+        "problem_statement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^PS-[0-9]{3,}$"
+          }
+        },
+        "artifact_digest": {
+          "type": "string"
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repositories",
+        "environments"
+      ],
+      "properties": {
+        "repositories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/repositorySnapshot"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/environmentSnapshot"
+          }
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "investigation_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inspected",
+        "not_inspected",
+        "limitations"
+      ],
+      "properties": {
+        "inspected": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "not_inspected": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "operation_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operations"
+      ],
+      "properties": {
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operation"
+          }
+        },
+        "read_only_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "non_mutating_test_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mutating_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "destructive_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "evidence_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "format",
+        "record_count",
+        "active_record_count",
+        "counts_by_type"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "format": {
+          "const": "JSONL"
+        },
+        "record_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "active_record_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "counts_by_type": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "FACT",
+            "INFERENCE",
+            "ASSUMPTION",
+            "UNKNOWN",
+            "CONFLICT",
+            "INVARIANT_CANDIDATE",
+            "RISK"
+          ],
+          "properties": {
+            "FACT": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "INFERENCE": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ASSUMPTION": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "UNKNOWN": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "CONFLICT": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "INVARIANT_CANDIDATE": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "RISK": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "ledger_digest": {
+          "type": "string",
+          "minLength": 8
+        }
+      }
+    },
+    "problem_coverage": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "problem_element_id",
+          "status",
+          "supporting_claim_ids",
+          "summary"
+        ],
+        "properties": {
+          "problem_element_id": {
+            "type": "string",
+            "pattern": "^(PS|PE|AC)-[0-9]{3,}$"
+          },
+          "status": {
+            "enum": [
+              "EXPLAINED",
+              "BOUNDED",
+              "UNEXPLAINED"
+            ]
+          },
+          "supporting_claim_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+            }
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "remaining_gap": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "coverage_dimensions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dimension",
+          "required",
+          "status",
+          "supporting_claim_ids",
+          "summary"
+        ],
+        "properties": {
+          "dimension": {
+            "$ref": "#/$defs/dimension"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "COVERED",
+              "PARTIAL",
+              "NOT_COVERED",
+              "JUSTIFIED_NOT_APPLICABLE"
+            ]
+          },
+          "supporting_claim_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+            }
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "gap": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sufficiency_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale",
+        "blocking_unknown_ids",
+        "blocking_conflict_ids",
+        "required_followups",
+        "confidence"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "SUFFICIENT",
+            "INSUFFICIENT",
+            "BLOCKED"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10
+        },
+        "blocking_unknown_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^UNK-[0-9]{3,}$"
+          }
+        },
+        "blocking_conflict_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^CON-[0-9]{3,}$"
+          }
+        },
+        "required_followups": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_type",
+          "path",
+          "status"
+        ],
+        "properties": {
+          "artifact_type": {
+            "enum": [
+              "INVESTIGATION_LOG",
+              "EVIDENCE_LEDGER",
+              "INVESTIGATION_OUTPUT",
+              "RAW_EVIDENCE",
+              "REDACTED_EVIDENCE"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "DRAFT",
+              "COMPLETE",
+              "BLOCKED",
+              "SUPERSEDED"
+            ]
+          },
+          "digest": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "next_state",
+        "blocking_reasons",
+        "next_valid_transitions"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "READY_FOR_SYSTEM_MODEL",
+            "INVESTIGATION_INCOMPLETE",
+            "BLOCKED",
+            "REJECTED"
+          ]
+        },
+        "next_state": {
+          "enum": [
+            "SYSTEM_MODEL",
+            "INVESTIGATION",
+            "PROBLEM_ALIGNMENT",
+            "NONE"
+          ]
+        },
+        "blocking_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "next_valid_transitions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "SYSTEM_MODEL",
+              "INVESTIGATION",
+              "PROBLEM_ALIGNMENT",
+              "REJECTED"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "repositorySnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id",
+        "name",
+        "location",
+        "branch",
+        "commit_sha",
+        "working_tree_status",
+        "modules_inspected"
+      ],
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "pattern": "^REPO-[0-9]{3,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{7,64}$"
+        },
+        "working_tree_status": {
+          "enum": [
+            "CLEAN",
+            "DIRTY",
+            "UNKNOWN"
+          ]
+        },
+        "modules_inspected": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "modules_not_inspected": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "environmentSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environment_id",
+        "name",
+        "access_mode"
+      ],
+      "properties": {
+        "environment_id": {
+          "type": "string",
+          "pattern": "^ENV-[0-9]{3,}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "access_mode": {
+          "enum": [
+            "NONE",
+            "LOGS_ONLY",
+            "READ_ONLY",
+            "TEST_ENVIRONMENT"
+          ]
+        },
+        "profile": {
+          "type": "string"
+        },
+        "version_reference": {
+          "type": "string"
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "operation_class",
+        "description",
+        "authorized",
+        "result"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^OP-[0-9]{3,}$"
+        },
+        "operation_class": {
+          "enum": [
+            "READ_ONLY",
+            "NON_MUTATING_TEST",
+            "MUTATING",
+            "DESTRUCTIVE"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "command": {
+          "type": "string"
+        },
+        "authorized": {
+          "type": "boolean"
+        },
+        "result": {
+          "enum": [
+            "SUCCESS",
+            "FAILED",
+            "SKIPPED",
+            "BLOCKED"
+          ]
+        },
+        "output_reference": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "dimension": {
+      "enum": [
+        "ENTRY_POINTS",
+        "EXECUTION_PATH",
+        "STATE_AND_DATA_FLOW",
+        "OWNERSHIP",
+        "TRANSACTIONS",
+        "CONCURRENCY",
+        "RETRY_AND_IDEMPOTENCY",
+        "FAILURE_PATHS",
+        "EXTERNAL_DEPENDENCIES",
+        "CONFIGURATION_AND_DEPLOYMENT",
+        "TESTS_AND_CONTRACTS",
+        "SECURITY_AND_AUTHORIZATION",
+        "OBSERVABILITY",
+        "COMPATIBILITY",
+        "DATABASE_AND_SCHEMA"
+      ]
+    }
+  }
+}

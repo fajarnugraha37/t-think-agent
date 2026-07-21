@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/system-modeling/consistency-decision.schema.json",
+  "title": "System Model Consistency Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "rationale",
+    "problem_coverage_complete",
+    "evidence_mapping_complete",
+    "relation_integrity",
+    "actual_intended_gap_consistent",
+    "blocking_unknown_ids",
+    "blocking_conflict_ids",
+    "required_followups",
+    "confidence"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "CONSISTENT",
+        "INCOMPLETE",
+        "CONTRADICTORY",
+        "BLOCKED"
+      ]
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "problem_coverage_complete": {
+      "type": "boolean"
+    },
+    "evidence_mapping_complete": {
+      "type": "boolean"
+    },
+    "relation_integrity": {
+      "type": "boolean"
+    },
+    "actual_intended_gap_consistent": {
+      "type": "boolean"
+    },
+    "blocking_unknown_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^UNK-[0-9]{3,}$"
+      }
+    },
+    "blocking_conflict_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^CON-[0-9]{3,}$"
+      }
+    },
+    "required_followups": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "confidence": {
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    }
+  }
+}

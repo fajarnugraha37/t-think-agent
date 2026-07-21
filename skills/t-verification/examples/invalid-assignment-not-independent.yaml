@@ -1,0 +1,31 @@
+assignment_id: VA-001
+verification_run_id: VER-duplicate-event-001
+verifier_id: technical-review-agent-02
+role: INDEPENDENT_VERIFIER
+assigned_at: '2026-07-21T23:01:00+07:00'
+prohibited_identity_ids:
+- bounded-implementation-skill
+- self-review-skill
+- technical-review-agent-02
+declared_competencies:
+- TEST_AUTOMATION
+- DISTRIBUTED_SYSTEMS
+- DATABASE
+- SECURITY
+- OBSERVABILITY
+- PERFORMANCE
+- MIGRATION
+- EVIDENCE_AUDIT
+required_competencies:
+- TEST_AUTOMATION
+- DISTRIBUTED_SYSTEMS
+- DATABASE
+- SECURITY
+- OBSERVABILITY
+- EVIDENCE_AUDIT
+independence:
+  not_implementation_author: true
+  not_self_reviewer: true
+  not_technical_reviewer: true
+  no_conflict: true
+conflicts: []

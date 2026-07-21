@@ -1,0 +1,53 @@
+metadata:
+  request_id: REQ-ORDER-DUPLICATE-001
+  created_at: 2026-07-21T10:00:00+07:00
+  language: id-ID
+  requested_by: fajar
+  source: incident
+
+human_problem_statement:
+  raw_text: >-
+    Ketika pengguna menekan approve order dan request mengalami timeout,
+    pengguna kadang mengulang request dan downstream menerima efek approval
+    lebih dari sekali. Saya ingin problemnya dipahami dulu tanpa menentukan
+    solusi atau root cause.
+  business_context: Approval order memicu proses downstream yang tidak boleh terduplikasi.
+  urgency: HIGH
+
+explicit_statements:
+  - id: HS-001
+    statement: Pengguna dapat mengulang request setelah menerima timeout.
+    source: HUMAN
+    material: true
+  - id: HS-002
+    statement: Satu intent approval order harus menghasilkan satu durable business effect.
+    source: HUMAN
+    material: true
+  - id: HS-003
+    statement: Fase ini tidak boleh menentukan root cause atau solusi.
+    source: HUMAN
+    material: true
+
+known_constraints:
+  - id: CST-001
+    statement: Existing public API compatibility harus dipertahankan kecuali disetujui kemudian.
+    type: COMPATIBILITY
+
+initial_scope:
+  in_scope:
+    - Flow approval order yang mengalami timeout dan retry oleh pengguna.
+  out_of_scope:
+    - Redesign keseluruhan order lifecycle.
+  environments:
+    - UNKNOWN
+
+known_terms:
+  - term: durable business effect
+    definition: Perubahan bisnis persisten atau side effect downstream yang dianggap satu hasil approval.
+    defined_by_human: true
+
+references: []
+
+interaction_policy:
+  max_questions_per_round: 5
+  preferred_question_style: MIXED

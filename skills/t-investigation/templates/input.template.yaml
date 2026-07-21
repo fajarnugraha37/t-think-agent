@@ -1,0 +1,78 @@
+metadata:
+  request_id: REQ-example
+  investigation_id: INVEST-example
+  created_at: "2026-07-21T12:00:00+07:00"
+  language: id-ID
+  requested_by: human-reviewer
+
+source_problem_alignment:
+  artifact_path: artifacts/00-problem-alignment.md
+  artifact_version: 1.0.0
+  approval_status: APPROVED
+  gate_status: APPROVED_FOR_INVESTIGATION
+  problem_statement_ids: [PS-001]
+  artifact_digest: sha256:replace-me
+
+approved_problem:
+  observed_behavior:
+    - id: PE-001
+      statement: Describe the approved observed behavior.
+  expected_behavior:
+    - id: PE-002
+      statement: Describe the approved expected behavior.
+  impact: []
+  success_definition:
+    - id: AC-001
+      statement: Define an observable success signal.
+  scope:
+    in_scope: [Relevant flow]
+    out_of_scope: [Unrelated refactoring]
+    environments: [local]
+  constraints: []
+  terms: []
+  deferred_unknown_ids: []
+
+investigation_objectives:
+  - id: OBJ-001
+    question: Which actual execution path produces the observed behavior?
+    mapped_problem_ids: [PE-001, PE-002]
+    priority: CRITICAL
+    stopping_condition: Entry point and relevant downstream path are supported by direct evidence.
+
+targets:
+  repositories:
+    - id: REPO-001
+      name: application
+      location: /workspace/application
+      expected_branch: main
+      access_mode: LOCAL
+      modules: []
+  environments: []
+  external_systems: []
+
+evidence_requirements:
+  required_dimensions:
+    - ENTRY_POINTS
+    - EXECUTION_PATH
+    - STATE_AND_DATA_FLOW
+    - FAILURE_PATHS
+    - TESTS_AND_CONTRACTS
+  optional_dimensions:
+    - CONCURRENCY
+    - RETRY_AND_IDEMPOTENCY
+  required_problem_coverage: [PE-001, PE-002, AC-001]
+  minimum_direct_fact_count: 1
+  require_runtime_evidence: false
+  require_reproduction: false
+
+execution_policy:
+  default_mode: READ_ONLY
+  context_firewall: true
+  direct_source_required: true
+  authorized_operation_classes: [READ_ONLY, NON_MUTATING_TEST]
+  forbidden_commands: ["rm -rf", "DROP DATABASE"]
+  allowed_paths: [/workspace/application]
+  redaction_required: true
+  max_investigation_iterations: 10
+
+access_limitations: []

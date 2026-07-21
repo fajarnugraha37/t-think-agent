@@ -1,0 +1,56 @@
+environment_id: VENV-001
+verification_run_id: VER-duplicate-event-001
+environment_type: CI_EPHEMERAL
+isolation: EPHEMERAL
+repository:
+  repository_id: approval-service
+  commit_sha: abcdef1234567890
+  tree_digest: sha256:ac7299a80d0e8dd576ddbce39a33783ed9bffb3268e3b7d4e512af9d0776ed3f
+  working_tree_status: DIRTY
+  changed_paths:
+  - ApprovalService.java
+  - approval repository mapping
+  - database migration
+  - deployment manifests
+  - src/test/java/example/ApprovalIdempotencyIT.java
+build_artifact:
+  artifact_id: approval-service-verification-build
+  digest: sha256:74fed6ae97a087363e70086848ff80041c6a54137a439f35e031cdbbdb74d5dc
+  provenance: Built from the bound repository tree in the isolated verification job.
+toolchain:
+- name: Java
+  version: 21.0.8
+- name: Maven
+  version: 3.9.11
+- name: PostgreSQL
+  version: '17.5'
+dependencies:
+- name: PostgreSQL
+  version_or_digest: '17.5'
+  availability: AVAILABLE
+- name: Kafka test container
+  version_or_digest: 3.9.1
+  availability: AVAILABLE
+test_data:
+  dataset_id: approval-idempotency-fixture-v1
+  digest: sha256:b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576
+  resettable: true
+  contains_production_data: false
+time_control:
+  timezone: Asia/Jakarta
+  clock_mode: CONTROLLED
+network_control:
+  mode: ISOLATED
+  external_calls_recorded: true
+secret_handling:
+  secrets_redacted: true
+  secret_values_persisted: false
+reproducibility:
+  reproducible: true
+  setup_command: ./scripts/verification-env up
+  teardown_command: ./scripts/verification-env down --purge
+  limitations:
+  - Container runtime timing can vary without changing acceptance semantics.
+captured_at: '2026-07-21T23:05:00+07:00'
+evidence_ids:
+- VE-001

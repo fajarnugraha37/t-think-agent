@@ -1,0 +1,19 @@
+decision_id: DEC-001
+status: DRAFT
+binding_authority: HUMAN
+candidate_option_ids: [OPT-001, OPT-002]
+recommended_option_id: null
+recommendation_basis: []
+comparison_criteria:
+  - criterion: Correctness and invariant preservation
+    weight: 5
+    option_scores: {OPT-001: 4, OPT-002: 4}
+    rationale: Explain scoring using approved model and evidence.
+human_selection:
+  status: NOT_SELECTED
+  selected_option_id: null
+  selected_by: null
+  selected_at: null
+decisions: []
+assumptions: []
+residual_risks: []

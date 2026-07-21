@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/reconciliation/traceability-node.schema.json",
+  "title": "traceability-node",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "trace_node_id",
+    "reconciliation_run_id",
+    "node_type",
+    "source_native_id",
+    "source_artifact_id",
+    "phase",
+    "title",
+    "statement",
+    "status",
+    "terminal_required",
+    "criticality",
+    "content_digest",
+    "evidence_ids",
+    "epistemic_status",
+    "limitations"
+  ],
+  "properties": {
+    "trace_node_id": {
+      "type": "string",
+      "pattern": "^TN-[0-9]{3,}$"
+    },
+    "reconciliation_run_id": {
+      "type": "string",
+      "pattern": "^REC-[A-Za-z0-9._-]+$"
+    },
+    "node_type": {
+      "enum": [
+        "PROBLEM",
+        "ACCEPTANCE_CRITERION",
+        "EVIDENCE",
+        "MODEL_ELEMENT",
+        "INVARIANT",
+        "DECISION",
+        "SOLUTION_OPTION",
+        "RISK",
+        "PLAN_ITEM",
+        "CHECKLIST_ITEM",
+        "CHANGE",
+        "TEST",
+        "REVIEW_RESULT",
+        "VERIFICATION_OBLIGATION"
+      ]
+    },
+    "source_native_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_artifact_id": {
+      "type": "string",
+      "pattern": "^ART-[0-9]{3,}$"
+    },
+    "phase": {
+      "enum": [
+        "PROBLEM_ALIGNMENT",
+        "INVESTIGATION",
+        "SYSTEM_MODEL",
+        "MODEL_CRITIQUE",
+        "SOLUTION_DESIGN",
+        "SOLUTION_CRITIQUE",
+        "IMPLEMENTATION_PLAN",
+        "PLAN_CRITIQUE",
+        "IMPLEMENTATION_CHECKLIST",
+        "CHECKLIST_CRITIQUE",
+        "BOUNDED_IMPLEMENTATION",
+        "SELF_REVIEW",
+        "TECHNICAL_REVIEW",
+        "VERIFICATION"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "ACTIVE",
+        "SATISFIED",
+        "VERIFIED",
+        "ACCEPTED_RISK",
+        "SUPERSEDED",
+        "REJECTED"
+      ]
+    },
+    "terminal_required": {
+      "type": "boolean"
+    },
+    "criticality": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "content_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(VE|F|INF|INV|TN)-[A-Za-z0-9._-]+$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "epistemic_status": {
+      "enum": [
+        "FACT",
+        "INFERENCE",
+        "ASSUMPTION",
+        "UNKNOWN",
+        "CONFLICT"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/problem-alignment/output.schema.json",
+  "title": "Problem Alignment Skill Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "source_input",
+    "normalized_problem",
+    "human_statements",
+    "interpretations",
+    "terms",
+    "constraints",
+    "scope",
+    "acceptance_signals",
+    "open_questions",
+    "deferred_to_investigation",
+    "prohibited_content_check",
+    "approval",
+    "gate"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "version", "status", "created_at", "updated_at"],
+      "properties": {
+        "artifact_id": {"type": "string", "pattern": "^PA-[A-Za-z0-9._-]+$"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "status": {
+          "type": "string",
+          "enum": ["DRAFT", "UNDER_REVIEW", "APPROVED", "REJECTED", "SUPERSEDED"]
+        },
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "supersedes": {"type": ["string", "null"]}
+      }
+    },
+    "source_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id"],
+      "properties": {
+        "request_id": {"type": "string", "pattern": "^REQ-[A-Za-z0-9._-]+$"},
+        "input_digest": {"type": "string"}
+      }
+    },
+    "normalized_problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "problem_statement",
+        "observed_behavior",
+        "expected_behavior",
+        "impact",
+        "success_definition"
+      ],
+      "properties": {
+        "problem_statement": {"type": "string", "minLength": 20},
+        "observed_behavior": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/statementRef"}},
+        "expected_behavior": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/statementRef"}},
+        "impact": {"type": "array", "items": {"$ref": "#/$defs/statementRef"}},
+        "success_definition": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/statementRef"}}
+      }
+    },
+    "human_statements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/humanStatement"}
+    },
+    "interpretations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/interpretation"}
+    },
+    "terms": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/term"}
+    },
+    "constraints": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/constraint"}
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["in_scope", "out_of_scope", "environments"],
+      "properties": {
+        "in_scope": {"type": "array", "items": {"$ref": "#/$defs/statementRef"}},
+        "out_of_scope": {"type": "array", "items": {"$ref": "#/$defs/statementRef"}},
+        "environments": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "acceptance_signals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "statement", "observable"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^AS-[0-9]{3,}$"},
+          "statement": {"type": "string", "minLength": 1},
+          "observable": {"type": "boolean", "const": true},
+          "source_statement_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "pattern": "^HS-[0-9]{3,}$"}
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/question"}
+    },
+    "deferred_to_investigation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "question", "reason_for_deferral"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^DI-[0-9]{3,}$"},
+          "question": {"type": "string", "minLength": 1},
+          "reason_for_deferral": {"type": "string", "minLength": 1},
+          "expected_evidence_source": {"type": "string"}
+        }
+      }
+    },
+    "prohibited_content_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contains_root_cause_hypothesis",
+        "contains_solution_proposal",
+        "contains_implementation_direction",
+        "contains_hidden_assumption",
+        "uses_unverified_previous_context_as_fact"
+      ],
+      "properties": {
+        "contains_root_cause_hypothesis": {"type": "boolean", "const": false},
+        "contains_solution_proposal": {"type": "boolean", "const": false},
+        "contains_implementation_direction": {"type": "boolean", "const": false},
+        "contains_hidden_assumption": {"type": "boolean", "const": false},
+        "uses_unverified_previous_context_as_fact": {"type": "boolean", "const": false}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approved", "reviewed_by", "reviewed_at", "explicit_statement"],
+      "properties": {
+        "approved": {"type": "boolean"},
+        "reviewed_by": {"type": ["string", "null"]},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "explicit_statement": {"type": ["string", "null"]},
+        "notes": {"type": "string"}
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "blocking_reasons", "next_valid_transitions"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "NEEDS_HUMAN_CLARIFICATION",
+            "READY_FOR_HUMAN_REVIEW",
+            "APPROVED_FOR_INVESTIGATION",
+            "REJECTED"
+          ]
+        },
+        "blocking_reasons": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "next_valid_transitions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "enum": ["PROBLEM_ALIGNMENT", "INVESTIGATION", "REJECTED"]}
+        }
+      }
+    },
+    "change_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["version", "changed_at", "summary"],
+        "properties": {
+          "version": {"type": "string"},
+          "changed_at": {"type": "string", "format": "date-time"},
+          "summary": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "statementRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "source_statement_ids"],
+      "properties": {
+        "statement": {"type": "string", "minLength": 1},
+        "source_statement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^HS-[0-9]{3,}$"}
+        }
+      }
+    },
+    "humanStatement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "source", "confirmed"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^HS-[0-9]{3,}$"},
+        "statement": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "enum": ["INITIAL_INPUT", "CLARIFICATION_ANSWER", "APPROVED_DOCUMENT"]},
+        "confirmed": {"type": "boolean"},
+        "material": {"type": "boolean", "default": true}
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "original_statement_id",
+        "normalized_interpretation",
+        "reason",
+        "confidence",
+        "material",
+        "human_confirmation"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^INT-[0-9]{3,}$"},
+        "original_statement_id": {"type": "string", "pattern": "^HS-[0-9]{3,}$"},
+        "normalized_interpretation": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]},
+        "material": {"type": "boolean"},
+        "human_confirmation": {
+          "type": "string",
+          "enum": ["CONFIRMED", "REJECTED", "PENDING", "NOT_REQUIRED"]
+        }
+      }
+    },
+    "term": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "term", "definition", "confirmation"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^TERM-[0-9]{3,}$"},
+        "term": {"type": "string", "minLength": 1},
+        "definition": {"type": "string", "minLength": 1},
+        "confirmation": {"type": "string", "enum": ["CONFIRMED", "PENDING"]},
+        "source_statement_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^HS-[0-9]{3,}$"}
+        }
+      }
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "type", "source_statement_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^CST-[0-9]{3,}$"},
+        "statement": {"type": "string", "minLength": 1},
+        "type": {
+          "type": "string",
+          "enum": ["BUSINESS", "SECURITY", "COMPLIANCE", "COMPATIBILITY", "DELIVERY", "FORBIDDEN_CHANGE", "OTHER"]
+        },
+        "source_statement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^HS-[0-9]{3,}$"}
+        }
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "question", "classification", "status", "why_it_matters"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^Q-[0-9]{3,}$"},
+        "question": {"type": "string", "minLength": 1},
+        "classification": {
+          "type": "string",
+          "enum": ["BLOCKING_ALIGNMENT", "NON_BLOCKING_FOR_ALIGNMENT", "DEFER_TO_INVESTIGATION"]
+        },
+        "status": {"type": "string", "enum": ["OPEN", "ANSWERED", "CANCELLED"]},
+        "why_it_matters": {"type": "string", "minLength": 1},
+        "answer_statement_id": {"type": ["string", "null"], "pattern": "^HS-[0-9]{3,}$"}
+      }
+    }
+  }
+}

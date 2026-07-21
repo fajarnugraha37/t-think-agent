@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/checklist-builder/coverage-row.schema.json",
+  "title": "Plan Operation to Checklist Coverage Row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "coverage_id",
+    "plan_id",
+    "operation_sequence",
+    "coverage_status",
+    "checklist_ids",
+    "verification_ids",
+    "rollback_ids",
+    "rationale"
+  ],
+  "properties": {
+    "coverage_id": {
+      "type": "string",
+      "pattern": "^CCOV-[0-9]{3,}$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^PLN-"
+    },
+    "operation_sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "coverage_status": {
+      "enum": [
+        "FULL",
+        "PARTIAL",
+        "NONE"
+      ]
+    },
+    "checklist_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^CHK-"
+      }
+    },
+    "verification_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TST-"
+      }
+    },
+    "rollback_ids": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^RBK-"
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

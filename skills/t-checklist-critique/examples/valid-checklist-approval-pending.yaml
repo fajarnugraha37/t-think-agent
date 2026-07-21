@@ -1,0 +1,13 @@
+approval_id: CAPP-001
+status: PENDING
+builder_run_id: CBLD-duplicate-event-001
+approved_checklist_version: 1.0.0
+approved_by: null
+approver_role: UNASSIGNED
+approved_at: null
+resolved_critique_ids: []
+accepted_residual_risk_ids: []
+accepted_human_gate_batch_ids: []
+accepted_limitations: []
+execution_authorization: false
+approval_statement: Awaiting human approval after all critique actions are resolved.

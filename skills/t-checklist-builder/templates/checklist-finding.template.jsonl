@@ -1,0 +1,1 @@
+{"finding_id":"CBFND-001","type":"TRACEABILITY_GAP","severity":"HIGH","blocking":true,"statement":"Describe the observed gap.","affected_ids":["PLN-001"],"evidence_ids":["F-001"],"route":"IMPLEMENTATION_PLAN","required_action":"Describe the required upstream correction."}

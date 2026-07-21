@@ -1,0 +1,29 @@
+schema_version: 1.0.0
+name: t-reviewer
+mode: subagent
+description: Independently review the actual diff against approved artifacts in a fresh read-only context.
+phases:
+- TECHNICAL_REVIEW
+skills:
+- t-technical-review
+context: fresh_invocation
+human_interaction: false
+permissions:
+  discovery:
+    respect_vcs_ignore: true
+    include_untracked: true
+    include_ignored: false
+  workspace_read: allow
+  outside_workspace: deny
+  governance_artifact_write: .t-think/**
+  source_write:
+    mode: deny
+  protected_paths:
+  - .git/**
+  - .env
+  - .env.*
+  - '**/secrets/**'
+  - '**/*credential*'
+  - '**/*private-key*'
+  command_policy: read-only-checks
+  spawn_subagent: deny

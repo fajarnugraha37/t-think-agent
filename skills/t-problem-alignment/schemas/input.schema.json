@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/problem-alignment/input.schema.json",
+  "title": "Problem Alignment Skill Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["metadata", "human_problem_statement"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "created_at", "language"],
+      "properties": {
+        "request_id": {"type": "string", "pattern": "^REQ-[A-Za-z0-9._-]+$"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "language": {"type": "string", "minLength": 2},
+        "requested_by": {"type": "string", "minLength": 1},
+        "source": {
+          "type": "string",
+          "enum": ["human", "ticket", "incident", "change-request", "review", "other"]
+        }
+      }
+    },
+    "human_problem_statement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_text"],
+      "properties": {
+        "raw_text": {"type": "string", "minLength": 10},
+        "business_context": {"type": "string"},
+        "urgency": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL", "UNKNOWN"]}
+      }
+    },
+    "explicit_statements": {
+      "type": "array",
+      "default": [],
+      "items": {"$ref": "#/$defs/explicitStatement"}
+    },
+    "known_constraints": {
+      "type": "array",
+      "default": [],
+      "items": {"$ref": "#/$defs/constraint"}
+    },
+    "initial_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "in_scope": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "out_of_scope": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "environments": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "known_terms": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["term", "definition"],
+        "properties": {
+          "term": {"type": "string", "minLength": 1},
+          "definition": {"type": "string", "minLength": 1},
+          "defined_by_human": {"type": "boolean", "const": true}
+        }
+      }
+    },
+    "references": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reference_id", "description"],
+        "properties": {
+          "reference_id": {"type": "string", "pattern": "^REF-[A-Za-z0-9._-]+$"},
+          "description": {"type": "string", "minLength": 1},
+          "location": {"type": "string"},
+          "authority": {
+            "type": "string",
+            "enum": ["INTENT_SOURCE", "CONTEXT_ONLY", "UNKNOWN"]
+          }
+        }
+      }
+    },
+    "interaction_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_questions_per_round": {"type": "integer", "minimum": 1, "maximum": 20, "default": 7},
+        "preferred_question_style": {
+          "type": "string",
+          "enum": ["CONCISE", "DETAILED", "MIXED"]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "explicitStatement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "source"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^HS-[0-9]{3,}$"},
+        "statement": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "enum": ["HUMAN", "APPROVED_DOCUMENT"]},
+        "material": {"type": "boolean", "default": true}
+      }
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "type"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^CST-[0-9]{3,}$"},
+        "statement": {"type": "string", "minLength": 1},
+        "type": {
+          "type": "string",
+          "enum": ["BUSINESS", "SECURITY", "COMPLIANCE", "COMPATIBILITY", "DELIVERY", "FORBIDDEN_CHANGE", "OTHER"]
+        }
+      }
+    }
+  }
+}

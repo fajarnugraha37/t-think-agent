@@ -1,0 +1,11 @@
+status: INCOMPLETE
+rationale: '...'
+problem_coverage_complete: false
+evidence_mapping_complete: false
+relation_integrity: false
+actual_intended_gap_consistent: false
+blocking_unknown_ids: []
+blocking_conflict_ids: []
+required_followups:
+- '...'
+confidence: LOW

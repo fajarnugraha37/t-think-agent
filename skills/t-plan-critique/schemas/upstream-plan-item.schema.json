@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Implementation Plan Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plan_id",
+    "title",
+    "purpose",
+    "status",
+    "change_type",
+    "source_contract_id",
+    "planning_target_ids",
+    "problem_ids",
+    "model_ids",
+    "evidence_ids",
+    "invariant_ids",
+    "affected_components",
+    "affected_files_or_artifacts",
+    "preconditions",
+    "implementation_operations",
+    "behavior_mapping",
+    "semantic_impact",
+    "failure_conditions",
+    "verification_item_ids",
+    "rollback_item_ids",
+    "depends_on_plan_ids",
+    "completion_evidence",
+    "risk_ids"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "pattern": "^PLN-[0-9]{3,}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "READY_FOR_REVIEW",
+        "BLOCKED",
+        "SUPERSEDED"
+      ]
+    },
+    "change_type": {
+      "enum": [
+        "CODE",
+        "DATABASE_SCHEMA",
+        "DATA_BACKFILL",
+        "CONFIGURATION",
+        "DEPLOYMENT",
+        "MIGRATION",
+        "TEST",
+        "OBSERVABILITY",
+        "SECURITY_CONTROL",
+        "DOCUMENTATION",
+        "OPERATIONS",
+        "GUARD"
+      ]
+    },
+    "source_contract_id": {
+      "type": "string",
+      "pattern": "^SOLCON-"
+    },
+    "planning_target_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PTGT-"
+      }
+    },
+    "problem_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(PS|PE|AC)-"
+      }
+    },
+    "model_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^MDL-"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-"
+      }
+    },
+    "invariant_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(INV|MDL)-"
+      }
+    },
+    "affected_components": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "affected_files_or_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "preconditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "implementation_operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sequence",
+          "operation",
+          "expected_effect",
+          "non_goals"
+        ],
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "operation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_effect": {
+            "type": "string",
+            "minLength": 1
+          },
+          "non_goals": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "behavior_mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_behavior",
+        "preserved_behavior",
+        "intentionally_changed_behavior"
+      ],
+      "properties": {
+        "target_behavior": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "preserved_behavior": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "intentionally_changed_behavior": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "semantic_impact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "introduces_new_semantic_decision",
+        "approved_by_contract",
+        "decision_description",
+        "prohibited_change_conflicts"
+      ],
+      "properties": {
+        "introduces_new_semantic_decision": {
+          "type": "boolean"
+        },
+        "approved_by_contract": {
+          "type": "boolean"
+        },
+        "decision_description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "prohibited_change_conflicts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "failure_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "verification_item_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TST-"
+      }
+    },
+    "rollback_item_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^RBK-"
+      }
+    },
+    "depends_on_plan_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^PLN-"
+      }
+    },
+    "completion_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "risk_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(RSK|SRSK)-"
+      }
+    }
+  }
+}

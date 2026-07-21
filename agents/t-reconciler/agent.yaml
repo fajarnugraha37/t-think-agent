@@ -1,0 +1,29 @@
+schema_version: 1.0.0
+name: t-reconciler
+mode: subagent
+description: Audit end-to-end traceability and unresolved findings before final human closure.
+phases:
+- RECONCILIATION
+skills:
+- t-reconciliation
+context: fresh_invocation
+human_interaction: false
+permissions:
+  discovery:
+    respect_vcs_ignore: true
+    include_untracked: true
+    include_ignored: false
+  workspace_read: allow
+  outside_workspace: deny
+  governance_artifact_write: .t-think/**
+  source_write:
+    mode: deny
+  protected_paths:
+  - .git/**
+  - .env
+  - .env.*
+  - '**/secrets/**'
+  - '**/*credential*'
+  - '**/*private-key*'
+  command_policy: read-only
+  spawn_subagent: deny

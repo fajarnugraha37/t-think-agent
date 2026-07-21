@@ -1,0 +1,68 @@
+work_id: ORDER-2471
+scenario: duplicate-order-idempotency
+phases:
+  - state: PROBLEM_ALIGNMENT
+    result: APPROVED_FOR_INVESTIGATION
+    human_action: approved exact key and replay/conflict semantics
+  - state: INVESTIGATION
+    result: READY_FOR_SYSTEM_MODEL
+    evidence: actual route, transaction, schema, producer, retries, and tests inspected
+  - state: SYSTEM_MODEL
+    result: READY_FOR_MODEL_CRITIQUE
+  - state: MODEL_CRITIQUE
+    result: RETURN_TO_SYSTEM_MODEL
+    critique: concurrent multi-pod request path missing
+  - state: SYSTEM_MODEL
+    result: READY_FOR_MODEL_CRITIQUE
+    version: 2
+  - state: MODEL_CRITIQUE
+    result: READY_FOR_CHANGE_OPTIONS
+    next_state: SOLUTION_DESIGN
+    human_action: approved model v2
+  - state: SOLUTION_DESIGN
+    result: READY_FOR_SOLUTION_CRITIQUE
+    options: [pre-check-only, transactional-idempotency-plus-outbox, kafka-only-dedup]
+  - state: SOLUTION_CRITIQUE
+    result: READY_FOR_IMPLEMENTATION_PLAN
+    human_action: selected transactional-idempotency-plus-outbox and accepted legacy-client risk
+  - state: IMPLEMENTATION_PLAN
+    result: READY_FOR_PLAN_CRITIQUE
+  - state: PLAN_CRITIQUE
+    result: RETURN_TO_IMPLEMENTATION_PLAN
+    critique: rollout enables code before schema is available everywhere
+  - state: IMPLEMENTATION_PLAN
+    result: READY_FOR_PLAN_CRITIQUE
+    version: 2
+  - state: PLAN_CRITIQUE
+    result: READY_FOR_IMPLEMENTATION_CHECKLIST
+    human_action: approved plan v2
+  - state: IMPLEMENTATION_CHECKLIST
+    result: READY_FOR_CHECKLIST_CRITIQUE
+  - state: CHECKLIST_CRITIQUE
+    result: RETURN_TO_IMPLEMENTATION_CHECKLIST
+    critique: idempotency behavior item combines four semantic branches
+  - state: IMPLEMENTATION_CHECKLIST
+    result: READY_FOR_CHECKLIST_CRITIQUE
+    version: 2
+  - state: CHECKLIST_CRITIQUE
+    result: READY_FOR_BOUNDED_IMPLEMENTATION
+    human_action: approved checklist v2 and authorized execution
+  - state: BOUNDED_IMPLEMENTATION
+    result: READY_FOR_SELF_REVIEW
+  - state: SELF_REVIEW
+    result: RETURN_TO_BOUNDED_IMPLEMENTATION
+    finding: approved conflict metric missing
+  - state: BOUNDED_IMPLEMENTATION
+    result: READY_FOR_SELF_REVIEW
+    version: 2
+  - state: SELF_REVIEW
+    result: READY_FOR_TECHNICAL_REVIEW
+  - state: TECHNICAL_REVIEW
+    result: READY_FOR_VERIFICATION
+    independent_challenge: concurrent race safety
+  - state: VERIFICATION
+    result: READY_FOR_RECONCILIATION
+  - state: RECONCILIATION
+    result: RECONCILED_COMPLETE
+    next_state: COMPLETED
+    human_action: approved final closure

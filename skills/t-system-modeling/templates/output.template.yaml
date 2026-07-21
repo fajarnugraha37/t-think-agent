@@ -1,0 +1,88 @@
+metadata:
+  modeling_id: MODEL-...
+  version: 0.1.0
+  status: DRAFT
+  created_at: '2026-01-01T00:00:00Z'
+  updated_at: '2026-01-01T00:00:00Z'
+  language: id-ID
+  author_agent: system-modeling-skill
+source_investigation:
+  artifact_path: artifacts/02a-investigation-output.yaml
+  artifact_version: 1.0.0
+  investigation_id: INVEST-...
+  status: COMPLETE
+  gate_status: READY_FOR_SYSTEM_MODEL
+  evidence_ledger_path: artifacts/02-evidence-ledger.jsonl
+  problem_statement_ids:
+  - PS-001
+model_scope:
+  included:
+  - '...'
+  excluded: []
+  repositories:
+  - repository_id: REPO-001
+    commit_sha: '0000000'
+    branch: main
+    modules: []
+  environments: []
+  limitations: []
+model_summary:
+  statement: '...'
+  actual_behavior_summary: '...'
+  intended_behavior_summary: '...'
+  gap_summary: '...'
+  leading_explanation: '...'
+  alternative_explanations:
+  - '...'
+  confidence: LOW
+model_files:
+  elements:
+    path: artifacts/03a-model-elements.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  relations:
+    path: artifacts/03b-model-relations.jsonl
+    format: JSONL
+    record_count: 0
+    digest: sha256:...
+  traceability_matrix:
+    path: artifacts/04-traceability-matrix.csv
+    format: CSV
+    record_count: 0
+    digest: sha256:...
+dimension_coverage: []
+problem_coverage: []
+reasoning_disclosure:
+  fact_to_model_mappings: []
+  inference_to_model_mappings: []
+  assumption_usage: []
+  conflicts: []
+  unknowns: []
+  discarded_evidence: []
+  summary_method: '...'
+consistency_assessment:
+  status: INCOMPLETE
+  rationale: '...'
+  problem_coverage_complete: false
+  evidence_mapping_complete: false
+  relation_integrity: false
+  actual_intended_gap_consistent: false
+  blocking_unknown_ids: []
+  blocking_conflict_ids: []
+  required_followups:
+  - '...'
+  confidence: LOW
+artifacts:
+- artifact_type: SYSTEM_MODEL
+  path: artifacts/03-system-model.md
+  status: DRAFT
+  digest: sha256:...
+gate:
+  status: MODEL_INCOMPLETE
+  next_state: SYSTEM_MODEL
+  blocking_reasons:
+  - '...'
+  next_valid_transitions:
+  - SYSTEM_MODEL
+  - INVESTIGATION

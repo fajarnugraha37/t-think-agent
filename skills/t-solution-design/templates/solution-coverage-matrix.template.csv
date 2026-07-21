@@ -1,0 +1,2 @@
+coverage_id,option_id,target_id,coverage_status,mechanism,evidence_ids,model_ids,limitations,verification_ids
+SCOV-001,OPT-001,TGT-001,FULL,"<mechanism>",F-001|INV-001,MDL-011,"<limitations>",VSTR-001

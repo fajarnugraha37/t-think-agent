@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/checklist-builder/checklist-dependency.schema.json",
+  "title": "Checklist Dependency Edge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dependency_id",
+    "from_checklist_id",
+    "to_checklist_id",
+    "dependency_type",
+    "source_plan_dependency_id",
+    "hard",
+    "rationale"
+  ],
+  "properties": {
+    "dependency_id": {
+      "type": "string",
+      "pattern": "^CDEP-[0-9]{3,}$"
+    },
+    "from_checklist_id": {
+      "type": "string",
+      "pattern": "^CHK-"
+    },
+    "to_checklist_id": {
+      "type": "string",
+      "pattern": "^CHK-"
+    },
+    "dependency_type": {
+      "enum": [
+        "WITHIN_PLAN_SEQUENCE",
+        "PLAN_DEPENDENCY",
+        "EXECUTION_GATE"
+      ]
+    },
+    "source_plan_dependency_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^PDEP-"
+    },
+    "hard": {
+      "const": true
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

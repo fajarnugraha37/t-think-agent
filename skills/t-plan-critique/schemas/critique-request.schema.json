@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/plan-critique/critique-request.schema.json",
+  "title": "Human Plan Critique Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "critique_id",
+    "submitted_by",
+    "submitted_at",
+    "target_kind",
+    "target_ids",
+    "statement",
+    "priority",
+    "blocking"
+  ],
+  "properties": {
+    "critique_id": {
+      "type": "string",
+      "pattern": "^PCRQ-[0-9]{3,}$"
+    },
+    "submitted_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "target_kind": {
+      "enum": [
+        "WHOLE_PLAN",
+        "PLANNING_TARGET",
+        "PLAN_ITEM",
+        "DEPENDENCY_EDGE",
+        "COVERAGE_ROW",
+        "VERIFICATION_ITEM",
+        "ROLLBACK_ITEM",
+        "PLANNING_FINDING",
+        "SEMANTIC_DECISION_GUARD",
+        "CHANGE_SURFACE",
+        "PLAN_SEQUENCE",
+        "PLAN_SCOPE",
+        "PLAN_COMPLETENESS",
+        "REASONING_DISCLOSURE"
+      ]
+    },
+    "target_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(PTGT|PLN|PDEP|PCOV|TST|RBK|PFND)-[0-9]{3,}$"
+      }
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 3
+    },
+    "requested_outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claimed_evidence_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(F|INF|ASM|UNK|CON|INV|RSK)-[0-9]{3,}$"
+      }
+    },
+    "new_human_assertions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assertion",
+          "epistemic_status"
+        ],
+        "properties": {
+          "assertion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "epistemic_status": {
+            "const": "UNVERIFIED_HUMAN_CLAIM"
+          },
+          "suggested_verification": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "priority": {
+      "enum": [
+        "CRITICAL",
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "target_kind": {
+            "enum": [
+              "PLANNING_TARGET",
+              "PLAN_ITEM",
+              "DEPENDENCY_EDGE",
+              "COVERAGE_ROW",
+              "VERIFICATION_ITEM",
+              "ROLLBACK_ITEM",
+              "PLANNING_FINDING"
+            ]
+          }
+        },
+        "required": [
+          "target_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "target_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

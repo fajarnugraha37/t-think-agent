@@ -1,0 +1,13 @@
+schema_version: 2.1.0
+work_id: EXAMPLE-1
+current_state: PROBLEM_ALIGNMENT
+current_run_id: RUN-EXAMPLE
+model_profile: economy
+repository_root: /absolute/path/to/repository
+work_directory: .t-think/EXAMPLE-1
+active_skill: t-problem-alignment
+active_agent: t-think
+last_gate: null
+last_validator: null
+human_gate_pending: true
+history: []

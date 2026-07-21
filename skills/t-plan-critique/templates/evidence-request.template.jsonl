@@ -1,0 +1,1 @@
+{"request_id": "PEREQ-001", "source_critique_ids": ["PCRQ-001"], "question": "...", "required_evidence": ["..."], "reason": "...", "blocking": true, "route": "INVESTIGATION", "status": "OPEN", "created_at": "2026-07-21T00:00:00+08:00"}

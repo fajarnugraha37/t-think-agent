@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/bounded-implementation/execution-record.schema.json",
+  "title": "Checklist Execution Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "implementation_run_id",
+    "checklist_id",
+    "source_plan_id",
+    "source_operation_digest",
+    "checklist_item_digest",
+    "status",
+    "attempt_count",
+    "started_at",
+    "completed_at",
+    "precondition_results",
+    "action_summary",
+    "change_ids",
+    "command_result_ids",
+    "verification_result_ids",
+    "rollback_result_ids",
+    "human_authorization",
+    "semantic_integrity",
+    "scope_integrity",
+    "completion_evidence",
+    "failure",
+    "next_action"
+  ],
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "pattern": "^EXEC-[0-9]{3,}$"
+    },
+    "implementation_run_id": {
+      "type": "string",
+      "pattern": "^BIMPL-"
+    },
+    "checklist_id": {
+      "type": "string",
+      "pattern": "^CHK-"
+    },
+    "source_plan_id": {
+      "type": "string",
+      "pattern": "^PLN-"
+    },
+    "source_operation_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "checklist_item_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "status": {
+      "enum": [
+        "PENDING",
+        "IN_PROGRESS",
+        "COMPLETED",
+        "FAILED",
+        "BLOCKED",
+        "ROLLED_BACK",
+        "SKIPPED"
+      ]
+    },
+    "attempt_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "started_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "completed_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "precondition_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "precondition",
+          "status",
+          "evidence"
+        ],
+        "properties": {
+          "precondition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "BLOCKED"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "action_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "change_ids": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CHG-"
+      },
+      "uniqueItems": true
+    },
+    "command_result_ids": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^CMD-"
+      },
+      "uniqueItems": true
+    },
+    "verification_result_ids": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^VRES-"
+      },
+      "uniqueItems": true
+    },
+    "rollback_result_ids": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^RRES-"
+      },
+      "uniqueItems": true
+    },
+    "human_authorization": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "authorization_id",
+            "authorized_by",
+            "authorizer_role",
+            "authorized_at",
+            "batch_id",
+            "scope"
+          ],
+          "properties": {
+            "authorization_id": {
+              "type": "string",
+              "pattern": "^HAUTH-"
+            },
+            "authorized_by": {
+              "type": "string",
+              "minLength": 1
+            },
+            "authorizer_role": {
+              "const": "HUMAN"
+            },
+            "authorized_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "batch_id": {
+              "type": "string",
+              "pattern": "^BATCH-"
+            },
+            "scope": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^CHK-"
+              },
+              "uniqueItems": true
+            }
+          }
+        }
+      ]
+    },
+    "semantic_integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "new_semantic_decision",
+        "within_decision_envelope",
+        "deviations"
+      ],
+      "properties": {
+        "new_semantic_decision": {
+          "const": false
+        },
+        "within_decision_envelope": {
+          "const": true
+        },
+        "deviations": {
+          "type": "array",
+          "maxItems": 0
+        }
+      }
+    },
+    "scope_integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "within_item_scope",
+        "within_contract_surface",
+        "unexpected_paths"
+      ],
+      "properties": {
+        "within_item_scope": {
+          "const": true
+        },
+        "within_contract_surface": {
+          "const": true
+        },
+        "unexpected_paths": {
+          "type": "array",
+          "maxItems": 0
+        }
+      }
+    },
+    "completion_evidence": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "failure": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "message",
+            "blocking",
+            "finding_ids"
+          ],
+          "properties": {
+            "category": {
+              "enum": [
+                "PRECONDITION_FAILURE",
+                "COMMAND_FAILURE",
+                "VERIFICATION_FAILURE",
+                "AMBIGUITY",
+                "SCOPE_DRIFT",
+                "SEMANTIC_DECISION_REQUIRED",
+                "SOURCE_DRIFT",
+                "HUMAN_GATE_MISSING",
+                "OTHER"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            },
+            "blocking": {
+              "type": "boolean"
+            },
+            "finding_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^IFND-"
+              },
+              "uniqueItems": true
+            }
+          }
+        }
+      ]
+    },
+    "next_action": {
+      "enum": [
+        "CONTINUE",
+        "REMEDIATE_WITHIN_BUDGET",
+        "STOP_AND_ROUTE",
+        "SELF_REVIEW",
+        "NONE"
+      ]
+    }
+  }
+}

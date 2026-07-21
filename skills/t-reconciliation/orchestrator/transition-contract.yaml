@@ -1,0 +1,44 @@
+skill: reconciliation
+state: RECONCILIATION
+previous_state: VERIFICATION
+success_state: COMPLETED
+preconditions:
+- Verification output READY_FOR_RECONCILIATION
+- Verification contract PASS
+- Exact repository tree and upstream digests available
+- Canonical artifacts from all required phases available
+- Independent reconciler assigned
+success_gate:
+  status: RECONCILED_COMPLETE
+  requirements:
+  - All required lifecycle phases represented
+  - Artifact digests and status bindings valid
+  - Problem-to-change and problem-to-verification closure complete
+  - No open blocking contradiction or gap
+  - Repository unchanged
+  - Human closure approval recorded
+loopback_routes:
+- RECONCILIATION
+- VERIFICATION
+- TECHNICAL_REVIEW
+- SELF_REVIEW
+- BOUNDED_IMPLEMENTATION
+- IMPLEMENTATION_CHECKLIST
+- CHECKLIST_CRITIQUE
+- IMPLEMENTATION_PLAN
+- PLAN_CRITIQUE
+- SOLUTION_CRITIQUE
+- SOLUTION_DESIGN
+- MODEL_CRITIQUE
+- SYSTEM_MODEL
+- INVESTIGATION
+- PROBLEM_ALIGNMENT
+mutation_policy:
+  source_mutation_allowed: false
+  remediation_allowed: false
+  new_semantic_decision_allowed: false
+failure_behavior:
+  ambiguity: BLOCK_RECONCILIATION
+  unapproved_change: LOOPBACK_REQUIRED
+  source_drift: LOOPBACK_REQUIRED
+  missing_human_approval: AWAIT_HUMAN_CLOSURE

@@ -1,0 +1,93 @@
+metadata:
+  request_id: REQ-checklist-001
+  builder_run_id: CBLD-duplicate-event-001
+  created_at: '2026-07-21T18:00:00+07:00'
+  author_agent: checklist-builder-skill
+  requested_by: fajar
+  language: id-ID
+source_plan_contract:
+  contract_id: PLANCON-001
+  status: APPROVED
+  source_planning_run_id: IPLAN-duplicate-event-001
+  source_solution_contract_id: SOLCON-001
+  plan_bundle_digest: sha256:c00d7389f7dbd289cf49b03bc5d053b47f679d2f5968c51157e30b64a909e885
+  repository_commit: abcdef1234567890
+source_plan_critique:
+  critique_run_id: PCRIT-duplicate-event-001
+  artifact_version: 1.0.0
+  gate_status: READY_FOR_IMPLEMENTATION_CHECKLIST
+  approved_plan_contract_id: PLANCON-001
+repository_snapshot:
+  repository_id: approval-service
+  branch: main
+  commit_sha: abcdef1234567890
+  working_tree_status: CLEAN
+  actual_code_reinspection_required: true
+source_artifacts:
+  approved_plan_contract:
+    path: artifacts/08e-approved-plan-contract.yaml
+    format: YAML
+    record_count: 1
+  plan_critique_output:
+    path: artifacts/08g-plan-critique-output.yaml
+    format: YAML
+    record_count: 1
+  planning_output:
+    path: artifacts/07h-planning-output.yaml
+    format: YAML
+    record_count: 1
+  planning_targets:
+    path: artifacts/07a-planning-targets.jsonl
+    format: JSONL
+    record_count: 35
+  plan_items:
+    path: artifacts/07b-implementation-plan-items.jsonl
+    format: JSONL
+    record_count: 8
+  plan_dependencies:
+    path: artifacts/07c-plan-dependencies.jsonl
+    format: JSONL
+    record_count: 13
+  plan_coverage:
+    path: artifacts/07d-plan-coverage.csv
+    format: CSV
+    record_count: 35
+  verification_plan:
+    path: artifacts/07e-verification-plan.jsonl
+    format: JSONL
+    record_count: 12
+  rollback_plan:
+    path: artifacts/07f-rollback-plan.jsonl
+    format: JSONL
+    record_count: 7
+  planning_findings:
+    path: artifacts/07g-planning-findings.jsonl
+    format: JSONL
+    record_count: 0
+  approved_solution_contract:
+    path: artifacts/06e-approved-solution-contract.yaml
+    format: YAML
+    record_count: 1
+  evidence_ledger:
+    path: artifacts/02-evidence-ledger.jsonl
+    format: JSONL
+    record_count: 5
+  model_elements:
+    path: artifacts/03a-model-elements.jsonl
+    format: JSONL
+    record_count: 13
+  model_relations:
+    path: artifacts/03b-model-relations.jsonl
+    format: JSONL
+    record_count: 11
+builder_policy:
+  atomicity_required: true
+  one_source_operation_per_item: true
+  exact_operation_coverage_required: true
+  new_semantic_decisions_allowed: false
+  implementation_allowed: false
+  scope_expansion_allowed: false
+  dependency_dag_required: true
+  verification_mapping_required: true
+  rollback_mapping_required_when_planned: true
+  ambiguity_behavior: IMPLEMENTATION_FAILED
