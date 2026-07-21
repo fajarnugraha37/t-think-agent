@@ -1,0 +1,20 @@
+name: Export branch for validation
+on:
+  push:
+    branches:
+      - feat/engineering-principles-policy
+  pull_request:
+    branches:
+      - main
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Archive repository
+        run: zip -qr t-think-agent.zip . -x '.git/*'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: t-think-agent-source
+          path: t-think-agent.zip
+          retention-days: 1
