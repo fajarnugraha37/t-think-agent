@@ -1,0 +1,19 @@
+graphify_status: available
+repository_root: /workspace/project
+queries_performed:
+- focused impact query for order creation flow
+findings:
+- entity: OrderResource
+  relationship: calls OrderService and publishes OrderCreated
+  evidence: focused Graphify query result
+  confidence: medium
+affected_areas:
+- order-api
+- order-service
+- order-events
+uncertainties:
+- runtime event routing may add consumers that static extraction does not represent
+verification_required:
+- inspect source callers and dependency-injection bindings
+- inspect messaging configuration and runtime consumer registration
+- run compiler and affected contract tests
