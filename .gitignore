@@ -1,16 +1,30 @@
-# Generated packaging outputs
+# Generated release artifacts
 archives/
-CHECKSUMS.sha256
-skills/*/CHECKSUMS.sha256
+t-think-governed-sdlc-bundle.zip
+
+# Generated verification evidence
 reports/
+CHECKSUMS.sha256
+**/CHECKSUMS.sha256
 
-# Python runtime artifacts
-__pycache__/
-*.py[cod]
-
-# Local work items and editor/runtime state
+# Local work-item state
 .t-think/
 
-# Temporary backups and release bundles
+# Python caches and local tooling state
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Temporary and backup files
 *.bak-*
-t-think-governed-sdlc-bundle.zip
+*.tmp
+*.temp
+*~
+
+# Operating-system/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
