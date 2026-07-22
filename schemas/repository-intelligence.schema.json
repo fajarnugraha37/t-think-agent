@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://t-think.local/schemas/repository-intelligence.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "graphify_status",
+    "repository_root",
+    "queries_performed",
+    "findings",
+    "affected_areas",
+    "uncertainties",
+    "verification_required"
+  ],
+  "properties": {
+    "graphify_status": {
+      "enum": [
+        "available",
+        "unavailable",
+        "not_needed",
+        "failed",
+        "possibly_stale"
+      ]
+    },
+    "repository_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "queries_performed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entity",
+          "relationship",
+          "evidence",
+          "confidence"
+        ],
+        "properties": {
+          "entity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "relationship": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      }
+    },
+    "affected_areas": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "verification_required": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

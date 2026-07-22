@@ -1,0 +1,12 @@
+graphify_status: failed
+repository_root: /workspace/project
+queries_performed:
+- locally documented read-only impact query
+findings: []
+affected_areas: []
+uncertainties:
+- Graphify query failed before structural relationships were returned
+verification_required:
+- continue with source search and symbol resolution
+- inspect configuration and runtime bindings
+- run compiler and relevant tests

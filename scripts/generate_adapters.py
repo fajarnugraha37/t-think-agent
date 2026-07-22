@@ -6,6 +6,7 @@ import yaml
 ROOT=Path(__file__).resolve().parents[1]
 REG=yaml.safe_load((ROOT/'orchestrator/agent-registry.yaml').read_text())
 CORE=(ROOT/'orchestrator/t-think-core.md').read_text().rstrip()+"\n"
+REPOSITORY_INTELLIGENCE=(ROOT/'orchestrator/repository-intelligence-policy.md').read_text().rstrip()+"\n"
 AGENTS={a['name']:a for a in REG['agents']}; NAMES=list(AGENTS)
 PLATFORM_SKILL_ROOT_TOKEN='__T_THINK_PLATFORM_SKILL_ROOT__'
 PLATFORM_ROOT_NOTES={
@@ -27,11 +28,13 @@ TRUSTED_EXTERNAL_PATHS = (
     '~/.local/share/t-think/runtime/**',
 )
 
+
 def opencode_external_directory_permissions():
     # OpenCode uses the last matching rule. Deny everything first, then allow
     # only recursively nested, user-level t-think resources. POSIX separators
     # are intentional: OpenCode expands ~ and normalizes the pattern on every OS.
     return {'*': 'deny', **{path: 'allow' for path in TRUSTED_EXTERNAL_PATHS}}
+
 
 PROTECTED_EDIT_PATHS = (
     '.git',
@@ -78,6 +81,7 @@ READ_ONLY_GIT_COMMANDS = (
     'git reflog show',
 )
 
+
 def opencode_edit_permissions():
     # Worktree editing is prompt-free and unrestricted except for Git metadata.
     # Installed skill/runtime resources are external read-only dependencies.
@@ -85,6 +89,7 @@ def opencode_edit_permissions():
     rules.update({path: 'deny' for path in PROTECTED_EDIT_PATHS})
     rules.update({path: 'deny' for path in TRUSTED_EXTERNAL_PATHS})
     return rules
+
 
 def opencode_bash_permissions():
     # OpenCode evaluates the last matching rule. Permit normal worktree commands,
@@ -114,6 +119,7 @@ def opencode_bash_permissions():
     })
     return rules
 
+
 def opencode_base_permissions(task):
     return {
         '*': 'allow',
@@ -126,8 +132,9 @@ def opencode_base_permissions(task):
 def dump_frontmatter(data): return '---\n'+yaml.safe_dump(data,sort_keys=False,width=120).strip()+'\n---\n'
 def body(name):
     base = CORE if name == 't-think' else (ROOT/'agents'/name/'AGENT.md').read_text().rstrip()+'\n'
+    shared = '\n\n' + REPOSITORY_INTELLIGENCE.rstrip() if name == 't-think' else ''
     note = PLATFORM_ROOT_NOTES[current_platform] if name == 't-think' else PLATFORM_WORKER_NOTES[current_platform]
-    return base.rstrip()+f"\n\n## Platform-isolated resources\n\n{note}\n"
+    return base.rstrip()+shared+f"\n\n## Platform-isolated resources\n\n{note}\n"
 def write_opencode():
     global current_platform; current_platform='opencode'; out=ROOT/'adapters/opencode'; out.mkdir(parents=True,exist_ok=True)
     task={'*':'deny',**{n:'allow' for n in NAMES}}
