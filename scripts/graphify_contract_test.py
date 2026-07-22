@@ -43,6 +43,11 @@ if "repository-intelligence-policy.md" not in generator:
 if "name == 't-think'" not in generator:
     raise AssertionError("shared policy must be rooted at t-think rather than duplicated blindly")
 
+for installer in (ROOT / "bin/install.sh", ROOT / "bin/install.ps1"):
+    text = installer.read_text(encoding="utf-8")
+    if "scripts/generate_adapters.py" not in text:
+        raise AssertionError(f"installer does not regenerate platform adapters: {installer}")
+
 for path in (
     ROOT / "docs/graphify-first-repository-intelligence.md",
     ROOT / "orchestrator/repository-intelligence-policy.md",
