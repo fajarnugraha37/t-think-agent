@@ -87,7 +87,8 @@ def dump_frontmatter(data): return '---\n'+yaml.safe_dump(data,sort_keys=False,w
 def body(name):
     base = CORE if name == 't-think' else (ROOT/'agents'/name/'AGENT.md').read_text().rstrip()+'\n'
     note = PLATFORM_ROOT_NOTES[current_platform] if name == 't-think' else PLATFORM_WORKER_NOTES[current_platform]
-    return base.rstrip()+"\n\n"+REPOSITORY_INTELLIGENCE.rstrip()+f"\n\n## Platform-isolated resources\n\n{note}\n"
+    shared = "\n\n" + REPOSITORY_INTELLIGENCE.rstrip() if name == 't-think' else ""
+    return base.rstrip()+shared+f"\n\n## Platform-isolated resources\n\n{note}\n"
 
 
 def write_opencode():
