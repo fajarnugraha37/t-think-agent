@@ -1,4 +1,16 @@
+# Generated packaging outputs
 archives/
 CHECKSUMS.sha256
-MANIFEST.md
-*.pyc
+skills/*/CHECKSUMS.sha256
+reports/
+
+# Python runtime artifacts
+__pycache__/
+*.py[cod]
+
+# Local work items and editor/runtime state
+.t-think/
+
+# Temporary backups and release bundles
+*.bak-*
+t-think-governed-sdlc-bundle.zip
