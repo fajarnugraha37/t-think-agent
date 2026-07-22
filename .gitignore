@@ -1,4 +1,30 @@
+# Generated release artifacts
 archives/
+t-think-governed-sdlc-bundle.zip
+
+# Generated verification evidence
+reports/
 CHECKSUMS.sha256
-MANIFEST.md
-*.pyc
+**/CHECKSUMS.sha256
+
+# Local work-item state
+.t-think/
+
+# Python caches and local tooling state
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Temporary and backup files
+*.bak-*
+*.tmp
+*.temp
+*~
+
+# Operating-system/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
