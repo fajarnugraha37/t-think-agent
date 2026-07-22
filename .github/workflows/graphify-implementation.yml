@@ -1,0 +1,109 @@
+name: Graphify implementation and validation
+
+on:
+  push:
+    branches:
+      - feat/graphify-first-repository-intelligence
+
+permissions:
+  contents: write
+
+jobs:
+  implement-and-validate:
+    if: ${{ !contains(github.event.head_commit.message, '[graphify-generated]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply Graphify integration sources
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          root = Path('.')
+
+          ri_schema = {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://t-think.local/schemas/repository-intelligence.schema.json",
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["graphify_status", "repository_root", "queries_performed", "findings", "affected_areas", "uncertainties", "verification_required"],
+            "properties": {
+              "graphify_status": {"enum": ["available", "unavailable", "not_needed", "failed", "possibly_stale"]},
+              "repository_root": {"type": "string", "minLength": 1},
+              "queries_performed": {"type": "array", "items": {"type": "string"}},
+              "findings": {"type": "array", "items": {"type": "object", "additionalProperties": False, "required": ["entity", "relationship", "evidence", "confidence"], "properties": {"entity": {"type": "string", "minLength": 1}, "relationship": {"type": "string", "minLength": 1}, "evidence": {"type": "string", "minLength": 1}, "confidence": {"enum": ["high", "medium", "low"]}}}},
+              "affected_areas": {"type": "array", "uniqueItems": True, "items": {"type": "string", "minLength": 1}},
+              "uncertainties": {"type": "array", "items": {"type": "string", "minLength": 1}},
+              "verification_required": {"type": "array", "items": {"type": "string", "minLength": 1}}
+            }
+          }
+          (root/'schemas/repository-intelligence.schema.json').write_text(json.dumps(ri_schema, indent=2) + '\n')
+
+          delegation_path = root/'schemas/delegation-packet.schema.json'
+          delegation = json.loads(delegation_path.read_text())
+          delegation['properties']['repository_intelligence'] = {"$ref": "repository-intelligence.schema.json"}
+          delegation_path.write_text(json.dumps(delegation, indent=2) + '\n')
+
+          ctl_path = root/'bin/t-thinkctl.py'
+          ctl = ctl_path.read_text()
+          parser_anchor = '    command.add_argument("--ignored-file-approval-ref")\n    command.add_argument("--out", type=Path)\n'
+          parser_replacement = '    command.add_argument("--ignored-file-approval-ref")\n    command.add_argument("--repository-intelligence", type=Path, help="Validated repository-intelligence YAML/JSON produced by t-think")\n    command.add_argument("--out", type=Path)\n'
+          if '--repository-intelligence' not in ctl:
+              assert parser_anchor in ctl
+              ctl = ctl.replace(parser_anchor, parser_replacement)
+          packet_anchor = '        "stop_conditions": [\n            "required evidence is unavailable",\n'
+          prelude = '''    if args.repository_intelligence:\n        repository_intelligence = load_data(args.repository_intelligence)\n        intelligence_errors = validate_schema(repository_intelligence, "repository-intelligence.schema.json")\n        if intelligence_errors:\n            raise ValueError("Repository intelligence invalid: " + "; ".join(intelligence_errors))\n    else:\n        repository_intelligence = {\n            "graphify_status": "not_needed",\n            "repository_root": data["repository_root"],\n            "queries_performed": [],\n            "findings": [],\n            "affected_areas": [],\n            "uncertainties": [],\n            "verification_required": ["Verify implementation-critical behavior from source and executable checks."],\n        }\n\n'''
+          if 'repository_intelligence = {' not in ctl:
+              assert '    packet = {\n' in ctl
+              ctl = ctl.replace('    packet = {\n', prelude + '    packet = {\n', 1)
+          if '"repository_intelligence": repository_intelligence,' not in ctl:
+              assert packet_anchor in ctl
+              ctl = ctl.replace(packet_anchor, '        "repository_intelligence": repository_intelligence,\n' + packet_anchor)
+          ctl_path.write_text(ctl)
+
+          docs = '''# Graphify-first repository intelligence\n\n`t-think` treats Graphify as an optional repository-navigation and impact-analysis layer. The canonical behavior is in `orchestrator/repository-intelligence-policy.md`; generated platform adapters inherit that policy.\n\n## Ownership\n\nThe root orchestrator decides whether structural discovery is needed, checks local Graphify documentation/help before using any command, runs focused read-only discovery when Graphify is usable, and passes a compact `repository_intelligence` object to one terminal worker. Workers reuse the packet and query again only for a deeper unresolved relationship inside their bounded task.\n\n## Fail-open behavior\n\nMissing executable, missing or stale graph, denied read operation, or failed query never blocks normal work. The agent continues with source search, LSP/symbol resolution, compiler/type checker, configuration inspection, and tests. The system never installs, upgrades, initializes, generates, rebuilds, or updates Graphify automatically.\n\n## Verification and freshness\n\nGraph output is navigation evidence, not final authority. Reflection, dependency injection, dynamic dispatch, generated code, framework conventions, runtime configuration, event/message routing, database logic, plugins, and external systems require direct verification. Graph findings become `possibly_stale` when branch/source/config changes or source conflicts make freshness uncertain.\n\n## Delegation example\n\n```yaml\nrepository_intelligence:\n  graphify_status: available\n  repository_root: /workspace/project\n  queries_performed:\n    - focused impact query for order creation flow\n  findings:\n    - entity: OrderResource\n      relationship: calls OrderService and publishes OrderCreated\n      evidence: Graphify focused query result\n      confidence: medium\n  affected_areas:\n    - order-api\n    - order-service\n    - order-events\n  uncertainties:\n    - runtime event routing may add consumers\n  verification_required:\n    - inspect source callers and dependency-injection bindings\n    - run compiler and affected contract tests\n```\n\nCross-module flow: orchestrator checks Graphify, performs a focused query, delegates concise findings, planner maps impact and validation, builder verifies source before editing, reviewers compare the diff with the expected impact surface, and compiler/tests provide final evidence.\n'''
+          (root/'docs/graphify-first-repository-intelligence.md').write_text(docs)
+
+          test = '''#!/usr/bin/env python3\nfrom pathlib import Path\nimport json\nimport subprocess\nimport tempfile\nimport yaml\n\nROOT = Path(__file__).resolve().parents[1]\npolicy = (ROOT / "orchestrator/repository-intelligence-policy.md").read_text()\nrequired = ["Graphify is fail-open", "Never invent Graphify commands", "t-think` owns the first availability decision", "not_needed", "possibly_stale"]\nfor value in required:\n    assert value in policy, value\n\nschema = json.loads((ROOT / "schemas/delegation-packet.schema.json").read_text())\nassert schema["properties"]["repository_intelligence"]["$ref"] == "repository-intelligence.schema.json"\nri = json.loads((ROOT / "schemas/repository-intelligence.schema.json").read_text())\nassert "not_needed" in ri["properties"]["graphify_status"]["enum"]\n\nsubprocess.run(["python3", str(ROOT / "scripts/generate_adapters.py")], check=True, cwd=ROOT)\nfor platform_file in [\n    ROOT / "adapters/opencode/t-think.md",\n    ROOT / "adapters/codex/t-think.config.toml",\n    ROOT / "adapters/claude-code/t-think.md",\n    ROOT / "adapters/cursor/t-think.md",\n    ROOT / "adapters/opencode/t-builder.md",\n]:\n    text = platform_file.read_text()\n    assert "Repository Intelligence Policy" in text, platform_file\n    assert "fail-open" in text, platform_file\n\nwith tempfile.TemporaryDirectory() as td:\n    repo = Path(td)\n    subprocess.run(["python3", str(ROOT / "bin/t-thinkctl.py"), "init", "GRAPH-001", "--repository-root", str(repo), "--lane", "standard", "--task", "cross-module change"], check=True, cwd=ROOT, stdout=subprocess.PIPE, text=True)\n    state = repo / ".t-think/GRAPH-001/state.yaml"\n    data = yaml.safe_load(state.read_text())\n    data["current_state"] = "INVESTIGATION"\n    data["active_skill"] = "t-investigation"\n    data["active_agent"] = "t-investigator"\n    data["human_gate_pending"] = False\n    state.write_text(yaml.safe_dump(data, sort_keys=False))\n    intelligence = repo / "intelligence.yaml"\n    intelligence.write_text(yaml.safe_dump({"graphify_status":"failed","repository_root":str(repo),"queries_performed":["supported local read-only query"],"findings":[],"affected_areas":[],"uncertainties":["query failed"],"verification_required":["inspect source"]}, sort_keys=False))\n    result = subprocess.run(["python3", str(ROOT / "bin/t-thinkctl.py"), "prepare-delegation", "--file", str(state), "--objective", "Investigate cross-module flow", "--criterion", "Identify verified implementation path", "--repository-intelligence", str(intelligence)], check=True, cwd=ROOT, stdout=subprocess.PIPE, text=True)\n    packet = yaml.safe_load(Path(result.stdout.strip()).read_text())\n    assert packet["repository_intelligence"]["graphify_status"] == "failed"\n    assert "inspect source" in packet["repository_intelligence"]["verification_required"]\nprint("graphify repository-intelligence contracts PASS")\n'''
+          (root/'scripts/graphify_contract_test.py').write_text(test)
+
+          makefile = (root/'Makefile').read_text()
+          makefile = makefile.replace('resources adapters paths permissions schemas intake-workspace sessions audit', 'resources adapters paths permissions schemas graphify intake-workspace sessions audit')
+          if '\ngraphify:\n' not in makefile:
+              makefile = makefile.replace('\nschemas:\n\t$(PYTHON) scripts/schema_metaschema_test.py\n', '\nschemas:\n\t$(PYTHON) scripts/schema_metaschema_test.py\n\ngraphify:\n\t$(PYTHON) scripts/graphify_contract_test.py\n')
+          makefile = makefile.replace('verify: resources adapters paths permissions schemas intake-workspace', 'verify: resources adapters paths permissions schemas graphify intake-workspace')
+          (root/'Makefile').write_text(makefile)
+
+          for target in [root/'README.md', root/'AGENTS.md']:
+              text = target.read_text()
+              marker = '\n## Graphify-first repository intelligence\n'
+              if marker not in text:
+                  text += marker + '\nThe shared policy in `orchestrator/repository-intelligence-policy.md` makes structural repository discovery Graphify-first only when a locally documented, read-only Graphify integration is usable. It is fail-open, never installs or rebuilds Graphify, passes concise findings through delegation, and requires source plus executable verification. See `docs/graphify-first-repository-intelligence.md`.\n'
+                  target.write_text(text)
+          PY
+      - name: Generate adapters
+        run: python3 scripts/generate_adapters.py
+      - name: Validate Graphify contracts
+        run: |
+          python3 scripts/graphify_contract_test.py
+          python3 scripts/schema_metaschema_test.py
+          python3 scripts/audit_alignment.py
+          python3 scripts/subagent_contract_test.py
+          python3 scripts/permission_contract_test.py
+          python3 scripts/economy_contract_test.py
+          python3 scripts/run_all_tests.py --mode validate --timeout 900
+          python3 scripts/run_all_tests.py --mode test --timeout 900
+      - name: Commit generated and source changes
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add AGENTS.md README.md Makefile bin/t-thinkctl.py schemas scripts orchestrator docs adapters
+          if ! git diff --cached --quiet; then
+            git commit -m "feat: integrate optional Graphify-first repository intelligence [graphify-generated]"
+            git push
+          fi
