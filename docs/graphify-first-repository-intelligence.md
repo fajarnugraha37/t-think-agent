@@ -43,6 +43,12 @@ Treat findings as `possibly_stale` when relevant source, configuration, or gener
 
 When staleness matters, lower confidence and verify directly. Graph refresh is allowed only when explicit authorization or an existing project policy permits it.
 
+## Platform adapters and installation
+
+`orchestrator/repository-intelligence-policy.md` is the single semantic source. `scripts/generate_adapters.py` includes it only in the four root `t-think` adapters for OpenCode, Codex, Claude Code, and Cursor. Worker adapters remain small and receive repository intelligence through delegation evidence.
+
+Both `bin/install.sh` and `bin/install.ps1` regenerate adapters before installation. This prevents a checkout or release bundle from installing stale generated adapter output. The generator does not execute Graphify and does not alter a project graph.
+
 ## Delegation example
 
 ```yaml
