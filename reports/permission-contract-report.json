@@ -1,7 +1,0 @@
-{
-  "status": "PASS",
-  "opencode_agents": 11,
-  "readonly_git_patterns": 36,
-  "platform_resource_isolation": true,
-  "issues": []
-}
